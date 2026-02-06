@@ -37,6 +37,6 @@
     }
   },
   "scripts": {
-    "test": "phpunit --colors=always"
+    "test": "phpunit --colors=always -c phpunit.xml.dist"
   }
 }
