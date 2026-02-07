@@ -33,6 +33,10 @@ $response = $activitysmith->notifications->send([
     'title' => 'Build Failed',
     'message' => 'CI pipeline failed on main branch',
 ]);
+
+echo $response->getSuccess() ? 'true' : 'false';
+echo PHP_EOL;
+echo $response->getDevicesNotified();
 ```
 
 ### Start a Live Activity
@@ -40,10 +44,12 @@ $response = $activitysmith->notifications->send([
 ```php
 $start = $activitysmith->liveActivities->start([
     'content_state' => [
-        'title' => 'Deploy',
+        'title' => 'ActivitySmith API Deployment',
+        'subtitle' => 'start',
         'number_of_steps' => 4,
         'current_step' => 1,
         'type' => 'segmented_progress',
+        'color' => 'yellow',
     ],
 ]);
 
@@ -56,10 +62,13 @@ $activityId = $start->getActivityId();
 $update = $activitysmith->liveActivities->update([
     'activity_id' => $activityId,
     'content_state' => [
-        'title' => 'Deploy',
+        'title' => 'ActivitySmith API Deployment',
+        'subtitle' => 'npm i & pm2',
         'current_step' => 3,
     ],
 ]);
+
+echo $update->getDevicesNotified();
 ```
 
 ### End a Live Activity
@@ -68,11 +77,14 @@ $update = $activitysmith->liveActivities->update([
 $end = $activitysmith->liveActivities->end([
     'activity_id' => $activityId,
     'content_state' => [
-        'title' => 'Deploy Complete',
+        'title' => 'ActivitySmith API Deployment',
+        'subtitle' => 'done',
         'current_step' => 4,
         'auto_dismiss_minutes' => 3,
     ],
 ]);
+
+echo $end->getSuccess() ? 'true' : 'false';
 ```
 
 ## Error Handling
