@@ -38,25 +38,21 @@ $client = new ActivitySmith(
 ### Send a Push Notification
 
 ```php
-$response = $client->notifications->sendPushNotification([
-    'push_notification_request' => [
-        'title' => 'Build Failed',
-        'message' => 'CI pipeline failed on main branch',
-    ],
+$response = $client->notifications->send([
+    'title' => 'Build Failed',
+    'message' => 'CI pipeline failed on main branch',
 ]);
 ```
 
 ### Start a Live Activity
 
 ```php
-$start = $client->liveActivities->startLiveActivity([
-    'live_activity_start_request' => [
-        'content_state' => [
-            'title' => 'Deploy',
-            'number_of_steps' => 4,
-            'current_step' => 1,
-            'type' => 'segmented_progress',
-        ],
+$start = $client->liveActivities->start([
+    'content_state' => [
+        'title' => 'Deploy',
+        'number_of_steps' => 4,
+        'current_step' => 1,
+        'type' => 'segmented_progress',
     ],
 ]);
 
@@ -66,13 +62,11 @@ $activityId = $start->getActivityId();
 ### Update a Live Activity
 
 ```php
-$update = $client->liveActivities->updateLiveActivity([
-    'live_activity_update_request' => [
-        'activity_id' => $activityId,
-        'content_state' => [
-            'title' => 'Deploy',
-            'current_step' => 3,
-        ],
+$update = $client->liveActivities->update([
+    'activity_id' => $activityId,
+    'content_state' => [
+        'title' => 'Deploy',
+        'current_step' => 3,
     ],
 ]);
 ```
@@ -80,14 +74,12 @@ $update = $client->liveActivities->updateLiveActivity([
 ### End a Live Activity
 
 ```php
-$end = $client->liveActivities->endLiveActivity([
-    'live_activity_end_request' => [
-        'activity_id' => $activityId,
-        'content_state' => [
-            'title' => 'Deploy Complete',
-            'current_step' => 4,
-            'auto_dismiss_minutes' => 3,
-        ],
+$end = $client->liveActivities->end([
+    'activity_id' => $activityId,
+    'content_state' => [
+        'title' => 'Deploy Complete',
+        'current_step' => 4,
+        'auto_dismiss_minutes' => 3,
     ],
 ]);
 ```
@@ -96,10 +88,8 @@ $end = $client->liveActivities->endLiveActivity([
 
 ```php
 try {
-    $client->notifications->sendPushNotification([
-        'push_notification_request' => [
-            'title' => 'Build Failed',
-        ],
+    $client->notifications->send([
+        'title' => 'Build Failed',
     ]);
 } catch (Throwable $err) {
     echo 'Request failed: ' . $err->getMessage() . PHP_EOL;
