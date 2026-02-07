@@ -14,10 +14,10 @@ final class ActivitySmith
     private const PUSH_API_CLASS = 'ActivitySmith\\Generated\\Api\\PushNotificationsApi';
     private const LIVE_API_CLASS = 'ActivitySmith\\Generated\\Api\\LiveActivitiesApi';
 
-    /** @var object */
+    /** @var Notifications */
     public $notifications;
 
-    /** @var object */
+    /** @var LiveActivities */
     public $liveActivities;
 
     public function __construct(string $apiKey, ?string $baseUrl = null)
@@ -40,8 +40,8 @@ final class ActivitySmith
 
         $httpClient = new Client();
 
-        $this->notifications = new $pushApiClass($httpClient, $configuration);
-        $this->liveActivities = new $liveApiClass($httpClient, $configuration);
+        $this->notifications = new Notifications(new $pushApiClass($httpClient, $configuration));
+        $this->liveActivities = new LiveActivities(new $liveApiClass($httpClient, $configuration));
     }
 
     private function assertGeneratedClientIsPresent(): void
