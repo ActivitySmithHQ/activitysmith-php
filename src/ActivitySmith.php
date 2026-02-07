@@ -20,7 +20,7 @@ final class ActivitySmith
     /** @var LiveActivities */
     public $liveActivities;
 
-    public function __construct(string $apiKey, ?string $baseUrl = null)
+    public function __construct(string $apiKey)
     {
         if ($apiKey === '') {
             throw new InvalidArgumentException('ActivitySmith: apiKey is required');
@@ -33,10 +33,6 @@ final class ActivitySmith
         $liveApiClass = self::LIVE_API_CLASS;
 
         $configuration = $configurationClass::getDefaultConfiguration()->setAccessToken($apiKey);
-
-        if ($baseUrl !== null && $baseUrl !== '') {
-            $configuration->setHost(rtrim($baseUrl, '/'));
-        }
 
         $httpClient = new Client();
 

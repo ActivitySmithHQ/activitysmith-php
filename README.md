@@ -21,16 +21,7 @@ declare(strict_types=1);
 
 use ActivitySmith\ActivitySmith;
 
-$client = new ActivitySmith($_ENV['ACTIVITYSMITH_API_KEY']);
-```
-
-You can also override the API host:
-
-```php
-$client = new ActivitySmith(
-    $_ENV['ACTIVITYSMITH_API_KEY'],
-    'https://activitysmith.com/api'
-);
+$activitysmith = new ActivitySmith($_ENV['ACTIVITYSMITH_API_KEY']);
 ```
 
 ## Usage
@@ -38,7 +29,7 @@ $client = new ActivitySmith(
 ### Send a Push Notification
 
 ```php
-$response = $client->notifications->send([
+$response = $activitysmith->notifications->send([
     'title' => 'Build Failed',
     'message' => 'CI pipeline failed on main branch',
 ]);
@@ -47,7 +38,7 @@ $response = $client->notifications->send([
 ### Start a Live Activity
 
 ```php
-$start = $client->liveActivities->start([
+$start = $activitysmith->liveActivities->start([
     'content_state' => [
         'title' => 'Deploy',
         'number_of_steps' => 4,
@@ -62,7 +53,7 @@ $activityId = $start->getActivityId();
 ### Update a Live Activity
 
 ```php
-$update = $client->liveActivities->update([
+$update = $activitysmith->liveActivities->update([
     'activity_id' => $activityId,
     'content_state' => [
         'title' => 'Deploy',
@@ -74,7 +65,7 @@ $update = $client->liveActivities->update([
 ### End a Live Activity
 
 ```php
-$end = $client->liveActivities->end([
+$end = $activitysmith->liveActivities->end([
     'activity_id' => $activityId,
     'content_state' => [
         'title' => 'Deploy Complete',
@@ -88,7 +79,7 @@ $end = $client->liveActivities->end([
 
 ```php
 try {
-    $client->notifications->send([
+    $activitysmith->notifications->send([
         'title' => 'Build Failed',
     ]);
 } catch (Throwable $err) {
@@ -98,8 +89,8 @@ try {
 
 ## API Surface
 
-- `$client->notifications`
-- `$client->liveActivities`
+- `$activitysmith->notifications`
+- `$activitysmith->liveActivities`
 
 ## Requirements
 
