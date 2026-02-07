@@ -34,7 +34,13 @@ final class ResourcesTest extends TestCase
 
         $this->assertSame($response, $resource->send($payload));
         $this->assertSame($response, $resource->sendPushNotification($payload));
-        $this->assertSame([[$payload], [$payload, PushNotificationsApi::contentTypes['sendPushNotification'][0]]], $captured);
+        $this->assertSame(
+            [
+                [$payload, PushNotificationsApi::contentTypes['sendPushNotification'][0]],
+                [$payload, PushNotificationsApi::contentTypes['sendPushNotification'][0]],
+            ],
+            $captured
+        );
     }
 
     public function testLiveActivitiesShortAndLegacyMethods(): void
@@ -84,15 +90,24 @@ final class ResourcesTest extends TestCase
         $this->assertSame($response, $resource->end($endPayload));
         $this->assertSame($response, $resource->endLiveActivity($endPayload));
         $this->assertSame(
-            [[$startPayload], [$startPayload, LiveActivitiesApi::contentTypes['startLiveActivity'][0]]],
+            [
+                [$startPayload, LiveActivitiesApi::contentTypes['startLiveActivity'][0]],
+                [$startPayload, LiveActivitiesApi::contentTypes['startLiveActivity'][0]],
+            ],
             $captured['start']
         );
         $this->assertSame(
-            [[$updatePayload], [$updatePayload, LiveActivitiesApi::contentTypes['updateLiveActivity'][0]]],
+            [
+                [$updatePayload, LiveActivitiesApi::contentTypes['updateLiveActivity'][0]],
+                [$updatePayload, LiveActivitiesApi::contentTypes['updateLiveActivity'][0]],
+            ],
             $captured['update']
         );
         $this->assertSame(
-            [[$endPayload], [$endPayload, LiveActivitiesApi::contentTypes['endLiveActivity'][0]]],
+            [
+                [$endPayload, LiveActivitiesApi::contentTypes['endLiveActivity'][0]],
+                [$endPayload, LiveActivitiesApi::contentTypes['endLiveActivity'][0]],
+            ],
             $captured['end']
         );
     }
