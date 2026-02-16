@@ -14,7 +14,7 @@ final class LiveActivities
 
     public function start(mixed $request): mixed
     {
-        return $this->api->startLiveActivity($request);
+        return $this->api->startLiveActivity($this->normalizeTargetChannels($request));
     }
 
     public function update(mixed $request): mixed
@@ -32,7 +32,10 @@ final class LiveActivities
         mixed $liveActivityStartRequest,
         string $contentType = LiveActivitiesApi::contentTypes['startLiveActivity'][0]
     ): mixed {
-        return $this->api->startLiveActivity($liveActivityStartRequest, $contentType);
+        return $this->api->startLiveActivity(
+            $this->normalizeTargetChannels($liveActivityStartRequest),
+            $contentType
+        );
     }
 
     public function updateLiveActivity(
@@ -52,5 +55,30 @@ final class LiveActivities
     public function __call(string $name, array $arguments): mixed
     {
         return $this->api->{$name}(...$arguments);
+    }
+
+    private function normalizeTargetChannels(mixed $request): mixed
+    {
+        if (!is_array($request) || array_key_exists('target', $request) || !array_key_exists('channels', $request)) {
+            return $request;
+        }
+
+        $channels = $request['channels'];
+        unset($request['channels']);
+
+        if (is_string($channels)) {
+            $channels = array_values(
+                array_filter(
+                    array_map('trim', explode(',', $channels)),
+                    static fn (string $channel): bool => $channel !== ''
+                )
+            );
+        }
+
+        if (is_array($channels) && $channels !== []) {
+            $request['target'] = ['channels' => $channels];
+        }
+
+        return $request;
     }
 }

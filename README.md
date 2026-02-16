@@ -32,6 +32,7 @@ $activitysmith = new ActivitySmith($_ENV['ACTIVITYSMITH_API_KEY']);
 $response = $activitysmith->notifications->send([
     'title' => 'Build Failed',
     'message' => 'CI pipeline failed on main branch',
+    'channels' => ['devs', 'ops'], // Optional
 ]);
 
 echo $response->getSuccess() ? 'true' : 'false';
@@ -51,6 +52,7 @@ $start = $activitysmith->liveActivities->start([
         'type' => 'segmented_progress',
         'color' => 'yellow',
     ],
+    'channels' => ['devs', 'ops'], // Optional
 ]);
 
 $activityId = $start->getActivityId();

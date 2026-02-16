@@ -43,6 +43,36 @@ final class ResourcesTest extends TestCase
         );
     }
 
+    public function testNotificationsMapsChannelsToTarget(): void
+    {
+        $captured = [];
+        $response = (object) ['success' => true];
+
+        $api = $this->getMockBuilder(PushNotificationsApi::class)
+            ->disableOriginalConstructor()
+            ->onlyMethods(['sendPushNotification'])
+            ->getMock();
+
+        $api->expects($this->exactly(2))
+            ->method('sendPushNotification')
+            ->willReturnCallback(function (...$args) use (&$captured, $response) {
+                $captured[] = $args;
+                return $response;
+            });
+
+        $resource = new Notifications($api);
+        $resource->send(['title' => 'Build Failed', 'channels' => ['devs', 'ops']]);
+        $resource->sendPushNotification(['title' => 'Build Failed', 'channels' => 'devs,ops']);
+
+        $this->assertSame(
+            [
+                [['title' => 'Build Failed', 'target' => ['channels' => ['devs', 'ops']]], PushNotificationsApi::contentTypes['sendPushNotification'][0]],
+                [['title' => 'Build Failed', 'target' => ['channels' => ['devs', 'ops']]], PushNotificationsApi::contentTypes['sendPushNotification'][0]],
+            ],
+            $captured
+        );
+    }
+
     public function testLiveActivitiesShortAndLegacyMethods(): void
     {
         $startPayload = ['content_state' => ['title' => 'Deploy', 'number_of_steps' => 4, 'current_step' => 1, 'type' => 'segmented_progress']];
@@ -109,6 +139,56 @@ final class ResourcesTest extends TestCase
                 [$endPayload, LiveActivitiesApi::contentTypes['endLiveActivity'][0]],
             ],
             $captured['end']
+        );
+    }
+
+    public function testLiveActivitiesStartMapsChannelsToTarget(): void
+    {
+        $captured = [];
+        $response = (object) ['success' => true];
+
+        $api = $this->getMockBuilder(LiveActivitiesApi::class)
+            ->disableOriginalConstructor()
+            ->onlyMethods(['startLiveActivity'])
+            ->getMock();
+
+        $api->expects($this->exactly(2))
+            ->method('startLiveActivity')
+            ->willReturnCallback(function (...$args) use (&$captured, $response) {
+                $captured[] = $args;
+                return $response;
+            });
+
+        $resource = new LiveActivities($api);
+
+        $payload = [
+            'content_state' => [
+                'title' => 'Deploy',
+                'number_of_steps' => 4,
+                'current_step' => 1,
+                'type' => 'segmented_progress',
+            ],
+            'channels' => ['devs', 'ops'],
+        ];
+        $resource->start($payload);
+        $resource->startLiveActivity($payload);
+
+        $expected = [
+            'content_state' => [
+                'title' => 'Deploy',
+                'number_of_steps' => 4,
+                'current_step' => 1,
+                'type' => 'segmented_progress',
+            ],
+            'target' => ['channels' => ['devs', 'ops']],
+        ];
+
+        $this->assertSame(
+            [
+                [$expected, LiveActivitiesApi::contentTypes['startLiveActivity'][0]],
+                [$expected, LiveActivitiesApi::contentTypes['startLiveActivity'][0]],
+            ],
+            $captured
         );
     }
 
