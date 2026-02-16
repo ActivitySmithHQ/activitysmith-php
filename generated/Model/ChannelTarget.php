@@ -1,6 +1,6 @@
 <?php
 /**
- * PushNotificationRequest
+ * ChannelTarget
  *
  * PHP version 7.4
  *
@@ -32,7 +32,7 @@ use \ArrayAccess;
 use \ActivitySmith\Generated\ObjectSerializer;
 
 /**
- * PushNotificationRequest Class Doc Comment
+ * ChannelTarget Class Doc Comment
  *
  * @category Class
  * @package  ActivitySmith\Generated
@@ -40,7 +40,7 @@ use \ActivitySmith\Generated\ObjectSerializer;
  * @link     https://openapi-generator.tech
  * @implements \ArrayAccess<string, mixed>
  */
-class PushNotificationRequest implements ModelInterface, ArrayAccess, \JsonSerializable
+class ChannelTarget implements ModelInterface, ArrayAccess, \JsonSerializable
 {
     public const DISCRIMINATOR = null;
 
@@ -49,7 +49,7 @@ class PushNotificationRequest implements ModelInterface, ArrayAccess, \JsonSeria
       *
       * @var string
       */
-    protected static $openAPIModelName = 'PushNotificationRequest';
+    protected static $openAPIModelName = 'ChannelTarget';
 
     /**
       * Array of property to type mappings. Used for (de)serialization
@@ -57,13 +57,7 @@ class PushNotificationRequest implements ModelInterface, ArrayAccess, \JsonSeria
       * @var string[]
       */
     protected static $openAPITypes = [
-        'title' => 'string',
-        'message' => 'string',
-        'subtitle' => 'string',
-        'payload' => 'array<string,mixed>',
-        'badge' => 'int',
-        'sound' => 'string',
-        'target' => '\ActivitySmith\Generated\Model\ChannelTarget'
+        'channels' => 'string[]'
     ];
 
     /**
@@ -74,13 +68,7 @@ class PushNotificationRequest implements ModelInterface, ArrayAccess, \JsonSeria
       * @psalm-var array<string, string|null>
       */
     protected static $openAPIFormats = [
-        'title' => null,
-        'message' => null,
-        'subtitle' => null,
-        'payload' => null,
-        'badge' => null,
-        'sound' => null,
-        'target' => null
+        'channels' => null
     ];
 
     /**
@@ -89,13 +77,7 @@ class PushNotificationRequest implements ModelInterface, ArrayAccess, \JsonSeria
       * @var boolean[]
       */
     protected static array $openAPINullables = [
-        'title' => false,
-        'message' => false,
-        'subtitle' => false,
-        'payload' => false,
-        'badge' => false,
-        'sound' => false,
-        'target' => false
+        'channels' => false
     ];
 
     /**
@@ -184,13 +166,7 @@ class PushNotificationRequest implements ModelInterface, ArrayAccess, \JsonSeria
      * @var string[]
      */
     protected static $attributeMap = [
-        'title' => 'title',
-        'message' => 'message',
-        'subtitle' => 'subtitle',
-        'payload' => 'payload',
-        'badge' => 'badge',
-        'sound' => 'sound',
-        'target' => 'target'
+        'channels' => 'channels'
     ];
 
     /**
@@ -199,13 +175,7 @@ class PushNotificationRequest implements ModelInterface, ArrayAccess, \JsonSeria
      * @var string[]
      */
     protected static $setters = [
-        'title' => 'setTitle',
-        'message' => 'setMessage',
-        'subtitle' => 'setSubtitle',
-        'payload' => 'setPayload',
-        'badge' => 'setBadge',
-        'sound' => 'setSound',
-        'target' => 'setTarget'
+        'channels' => 'setChannels'
     ];
 
     /**
@@ -214,13 +184,7 @@ class PushNotificationRequest implements ModelInterface, ArrayAccess, \JsonSeria
      * @var string[]
      */
     protected static $getters = [
-        'title' => 'getTitle',
-        'message' => 'getMessage',
-        'subtitle' => 'getSubtitle',
-        'payload' => 'getPayload',
-        'badge' => 'getBadge',
-        'sound' => 'getSound',
-        'target' => 'getTarget'
+        'channels' => 'getChannels'
     ];
 
     /**
@@ -280,13 +244,7 @@ class PushNotificationRequest implements ModelInterface, ArrayAccess, \JsonSeria
      */
     public function __construct(array $data = null)
     {
-        $this->setIfExists('title', $data ?? [], null);
-        $this->setIfExists('message', $data ?? [], null);
-        $this->setIfExists('subtitle', $data ?? [], null);
-        $this->setIfExists('payload', $data ?? [], null);
-        $this->setIfExists('badge', $data ?? [], null);
-        $this->setIfExists('sound', $data ?? [], null);
-        $this->setIfExists('target', $data ?? [], null);
+        $this->setIfExists('channels', $data ?? [], null);
     }
 
     /**
@@ -316,9 +274,13 @@ class PushNotificationRequest implements ModelInterface, ArrayAccess, \JsonSeria
     {
         $invalidProperties = [];
 
-        if ($this->container['title'] === null) {
-            $invalidProperties[] = "'title' can't be null";
+        if ($this->container['channels'] === null) {
+            $invalidProperties[] = "'channels' can't be null";
         }
+        if ((count($this->container['channels']) < 1)) {
+            $invalidProperties[] = "invalid value for 'channels', number of items must be greater than or equal to 1.";
+        }
+
         return $invalidProperties;
     }
 
@@ -335,190 +297,33 @@ class PushNotificationRequest implements ModelInterface, ArrayAccess, \JsonSeria
 
 
     /**
-     * Gets title
+     * Gets channels
      *
-     * @return string
+     * @return string[]
      */
-    public function getTitle()
+    public function getChannels()
     {
-        return $this->container['title'];
+        return $this->container['channels'];
     }
 
     /**
-     * Sets title
+     * Sets channels
      *
-     * @param string $title title
+     * @param string[] $channels Channel slugs. When omitted, API key scope determines recipients.
      *
      * @return self
      */
-    public function setTitle($title)
+    public function setChannels($channels)
     {
-        if (is_null($title)) {
-            throw new \InvalidArgumentException('non-nullable title cannot be null');
+        if (is_null($channels)) {
+            throw new \InvalidArgumentException('non-nullable channels cannot be null');
         }
-        $this->container['title'] = $title;
 
-        return $this;
-    }
 
-    /**
-     * Gets message
-     *
-     * @return string|null
-     */
-    public function getMessage()
-    {
-        return $this->container['message'];
-    }
-
-    /**
-     * Sets message
-     *
-     * @param string|null $message message
-     *
-     * @return self
-     */
-    public function setMessage($message)
-    {
-        if (is_null($message)) {
-            throw new \InvalidArgumentException('non-nullable message cannot be null');
+        if ((count($channels) < 1)) {
+            throw new \InvalidArgumentException('invalid length for $channels when calling ChannelTarget., number of items must be greater than or equal to 1.');
         }
-        $this->container['message'] = $message;
-
-        return $this;
-    }
-
-    /**
-     * Gets subtitle
-     *
-     * @return string|null
-     */
-    public function getSubtitle()
-    {
-        return $this->container['subtitle'];
-    }
-
-    /**
-     * Sets subtitle
-     *
-     * @param string|null $subtitle subtitle
-     *
-     * @return self
-     */
-    public function setSubtitle($subtitle)
-    {
-        if (is_null($subtitle)) {
-            throw new \InvalidArgumentException('non-nullable subtitle cannot be null');
-        }
-        $this->container['subtitle'] = $subtitle;
-
-        return $this;
-    }
-
-    /**
-     * Gets payload
-     *
-     * @return array<string,mixed>|null
-     */
-    public function getPayload()
-    {
-        return $this->container['payload'];
-    }
-
-    /**
-     * Sets payload
-     *
-     * @param array<string,mixed>|null $payload payload
-     *
-     * @return self
-     */
-    public function setPayload($payload)
-    {
-        if (is_null($payload)) {
-            throw new \InvalidArgumentException('non-nullable payload cannot be null');
-        }
-        $this->container['payload'] = $payload;
-
-        return $this;
-    }
-
-    /**
-     * Gets badge
-     *
-     * @return int|null
-     */
-    public function getBadge()
-    {
-        return $this->container['badge'];
-    }
-
-    /**
-     * Sets badge
-     *
-     * @param int|null $badge badge
-     *
-     * @return self
-     */
-    public function setBadge($badge)
-    {
-        if (is_null($badge)) {
-            throw new \InvalidArgumentException('non-nullable badge cannot be null');
-        }
-        $this->container['badge'] = $badge;
-
-        return $this;
-    }
-
-    /**
-     * Gets sound
-     *
-     * @return string|null
-     */
-    public function getSound()
-    {
-        return $this->container['sound'];
-    }
-
-    /**
-     * Sets sound
-     *
-     * @param string|null $sound sound
-     *
-     * @return self
-     */
-    public function setSound($sound)
-    {
-        if (is_null($sound)) {
-            throw new \InvalidArgumentException('non-nullable sound cannot be null');
-        }
-        $this->container['sound'] = $sound;
-
-        return $this;
-    }
-
-    /**
-     * Gets target
-     *
-     * @return \ActivitySmith\Generated\Model\ChannelTarget|null
-     */
-    public function getTarget()
-    {
-        return $this->container['target'];
-    }
-
-    /**
-     * Sets target
-     *
-     * @param \ActivitySmith\Generated\Model\ChannelTarget|null $target target
-     *
-     * @return self
-     */
-    public function setTarget($target)
-    {
-        if (is_null($target)) {
-            throw new \InvalidArgumentException('non-nullable target cannot be null');
-        }
-        $this->container['target'] = $target;
+        $this->container['channels'] = $channels;
 
         return $this;
     }
