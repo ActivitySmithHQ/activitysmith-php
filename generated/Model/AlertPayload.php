@@ -1,6 +1,6 @@
 <?php
 /**
- * PushNotificationRequest
+ * AlertPayload
  *
  * PHP version 7.4
  *
@@ -32,7 +32,7 @@ use \ArrayAccess;
 use \ActivitySmith\Generated\ObjectSerializer;
 
 /**
- * PushNotificationRequest Class Doc Comment
+ * AlertPayload Class Doc Comment
  *
  * @category Class
  * @package  ActivitySmith\Generated
@@ -40,7 +40,7 @@ use \ActivitySmith\Generated\ObjectSerializer;
  * @link     https://openapi-generator.tech
  * @implements \ArrayAccess<string, mixed>
  */
-class PushNotificationRequest implements ModelInterface, ArrayAccess, \JsonSerializable
+class AlertPayload implements ModelInterface, ArrayAccess, \JsonSerializable
 {
     public const DISCRIMINATOR = null;
 
@@ -49,7 +49,7 @@ class PushNotificationRequest implements ModelInterface, ArrayAccess, \JsonSeria
       *
       * @var string
       */
-    protected static $openAPIModelName = 'PushNotificationRequest';
+    protected static $openAPIModelName = 'AlertPayload';
 
     /**
       * Array of property to type mappings. Used for (de)serialization
@@ -58,12 +58,7 @@ class PushNotificationRequest implements ModelInterface, ArrayAccess, \JsonSeria
       */
     protected static $openAPITypes = [
         'title' => 'string',
-        'message' => 'string',
-        'subtitle' => 'string',
-        'payload' => 'array<string,mixed>',
-        'badge' => 'int',
-        'sound' => 'string',
-        'target' => '\ActivitySmith\Generated\Model\ChannelTarget'
+        'body' => 'string'
     ];
 
     /**
@@ -75,12 +70,7 @@ class PushNotificationRequest implements ModelInterface, ArrayAccess, \JsonSeria
       */
     protected static $openAPIFormats = [
         'title' => null,
-        'message' => null,
-        'subtitle' => null,
-        'payload' => null,
-        'badge' => null,
-        'sound' => null,
-        'target' => null
+        'body' => null
     ];
 
     /**
@@ -90,12 +80,7 @@ class PushNotificationRequest implements ModelInterface, ArrayAccess, \JsonSeria
       */
     protected static array $openAPINullables = [
         'title' => false,
-        'message' => false,
-        'subtitle' => false,
-        'payload' => false,
-        'badge' => false,
-        'sound' => false,
-        'target' => false
+        'body' => false
     ];
 
     /**
@@ -185,12 +170,7 @@ class PushNotificationRequest implements ModelInterface, ArrayAccess, \JsonSeria
      */
     protected static $attributeMap = [
         'title' => 'title',
-        'message' => 'message',
-        'subtitle' => 'subtitle',
-        'payload' => 'payload',
-        'badge' => 'badge',
-        'sound' => 'sound',
-        'target' => 'target'
+        'body' => 'body'
     ];
 
     /**
@@ -200,12 +180,7 @@ class PushNotificationRequest implements ModelInterface, ArrayAccess, \JsonSeria
      */
     protected static $setters = [
         'title' => 'setTitle',
-        'message' => 'setMessage',
-        'subtitle' => 'setSubtitle',
-        'payload' => 'setPayload',
-        'badge' => 'setBadge',
-        'sound' => 'setSound',
-        'target' => 'setTarget'
+        'body' => 'setBody'
     ];
 
     /**
@@ -215,12 +190,7 @@ class PushNotificationRequest implements ModelInterface, ArrayAccess, \JsonSeria
      */
     protected static $getters = [
         'title' => 'getTitle',
-        'message' => 'getMessage',
-        'subtitle' => 'getSubtitle',
-        'payload' => 'getPayload',
-        'badge' => 'getBadge',
-        'sound' => 'getSound',
-        'target' => 'getTarget'
+        'body' => 'getBody'
     ];
 
     /**
@@ -281,12 +251,7 @@ class PushNotificationRequest implements ModelInterface, ArrayAccess, \JsonSeria
     public function __construct(array $data = null)
     {
         $this->setIfExists('title', $data ?? [], null);
-        $this->setIfExists('message', $data ?? [], null);
-        $this->setIfExists('subtitle', $data ?? [], null);
-        $this->setIfExists('payload', $data ?? [], null);
-        $this->setIfExists('badge', $data ?? [], null);
-        $this->setIfExists('sound', $data ?? [], null);
-        $this->setIfExists('target', $data ?? [], null);
+        $this->setIfExists('body', $data ?? [], null);
     }
 
     /**
@@ -316,9 +281,6 @@ class PushNotificationRequest implements ModelInterface, ArrayAccess, \JsonSeria
     {
         $invalidProperties = [];
 
-        if ($this->container['title'] === null) {
-            $invalidProperties[] = "'title' can't be null";
-        }
         return $invalidProperties;
     }
 
@@ -337,7 +299,7 @@ class PushNotificationRequest implements ModelInterface, ArrayAccess, \JsonSeria
     /**
      * Gets title
      *
-     * @return string
+     * @return string|null
      */
     public function getTitle()
     {
@@ -347,7 +309,7 @@ class PushNotificationRequest implements ModelInterface, ArrayAccess, \JsonSeria
     /**
      * Sets title
      *
-     * @param string $title title
+     * @param string|null $title title
      *
      * @return self
      */
@@ -362,163 +324,28 @@ class PushNotificationRequest implements ModelInterface, ArrayAccess, \JsonSeria
     }
 
     /**
-     * Gets message
+     * Gets body
      *
      * @return string|null
      */
-    public function getMessage()
+    public function getBody()
     {
-        return $this->container['message'];
+        return $this->container['body'];
     }
 
     /**
-     * Sets message
+     * Sets body
      *
-     * @param string|null $message message
+     * @param string|null $body body
      *
      * @return self
      */
-    public function setMessage($message)
+    public function setBody($body)
     {
-        if (is_null($message)) {
-            throw new \InvalidArgumentException('non-nullable message cannot be null');
+        if (is_null($body)) {
+            throw new \InvalidArgumentException('non-nullable body cannot be null');
         }
-        $this->container['message'] = $message;
-
-        return $this;
-    }
-
-    /**
-     * Gets subtitle
-     *
-     * @return string|null
-     */
-    public function getSubtitle()
-    {
-        return $this->container['subtitle'];
-    }
-
-    /**
-     * Sets subtitle
-     *
-     * @param string|null $subtitle subtitle
-     *
-     * @return self
-     */
-    public function setSubtitle($subtitle)
-    {
-        if (is_null($subtitle)) {
-            throw new \InvalidArgumentException('non-nullable subtitle cannot be null');
-        }
-        $this->container['subtitle'] = $subtitle;
-
-        return $this;
-    }
-
-    /**
-     * Gets payload
-     *
-     * @return array<string,mixed>|null
-     */
-    public function getPayload()
-    {
-        return $this->container['payload'];
-    }
-
-    /**
-     * Sets payload
-     *
-     * @param array<string,mixed>|null $payload payload
-     *
-     * @return self
-     */
-    public function setPayload($payload)
-    {
-        if (is_null($payload)) {
-            throw new \InvalidArgumentException('non-nullable payload cannot be null');
-        }
-        $this->container['payload'] = $payload;
-
-        return $this;
-    }
-
-    /**
-     * Gets badge
-     *
-     * @return int|null
-     */
-    public function getBadge()
-    {
-        return $this->container['badge'];
-    }
-
-    /**
-     * Sets badge
-     *
-     * @param int|null $badge badge
-     *
-     * @return self
-     */
-    public function setBadge($badge)
-    {
-        if (is_null($badge)) {
-            throw new \InvalidArgumentException('non-nullable badge cannot be null');
-        }
-        $this->container['badge'] = $badge;
-
-        return $this;
-    }
-
-    /**
-     * Gets sound
-     *
-     * @return string|null
-     */
-    public function getSound()
-    {
-        return $this->container['sound'];
-    }
-
-    /**
-     * Sets sound
-     *
-     * @param string|null $sound sound
-     *
-     * @return self
-     */
-    public function setSound($sound)
-    {
-        if (is_null($sound)) {
-            throw new \InvalidArgumentException('non-nullable sound cannot be null');
-        }
-        $this->container['sound'] = $sound;
-
-        return $this;
-    }
-
-    /**
-     * Gets target
-     *
-     * @return \ActivitySmith\Generated\Model\ChannelTarget|null
-     */
-    public function getTarget()
-    {
-        return $this->container['target'];
-    }
-
-    /**
-     * Sets target
-     *
-     * @param \ActivitySmith\Generated\Model\ChannelTarget|null $target target
-     *
-     * @return self
-     */
-    public function setTarget($target)
-    {
-        if (is_null($target)) {
-            throw new \InvalidArgumentException('non-nullable target cannot be null');
-        }
-        $this->container['target'] = $target;
+        $this->container['body'] = $body;
 
         return $this;
     }

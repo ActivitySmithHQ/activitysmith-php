@@ -57,7 +57,9 @@ class LiveActivityStartRequest implements ModelInterface, ArrayAccess, \JsonSeri
       * @var string[]
       */
     protected static $openAPITypes = [
-        'contentState' => '\ActivitySmith\Generated\Model\ContentStateStart'
+        'contentState' => '\ActivitySmith\Generated\Model\ContentStateStart',
+        'alert' => '\ActivitySmith\Generated\Model\AlertPayload',
+        'target' => '\ActivitySmith\Generated\Model\ChannelTarget'
     ];
 
     /**
@@ -68,7 +70,9 @@ class LiveActivityStartRequest implements ModelInterface, ArrayAccess, \JsonSeri
       * @psalm-var array<string, string|null>
       */
     protected static $openAPIFormats = [
-        'contentState' => null
+        'contentState' => null,
+        'alert' => null,
+        'target' => null
     ];
 
     /**
@@ -77,7 +81,9 @@ class LiveActivityStartRequest implements ModelInterface, ArrayAccess, \JsonSeri
       * @var boolean[]
       */
     protected static array $openAPINullables = [
-        'contentState' => false
+        'contentState' => false,
+        'alert' => false,
+        'target' => false
     ];
 
     /**
@@ -166,7 +172,9 @@ class LiveActivityStartRequest implements ModelInterface, ArrayAccess, \JsonSeri
      * @var string[]
      */
     protected static $attributeMap = [
-        'contentState' => 'content_state'
+        'contentState' => 'content_state',
+        'alert' => 'alert',
+        'target' => 'target'
     ];
 
     /**
@@ -175,7 +183,9 @@ class LiveActivityStartRequest implements ModelInterface, ArrayAccess, \JsonSeri
      * @var string[]
      */
     protected static $setters = [
-        'contentState' => 'setContentState'
+        'contentState' => 'setContentState',
+        'alert' => 'setAlert',
+        'target' => 'setTarget'
     ];
 
     /**
@@ -184,7 +194,9 @@ class LiveActivityStartRequest implements ModelInterface, ArrayAccess, \JsonSeri
      * @var string[]
      */
     protected static $getters = [
-        'contentState' => 'getContentState'
+        'contentState' => 'getContentState',
+        'alert' => 'getAlert',
+        'target' => 'getTarget'
     ];
 
     /**
@@ -245,6 +257,8 @@ class LiveActivityStartRequest implements ModelInterface, ArrayAccess, \JsonSeri
     public function __construct(array $data = null)
     {
         $this->setIfExists('contentState', $data ?? [], null);
+        $this->setIfExists('alert', $data ?? [], null);
+        $this->setIfExists('target', $data ?? [], null);
     }
 
     /**
@@ -315,6 +329,60 @@ class LiveActivityStartRequest implements ModelInterface, ArrayAccess, \JsonSeri
             throw new \InvalidArgumentException('non-nullable contentState cannot be null');
         }
         $this->container['contentState'] = $contentState;
+
+        return $this;
+    }
+
+    /**
+     * Gets alert
+     *
+     * @return \ActivitySmith\Generated\Model\AlertPayload|null
+     */
+    public function getAlert()
+    {
+        return $this->container['alert'];
+    }
+
+    /**
+     * Sets alert
+     *
+     * @param \ActivitySmith\Generated\Model\AlertPayload|null $alert alert
+     *
+     * @return self
+     */
+    public function setAlert($alert)
+    {
+        if (is_null($alert)) {
+            throw new \InvalidArgumentException('non-nullable alert cannot be null');
+        }
+        $this->container['alert'] = $alert;
+
+        return $this;
+    }
+
+    /**
+     * Gets target
+     *
+     * @return \ActivitySmith\Generated\Model\ChannelTarget|null
+     */
+    public function getTarget()
+    {
+        return $this->container['target'];
+    }
+
+    /**
+     * Sets target
+     *
+     * @param \ActivitySmith\Generated\Model\ChannelTarget|null $target target
+     *
+     * @return self
+     */
+    public function setTarget($target)
+    {
+        if (is_null($target)) {
+            throw new \InvalidArgumentException('non-nullable target cannot be null');
+        }
+        $this->container['target'] = $target;
 
         return $this;
     }

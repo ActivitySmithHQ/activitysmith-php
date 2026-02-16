@@ -138,7 +138,7 @@ class LiveActivitiesApi
      *
      * @throws \ActivitySmith\Generated\ApiException on non-2xx response or if the response body is not in the expected format
      * @throws \InvalidArgumentException
-     * @return \ActivitySmith\Generated\Model\LiveActivityEndResponse|\ActivitySmith\Generated\Model\RateLimitError
+     * @return \ActivitySmith\Generated\Model\LiveActivityEndResponse|\ActivitySmith\Generated\Model\ForbiddenError|\ActivitySmith\Generated\Model\RateLimitError
      */
     public function endLiveActivity($liveActivityEndRequest, string $contentType = self::contentTypes['endLiveActivity'][0])
     {
@@ -156,7 +156,7 @@ class LiveActivitiesApi
      *
      * @throws \ActivitySmith\Generated\ApiException on non-2xx response or if the response body is not in the expected format
      * @throws \InvalidArgumentException
-     * @return array of \ActivitySmith\Generated\Model\LiveActivityEndResponse|\ActivitySmith\Generated\Model\RateLimitError, HTTP status code, HTTP response headers (array of strings)
+     * @return array of \ActivitySmith\Generated\Model\LiveActivityEndResponse|\ActivitySmith\Generated\Model\ForbiddenError|\ActivitySmith\Generated\Model\RateLimitError, HTTP status code, HTTP response headers (array of strings)
      */
     public function endLiveActivityWithHttpInfo($liveActivityEndRequest, string $contentType = self::contentTypes['endLiveActivity'][0])
     {
@@ -225,6 +225,33 @@ class LiveActivitiesApi
                         $response->getStatusCode(),
                         $response->getHeaders()
                     ];
+                case 403:
+                    if ('\ActivitySmith\Generated\Model\ForbiddenError' === '\SplFileObject') {
+                        $content = $response->getBody(); //stream goes to serializer
+                    } else {
+                        $content = (string) $response->getBody();
+                        if ('\ActivitySmith\Generated\Model\ForbiddenError' !== 'string') {
+                            try {
+                                $content = json_decode($content, false, 512, JSON_THROW_ON_ERROR);
+                            } catch (\JsonException $exception) {
+                                throw new ApiException(
+                                    sprintf(
+                                        'Error JSON decoding server response (%s)',
+                                        $request->getUri()
+                                    ),
+                                    $statusCode,
+                                    $response->getHeaders(),
+                                    $content
+                                );
+                            }
+                        }
+                    }
+
+                    return [
+                        ObjectSerializer::deserialize($content, '\ActivitySmith\Generated\Model\ForbiddenError', []),
+                        $response->getStatusCode(),
+                        $response->getHeaders()
+                    ];
                 case 429:
                     if ('\ActivitySmith\Generated\Model\RateLimitError' === '\SplFileObject') {
                         $content = $response->getBody(); //stream goes to serializer
@@ -288,6 +315,14 @@ class LiveActivitiesApi
                     $data = ObjectSerializer::deserialize(
                         $e->getResponseBody(),
                         '\ActivitySmith\Generated\Model\LiveActivityEndResponse',
+                        $e->getResponseHeaders()
+                    );
+                    $e->setResponseObject($data);
+                    break;
+                case 403:
+                    $data = ObjectSerializer::deserialize(
+                        $e->getResponseBody(),
+                        '\ActivitySmith\Generated\Model\ForbiddenError',
                         $e->getResponseHeaders()
                     );
                     $e->setResponseObject($data);
@@ -483,7 +518,7 @@ class LiveActivitiesApi
      *
      * @throws \ActivitySmith\Generated\ApiException on non-2xx response or if the response body is not in the expected format
      * @throws \InvalidArgumentException
-     * @return \ActivitySmith\Generated\Model\LiveActivityStartResponse|\ActivitySmith\Generated\Model\RateLimitError
+     * @return \ActivitySmith\Generated\Model\LiveActivityStartResponse|\ActivitySmith\Generated\Model\BadRequestError|\ActivitySmith\Generated\Model\ForbiddenError|\ActivitySmith\Generated\Model\NoRecipientsError|\ActivitySmith\Generated\Model\RateLimitError
      */
     public function startLiveActivity($liveActivityStartRequest, string $contentType = self::contentTypes['startLiveActivity'][0])
     {
@@ -501,7 +536,7 @@ class LiveActivitiesApi
      *
      * @throws \ActivitySmith\Generated\ApiException on non-2xx response or if the response body is not in the expected format
      * @throws \InvalidArgumentException
-     * @return array of \ActivitySmith\Generated\Model\LiveActivityStartResponse|\ActivitySmith\Generated\Model\RateLimitError, HTTP status code, HTTP response headers (array of strings)
+     * @return array of \ActivitySmith\Generated\Model\LiveActivityStartResponse|\ActivitySmith\Generated\Model\BadRequestError|\ActivitySmith\Generated\Model\ForbiddenError|\ActivitySmith\Generated\Model\NoRecipientsError|\ActivitySmith\Generated\Model\RateLimitError, HTTP status code, HTTP response headers (array of strings)
      */
     public function startLiveActivityWithHttpInfo($liveActivityStartRequest, string $contentType = self::contentTypes['startLiveActivity'][0])
     {
@@ -570,6 +605,87 @@ class LiveActivitiesApi
                         $response->getStatusCode(),
                         $response->getHeaders()
                     ];
+                case 400:
+                    if ('\ActivitySmith\Generated\Model\BadRequestError' === '\SplFileObject') {
+                        $content = $response->getBody(); //stream goes to serializer
+                    } else {
+                        $content = (string) $response->getBody();
+                        if ('\ActivitySmith\Generated\Model\BadRequestError' !== 'string') {
+                            try {
+                                $content = json_decode($content, false, 512, JSON_THROW_ON_ERROR);
+                            } catch (\JsonException $exception) {
+                                throw new ApiException(
+                                    sprintf(
+                                        'Error JSON decoding server response (%s)',
+                                        $request->getUri()
+                                    ),
+                                    $statusCode,
+                                    $response->getHeaders(),
+                                    $content
+                                );
+                            }
+                        }
+                    }
+
+                    return [
+                        ObjectSerializer::deserialize($content, '\ActivitySmith\Generated\Model\BadRequestError', []),
+                        $response->getStatusCode(),
+                        $response->getHeaders()
+                    ];
+                case 403:
+                    if ('\ActivitySmith\Generated\Model\ForbiddenError' === '\SplFileObject') {
+                        $content = $response->getBody(); //stream goes to serializer
+                    } else {
+                        $content = (string) $response->getBody();
+                        if ('\ActivitySmith\Generated\Model\ForbiddenError' !== 'string') {
+                            try {
+                                $content = json_decode($content, false, 512, JSON_THROW_ON_ERROR);
+                            } catch (\JsonException $exception) {
+                                throw new ApiException(
+                                    sprintf(
+                                        'Error JSON decoding server response (%s)',
+                                        $request->getUri()
+                                    ),
+                                    $statusCode,
+                                    $response->getHeaders(),
+                                    $content
+                                );
+                            }
+                        }
+                    }
+
+                    return [
+                        ObjectSerializer::deserialize($content, '\ActivitySmith\Generated\Model\ForbiddenError', []),
+                        $response->getStatusCode(),
+                        $response->getHeaders()
+                    ];
+                case 404:
+                    if ('\ActivitySmith\Generated\Model\NoRecipientsError' === '\SplFileObject') {
+                        $content = $response->getBody(); //stream goes to serializer
+                    } else {
+                        $content = (string) $response->getBody();
+                        if ('\ActivitySmith\Generated\Model\NoRecipientsError' !== 'string') {
+                            try {
+                                $content = json_decode($content, false, 512, JSON_THROW_ON_ERROR);
+                            } catch (\JsonException $exception) {
+                                throw new ApiException(
+                                    sprintf(
+                                        'Error JSON decoding server response (%s)',
+                                        $request->getUri()
+                                    ),
+                                    $statusCode,
+                                    $response->getHeaders(),
+                                    $content
+                                );
+                            }
+                        }
+                    }
+
+                    return [
+                        ObjectSerializer::deserialize($content, '\ActivitySmith\Generated\Model\NoRecipientsError', []),
+                        $response->getStatusCode(),
+                        $response->getHeaders()
+                    ];
                 case 429:
                     if ('\ActivitySmith\Generated\Model\RateLimitError' === '\SplFileObject') {
                         $content = $response->getBody(); //stream goes to serializer
@@ -633,6 +749,30 @@ class LiveActivitiesApi
                     $data = ObjectSerializer::deserialize(
                         $e->getResponseBody(),
                         '\ActivitySmith\Generated\Model\LiveActivityStartResponse',
+                        $e->getResponseHeaders()
+                    );
+                    $e->setResponseObject($data);
+                    break;
+                case 400:
+                    $data = ObjectSerializer::deserialize(
+                        $e->getResponseBody(),
+                        '\ActivitySmith\Generated\Model\BadRequestError',
+                        $e->getResponseHeaders()
+                    );
+                    $e->setResponseObject($data);
+                    break;
+                case 403:
+                    $data = ObjectSerializer::deserialize(
+                        $e->getResponseBody(),
+                        '\ActivitySmith\Generated\Model\ForbiddenError',
+                        $e->getResponseHeaders()
+                    );
+                    $e->setResponseObject($data);
+                    break;
+                case 404:
+                    $data = ObjectSerializer::deserialize(
+                        $e->getResponseBody(),
+                        '\ActivitySmith\Generated\Model\NoRecipientsError',
                         $e->getResponseHeaders()
                     );
                     $e->setResponseObject($data);
@@ -828,7 +968,7 @@ class LiveActivitiesApi
      *
      * @throws \ActivitySmith\Generated\ApiException on non-2xx response or if the response body is not in the expected format
      * @throws \InvalidArgumentException
-     * @return \ActivitySmith\Generated\Model\LiveActivityUpdateResponse|\ActivitySmith\Generated\Model\RateLimitError
+     * @return \ActivitySmith\Generated\Model\LiveActivityUpdateResponse|\ActivitySmith\Generated\Model\ForbiddenError|\ActivitySmith\Generated\Model\RateLimitError
      */
     public function updateLiveActivity($liveActivityUpdateRequest, string $contentType = self::contentTypes['updateLiveActivity'][0])
     {
@@ -846,7 +986,7 @@ class LiveActivitiesApi
      *
      * @throws \ActivitySmith\Generated\ApiException on non-2xx response or if the response body is not in the expected format
      * @throws \InvalidArgumentException
-     * @return array of \ActivitySmith\Generated\Model\LiveActivityUpdateResponse|\ActivitySmith\Generated\Model\RateLimitError, HTTP status code, HTTP response headers (array of strings)
+     * @return array of \ActivitySmith\Generated\Model\LiveActivityUpdateResponse|\ActivitySmith\Generated\Model\ForbiddenError|\ActivitySmith\Generated\Model\RateLimitError, HTTP status code, HTTP response headers (array of strings)
      */
     public function updateLiveActivityWithHttpInfo($liveActivityUpdateRequest, string $contentType = self::contentTypes['updateLiveActivity'][0])
     {
@@ -915,6 +1055,33 @@ class LiveActivitiesApi
                         $response->getStatusCode(),
                         $response->getHeaders()
                     ];
+                case 403:
+                    if ('\ActivitySmith\Generated\Model\ForbiddenError' === '\SplFileObject') {
+                        $content = $response->getBody(); //stream goes to serializer
+                    } else {
+                        $content = (string) $response->getBody();
+                        if ('\ActivitySmith\Generated\Model\ForbiddenError' !== 'string') {
+                            try {
+                                $content = json_decode($content, false, 512, JSON_THROW_ON_ERROR);
+                            } catch (\JsonException $exception) {
+                                throw new ApiException(
+                                    sprintf(
+                                        'Error JSON decoding server response (%s)',
+                                        $request->getUri()
+                                    ),
+                                    $statusCode,
+                                    $response->getHeaders(),
+                                    $content
+                                );
+                            }
+                        }
+                    }
+
+                    return [
+                        ObjectSerializer::deserialize($content, '\ActivitySmith\Generated\Model\ForbiddenError', []),
+                        $response->getStatusCode(),
+                        $response->getHeaders()
+                    ];
                 case 429:
                     if ('\ActivitySmith\Generated\Model\RateLimitError' === '\SplFileObject') {
                         $content = $response->getBody(); //stream goes to serializer
@@ -978,6 +1145,14 @@ class LiveActivitiesApi
                     $data = ObjectSerializer::deserialize(
                         $e->getResponseBody(),
                         '\ActivitySmith\Generated\Model\LiveActivityUpdateResponse',
+                        $e->getResponseHeaders()
+                    );
+                    $e->setResponseObject($data);
+                    break;
+                case 403:
+                    $data = ObjectSerializer::deserialize(
+                        $e->getResponseBody(),
+                        '\ActivitySmith\Generated\Model\ForbiddenError',
                         $e->getResponseHeaders()
                     );
                     $e->setResponseObject($data);

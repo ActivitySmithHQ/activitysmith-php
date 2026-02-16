@@ -61,6 +61,7 @@ class LiveActivityStartResponse implements ModelInterface, ArrayAccess, \JsonSer
         'devicesNotified' => 'int',
         'usersNotified' => 'int',
         'activityId' => 'string',
+        'effectiveChannelSlugs' => 'string[]',
         'timestamp' => '\DateTime'
     ];
 
@@ -76,6 +77,7 @@ class LiveActivityStartResponse implements ModelInterface, ArrayAccess, \JsonSer
         'devicesNotified' => null,
         'usersNotified' => null,
         'activityId' => null,
+        'effectiveChannelSlugs' => null,
         'timestamp' => 'date-time'
     ];
 
@@ -89,6 +91,7 @@ class LiveActivityStartResponse implements ModelInterface, ArrayAccess, \JsonSer
         'devicesNotified' => false,
         'usersNotified' => false,
         'activityId' => false,
+        'effectiveChannelSlugs' => false,
         'timestamp' => false
     ];
 
@@ -182,6 +185,7 @@ class LiveActivityStartResponse implements ModelInterface, ArrayAccess, \JsonSer
         'devicesNotified' => 'devices_notified',
         'usersNotified' => 'users_notified',
         'activityId' => 'activity_id',
+        'effectiveChannelSlugs' => 'effective_channel_slugs',
         'timestamp' => 'timestamp'
     ];
 
@@ -195,6 +199,7 @@ class LiveActivityStartResponse implements ModelInterface, ArrayAccess, \JsonSer
         'devicesNotified' => 'setDevicesNotified',
         'usersNotified' => 'setUsersNotified',
         'activityId' => 'setActivityId',
+        'effectiveChannelSlugs' => 'setEffectiveChannelSlugs',
         'timestamp' => 'setTimestamp'
     ];
 
@@ -208,6 +213,7 @@ class LiveActivityStartResponse implements ModelInterface, ArrayAccess, \JsonSer
         'devicesNotified' => 'getDevicesNotified',
         'usersNotified' => 'getUsersNotified',
         'activityId' => 'getActivityId',
+        'effectiveChannelSlugs' => 'getEffectiveChannelSlugs',
         'timestamp' => 'getTimestamp'
     ];
 
@@ -272,6 +278,7 @@ class LiveActivityStartResponse implements ModelInterface, ArrayAccess, \JsonSer
         $this->setIfExists('devicesNotified', $data ?? [], null);
         $this->setIfExists('usersNotified', $data ?? [], null);
         $this->setIfExists('activityId', $data ?? [], null);
+        $this->setIfExists('effectiveChannelSlugs', $data ?? [], null);
         $this->setIfExists('timestamp', $data ?? [], null);
     }
 
@@ -430,6 +437,33 @@ class LiveActivityStartResponse implements ModelInterface, ArrayAccess, \JsonSer
             throw new \InvalidArgumentException('non-nullable activityId cannot be null');
         }
         $this->container['activityId'] = $activityId;
+
+        return $this;
+    }
+
+    /**
+     * Gets effectiveChannelSlugs
+     *
+     * @return string[]|null
+     */
+    public function getEffectiveChannelSlugs()
+    {
+        return $this->container['effectiveChannelSlugs'];
+    }
+
+    /**
+     * Sets effectiveChannelSlugs
+     *
+     * @param string[]|null $effectiveChannelSlugs effectiveChannelSlugs
+     *
+     * @return self
+     */
+    public function setEffectiveChannelSlugs($effectiveChannelSlugs)
+    {
+        if (is_null($effectiveChannelSlugs)) {
+            throw new \InvalidArgumentException('non-nullable effectiveChannelSlugs cannot be null');
+        }
+        $this->container['effectiveChannelSlugs'] = $effectiveChannelSlugs;
 
         return $this;
     }

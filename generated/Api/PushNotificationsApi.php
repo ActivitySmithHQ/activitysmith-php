@@ -132,7 +132,7 @@ class PushNotificationsApi
      *
      * @throws \ActivitySmith\Generated\ApiException on non-2xx response or if the response body is not in the expected format
      * @throws \InvalidArgumentException
-     * @return \ActivitySmith\Generated\Model\PushNotificationResponse|\ActivitySmith\Generated\Model\SendPushNotification429Response
+     * @return \ActivitySmith\Generated\Model\PushNotificationResponse|\ActivitySmith\Generated\Model\BadRequestError|\ActivitySmith\Generated\Model\ForbiddenError|\ActivitySmith\Generated\Model\NoRecipientsError|\ActivitySmith\Generated\Model\SendPushNotification429Response
      */
     public function sendPushNotification($pushNotificationRequest, string $contentType = self::contentTypes['sendPushNotification'][0])
     {
@@ -150,7 +150,7 @@ class PushNotificationsApi
      *
      * @throws \ActivitySmith\Generated\ApiException on non-2xx response or if the response body is not in the expected format
      * @throws \InvalidArgumentException
-     * @return array of \ActivitySmith\Generated\Model\PushNotificationResponse|\ActivitySmith\Generated\Model\SendPushNotification429Response, HTTP status code, HTTP response headers (array of strings)
+     * @return array of \ActivitySmith\Generated\Model\PushNotificationResponse|\ActivitySmith\Generated\Model\BadRequestError|\ActivitySmith\Generated\Model\ForbiddenError|\ActivitySmith\Generated\Model\NoRecipientsError|\ActivitySmith\Generated\Model\SendPushNotification429Response, HTTP status code, HTTP response headers (array of strings)
      */
     public function sendPushNotificationWithHttpInfo($pushNotificationRequest, string $contentType = self::contentTypes['sendPushNotification'][0])
     {
@@ -219,6 +219,87 @@ class PushNotificationsApi
                         $response->getStatusCode(),
                         $response->getHeaders()
                     ];
+                case 400:
+                    if ('\ActivitySmith\Generated\Model\BadRequestError' === '\SplFileObject') {
+                        $content = $response->getBody(); //stream goes to serializer
+                    } else {
+                        $content = (string) $response->getBody();
+                        if ('\ActivitySmith\Generated\Model\BadRequestError' !== 'string') {
+                            try {
+                                $content = json_decode($content, false, 512, JSON_THROW_ON_ERROR);
+                            } catch (\JsonException $exception) {
+                                throw new ApiException(
+                                    sprintf(
+                                        'Error JSON decoding server response (%s)',
+                                        $request->getUri()
+                                    ),
+                                    $statusCode,
+                                    $response->getHeaders(),
+                                    $content
+                                );
+                            }
+                        }
+                    }
+
+                    return [
+                        ObjectSerializer::deserialize($content, '\ActivitySmith\Generated\Model\BadRequestError', []),
+                        $response->getStatusCode(),
+                        $response->getHeaders()
+                    ];
+                case 403:
+                    if ('\ActivitySmith\Generated\Model\ForbiddenError' === '\SplFileObject') {
+                        $content = $response->getBody(); //stream goes to serializer
+                    } else {
+                        $content = (string) $response->getBody();
+                        if ('\ActivitySmith\Generated\Model\ForbiddenError' !== 'string') {
+                            try {
+                                $content = json_decode($content, false, 512, JSON_THROW_ON_ERROR);
+                            } catch (\JsonException $exception) {
+                                throw new ApiException(
+                                    sprintf(
+                                        'Error JSON decoding server response (%s)',
+                                        $request->getUri()
+                                    ),
+                                    $statusCode,
+                                    $response->getHeaders(),
+                                    $content
+                                );
+                            }
+                        }
+                    }
+
+                    return [
+                        ObjectSerializer::deserialize($content, '\ActivitySmith\Generated\Model\ForbiddenError', []),
+                        $response->getStatusCode(),
+                        $response->getHeaders()
+                    ];
+                case 404:
+                    if ('\ActivitySmith\Generated\Model\NoRecipientsError' === '\SplFileObject') {
+                        $content = $response->getBody(); //stream goes to serializer
+                    } else {
+                        $content = (string) $response->getBody();
+                        if ('\ActivitySmith\Generated\Model\NoRecipientsError' !== 'string') {
+                            try {
+                                $content = json_decode($content, false, 512, JSON_THROW_ON_ERROR);
+                            } catch (\JsonException $exception) {
+                                throw new ApiException(
+                                    sprintf(
+                                        'Error JSON decoding server response (%s)',
+                                        $request->getUri()
+                                    ),
+                                    $statusCode,
+                                    $response->getHeaders(),
+                                    $content
+                                );
+                            }
+                        }
+                    }
+
+                    return [
+                        ObjectSerializer::deserialize($content, '\ActivitySmith\Generated\Model\NoRecipientsError', []),
+                        $response->getStatusCode(),
+                        $response->getHeaders()
+                    ];
                 case 429:
                     if ('\ActivitySmith\Generated\Model\SendPushNotification429Response' === '\SplFileObject') {
                         $content = $response->getBody(); //stream goes to serializer
@@ -282,6 +363,30 @@ class PushNotificationsApi
                     $data = ObjectSerializer::deserialize(
                         $e->getResponseBody(),
                         '\ActivitySmith\Generated\Model\PushNotificationResponse',
+                        $e->getResponseHeaders()
+                    );
+                    $e->setResponseObject($data);
+                    break;
+                case 400:
+                    $data = ObjectSerializer::deserialize(
+                        $e->getResponseBody(),
+                        '\ActivitySmith\Generated\Model\BadRequestError',
+                        $e->getResponseHeaders()
+                    );
+                    $e->setResponseObject($data);
+                    break;
+                case 403:
+                    $data = ObjectSerializer::deserialize(
+                        $e->getResponseBody(),
+                        '\ActivitySmith\Generated\Model\ForbiddenError',
+                        $e->getResponseHeaders()
+                    );
+                    $e->setResponseObject($data);
+                    break;
+                case 404:
+                    $data = ObjectSerializer::deserialize(
+                        $e->getResponseBody(),
+                        '\ActivitySmith\Generated\Model\NoRecipientsError',
                         $e->getResponseHeaders()
                     );
                     $e->setResponseObject($data);
