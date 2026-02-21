@@ -30,8 +30,8 @@ $activitysmith = new ActivitySmith($_ENV['ACTIVITYSMITH_API_KEY']);
 
 ```php
 $response = $activitysmith->notifications->send([
-    'title' => 'Build Failed',
-    'message' => 'CI pipeline failed on main branch',
+    'title' => 'New subscription 💸',
+    'message' => 'Customer upgraded to Pro plan',
     'channels' => ['devs', 'ops'], // Optional
 ]);
 
@@ -45,9 +45,9 @@ echo $response->getDevicesNotified();
 ```php
 $start = $activitysmith->liveActivities->start([
     'content_state' => [
-        'title' => 'ActivitySmith API Deployment',
-        'subtitle' => 'start',
-        'number_of_steps' => 4,
+        'title' => 'Nightly database backup',
+        'subtitle' => 'create snapshot',
+        'number_of_steps' => 3,
         'current_step' => 1,
         'type' => 'segmented_progress',
         'color' => 'yellow',
@@ -64,9 +64,9 @@ $activityId = $start->getActivityId();
 $update = $activitysmith->liveActivities->update([
     'activity_id' => $activityId,
     'content_state' => [
-        'title' => 'ActivitySmith API Deployment',
-        'subtitle' => 'npm i & pm2',
-        'current_step' => 3,
+        'title' => 'Nightly database backup',
+        'subtitle' => 'upload archive',
+        'current_step' => 2,
     ],
 ]);
 
@@ -79,10 +79,10 @@ echo $update->getDevicesNotified();
 $end = $activitysmith->liveActivities->end([
     'activity_id' => $activityId,
     'content_state' => [
-        'title' => 'ActivitySmith API Deployment',
-        'subtitle' => 'done',
-        'current_step' => 4,
-        'auto_dismiss_minutes' => 3,
+        'title' => 'Nightly database backup',
+        'subtitle' => 'verify restore',
+        'current_step' => 3,
+        'auto_dismiss_minutes' => 2,
     ],
 ]);
 
@@ -94,7 +94,7 @@ echo $end->getSuccess() ? 'true' : 'false';
 ```php
 try {
     $activitysmith->notifications->send([
-        'title' => 'Build Failed',
+        'title' => 'New subscription 💸',
     ]);
 } catch (Throwable $err) {
     echo 'Request failed: ' . $err->getMessage() . PHP_EOL;
