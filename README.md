@@ -28,6 +28,10 @@ $activitysmith = new ActivitySmith($_ENV['ACTIVITYSMITH_API_KEY']);
 
 ### Send a Push Notification
 
+<p align="center">
+  <img src="https://cdn.activitysmith.com/features/new-subscription-push-notification.png" alt="Push notification example" width="680" />
+</p>
+
 ```php
 $response = $activitysmith->notifications->send([
     'title' => 'New subscription 💸',
@@ -41,6 +45,10 @@ echo $response->getDevicesNotified();
 ```
 
 ### Start a Live Activity
+
+<p align="center">
+  <img src="https://cdn.activitysmith.com/features/start-live-activity.png" alt="Start live activity example" width="680" />
+</p>
 
 ```php
 $start = $activitysmith->liveActivities->start([
@@ -60,6 +68,10 @@ $activityId = $start->getActivityId();
 
 ### Update a Live Activity
 
+<p align="center">
+  <img src="https://cdn.activitysmith.com/features/update-live-activity.png" alt="Update live activity example" width="680" />
+</p>
+
 ```php
 $update = $activitysmith->liveActivities->update([
     'activity_id' => $activityId,
@@ -74,6 +86,10 @@ echo $update->getDevicesNotified();
 ```
 
 ### End a Live Activity
+
+<p align="center">
+  <img src="https://cdn.activitysmith.com/features/end-live-activity.png" alt="End live activity example" width="680" />
+</p>
 
 ```php
 $end = $activitysmith->liveActivities->end([
