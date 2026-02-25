@@ -1,6 +1,6 @@
 <?php
 /**
- * PushNotificationRequest
+ * PushNotificationAction
  *
  * PHP version 7.4
  *
@@ -32,7 +32,7 @@ use \ArrayAccess;
 use \ActivitySmith\Generated\ObjectSerializer;
 
 /**
- * PushNotificationRequest Class Doc Comment
+ * PushNotificationAction Class Doc Comment
  *
  * @category Class
  * @package  ActivitySmith\Generated
@@ -40,7 +40,7 @@ use \ActivitySmith\Generated\ObjectSerializer;
  * @link     https://openapi-generator.tech
  * @implements \ArrayAccess<string, mixed>
  */
-class PushNotificationRequest implements ModelInterface, ArrayAccess, \JsonSerializable
+class PushNotificationAction implements ModelInterface, ArrayAccess, \JsonSerializable
 {
     public const DISCRIMINATOR = null;
 
@@ -49,7 +49,7 @@ class PushNotificationRequest implements ModelInterface, ArrayAccess, \JsonSeria
       *
       * @var string
       */
-    protected static $openAPIModelName = 'PushNotificationRequest';
+    protected static $openAPIModelName = 'PushNotificationAction';
 
     /**
       * Array of property to type mappings. Used for (de)serialization
@@ -58,14 +58,10 @@ class PushNotificationRequest implements ModelInterface, ArrayAccess, \JsonSeria
       */
     protected static $openAPITypes = [
         'title' => 'string',
-        'message' => 'string',
-        'subtitle' => 'string',
-        'redirection' => 'string',
-        'actions' => '\ActivitySmith\Generated\Model\PushNotificationAction[]',
-        'payload' => 'array<string,mixed>',
-        'badge' => 'int',
-        'sound' => 'string',
-        'target' => '\ActivitySmith\Generated\Model\ChannelTarget'
+        'type' => '\ActivitySmith\Generated\Model\PushNotificationActionType',
+        'url' => 'string',
+        'method' => '\ActivitySmith\Generated\Model\PushNotificationWebhookMethod',
+        'body' => 'array<string,mixed>'
     ];
 
     /**
@@ -77,14 +73,10 @@ class PushNotificationRequest implements ModelInterface, ArrayAccess, \JsonSeria
       */
     protected static $openAPIFormats = [
         'title' => null,
-        'message' => null,
-        'subtitle' => null,
-        'redirection' => 'uri',
-        'actions' => null,
-        'payload' => null,
-        'badge' => null,
-        'sound' => null,
-        'target' => null
+        'type' => null,
+        'url' => 'uri',
+        'method' => null,
+        'body' => null
     ];
 
     /**
@@ -94,14 +86,10 @@ class PushNotificationRequest implements ModelInterface, ArrayAccess, \JsonSeria
       */
     protected static array $openAPINullables = [
         'title' => false,
-        'message' => false,
-        'subtitle' => false,
-        'redirection' => false,
-        'actions' => false,
-        'payload' => false,
-        'badge' => false,
-        'sound' => false,
-        'target' => false
+        'type' => false,
+        'url' => false,
+        'method' => false,
+        'body' => false
     ];
 
     /**
@@ -191,14 +179,10 @@ class PushNotificationRequest implements ModelInterface, ArrayAccess, \JsonSeria
      */
     protected static $attributeMap = [
         'title' => 'title',
-        'message' => 'message',
-        'subtitle' => 'subtitle',
-        'redirection' => 'redirection',
-        'actions' => 'actions',
-        'payload' => 'payload',
-        'badge' => 'badge',
-        'sound' => 'sound',
-        'target' => 'target'
+        'type' => 'type',
+        'url' => 'url',
+        'method' => 'method',
+        'body' => 'body'
     ];
 
     /**
@@ -208,14 +192,10 @@ class PushNotificationRequest implements ModelInterface, ArrayAccess, \JsonSeria
      */
     protected static $setters = [
         'title' => 'setTitle',
-        'message' => 'setMessage',
-        'subtitle' => 'setSubtitle',
-        'redirection' => 'setRedirection',
-        'actions' => 'setActions',
-        'payload' => 'setPayload',
-        'badge' => 'setBadge',
-        'sound' => 'setSound',
-        'target' => 'setTarget'
+        'type' => 'setType',
+        'url' => 'setUrl',
+        'method' => 'setMethod',
+        'body' => 'setBody'
     ];
 
     /**
@@ -225,14 +205,10 @@ class PushNotificationRequest implements ModelInterface, ArrayAccess, \JsonSeria
      */
     protected static $getters = [
         'title' => 'getTitle',
-        'message' => 'getMessage',
-        'subtitle' => 'getSubtitle',
-        'redirection' => 'getRedirection',
-        'actions' => 'getActions',
-        'payload' => 'getPayload',
-        'badge' => 'getBadge',
-        'sound' => 'getSound',
-        'target' => 'getTarget'
+        'type' => 'getType',
+        'url' => 'getUrl',
+        'method' => 'getMethod',
+        'body' => 'getBody'
     ];
 
     /**
@@ -293,14 +269,10 @@ class PushNotificationRequest implements ModelInterface, ArrayAccess, \JsonSeria
     public function __construct(array $data = null)
     {
         $this->setIfExists('title', $data ?? [], null);
-        $this->setIfExists('message', $data ?? [], null);
-        $this->setIfExists('subtitle', $data ?? [], null);
-        $this->setIfExists('redirection', $data ?? [], null);
-        $this->setIfExists('actions', $data ?? [], null);
-        $this->setIfExists('payload', $data ?? [], null);
-        $this->setIfExists('badge', $data ?? [], null);
-        $this->setIfExists('sound', $data ?? [], null);
-        $this->setIfExists('target', $data ?? [], null);
+        $this->setIfExists('type', $data ?? [], null);
+        $this->setIfExists('url', $data ?? [], null);
+        $this->setIfExists('method', $data ?? [], null);
+        $this->setIfExists('body', $data ?? [], null);
     }
 
     /**
@@ -333,12 +305,14 @@ class PushNotificationRequest implements ModelInterface, ArrayAccess, \JsonSeria
         if ($this->container['title'] === null) {
             $invalidProperties[] = "'title' can't be null";
         }
-        if (!is_null($this->container['redirection']) && !preg_match("/^https:\/\//", $this->container['redirection'])) {
-            $invalidProperties[] = "invalid value for 'redirection', must be conform to the pattern /^https:\/\//.";
+        if ($this->container['type'] === null) {
+            $invalidProperties[] = "'type' can't be null";
         }
-
-        if (!is_null($this->container['actions']) && (count($this->container['actions']) > 4)) {
-            $invalidProperties[] = "invalid value for 'actions', number of items must be less than or equal to 4.";
+        if ($this->container['url'] === null) {
+            $invalidProperties[] = "'url' can't be null";
+        }
+        if (!preg_match("/^https:\/\//", $this->container['url'])) {
+            $invalidProperties[] = "invalid value for 'url', must be conform to the pattern /^https:\/\//.";
         }
 
         return $invalidProperties;
@@ -369,7 +343,7 @@ class PushNotificationRequest implements ModelInterface, ArrayAccess, \JsonSeria
     /**
      * Sets title
      *
-     * @param string $title title
+     * @param string $title Button title displayed in iOS expanded notification UI.
      *
      * @return self
      */
@@ -384,226 +358,114 @@ class PushNotificationRequest implements ModelInterface, ArrayAccess, \JsonSeria
     }
 
     /**
-     * Gets message
+     * Gets type
      *
-     * @return string|null
+     * @return \ActivitySmith\Generated\Model\PushNotificationActionType
      */
-    public function getMessage()
+    public function getType()
     {
-        return $this->container['message'];
+        return $this->container['type'];
     }
 
     /**
-     * Sets message
+     * Sets type
      *
-     * @param string|null $message message
+     * @param \ActivitySmith\Generated\Model\PushNotificationActionType $type type
      *
      * @return self
      */
-    public function setMessage($message)
+    public function setType($type)
     {
-        if (is_null($message)) {
-            throw new \InvalidArgumentException('non-nullable message cannot be null');
+        if (is_null($type)) {
+            throw new \InvalidArgumentException('non-nullable type cannot be null');
         }
-        $this->container['message'] = $message;
+        $this->container['type'] = $type;
 
         return $this;
     }
 
     /**
-     * Gets subtitle
+     * Gets url
      *
-     * @return string|null
+     * @return string
      */
-    public function getSubtitle()
+    public function getUrl()
     {
-        return $this->container['subtitle'];
+        return $this->container['url'];
     }
 
     /**
-     * Sets subtitle
+     * Sets url
      *
-     * @param string|null $subtitle subtitle
+     * @param string $url HTTPS URL. For open_url it is opened in browser. For webhook it is called by ActivitySmith backend.
      *
      * @return self
      */
-    public function setSubtitle($subtitle)
+    public function setUrl($url)
     {
-        if (is_null($subtitle)) {
-            throw new \InvalidArgumentException('non-nullable subtitle cannot be null');
+        if (is_null($url)) {
+            throw new \InvalidArgumentException('non-nullable url cannot be null');
         }
-        $this->container['subtitle'] = $subtitle;
+
+        if ((!preg_match("/^https:\/\//", ObjectSerializer::toString($url)))) {
+            throw new \InvalidArgumentException("invalid value for \$url when calling PushNotificationAction., must conform to the pattern /^https:\/\//.");
+        }
+
+        $this->container['url'] = $url;
 
         return $this;
     }
 
     /**
-     * Gets redirection
+     * Gets method
      *
-     * @return string|null
+     * @return \ActivitySmith\Generated\Model\PushNotificationWebhookMethod|null
      */
-    public function getRedirection()
+    public function getMethod()
     {
-        return $this->container['redirection'];
+        return $this->container['method'];
     }
 
     /**
-     * Sets redirection
+     * Sets method
      *
-     * @param string|null $redirection Optional HTTPS URL opened when user taps the notification body.
+     * @param \ActivitySmith\Generated\Model\PushNotificationWebhookMethod|null $method Webhook HTTP method. Used only when type=webhook.
      *
      * @return self
      */
-    public function setRedirection($redirection)
+    public function setMethod($method)
     {
-        if (is_null($redirection)) {
-            throw new \InvalidArgumentException('non-nullable redirection cannot be null');
+        if (is_null($method)) {
+            throw new \InvalidArgumentException('non-nullable method cannot be null');
         }
-
-        if ((!preg_match("/^https:\/\//", ObjectSerializer::toString($redirection)))) {
-            throw new \InvalidArgumentException("invalid value for \$redirection when calling PushNotificationRequest., must conform to the pattern /^https:\/\//.");
-        }
-
-        $this->container['redirection'] = $redirection;
+        $this->container['method'] = $method;
 
         return $this;
     }
 
     /**
-     * Gets actions
-     *
-     * @return \ActivitySmith\Generated\Model\PushNotificationAction[]|null
-     */
-    public function getActions()
-    {
-        return $this->container['actions'];
-    }
-
-    /**
-     * Sets actions
-     *
-     * @param \ActivitySmith\Generated\Model\PushNotificationAction[]|null $actions Optional interactive actions shown on iOS long-press.
-     *
-     * @return self
-     */
-    public function setActions($actions)
-    {
-        if (is_null($actions)) {
-            throw new \InvalidArgumentException('non-nullable actions cannot be null');
-        }
-
-        if ((count($actions) > 4)) {
-            throw new \InvalidArgumentException('invalid value for $actions when calling PushNotificationRequest., number of items must be less than or equal to 4.');
-        }
-        $this->container['actions'] = $actions;
-
-        return $this;
-    }
-
-    /**
-     * Gets payload
+     * Gets body
      *
      * @return array<string,mixed>|null
      */
-    public function getPayload()
+    public function getBody()
     {
-        return $this->container['payload'];
+        return $this->container['body'];
     }
 
     /**
-     * Sets payload
+     * Sets body
      *
-     * @param array<string,mixed>|null $payload payload
+     * @param array<string,mixed>|null $body Optional webhook payload body. Used only when type=webhook.
      *
      * @return self
      */
-    public function setPayload($payload)
+    public function setBody($body)
     {
-        if (is_null($payload)) {
-            throw new \InvalidArgumentException('non-nullable payload cannot be null');
+        if (is_null($body)) {
+            throw new \InvalidArgumentException('non-nullable body cannot be null');
         }
-        $this->container['payload'] = $payload;
-
-        return $this;
-    }
-
-    /**
-     * Gets badge
-     *
-     * @return int|null
-     */
-    public function getBadge()
-    {
-        return $this->container['badge'];
-    }
-
-    /**
-     * Sets badge
-     *
-     * @param int|null $badge badge
-     *
-     * @return self
-     */
-    public function setBadge($badge)
-    {
-        if (is_null($badge)) {
-            throw new \InvalidArgumentException('non-nullable badge cannot be null');
-        }
-        $this->container['badge'] = $badge;
-
-        return $this;
-    }
-
-    /**
-     * Gets sound
-     *
-     * @return string|null
-     */
-    public function getSound()
-    {
-        return $this->container['sound'];
-    }
-
-    /**
-     * Sets sound
-     *
-     * @param string|null $sound sound
-     *
-     * @return self
-     */
-    public function setSound($sound)
-    {
-        if (is_null($sound)) {
-            throw new \InvalidArgumentException('non-nullable sound cannot be null');
-        }
-        $this->container['sound'] = $sound;
-
-        return $this;
-    }
-
-    /**
-     * Gets target
-     *
-     * @return \ActivitySmith\Generated\Model\ChannelTarget|null
-     */
-    public function getTarget()
-    {
-        return $this->container['target'];
-    }
-
-    /**
-     * Sets target
-     *
-     * @param \ActivitySmith\Generated\Model\ChannelTarget|null $target target
-     *
-     * @return self
-     */
-    public function setTarget($target)
-    {
-        if (is_null($target)) {
-            throw new \InvalidArgumentException('non-nullable target cannot be null');
-        }
-        $this->container['target'] = $target;
+        $this->container['body'] = $body;
 
         return $this;
     }
