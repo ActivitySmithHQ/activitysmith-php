@@ -36,6 +36,19 @@ $activitysmith = new ActivitySmith($_ENV['ACTIVITYSMITH_API_KEY']);
 $response = $activitysmith->notifications->send([
     'title' => 'New subscription 💸',
     'message' => 'Customer upgraded to Pro plan',
+]);
+
+echo $response->getSuccess() ? 'true' : 'false';
+echo PHP_EOL;
+echo $response->getDevicesNotified();
+```
+
+Optional push features (`channels`, `redirection`, `actions`):
+
+```php
+$response = $activitysmith->notifications->send([
+    'title' => 'New subscription 💸',
+    'message' => 'Customer upgraded to Pro plan',
     'redirection' => 'https://crm.example.com/customers/cus_9f3a1d', // Optional
     'actions' => [ // Optional (max 4)
         [
