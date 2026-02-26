@@ -43,38 +43,6 @@ echo PHP_EOL;
 echo $response->getDevicesNotified();
 ```
 
-Optional push features (`channels`, `redirection`, `actions`):
-
-```php
-$response = $activitysmith->notifications->send([
-    'title' => 'New subscription 💸',
-    'message' => 'Customer upgraded to Pro plan',
-    'redirection' => 'https://crm.example.com/customers/cus_9f3a1d', // Optional
-    'actions' => [ // Optional (max 4)
-        [
-            'title' => 'Open CRM Profile',
-            'type' => 'open_url',
-            'url' => 'https://crm.example.com/customers/cus_9f3a1d',
-        ],
-        [
-            'title' => 'Start Onboarding Workflow',
-            'type' => 'webhook',
-            'url' => 'https://hooks.example.com/activitysmith/onboarding/start',
-            'method' => 'POST',
-            'body' => [
-                'customer_id' => 'cus_9f3a1d',
-                'plan' => 'pro',
-            ],
-        ],
-    ],
-    'channels' => ['sales', 'customer-success'], // Optional
-]);
-
-echo $response->getSuccess() ? 'true' : 'false';
-echo PHP_EOL;
-echo $response->getDevicesNotified();
-```
-
 ### Start a Live Activity
 
 <p align="center">
@@ -136,6 +104,48 @@ $end = $activitysmith->liveActivities->end([
 echo $end->getSuccess() ? 'true' : 'false';
 ```
 
+## Channels
+
+Channels are used to target specific team members or devices. Can be used for both push notifications and live activities.
+
+```php
+$response = $activitysmith->notifications->send([
+    'title' => 'New subscription 💸',
+    'message' => 'Customer upgraded to Pro plan',
+    'channels' => ['sales', 'customer-success'], // Optional
+]);
+```
+
+## Push Notification Redirection and Actions
+
+Push notification redirection and actions are optional and can be used to redirect the user to a specific URL when they tap the notification or to trigger a specific action when they long-press the notification.
+Webhooks are executed by ActivitySmith backend.
+
+```php
+$response = $activitysmith->notifications->send([
+    'title' => 'New subscription 💸',
+    'message' => 'Customer upgraded to Pro plan',
+    'redirection' => 'https://crm.example.com/customers/cus_9f3a1d', // Optional
+    'actions' => [ // Optional (max 4)
+        [
+            'title' => 'Open CRM Profile',
+            'type' => 'open_url',
+            'url' => 'https://crm.example.com/customers/cus_9f3a1d',
+        ],
+        [
+            'title' => 'Start Onboarding Workflow',
+            'type' => 'webhook',
+            'url' => 'https://hooks.example.com/activitysmith/onboarding/start',
+            'method' => 'POST',
+            'body' => [
+                'customer_id' => 'cus_9f3a1d',
+                'plan' => 'pro',
+            ],
+        ],
+    ],
+]);
+```
+
 ## Error Handling
 
 ```php
@@ -147,11 +157,6 @@ try {
     echo 'Request failed: ' . $err->getMessage() . PHP_EOL;
 }
 ```
-
-## API Surface
-
-- `$activitysmith->notifications`
-- `$activitysmith->liveActivities`
 
 ## Requirements
 
