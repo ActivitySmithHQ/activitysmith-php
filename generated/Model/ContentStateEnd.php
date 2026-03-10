@@ -35,7 +35,7 @@ use \ActivitySmith\Generated\ObjectSerializer;
  * ContentStateEnd Class Doc Comment
  *
  * @category Class
- * @description End payload requires title. For segmented_progress include current_step and optionally number_of_steps. For progress include percentage or value with upper_limit. Type is optional when ending an existing activity.
+ * @description End payload requires title. For segmented_progress include current_step and optionally number_of_steps. For progress include percentage or value with upper_limit. Type is optional when ending an existing activity. You can send an updated number_of_steps here if the workflow changed after start.
  * @package  ActivitySmith\Generated
  * @author   OpenAPI Generator team
  * @link     https://openapi-generator.tech
@@ -550,7 +550,7 @@ class ContentStateEnd implements ModelInterface, ArrayAccess, \JsonSerializable
     /**
      * Sets numberOfSteps
      *
-     * @param int|null $numberOfSteps Total number of steps. Use for type=segmented_progress.
+     * @param int|null $numberOfSteps Total number of steps. Use for type=segmented_progress. Optional on end, and safe to change if the final workflow used more or fewer steps than originally planned.
      *
      * @return self
      */

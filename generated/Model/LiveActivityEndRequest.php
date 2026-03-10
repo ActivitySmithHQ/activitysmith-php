@@ -35,6 +35,7 @@ use \ActivitySmith\Generated\ObjectSerializer;
  * LiveActivityEndRequest Class Doc Comment
  *
  * @category Class
+ * @description End an existing Live Activity by activity_id.
  * @package  ActivitySmith\Generated
  * @author   OpenAPI Generator team
  * @link     https://openapi-generator.tech
