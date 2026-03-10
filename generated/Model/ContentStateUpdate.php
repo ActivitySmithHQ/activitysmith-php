@@ -35,7 +35,7 @@ use \ActivitySmith\Generated\ObjectSerializer;
  * ContentStateUpdate Class Doc Comment
  *
  * @category Class
- * @description Update payload. Required fields are title and current_step. number_of_steps is optional.
+ * @description Update payload requires title. For segmented_progress include current_step and optionally number_of_steps. For progress include percentage or value with upper_limit. Type is optional when updating an existing activity.
  * @package  ActivitySmith\Generated
  * @author   OpenAPI Generator team
  * @link     https://openapi-generator.tech
@@ -62,6 +62,10 @@ class ContentStateUpdate implements ModelInterface, ArrayAccess, \JsonSerializab
         'subtitle' => 'string',
         'numberOfSteps' => 'int',
         'currentStep' => 'int',
+        'percentage' => 'float',
+        'value' => 'float',
+        'upperLimit' => 'float',
+        'type' => 'string',
         'color' => 'string',
         'stepColor' => 'string'
     ];
@@ -78,6 +82,10 @@ class ContentStateUpdate implements ModelInterface, ArrayAccess, \JsonSerializab
         'subtitle' => null,
         'numberOfSteps' => null,
         'currentStep' => null,
+        'percentage' => null,
+        'value' => null,
+        'upperLimit' => null,
+        'type' => null,
         'color' => null,
         'stepColor' => null
     ];
@@ -92,6 +100,10 @@ class ContentStateUpdate implements ModelInterface, ArrayAccess, \JsonSerializab
         'subtitle' => false,
         'numberOfSteps' => false,
         'currentStep' => false,
+        'percentage' => false,
+        'value' => false,
+        'upperLimit' => false,
+        'type' => false,
         'color' => false,
         'stepColor' => false
     ];
@@ -186,6 +198,10 @@ class ContentStateUpdate implements ModelInterface, ArrayAccess, \JsonSerializab
         'subtitle' => 'subtitle',
         'numberOfSteps' => 'number_of_steps',
         'currentStep' => 'current_step',
+        'percentage' => 'percentage',
+        'value' => 'value',
+        'upperLimit' => 'upper_limit',
+        'type' => 'type',
         'color' => 'color',
         'stepColor' => 'step_color'
     ];
@@ -200,6 +216,10 @@ class ContentStateUpdate implements ModelInterface, ArrayAccess, \JsonSerializab
         'subtitle' => 'setSubtitle',
         'numberOfSteps' => 'setNumberOfSteps',
         'currentStep' => 'setCurrentStep',
+        'percentage' => 'setPercentage',
+        'value' => 'setValue',
+        'upperLimit' => 'setUpperLimit',
+        'type' => 'setType',
         'color' => 'setColor',
         'stepColor' => 'setStepColor'
     ];
@@ -214,6 +234,10 @@ class ContentStateUpdate implements ModelInterface, ArrayAccess, \JsonSerializab
         'subtitle' => 'getSubtitle',
         'numberOfSteps' => 'getNumberOfSteps',
         'currentStep' => 'getCurrentStep',
+        'percentage' => 'getPercentage',
+        'value' => 'getValue',
+        'upperLimit' => 'getUpperLimit',
+        'type' => 'getType',
         'color' => 'getColor',
         'stepColor' => 'getStepColor'
     ];
@@ -259,6 +283,8 @@ class ContentStateUpdate implements ModelInterface, ArrayAccess, \JsonSerializab
         return self::$openAPIModelName;
     }
 
+    public const TYPE_SEGMENTED_PROGRESS = 'segmented_progress';
+    public const TYPE_PROGRESS = 'progress';
     public const COLOR_LIME = 'lime';
     public const COLOR_GREEN = 'green';
     public const COLOR_CYAN = 'cyan';
@@ -277,6 +303,19 @@ class ContentStateUpdate implements ModelInterface, ArrayAccess, \JsonSerializab
     public const STEP_COLOR_RED = 'red';
     public const STEP_COLOR_ORANGE = 'orange';
     public const STEP_COLOR_YELLOW = 'yellow';
+
+    /**
+     * Gets allowable values of the enum
+     *
+     * @return string[]
+     */
+    public function getTypeAllowableValues()
+    {
+        return [
+            self::TYPE_SEGMENTED_PROGRESS,
+            self::TYPE_PROGRESS,
+        ];
+    }
 
     /**
      * Gets allowable values of the enum
@@ -337,6 +376,10 @@ class ContentStateUpdate implements ModelInterface, ArrayAccess, \JsonSerializab
         $this->setIfExists('subtitle', $data ?? [], null);
         $this->setIfExists('numberOfSteps', $data ?? [], null);
         $this->setIfExists('currentStep', $data ?? [], null);
+        $this->setIfExists('percentage', $data ?? [], null);
+        $this->setIfExists('value', $data ?? [], null);
+        $this->setIfExists('upperLimit', $data ?? [], null);
+        $this->setIfExists('type', $data ?? [], null);
         $this->setIfExists('color', $data ?? [], 'blue');
         $this->setIfExists('stepColor', $data ?? [], null);
     }
@@ -375,11 +418,25 @@ class ContentStateUpdate implements ModelInterface, ArrayAccess, \JsonSerializab
             $invalidProperties[] = "invalid value for 'numberOfSteps', must be bigger than or equal to 1.";
         }
 
-        if ($this->container['currentStep'] === null) {
-            $invalidProperties[] = "'currentStep' can't be null";
-        }
-        if (($this->container['currentStep'] < 1)) {
+        if (!is_null($this->container['currentStep']) && ($this->container['currentStep'] < 1)) {
             $invalidProperties[] = "invalid value for 'currentStep', must be bigger than or equal to 1.";
+        }
+
+        if (!is_null($this->container['percentage']) && ($this->container['percentage'] > 100)) {
+            $invalidProperties[] = "invalid value for 'percentage', must be smaller than or equal to 100.";
+        }
+
+        if (!is_null($this->container['percentage']) && ($this->container['percentage'] < 0)) {
+            $invalidProperties[] = "invalid value for 'percentage', must be bigger than or equal to 0.";
+        }
+
+        $allowedValues = $this->getTypeAllowableValues();
+        if (!is_null($this->container['type']) && !in_array($this->container['type'], $allowedValues, true)) {
+            $invalidProperties[] = sprintf(
+                "invalid value '%s' for 'type', must be one of '%s'",
+                $this->container['type'],
+                implode("', '", $allowedValues)
+            );
         }
 
         $allowedValues = $this->getColorAllowableValues();
@@ -482,7 +539,7 @@ class ContentStateUpdate implements ModelInterface, ArrayAccess, \JsonSerializab
     /**
      * Sets numberOfSteps
      *
-     * @param int|null $numberOfSteps numberOfSteps
+     * @param int|null $numberOfSteps Total number of steps. Use for type=segmented_progress.
      *
      * @return self
      */
@@ -504,7 +561,7 @@ class ContentStateUpdate implements ModelInterface, ArrayAccess, \JsonSerializab
     /**
      * Gets currentStep
      *
-     * @return int
+     * @return int|null
      */
     public function getCurrentStep()
     {
@@ -514,7 +571,7 @@ class ContentStateUpdate implements ModelInterface, ArrayAccess, \JsonSerializab
     /**
      * Sets currentStep
      *
-     * @param int $currentStep currentStep
+     * @param int|null $currentStep Current step. Use for type=segmented_progress.
      *
      * @return self
      */
@@ -529,6 +586,132 @@ class ContentStateUpdate implements ModelInterface, ArrayAccess, \JsonSerializab
         }
 
         $this->container['currentStep'] = $currentStep;
+
+        return $this;
+    }
+
+    /**
+     * Gets percentage
+     *
+     * @return float|null
+     */
+    public function getPercentage()
+    {
+        return $this->container['percentage'];
+    }
+
+    /**
+     * Sets percentage
+     *
+     * @param float|null $percentage Progress percentage (0–100). Use for type=progress. Takes precedence over value/upper_limit if both are provided.
+     *
+     * @return self
+     */
+    public function setPercentage($percentage)
+    {
+        if (is_null($percentage)) {
+            throw new \InvalidArgumentException('non-nullable percentage cannot be null');
+        }
+
+        if (($percentage > 100)) {
+            throw new \InvalidArgumentException('invalid value for $percentage when calling ContentStateUpdate., must be smaller than or equal to 100.');
+        }
+        if (($percentage < 0)) {
+            throw new \InvalidArgumentException('invalid value for $percentage when calling ContentStateUpdate., must be bigger than or equal to 0.');
+        }
+
+        $this->container['percentage'] = $percentage;
+
+        return $this;
+    }
+
+    /**
+     * Gets value
+     *
+     * @return float|null
+     */
+    public function getValue()
+    {
+        return $this->container['value'];
+    }
+
+    /**
+     * Sets value
+     *
+     * @param float|null $value Current progress value. Use with upper_limit for type=progress.
+     *
+     * @return self
+     */
+    public function setValue($value)
+    {
+        if (is_null($value)) {
+            throw new \InvalidArgumentException('non-nullable value cannot be null');
+        }
+        $this->container['value'] = $value;
+
+        return $this;
+    }
+
+    /**
+     * Gets upperLimit
+     *
+     * @return float|null
+     */
+    public function getUpperLimit()
+    {
+        return $this->container['upperLimit'];
+    }
+
+    /**
+     * Sets upperLimit
+     *
+     * @param float|null $upperLimit Maximum progress value. Use with value for type=progress.
+     *
+     * @return self
+     */
+    public function setUpperLimit($upperLimit)
+    {
+        if (is_null($upperLimit)) {
+            throw new \InvalidArgumentException('non-nullable upperLimit cannot be null');
+        }
+        $this->container['upperLimit'] = $upperLimit;
+
+        return $this;
+    }
+
+    /**
+     * Gets type
+     *
+     * @return string|null
+     */
+    public function getType()
+    {
+        return $this->container['type'];
+    }
+
+    /**
+     * Sets type
+     *
+     * @param string|null $type Optional. When omitted, the API uses the existing Live Activity type.
+     *
+     * @return self
+     */
+    public function setType($type)
+    {
+        if (is_null($type)) {
+            throw new \InvalidArgumentException('non-nullable type cannot be null');
+        }
+        $allowedValues = $this->getTypeAllowableValues();
+        if (!in_array($type, $allowedValues, true)) {
+            throw new \InvalidArgumentException(
+                sprintf(
+                    "Invalid value '%s' for 'type', must be one of '%s'",
+                    $type,
+                    implode("', '", $allowedValues)
+                )
+            );
+        }
+        $this->container['type'] = $type;
 
         return $this;
     }
@@ -583,7 +766,7 @@ class ContentStateUpdate implements ModelInterface, ArrayAccess, \JsonSerializab
     /**
      * Sets stepColor
      *
-     * @param string|null $stepColor Optional. Overrides color for the current step.
+     * @param string|null $stepColor Optional. Overrides color for the current step. Only applies to type=segmented_progress.
      *
      * @return self
      */
