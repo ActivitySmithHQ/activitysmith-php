@@ -35,7 +35,7 @@ use \ActivitySmith\Generated\ObjectSerializer;
  * ContentStateStart Class Doc Comment
  *
  * @category Class
- * @description Start payload requires title and type. For segmented_progress include number_of_steps and current_step. For progress include percentage or value with upper_limit.
+ * @description Start payload requires title and type. For segmented_progress include number_of_steps and current_step. For progress include percentage or value with upper_limit. For segmented_progress, number_of_steps is not locked and can be changed in later update or end calls.
  * @package  ActivitySmith\Generated
  * @author   OpenAPI Generator team
  * @link     https://openapi-generator.tech
@@ -542,7 +542,7 @@ class ContentStateStart implements ModelInterface, ArrayAccess, \JsonSerializabl
     /**
      * Sets numberOfSteps
      *
-     * @param int|null $numberOfSteps Total number of steps. Use for type=segmented_progress.
+     * @param int|null $numberOfSteps Total number of steps. Use for type=segmented_progress. This value can be increased or decreased later when updating or ending the same activity.
      *
      * @return self
      */

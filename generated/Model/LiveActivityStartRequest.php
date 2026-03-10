@@ -35,6 +35,7 @@ use \ActivitySmith\Generated\ObjectSerializer;
  * LiveActivityStartRequest Class Doc Comment
  *
  * @category Class
+ * @description Start a new Live Activity. The response includes activity_id for later update and end calls.
  * @package  ActivitySmith\Generated
  * @author   OpenAPI Generator team
  * @link     https://openapi-generator.tech

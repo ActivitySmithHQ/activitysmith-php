@@ -35,6 +35,7 @@ use \ActivitySmith\Generated\ObjectSerializer;
  * LiveActivityUpdateResponse Class Doc Comment
  *
  * @category Class
+ * @description Returned after a Live Activity update is sent or queued.
  * @package  ActivitySmith\Generated
  * @author   OpenAPI Generator team
  * @link     https://openapi-generator.tech
