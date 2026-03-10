@@ -192,6 +192,43 @@ final class ResourcesTest extends TestCase
         );
     }
 
+    public function testLiveActivitiesSupportProgressPayloads(): void
+    {
+        $captured = [];
+        $response = (object) ['success' => true];
+
+        $api = $this->getMockBuilder(LiveActivitiesApi::class)
+            ->disableOriginalConstructor()
+            ->onlyMethods(['startLiveActivity'])
+            ->getMock();
+
+        $api->expects($this->once())
+            ->method('startLiveActivity')
+            ->willReturnCallback(function (...$args) use (&$captured, $response) {
+                $captured[] = $args;
+                return $response;
+            });
+
+        $resource = new LiveActivities($api);
+        $payload = [
+            'content_state' => [
+                'title' => 'Render export',
+                'subtitle' => 'encoding frames',
+                'type' => 'progress',
+                'percentage' => 67,
+                'color' => 'purple',
+            ],
+        ];
+
+        $this->assertSame($response, $resource->start($payload));
+        $this->assertSame(
+            [
+                [$payload, LiveActivitiesApi::contentTypes['startLiveActivity'][0]],
+            ],
+            $captured
+        );
+    }
+
     public function testResourcePassthroughMethods(): void
     {
         $payload = ['title' => 'Build Failed'];

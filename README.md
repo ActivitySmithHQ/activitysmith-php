@@ -65,6 +65,20 @@ $start = $activitysmith->liveActivities->start([
 $activityId = $start->getActivityId();
 ```
 
+For a simple progress bar, send `'type' => 'progress'` with `'percentage'` or `'value'` plus `'upper_limit'`.
+
+```php
+$start = $activitysmith->liveActivities->start([
+    'content_state' => [
+        'title' => 'Model fine-tuning',
+        'subtitle' => 'uploading shards',
+        'type' => 'progress',
+        'percentage' => 67,
+        'color' => 'purple',
+    ],
+]);
+```
+
 ### Update a Live Activity
 
 <p align="center">
@@ -82,6 +96,21 @@ $update = $activitysmith->liveActivities->update([
 ]);
 
 echo $update->getDevicesNotified();
+```
+
+Progress update example:
+
+```php
+$activitysmith->liveActivities->update([
+    'activity_id' => $activityId,
+    'content_state' => [
+        'title' => 'Model fine-tuning',
+        'subtitle' => 'processing batches',
+        'type' => 'progress',
+        'value' => 241,
+        'upper_limit' => 360,
+    ],
+]);
 ```
 
 ### End a Live Activity
