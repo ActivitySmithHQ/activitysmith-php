@@ -35,7 +35,7 @@ use \ActivitySmith\Generated\ObjectSerializer;
  * ContentStateStart Class Doc Comment
  *
  * @category Class
- * @description Start payload requires title, number_of_steps, current_step, and type.
+ * @description Start payload requires title and type. For segmented_progress include number_of_steps and current_step. For progress include percentage or value with upper_limit.
  * @package  ActivitySmith\Generated
  * @author   OpenAPI Generator team
  * @link     https://openapi-generator.tech
@@ -62,6 +62,9 @@ class ContentStateStart implements ModelInterface, ArrayAccess, \JsonSerializabl
         'subtitle' => 'string',
         'numberOfSteps' => 'int',
         'currentStep' => 'int',
+        'percentage' => 'float',
+        'value' => 'float',
+        'upperLimit' => 'float',
         'type' => 'string',
         'color' => 'string',
         'stepColor' => 'string'
@@ -79,6 +82,9 @@ class ContentStateStart implements ModelInterface, ArrayAccess, \JsonSerializabl
         'subtitle' => null,
         'numberOfSteps' => null,
         'currentStep' => null,
+        'percentage' => null,
+        'value' => null,
+        'upperLimit' => null,
         'type' => null,
         'color' => null,
         'stepColor' => null
@@ -94,6 +100,9 @@ class ContentStateStart implements ModelInterface, ArrayAccess, \JsonSerializabl
         'subtitle' => false,
         'numberOfSteps' => false,
         'currentStep' => false,
+        'percentage' => false,
+        'value' => false,
+        'upperLimit' => false,
         'type' => false,
         'color' => false,
         'stepColor' => false
@@ -189,6 +198,9 @@ class ContentStateStart implements ModelInterface, ArrayAccess, \JsonSerializabl
         'subtitle' => 'subtitle',
         'numberOfSteps' => 'number_of_steps',
         'currentStep' => 'current_step',
+        'percentage' => 'percentage',
+        'value' => 'value',
+        'upperLimit' => 'upper_limit',
         'type' => 'type',
         'color' => 'color',
         'stepColor' => 'step_color'
@@ -204,6 +216,9 @@ class ContentStateStart implements ModelInterface, ArrayAccess, \JsonSerializabl
         'subtitle' => 'setSubtitle',
         'numberOfSteps' => 'setNumberOfSteps',
         'currentStep' => 'setCurrentStep',
+        'percentage' => 'setPercentage',
+        'value' => 'setValue',
+        'upperLimit' => 'setUpperLimit',
         'type' => 'setType',
         'color' => 'setColor',
         'stepColor' => 'setStepColor'
@@ -219,6 +234,9 @@ class ContentStateStart implements ModelInterface, ArrayAccess, \JsonSerializabl
         'subtitle' => 'getSubtitle',
         'numberOfSteps' => 'getNumberOfSteps',
         'currentStep' => 'getCurrentStep',
+        'percentage' => 'getPercentage',
+        'value' => 'getValue',
+        'upperLimit' => 'getUpperLimit',
         'type' => 'getType',
         'color' => 'getColor',
         'stepColor' => 'getStepColor'
@@ -266,6 +284,7 @@ class ContentStateStart implements ModelInterface, ArrayAccess, \JsonSerializabl
     }
 
     public const TYPE_SEGMENTED_PROGRESS = 'segmented_progress';
+    public const TYPE_PROGRESS = 'progress';
     public const COLOR_LIME = 'lime';
     public const COLOR_GREEN = 'green';
     public const COLOR_CYAN = 'cyan';
@@ -294,6 +313,7 @@ class ContentStateStart implements ModelInterface, ArrayAccess, \JsonSerializabl
     {
         return [
             self::TYPE_SEGMENTED_PROGRESS,
+            self::TYPE_PROGRESS,
         ];
     }
 
@@ -356,6 +376,9 @@ class ContentStateStart implements ModelInterface, ArrayAccess, \JsonSerializabl
         $this->setIfExists('subtitle', $data ?? [], null);
         $this->setIfExists('numberOfSteps', $data ?? [], null);
         $this->setIfExists('currentStep', $data ?? [], null);
+        $this->setIfExists('percentage', $data ?? [], null);
+        $this->setIfExists('value', $data ?? [], null);
+        $this->setIfExists('upperLimit', $data ?? [], null);
         $this->setIfExists('type', $data ?? [], null);
         $this->setIfExists('color', $data ?? [], 'blue');
         $this->setIfExists('stepColor', $data ?? [], null);
@@ -391,18 +414,20 @@ class ContentStateStart implements ModelInterface, ArrayAccess, \JsonSerializabl
         if ($this->container['title'] === null) {
             $invalidProperties[] = "'title' can't be null";
         }
-        if ($this->container['numberOfSteps'] === null) {
-            $invalidProperties[] = "'numberOfSteps' can't be null";
-        }
-        if (($this->container['numberOfSteps'] < 1)) {
+        if (!is_null($this->container['numberOfSteps']) && ($this->container['numberOfSteps'] < 1)) {
             $invalidProperties[] = "invalid value for 'numberOfSteps', must be bigger than or equal to 1.";
         }
 
-        if ($this->container['currentStep'] === null) {
-            $invalidProperties[] = "'currentStep' can't be null";
-        }
-        if (($this->container['currentStep'] < 1)) {
+        if (!is_null($this->container['currentStep']) && ($this->container['currentStep'] < 1)) {
             $invalidProperties[] = "invalid value for 'currentStep', must be bigger than or equal to 1.";
+        }
+
+        if (!is_null($this->container['percentage']) && ($this->container['percentage'] > 100)) {
+            $invalidProperties[] = "invalid value for 'percentage', must be smaller than or equal to 100.";
+        }
+
+        if (!is_null($this->container['percentage']) && ($this->container['percentage'] < 0)) {
+            $invalidProperties[] = "invalid value for 'percentage', must be bigger than or equal to 0.";
         }
 
         if ($this->container['type'] === null) {
@@ -507,7 +532,7 @@ class ContentStateStart implements ModelInterface, ArrayAccess, \JsonSerializabl
     /**
      * Gets numberOfSteps
      *
-     * @return int
+     * @return int|null
      */
     public function getNumberOfSteps()
     {
@@ -517,7 +542,7 @@ class ContentStateStart implements ModelInterface, ArrayAccess, \JsonSerializabl
     /**
      * Sets numberOfSteps
      *
-     * @param int $numberOfSteps numberOfSteps
+     * @param int|null $numberOfSteps Total number of steps. Use for type=segmented_progress.
      *
      * @return self
      */
@@ -539,7 +564,7 @@ class ContentStateStart implements ModelInterface, ArrayAccess, \JsonSerializabl
     /**
      * Gets currentStep
      *
-     * @return int
+     * @return int|null
      */
     public function getCurrentStep()
     {
@@ -549,7 +574,7 @@ class ContentStateStart implements ModelInterface, ArrayAccess, \JsonSerializabl
     /**
      * Sets currentStep
      *
-     * @param int $currentStep currentStep
+     * @param int|null $currentStep Current step. Use for type=segmented_progress.
      *
      * @return self
      */
@@ -564,6 +589,95 @@ class ContentStateStart implements ModelInterface, ArrayAccess, \JsonSerializabl
         }
 
         $this->container['currentStep'] = $currentStep;
+
+        return $this;
+    }
+
+    /**
+     * Gets percentage
+     *
+     * @return float|null
+     */
+    public function getPercentage()
+    {
+        return $this->container['percentage'];
+    }
+
+    /**
+     * Sets percentage
+     *
+     * @param float|null $percentage Progress percentage (0–100). Use for type=progress. Takes precedence over value/upper_limit if both are provided.
+     *
+     * @return self
+     */
+    public function setPercentage($percentage)
+    {
+        if (is_null($percentage)) {
+            throw new \InvalidArgumentException('non-nullable percentage cannot be null');
+        }
+
+        if (($percentage > 100)) {
+            throw new \InvalidArgumentException('invalid value for $percentage when calling ContentStateStart., must be smaller than or equal to 100.');
+        }
+        if (($percentage < 0)) {
+            throw new \InvalidArgumentException('invalid value for $percentage when calling ContentStateStart., must be bigger than or equal to 0.');
+        }
+
+        $this->container['percentage'] = $percentage;
+
+        return $this;
+    }
+
+    /**
+     * Gets value
+     *
+     * @return float|null
+     */
+    public function getValue()
+    {
+        return $this->container['value'];
+    }
+
+    /**
+     * Sets value
+     *
+     * @param float|null $value Current progress value. Use with upper_limit for type=progress.
+     *
+     * @return self
+     */
+    public function setValue($value)
+    {
+        if (is_null($value)) {
+            throw new \InvalidArgumentException('non-nullable value cannot be null');
+        }
+        $this->container['value'] = $value;
+
+        return $this;
+    }
+
+    /**
+     * Gets upperLimit
+     *
+     * @return float|null
+     */
+    public function getUpperLimit()
+    {
+        return $this->container['upperLimit'];
+    }
+
+    /**
+     * Sets upperLimit
+     *
+     * @param float|null $upperLimit Maximum progress value. Use with value for type=progress.
+     *
+     * @return self
+     */
+    public function setUpperLimit($upperLimit)
+    {
+        if (is_null($upperLimit)) {
+            throw new \InvalidArgumentException('non-nullable upperLimit cannot be null');
+        }
+        $this->container['upperLimit'] = $upperLimit;
 
         return $this;
     }
@@ -655,7 +769,7 @@ class ContentStateStart implements ModelInterface, ArrayAccess, \JsonSerializabl
     /**
      * Sets stepColor
      *
-     * @param string|null $stepColor Optional. Overrides color for the current step.
+     * @param string|null $stepColor Optional. Overrides color for the current step. Only applies to type=segmented_progress.
      *
      * @return self
      */
