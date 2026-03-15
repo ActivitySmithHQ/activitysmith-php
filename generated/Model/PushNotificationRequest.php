@@ -60,6 +60,7 @@ class PushNotificationRequest implements ModelInterface, ArrayAccess, \JsonSeria
         'title' => 'string',
         'message' => 'string',
         'subtitle' => 'string',
+        'media' => 'string',
         'redirection' => 'string',
         'actions' => '\ActivitySmith\Generated\Model\PushNotificationAction[]',
         'payload' => 'array<string,mixed>',
@@ -79,6 +80,7 @@ class PushNotificationRequest implements ModelInterface, ArrayAccess, \JsonSeria
         'title' => null,
         'message' => null,
         'subtitle' => null,
+        'media' => 'uri',
         'redirection' => 'uri',
         'actions' => null,
         'payload' => null,
@@ -96,6 +98,7 @@ class PushNotificationRequest implements ModelInterface, ArrayAccess, \JsonSeria
         'title' => false,
         'message' => false,
         'subtitle' => false,
+        'media' => false,
         'redirection' => false,
         'actions' => false,
         'payload' => false,
@@ -193,6 +196,7 @@ class PushNotificationRequest implements ModelInterface, ArrayAccess, \JsonSeria
         'title' => 'title',
         'message' => 'message',
         'subtitle' => 'subtitle',
+        'media' => 'media',
         'redirection' => 'redirection',
         'actions' => 'actions',
         'payload' => 'payload',
@@ -210,6 +214,7 @@ class PushNotificationRequest implements ModelInterface, ArrayAccess, \JsonSeria
         'title' => 'setTitle',
         'message' => 'setMessage',
         'subtitle' => 'setSubtitle',
+        'media' => 'setMedia',
         'redirection' => 'setRedirection',
         'actions' => 'setActions',
         'payload' => 'setPayload',
@@ -227,6 +232,7 @@ class PushNotificationRequest implements ModelInterface, ArrayAccess, \JsonSeria
         'title' => 'getTitle',
         'message' => 'getMessage',
         'subtitle' => 'getSubtitle',
+        'media' => 'getMedia',
         'redirection' => 'getRedirection',
         'actions' => 'getActions',
         'payload' => 'getPayload',
@@ -295,6 +301,7 @@ class PushNotificationRequest implements ModelInterface, ArrayAccess, \JsonSeria
         $this->setIfExists('title', $data ?? [], null);
         $this->setIfExists('message', $data ?? [], null);
         $this->setIfExists('subtitle', $data ?? [], null);
+        $this->setIfExists('media', $data ?? [], null);
         $this->setIfExists('redirection', $data ?? [], null);
         $this->setIfExists('actions', $data ?? [], null);
         $this->setIfExists('payload', $data ?? [], null);
@@ -333,6 +340,10 @@ class PushNotificationRequest implements ModelInterface, ArrayAccess, \JsonSeria
         if ($this->container['title'] === null) {
             $invalidProperties[] = "'title' can't be null";
         }
+        if (!is_null($this->container['media']) && !preg_match("/^https:\/\//", $this->container['media'])) {
+            $invalidProperties[] = "invalid value for 'media', must be conform to the pattern /^https:\/\//.";
+        }
+
         if (!is_null($this->container['redirection']) && !preg_match("/^https:\/\//", $this->container['redirection'])) {
             $invalidProperties[] = "invalid value for 'redirection', must be conform to the pattern /^https:\/\//.";
         }
@@ -438,6 +449,38 @@ class PushNotificationRequest implements ModelInterface, ArrayAccess, \JsonSeria
     }
 
     /**
+     * Gets media
+     *
+     * @return string|null
+     */
+    public function getMedia()
+    {
+        return $this->container['media'];
+    }
+
+    /**
+     * Sets media
+     *
+     * @param string|null $media Optional HTTPS URL for an image, audio file, or video that users can preview or play when they expand the notification. If `redirection` is omitted, tapping the notification opens this URL. Cannot be combined with `actions`.
+     *
+     * @return self
+     */
+    public function setMedia($media)
+    {
+        if (is_null($media)) {
+            throw new \InvalidArgumentException('non-nullable media cannot be null');
+        }
+
+        if ((!preg_match("/^https:\/\//", ObjectSerializer::toString($media)))) {
+            throw new \InvalidArgumentException("invalid value for \$media when calling PushNotificationRequest., must conform to the pattern /^https:\/\//.");
+        }
+
+        $this->container['media'] = $media;
+
+        return $this;
+    }
+
+    /**
      * Gets redirection
      *
      * @return string|null
@@ -450,7 +493,7 @@ class PushNotificationRequest implements ModelInterface, ArrayAccess, \JsonSeria
     /**
      * Sets redirection
      *
-     * @param string|null $redirection Optional HTTPS URL opened when user taps the notification body.
+     * @param string|null $redirection Optional HTTPS URL opened when user taps the notification body. Overrides the default tap target from `media` when both are provided.
      *
      * @return self
      */
@@ -482,7 +525,7 @@ class PushNotificationRequest implements ModelInterface, ArrayAccess, \JsonSeria
     /**
      * Sets actions
      *
-     * @param \ActivitySmith\Generated\Model\PushNotificationAction[]|null $actions Optional interactive actions shown on iOS long-press.
+     * @param \ActivitySmith\Generated\Model\PushNotificationAction[]|null $actions Optional interactive actions shown when users expand the notification. Cannot be combined with `media`.
      *
      * @return self
      */
