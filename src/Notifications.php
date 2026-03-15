@@ -5,6 +5,7 @@ declare(strict_types=1);
 namespace ActivitySmith;
 
 use ActivitySmith\Generated\Api\PushNotificationsApi;
+use InvalidArgumentException;
 
 final class Notifications
 {
@@ -14,7 +15,10 @@ final class Notifications
 
     public function send(mixed $request): mixed
     {
-        return $this->api->sendPushNotification($this->normalizeTargetChannels($request));
+        $normalized = $this->normalizeTargetChannels($request);
+        $this->assertValidMediaActionsCombination($normalized);
+
+        return $this->api->sendPushNotification($normalized);
     }
 
     // Backward-compatible alias.
@@ -22,8 +26,11 @@ final class Notifications
         mixed $pushNotificationRequest,
         string $contentType = PushNotificationsApi::contentTypes['sendPushNotification'][0]
     ): mixed {
+        $normalized = $this->normalizeTargetChannels($pushNotificationRequest);
+        $this->assertValidMediaActionsCombination($normalized);
+
         return $this->api->sendPushNotification(
-            $this->normalizeTargetChannels($pushNotificationRequest),
+            $normalized,
             $contentType
         );
     }
@@ -56,5 +63,36 @@ final class Notifications
         }
 
         return $request;
+    }
+
+    private function assertValidMediaActionsCombination(mixed $request): void
+    {
+        $media = $this->getRequestField($request, 'media');
+        $actions = $this->getRequestField($request, 'actions');
+
+        $hasMedia = is_string($media) ? trim($media) !== '' : $media !== null;
+        $hasActions = is_countable($actions) ? count($actions) > 0 : $actions !== null;
+
+        if ($hasMedia && $hasActions) {
+            throw new InvalidArgumentException('ActivitySmith: media cannot be combined with actions');
+        }
+    }
+
+    private function getRequestField(mixed $request, string $field): mixed
+    {
+        if (is_array($request)) {
+            return $request[$field] ?? null;
+        }
+
+        if (!is_object($request)) {
+            return null;
+        }
+
+        $getter = 'get' . ucfirst($field);
+        if (method_exists($request, $getter)) {
+            return $request->{$getter}();
+        }
+
+        return property_exists($request, $field) ? $request->{$field} : null;
     }
 }
