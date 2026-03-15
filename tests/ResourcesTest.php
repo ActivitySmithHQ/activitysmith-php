@@ -73,6 +73,66 @@ final class ResourcesTest extends TestCase
         );
     }
 
+    public function testNotificationsPreserveMediaAndRedirection(): void
+    {
+        $captured = [];
+        $response = (object) ['success' => true];
+
+        $api = $this->getMockBuilder(PushNotificationsApi::class)
+            ->disableOriginalConstructor()
+            ->onlyMethods(['sendPushNotification'])
+            ->getMock();
+
+        $api->expects($this->once())
+            ->method('sendPushNotification')
+            ->willReturnCallback(function (...$args) use (&$captured, $response) {
+                $captured[] = $args;
+                return $response;
+            });
+
+        $resource = new Notifications($api);
+        $payload = [
+            'title' => 'Voice Over Generated',
+            'media' => 'https://cdn.activitysmith.com/voice_over.mp3',
+            'redirection' => 'https://studio.acme.com/voice-overs/482/review',
+        ];
+
+        $this->assertSame($response, $resource->send($payload));
+        $this->assertSame(
+            [
+                [$payload, PushNotificationsApi::contentTypes['sendPushNotification'][0]],
+            ],
+            $captured
+        );
+    }
+
+    public function testNotificationsRejectMediaAndActionsCombination(): void
+    {
+        $api = $this->getMockBuilder(PushNotificationsApi::class)
+            ->disableOriginalConstructor()
+            ->onlyMethods(['sendPushNotification'])
+            ->getMock();
+
+        $api->expects($this->never())->method('sendPushNotification');
+
+        $resource = new Notifications($api);
+
+        $this->expectException(\InvalidArgumentException::class);
+        $this->expectExceptionMessage('ActivitySmith: media cannot be combined with actions');
+
+        $resource->send([
+            'title' => 'Voice Over Generated',
+            'media' => 'https://cdn.activitysmith.com/voice_over.mp3',
+            'actions' => [
+                [
+                    'title' => 'Open',
+                    'type' => 'open_url',
+                    'url' => 'https://example.com',
+                ],
+            ],
+        ]);
+    }
+
     public function testLiveActivitiesShortAndLegacyMethods(): void
     {
         $startPayload = ['content_state' => ['title' => 'Deploy', 'number_of_steps' => 4, 'current_step' => 1, 'type' => 'segmented_progress']];

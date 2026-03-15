@@ -32,7 +32,9 @@ final class ActivitySmith
         $pushApiClass = self::PUSH_API_CLASS;
         $liveApiClass = self::LIVE_API_CLASS;
 
-        $configuration = $configurationClass::getDefaultConfiguration()->setAccessToken($apiKey);
+        $configuration = $configurationClass::getDefaultConfiguration();
+        $configuration->setAccessToken($apiKey);
+        $configuration->setUserAgent('activitysmith-php/' . Version::VERSION);
 
         $httpClient = new Client();
 
