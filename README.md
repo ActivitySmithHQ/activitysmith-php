@@ -33,14 +33,10 @@ $activitysmith = new ActivitySmith($_ENV['ACTIVITYSMITH_API_KEY']);
 </p>
 
 ```php
-$response = $activitysmith->notifications->send([
+$activitysmith->notifications->send([
     'title' => 'New subscription 💸',
     'message' => 'Customer upgraded to Pro plan',
 ]);
-
-echo $response->getSuccess() ? 'true' : 'false';
-echo PHP_EOL;
-echo $response->getDevicesNotified();
 ```
 
 ## Live Activities
@@ -96,7 +92,7 @@ $activityId = $start->getActivityId();
 </p>
 
 ```php
-$update = $activitysmith->liveActivities->update([
+$activitysmith->liveActivities->update([
     'activity_id' => $activityId,
     'content_state' => [
         'title' => 'Nightly database backup',
@@ -105,8 +101,6 @@ $update = $activitysmith->liveActivities->update([
         'current_step' => 2,
     ],
 ]);
-
-echo $update->getDevicesNotified();
 ```
 
 #### End
@@ -116,7 +110,7 @@ echo $update->getDevicesNotified();
 </p>
 
 ```php
-$end = $activitysmith->liveActivities->end([
+$activitysmith->liveActivities->end([
     'activity_id' => $activityId,
     'content_state' => [
         'title' => 'Nightly database backup',
@@ -126,8 +120,6 @@ $end = $activitysmith->liveActivities->end([
         'auto_dismiss_minutes' => 2,
     ],
 ]);
-
-echo $end->getSuccess() ? 'true' : 'false';
 ```
 
 ### Progress Type
@@ -196,7 +188,7 @@ $activitysmith->liveActivities->end([
 Channels are used to target specific team members or devices. Can be used for both push notifications and live activities.
 
 ```php
-$response = $activitysmith->notifications->send([
+$activitysmith->notifications->send([
     'title' => 'New subscription 💸',
     'message' => 'Customer upgraded to Pro plan',
     'channels' => ['sales', 'customer-success'], // Optional
@@ -210,7 +202,7 @@ $response = $activitysmith->notifications->send([
 </p>
 
 ```php
-$response = $activitysmith->notifications->send([
+$activitysmith->notifications->send([
     'title' => 'Homepage ready',
     'message' => 'Your agent finished the redesign.',
     'media' => 'https://cdn.example.com/output/homepage-v2.png',
@@ -231,13 +223,17 @@ What will work:
 - direct video file URL: `.mp4`, `.mov`, etc.
 - URL that responds with a proper media `Content-Type`, even if the path has no extension
 
-## Push Notification Redirection and Actions
+## Actionable Push Notifications
 
-Push notification redirection and actions are optional and can be used to redirect the user to a specific URL when they tap the notification or to trigger a specific action when they long-press the notification.
-Webhooks are executed by ActivitySmith backend.
+<p align="center">
+  <img src="https://cdn.activitysmith.com/features/actionable-push-notifications-2.png" alt="Actionable push notification example" width="680" />
+</p>
+
+Actionable push notifications can open a URL on tap or trigger actions when someone long-presses the notification.
+Webhooks are executed by the ActivitySmith backend.
 
 ```php
-$response = $activitysmith->notifications->send([
+$activitysmith->notifications->send([
     'title' => 'New subscription 💸',
     'message' => 'Customer upgraded to Pro plan',
     'redirection' => 'https://crm.example.com/customers/cus_9f3a1d', // Optional
