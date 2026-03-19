@@ -1,6 +1,6 @@
 <?php
 /**
- * LiveActivityUpdateRequest
+ * LiveActivityAction
  *
  * PHP version 7.4
  *
@@ -32,16 +32,16 @@ use \ArrayAccess;
 use \ActivitySmith\Generated\ObjectSerializer;
 
 /**
- * LiveActivityUpdateRequest Class Doc Comment
+ * LiveActivityAction Class Doc Comment
  *
  * @category Class
- * @description Update an existing Live Activity by activity_id.
+ * @description Optional single action button shown in the Live Activity UI.
  * @package  ActivitySmith\Generated
  * @author   OpenAPI Generator team
  * @link     https://openapi-generator.tech
  * @implements \ArrayAccess<string, mixed>
  */
-class LiveActivityUpdateRequest implements ModelInterface, ArrayAccess, \JsonSerializable
+class LiveActivityAction implements ModelInterface, ArrayAccess, \JsonSerializable
 {
     public const DISCRIMINATOR = null;
 
@@ -50,7 +50,7 @@ class LiveActivityUpdateRequest implements ModelInterface, ArrayAccess, \JsonSer
       *
       * @var string
       */
-    protected static $openAPIModelName = 'LiveActivityUpdateRequest';
+    protected static $openAPIModelName = 'LiveActivityAction';
 
     /**
       * Array of property to type mappings. Used for (de)serialization
@@ -58,9 +58,11 @@ class LiveActivityUpdateRequest implements ModelInterface, ArrayAccess, \JsonSer
       * @var string[]
       */
     protected static $openAPITypes = [
-        'activityId' => 'string',
-        'contentState' => '\ActivitySmith\Generated\Model\ContentStateUpdate',
-        'action' => '\ActivitySmith\Generated\Model\LiveActivityAction'
+        'title' => 'string',
+        'type' => '\ActivitySmith\Generated\Model\LiveActivityActionType',
+        'url' => 'string',
+        'method' => '\ActivitySmith\Generated\Model\LiveActivityWebhookMethod',
+        'body' => 'array<string,mixed>'
     ];
 
     /**
@@ -71,9 +73,11 @@ class LiveActivityUpdateRequest implements ModelInterface, ArrayAccess, \JsonSer
       * @psalm-var array<string, string|null>
       */
     protected static $openAPIFormats = [
-        'activityId' => null,
-        'contentState' => null,
-        'action' => null
+        'title' => null,
+        'type' => null,
+        'url' => 'uri',
+        'method' => null,
+        'body' => null
     ];
 
     /**
@@ -82,9 +86,11 @@ class LiveActivityUpdateRequest implements ModelInterface, ArrayAccess, \JsonSer
       * @var boolean[]
       */
     protected static array $openAPINullables = [
-        'activityId' => false,
-        'contentState' => false,
-        'action' => false
+        'title' => false,
+        'type' => false,
+        'url' => false,
+        'method' => false,
+        'body' => false
     ];
 
     /**
@@ -173,9 +179,11 @@ class LiveActivityUpdateRequest implements ModelInterface, ArrayAccess, \JsonSer
      * @var string[]
      */
     protected static $attributeMap = [
-        'activityId' => 'activity_id',
-        'contentState' => 'content_state',
-        'action' => 'action'
+        'title' => 'title',
+        'type' => 'type',
+        'url' => 'url',
+        'method' => 'method',
+        'body' => 'body'
     ];
 
     /**
@@ -184,9 +192,11 @@ class LiveActivityUpdateRequest implements ModelInterface, ArrayAccess, \JsonSer
      * @var string[]
      */
     protected static $setters = [
-        'activityId' => 'setActivityId',
-        'contentState' => 'setContentState',
-        'action' => 'setAction'
+        'title' => 'setTitle',
+        'type' => 'setType',
+        'url' => 'setUrl',
+        'method' => 'setMethod',
+        'body' => 'setBody'
     ];
 
     /**
@@ -195,9 +205,11 @@ class LiveActivityUpdateRequest implements ModelInterface, ArrayAccess, \JsonSer
      * @var string[]
      */
     protected static $getters = [
-        'activityId' => 'getActivityId',
-        'contentState' => 'getContentState',
-        'action' => 'getAction'
+        'title' => 'getTitle',
+        'type' => 'getType',
+        'url' => 'getUrl',
+        'method' => 'getMethod',
+        'body' => 'getBody'
     ];
 
     /**
@@ -257,9 +269,11 @@ class LiveActivityUpdateRequest implements ModelInterface, ArrayAccess, \JsonSer
      */
     public function __construct(array $data = null)
     {
-        $this->setIfExists('activityId', $data ?? [], null);
-        $this->setIfExists('contentState', $data ?? [], null);
-        $this->setIfExists('action', $data ?? [], null);
+        $this->setIfExists('title', $data ?? [], null);
+        $this->setIfExists('type', $data ?? [], null);
+        $this->setIfExists('url', $data ?? [], null);
+        $this->setIfExists('method', $data ?? [], null);
+        $this->setIfExists('body', $data ?? [], null);
     }
 
     /**
@@ -289,12 +303,19 @@ class LiveActivityUpdateRequest implements ModelInterface, ArrayAccess, \JsonSer
     {
         $invalidProperties = [];
 
-        if ($this->container['activityId'] === null) {
-            $invalidProperties[] = "'activityId' can't be null";
+        if ($this->container['title'] === null) {
+            $invalidProperties[] = "'title' can't be null";
         }
-        if ($this->container['contentState'] === null) {
-            $invalidProperties[] = "'contentState' can't be null";
+        if ($this->container['type'] === null) {
+            $invalidProperties[] = "'type' can't be null";
         }
+        if ($this->container['url'] === null) {
+            $invalidProperties[] = "'url' can't be null";
+        }
+        if (!preg_match("/^https:\/\//", $this->container['url'])) {
+            $invalidProperties[] = "invalid value for 'url', must be conform to the pattern /^https:\/\//.";
+        }
+
         return $invalidProperties;
     }
 
@@ -311,82 +332,141 @@ class LiveActivityUpdateRequest implements ModelInterface, ArrayAccess, \JsonSer
 
 
     /**
-     * Gets activityId
+     * Gets title
      *
      * @return string
      */
-    public function getActivityId()
+    public function getTitle()
     {
-        return $this->container['activityId'];
+        return $this->container['title'];
     }
 
     /**
-     * Sets activityId
+     * Sets title
      *
-     * @param string $activityId activityId
+     * @param string $title Button title displayed in the Live Activity UI.
      *
      * @return self
      */
-    public function setActivityId($activityId)
+    public function setTitle($title)
     {
-        if (is_null($activityId)) {
-            throw new \InvalidArgumentException('non-nullable activityId cannot be null');
+        if (is_null($title)) {
+            throw new \InvalidArgumentException('non-nullable title cannot be null');
         }
-        $this->container['activityId'] = $activityId;
+        $this->container['title'] = $title;
 
         return $this;
     }
 
     /**
-     * Gets contentState
+     * Gets type
      *
-     * @return \ActivitySmith\Generated\Model\ContentStateUpdate
+     * @return \ActivitySmith\Generated\Model\LiveActivityActionType
      */
-    public function getContentState()
+    public function getType()
     {
-        return $this->container['contentState'];
+        return $this->container['type'];
     }
 
     /**
-     * Sets contentState
+     * Sets type
      *
-     * @param \ActivitySmith\Generated\Model\ContentStateUpdate $contentState contentState
+     * @param \ActivitySmith\Generated\Model\LiveActivityActionType $type type
      *
      * @return self
      */
-    public function setContentState($contentState)
+    public function setType($type)
     {
-        if (is_null($contentState)) {
-            throw new \InvalidArgumentException('non-nullable contentState cannot be null');
+        if (is_null($type)) {
+            throw new \InvalidArgumentException('non-nullable type cannot be null');
         }
-        $this->container['contentState'] = $contentState;
+        $this->container['type'] = $type;
 
         return $this;
     }
 
     /**
-     * Gets action
+     * Gets url
      *
-     * @return \ActivitySmith\Generated\Model\LiveActivityAction|null
+     * @return string
      */
-    public function getAction()
+    public function getUrl()
     {
-        return $this->container['action'];
+        return $this->container['url'];
     }
 
     /**
-     * Sets action
+     * Sets url
      *
-     * @param \ActivitySmith\Generated\Model\LiveActivityAction|null $action action
+     * @param string $url HTTPS URL. For open_url it is opened in browser. For webhook it is called by ActivitySmith backend.
      *
      * @return self
      */
-    public function setAction($action)
+    public function setUrl($url)
     {
-        if (is_null($action)) {
-            throw new \InvalidArgumentException('non-nullable action cannot be null');
+        if (is_null($url)) {
+            throw new \InvalidArgumentException('non-nullable url cannot be null');
         }
-        $this->container['action'] = $action;
+
+        if ((!preg_match("/^https:\/\//", ObjectSerializer::toString($url)))) {
+            throw new \InvalidArgumentException("invalid value for \$url when calling LiveActivityAction., must conform to the pattern /^https:\/\//.");
+        }
+
+        $this->container['url'] = $url;
+
+        return $this;
+    }
+
+    /**
+     * Gets method
+     *
+     * @return \ActivitySmith\Generated\Model\LiveActivityWebhookMethod|null
+     */
+    public function getMethod()
+    {
+        return $this->container['method'];
+    }
+
+    /**
+     * Sets method
+     *
+     * @param \ActivitySmith\Generated\Model\LiveActivityWebhookMethod|null $method Webhook HTTP method. Used only when type=webhook.
+     *
+     * @return self
+     */
+    public function setMethod($method)
+    {
+        if (is_null($method)) {
+            throw new \InvalidArgumentException('non-nullable method cannot be null');
+        }
+        $this->container['method'] = $method;
+
+        return $this;
+    }
+
+    /**
+     * Gets body
+     *
+     * @return array<string,mixed>|null
+     */
+    public function getBody()
+    {
+        return $this->container['body'];
+    }
+
+    /**
+     * Sets body
+     *
+     * @param array<string,mixed>|null $body Optional webhook payload body. Used only when type=webhook.
+     *
+     * @return self
+     */
+    public function setBody($body)
+    {
+        if (is_null($body)) {
+            throw new \InvalidArgumentException('non-nullable body cannot be null');
+        }
+        $this->container['body'] = $body;
 
         return $this;
     }
