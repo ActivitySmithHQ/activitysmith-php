@@ -252,6 +252,110 @@ final class ResourcesTest extends TestCase
         );
     }
 
+    public function testLiveActivitiesPassActionPayloadsThrough(): void
+    {
+        $response = (object) ['success' => true];
+        $captured = [
+            'start' => [],
+            'update' => [],
+            'end' => [],
+        ];
+
+        $api = $this->getMockBuilder(LiveActivitiesApi::class)
+            ->disableOriginalConstructor()
+            ->onlyMethods(['startLiveActivity', 'updateLiveActivity', 'endLiveActivity'])
+            ->getMock();
+
+        $api->expects($this->once())
+            ->method('startLiveActivity')
+            ->willReturnCallback(function (...$args) use (&$captured, $response) {
+                $captured['start'][] = $args;
+                return $response;
+            });
+
+        $api->expects($this->once())
+            ->method('updateLiveActivity')
+            ->willReturnCallback(function (...$args) use (&$captured, $response) {
+                $captured['update'][] = $args;
+                return $response;
+            });
+
+        $api->expects($this->once())
+            ->method('endLiveActivity')
+            ->willReturnCallback(function (...$args) use (&$captured, $response) {
+                $captured['end'][] = $args;
+                return $response;
+            });
+
+        $resource = new LiveActivities($api);
+
+        $startPayload = [
+            'content_state' => [
+                'title' => 'Deploying payments-api',
+                'subtitle' => 'Running database migrations',
+                'number_of_steps' => 5,
+                'current_step' => 3,
+                'type' => 'segmented_progress',
+            ],
+            'action' => [
+                'title' => 'Open Workflow',
+                'type' => 'open_url',
+                'url' => 'https://github.com/acme/payments-api/actions/runs/1234567890',
+            ],
+        ];
+
+        $updatePayload = [
+            'activity_id' => 'act-1',
+            'content_state' => [
+                'title' => 'Reindexing product search',
+                'subtitle' => 'Shard 7 of 12',
+                'number_of_steps' => 12,
+                'current_step' => 7,
+            ],
+            'action' => [
+                'title' => 'Pause Reindex',
+                'type' => 'webhook',
+                'url' => 'https://ops.example.com/hooks/search/reindex/pause',
+                'method' => 'POST',
+                'body' => [
+                    'job_id' => 'reindex-2026-03-19',
+                ],
+            ],
+        ];
+
+        $endPayload = [
+            'activity_id' => 'act-1',
+            'content_state' => [
+                'title' => 'Deploying payments-api',
+                'subtitle' => 'Production rollout complete',
+                'number_of_steps' => 5,
+                'current_step' => 5,
+            ],
+            'action' => [
+                'title' => 'Open Workflow',
+                'type' => 'open_url',
+                'url' => 'https://github.com/acme/payments-api/actions/runs/1234567890',
+            ],
+        ];
+
+        $resource->start($startPayload);
+        $resource->update($updatePayload);
+        $resource->end($endPayload);
+
+        $this->assertSame(
+            [[$startPayload, LiveActivitiesApi::contentTypes['startLiveActivity'][0]]],
+            $captured['start']
+        );
+        $this->assertSame(
+            [[$updatePayload, LiveActivitiesApi::contentTypes['updateLiveActivity'][0]]],
+            $captured['update']
+        );
+        $this->assertSame(
+            [[$endPayload, LiveActivitiesApi::contentTypes['endLiveActivity'][0]]],
+            $captured['end']
+        );
+    }
+
     public function testLiveActivitiesSupportProgressPayloads(): void
     {
         $captured = [];
