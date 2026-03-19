@@ -59,7 +59,8 @@ class LiveActivityEndRequest implements ModelInterface, ArrayAccess, \JsonSerial
       */
     protected static $openAPITypes = [
         'activityId' => 'string',
-        'contentState' => '\ActivitySmith\Generated\Model\ContentStateEnd'
+        'contentState' => '\ActivitySmith\Generated\Model\ContentStateEnd',
+        'action' => '\ActivitySmith\Generated\Model\LiveActivityAction'
     ];
 
     /**
@@ -71,7 +72,8 @@ class LiveActivityEndRequest implements ModelInterface, ArrayAccess, \JsonSerial
       */
     protected static $openAPIFormats = [
         'activityId' => null,
-        'contentState' => null
+        'contentState' => null,
+        'action' => null
     ];
 
     /**
@@ -81,7 +83,8 @@ class LiveActivityEndRequest implements ModelInterface, ArrayAccess, \JsonSerial
       */
     protected static array $openAPINullables = [
         'activityId' => false,
-        'contentState' => false
+        'contentState' => false,
+        'action' => false
     ];
 
     /**
@@ -171,7 +174,8 @@ class LiveActivityEndRequest implements ModelInterface, ArrayAccess, \JsonSerial
      */
     protected static $attributeMap = [
         'activityId' => 'activity_id',
-        'contentState' => 'content_state'
+        'contentState' => 'content_state',
+        'action' => 'action'
     ];
 
     /**
@@ -181,7 +185,8 @@ class LiveActivityEndRequest implements ModelInterface, ArrayAccess, \JsonSerial
      */
     protected static $setters = [
         'activityId' => 'setActivityId',
-        'contentState' => 'setContentState'
+        'contentState' => 'setContentState',
+        'action' => 'setAction'
     ];
 
     /**
@@ -191,7 +196,8 @@ class LiveActivityEndRequest implements ModelInterface, ArrayAccess, \JsonSerial
      */
     protected static $getters = [
         'activityId' => 'getActivityId',
-        'contentState' => 'getContentState'
+        'contentState' => 'getContentState',
+        'action' => 'getAction'
     ];
 
     /**
@@ -253,6 +259,7 @@ class LiveActivityEndRequest implements ModelInterface, ArrayAccess, \JsonSerial
     {
         $this->setIfExists('activityId', $data ?? [], null);
         $this->setIfExists('contentState', $data ?? [], null);
+        $this->setIfExists('action', $data ?? [], null);
     }
 
     /**
@@ -353,6 +360,33 @@ class LiveActivityEndRequest implements ModelInterface, ArrayAccess, \JsonSerial
             throw new \InvalidArgumentException('non-nullable contentState cannot be null');
         }
         $this->container['contentState'] = $contentState;
+
+        return $this;
+    }
+
+    /**
+     * Gets action
+     *
+     * @return \ActivitySmith\Generated\Model\LiveActivityAction|null
+     */
+    public function getAction()
+    {
+        return $this->container['action'];
+    }
+
+    /**
+     * Sets action
+     *
+     * @param \ActivitySmith\Generated\Model\LiveActivityAction|null $action action
+     *
+     * @return self
+     */
+    public function setAction($action)
+    {
+        if (is_null($action)) {
+            throw new \InvalidArgumentException('non-nullable action cannot be null');
+        }
+        $this->container['action'] = $action;
 
         return $this;
     }
