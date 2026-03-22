@@ -393,6 +393,84 @@ final class ResourcesTest extends TestCase
         );
     }
 
+    public function testLiveActivitiesStreamShortAndLegacyMethods(): void
+    {
+        $response = (object) ['success' => true];
+        $captured = [
+            'stream' => [],
+            'endStream' => [],
+        ];
+
+        $api = $this->getMockBuilder(LiveActivitiesApi::class)
+            ->disableOriginalConstructor()
+            ->onlyMethods(['reconcileLiveActivityStream', 'endLiveActivityStream'])
+            ->getMock();
+
+        $api->expects($this->exactly(2))
+            ->method('reconcileLiveActivityStream')
+            ->willReturnCallback(function (...$args) use (&$captured, $response) {
+                $captured['stream'][] = $args;
+                return $response;
+            });
+
+        $api->expects($this->exactly(2))
+            ->method('endLiveActivityStream')
+            ->willReturnCallback(function (...$args) use (&$captured, $response) {
+                $captured['endStream'][] = $args;
+                return $response;
+            });
+
+        $resource = new LiveActivities($api);
+        $streamPayload = [
+            'content_state' => [
+                'title' => 'Server Health',
+                'subtitle' => 'prod-web-1',
+                'type' => 'metrics',
+                'metrics' => [
+                    ['label' => 'CPU', 'value' => 9, 'unit' => '%'],
+                    ['label' => 'MEM', 'value' => 45, 'unit' => '%'],
+                ],
+            ],
+            'channels' => ['ops'],
+        ];
+        $endPayload = [
+            'content_state' => [
+                'title' => 'Server Health',
+                'subtitle' => 'prod-web-1',
+                'type' => 'metrics',
+                'metrics' => [
+                    ['label' => 'CPU', 'value' => 7, 'unit' => '%'],
+                    ['label' => 'MEM', 'value' => 38, 'unit' => '%'],
+                ],
+            ],
+        ];
+
+        $this->assertSame($response, $resource->stream('prod-web-1', $streamPayload));
+        $this->assertSame($response, $resource->reconcileLiveActivityStream('prod-web-1', $streamPayload));
+        $this->assertSame($response, $resource->endStream('prod-web-1', $endPayload));
+        $this->assertSame($response, $resource->endLiveActivityStream('prod-web-1', $endPayload));
+
+        $expectedStreamPayload = [
+            'content_state' => $streamPayload['content_state'],
+            'target' => ['channels' => ['ops']],
+        ];
+
+        $this->assertSame(
+            [
+                ['prod-web-1', $expectedStreamPayload, LiveActivitiesApi::contentTypes['reconcileLiveActivityStream'][0]],
+                ['prod-web-1', $expectedStreamPayload, LiveActivitiesApi::contentTypes['reconcileLiveActivityStream'][0]],
+            ],
+            $captured['stream']
+        );
+        $this->assertSame(
+            [
+                ['prod-web-1', $endPayload, LiveActivitiesApi::contentTypes['endLiveActivityStream'][0]],
+                ['prod-web-1', $endPayload, LiveActivitiesApi::contentTypes['endLiveActivityStream'][0]],
+            ],
+            $captured['endStream']
+        );
+    }
+
     public function testResourcePassthroughMethods(): void
     {
         $payload = ['title' => 'Build Failed'];
