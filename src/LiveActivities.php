@@ -27,6 +27,19 @@ final class LiveActivities
         return $this->api->endLiveActivity($request);
     }
 
+    public function stream(mixed $streamKey, mixed $request): mixed
+    {
+        return $this->api->reconcileLiveActivityStream(
+            $streamKey,
+            $this->normalizeTargetChannels($request)
+        );
+    }
+
+    public function endStream(mixed $streamKey, mixed $request = null): mixed
+    {
+        return $this->api->endLiveActivityStream($streamKey, $request);
+    }
+
     // Backward-compatible aliases.
     public function startLiveActivity(
         mixed $liveActivityStartRequest,
@@ -50,6 +63,30 @@ final class LiveActivities
         string $contentType = LiveActivitiesApi::contentTypes['endLiveActivity'][0]
     ): mixed {
         return $this->api->endLiveActivity($liveActivityEndRequest, $contentType);
+    }
+
+    public function reconcileLiveActivityStream(
+        mixed $streamKey,
+        mixed $liveActivityStreamRequest,
+        string $contentType = LiveActivitiesApi::contentTypes['reconcileLiveActivityStream'][0]
+    ): mixed {
+        return $this->api->reconcileLiveActivityStream(
+            $streamKey,
+            $this->normalizeTargetChannels($liveActivityStreamRequest),
+            $contentType
+        );
+    }
+
+    public function endLiveActivityStream(
+        mixed $streamKey,
+        mixed $liveActivityStreamDeleteRequest = null,
+        string $contentType = LiveActivitiesApi::contentTypes['endLiveActivityStream'][0]
+    ): mixed {
+        return $this->api->endLiveActivityStream(
+            $streamKey,
+            $liveActivityStreamDeleteRequest,
+            $contentType
+        );
     }
 
     public function __call(string $name, array $arguments): mixed

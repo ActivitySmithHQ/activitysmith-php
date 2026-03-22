@@ -74,6 +74,12 @@ class LiveActivitiesApi
         'endLiveActivity' => [
             'application/json',
         ],
+        'endLiveActivityStream' => [
+            'application/json',
+        ],
+        'reconcileLiveActivityStream' => [
+            'application/json',
+        ],
         'startLiveActivity' => [
             'application/json',
         ],
@@ -502,6 +508,917 @@ class LiveActivitiesApi
         $query = ObjectSerializer::buildQuery($queryParams);
         return new Request(
             'POST',
+            $operationHost . $resourcePath . ($query ? "?{$query}" : ''),
+            $headers,
+            $httpBody
+        );
+    }
+
+    /**
+     * Operation endLiveActivityStream
+     *
+     * End a stream
+     *
+     * @param  string $streamKey Stable identifier for one ongoing thing. Allowed characters: letters, numbers, underscores, and hyphens. (required)
+     * @param  \ActivitySmith\Generated\Model\LiveActivityStreamDeleteRequest $liveActivityStreamDeleteRequest liveActivityStreamDeleteRequest (optional)
+     * @param  string $contentType The value for the Content-Type header. Check self::contentTypes['endLiveActivityStream'] to see the possible values for this operation
+     *
+     * @throws \ActivitySmith\Generated\ApiException on non-2xx response or if the response body is not in the expected format
+     * @throws \InvalidArgumentException
+     * @return \ActivitySmith\Generated\Model\LiveActivityStreamDeleteResponse|\ActivitySmith\Generated\Model\BadRequestError|\ActivitySmith\Generated\Model\NotFoundError|\ActivitySmith\Generated\Model\RateLimitError
+     */
+    public function endLiveActivityStream($streamKey, $liveActivityStreamDeleteRequest = null, string $contentType = self::contentTypes['endLiveActivityStream'][0])
+    {
+        list($response) = $this->endLiveActivityStreamWithHttpInfo($streamKey, $liveActivityStreamDeleteRequest, $contentType);
+        return $response;
+    }
+
+    /**
+     * Operation endLiveActivityStreamWithHttpInfo
+     *
+     * End a stream
+     *
+     * @param  string $streamKey Stable identifier for one ongoing thing. Allowed characters: letters, numbers, underscores, and hyphens. (required)
+     * @param  \ActivitySmith\Generated\Model\LiveActivityStreamDeleteRequest $liveActivityStreamDeleteRequest (optional)
+     * @param  string $contentType The value for the Content-Type header. Check self::contentTypes['endLiveActivityStream'] to see the possible values for this operation
+     *
+     * @throws \ActivitySmith\Generated\ApiException on non-2xx response or if the response body is not in the expected format
+     * @throws \InvalidArgumentException
+     * @return array of \ActivitySmith\Generated\Model\LiveActivityStreamDeleteResponse|\ActivitySmith\Generated\Model\BadRequestError|\ActivitySmith\Generated\Model\NotFoundError|\ActivitySmith\Generated\Model\RateLimitError, HTTP status code, HTTP response headers (array of strings)
+     */
+    public function endLiveActivityStreamWithHttpInfo($streamKey, $liveActivityStreamDeleteRequest = null, string $contentType = self::contentTypes['endLiveActivityStream'][0])
+    {
+        $request = $this->endLiveActivityStreamRequest($streamKey, $liveActivityStreamDeleteRequest, $contentType);
+
+        try {
+            $options = $this->createHttpClientOption();
+            try {
+                $response = $this->client->send($request, $options);
+            } catch (RequestException $e) {
+                throw new ApiException(
+                    "[{$e->getCode()}] {$e->getMessage()}",
+                    (int) $e->getCode(),
+                    $e->getResponse() ? $e->getResponse()->getHeaders() : null,
+                    $e->getResponse() ? (string) $e->getResponse()->getBody() : null
+                );
+            } catch (ConnectException $e) {
+                throw new ApiException(
+                    "[{$e->getCode()}] {$e->getMessage()}",
+                    (int) $e->getCode(),
+                    null,
+                    null
+                );
+            }
+
+            $statusCode = $response->getStatusCode();
+
+            if ($statusCode < 200 || $statusCode > 299) {
+                throw new ApiException(
+                    sprintf(
+                        '[%d] Error connecting to the API (%s)',
+                        $statusCode,
+                        (string) $request->getUri()
+                    ),
+                    $statusCode,
+                    $response->getHeaders(),
+                    (string) $response->getBody()
+                );
+            }
+
+            switch($statusCode) {
+                case 200:
+                    if ('\ActivitySmith\Generated\Model\LiveActivityStreamDeleteResponse' === '\SplFileObject') {
+                        $content = $response->getBody(); //stream goes to serializer
+                    } else {
+                        $content = (string) $response->getBody();
+                        if ('\ActivitySmith\Generated\Model\LiveActivityStreamDeleteResponse' !== 'string') {
+                            try {
+                                $content = json_decode($content, false, 512, JSON_THROW_ON_ERROR);
+                            } catch (\JsonException $exception) {
+                                throw new ApiException(
+                                    sprintf(
+                                        'Error JSON decoding server response (%s)',
+                                        $request->getUri()
+                                    ),
+                                    $statusCode,
+                                    $response->getHeaders(),
+                                    $content
+                                );
+                            }
+                        }
+                    }
+
+                    return [
+                        ObjectSerializer::deserialize($content, '\ActivitySmith\Generated\Model\LiveActivityStreamDeleteResponse', []),
+                        $response->getStatusCode(),
+                        $response->getHeaders()
+                    ];
+                case 400:
+                    if ('\ActivitySmith\Generated\Model\BadRequestError' === '\SplFileObject') {
+                        $content = $response->getBody(); //stream goes to serializer
+                    } else {
+                        $content = (string) $response->getBody();
+                        if ('\ActivitySmith\Generated\Model\BadRequestError' !== 'string') {
+                            try {
+                                $content = json_decode($content, false, 512, JSON_THROW_ON_ERROR);
+                            } catch (\JsonException $exception) {
+                                throw new ApiException(
+                                    sprintf(
+                                        'Error JSON decoding server response (%s)',
+                                        $request->getUri()
+                                    ),
+                                    $statusCode,
+                                    $response->getHeaders(),
+                                    $content
+                                );
+                            }
+                        }
+                    }
+
+                    return [
+                        ObjectSerializer::deserialize($content, '\ActivitySmith\Generated\Model\BadRequestError', []),
+                        $response->getStatusCode(),
+                        $response->getHeaders()
+                    ];
+                case 404:
+                    if ('\ActivitySmith\Generated\Model\NotFoundError' === '\SplFileObject') {
+                        $content = $response->getBody(); //stream goes to serializer
+                    } else {
+                        $content = (string) $response->getBody();
+                        if ('\ActivitySmith\Generated\Model\NotFoundError' !== 'string') {
+                            try {
+                                $content = json_decode($content, false, 512, JSON_THROW_ON_ERROR);
+                            } catch (\JsonException $exception) {
+                                throw new ApiException(
+                                    sprintf(
+                                        'Error JSON decoding server response (%s)',
+                                        $request->getUri()
+                                    ),
+                                    $statusCode,
+                                    $response->getHeaders(),
+                                    $content
+                                );
+                            }
+                        }
+                    }
+
+                    return [
+                        ObjectSerializer::deserialize($content, '\ActivitySmith\Generated\Model\NotFoundError', []),
+                        $response->getStatusCode(),
+                        $response->getHeaders()
+                    ];
+                case 429:
+                    if ('\ActivitySmith\Generated\Model\RateLimitError' === '\SplFileObject') {
+                        $content = $response->getBody(); //stream goes to serializer
+                    } else {
+                        $content = (string) $response->getBody();
+                        if ('\ActivitySmith\Generated\Model\RateLimitError' !== 'string') {
+                            try {
+                                $content = json_decode($content, false, 512, JSON_THROW_ON_ERROR);
+                            } catch (\JsonException $exception) {
+                                throw new ApiException(
+                                    sprintf(
+                                        'Error JSON decoding server response (%s)',
+                                        $request->getUri()
+                                    ),
+                                    $statusCode,
+                                    $response->getHeaders(),
+                                    $content
+                                );
+                            }
+                        }
+                    }
+
+                    return [
+                        ObjectSerializer::deserialize($content, '\ActivitySmith\Generated\Model\RateLimitError', []),
+                        $response->getStatusCode(),
+                        $response->getHeaders()
+                    ];
+            }
+
+            $returnType = '\ActivitySmith\Generated\Model\LiveActivityStreamDeleteResponse';
+            if ($returnType === '\SplFileObject') {
+                $content = $response->getBody(); //stream goes to serializer
+            } else {
+                $content = (string) $response->getBody();
+                if ($returnType !== 'string') {
+                    try {
+                        $content = json_decode($content, false, 512, JSON_THROW_ON_ERROR);
+                    } catch (\JsonException $exception) {
+                        throw new ApiException(
+                            sprintf(
+                                'Error JSON decoding server response (%s)',
+                                $request->getUri()
+                            ),
+                            $statusCode,
+                            $response->getHeaders(),
+                            $content
+                        );
+                    }
+                }
+            }
+
+            return [
+                ObjectSerializer::deserialize($content, $returnType, []),
+                $response->getStatusCode(),
+                $response->getHeaders()
+            ];
+
+        } catch (ApiException $e) {
+            switch ($e->getCode()) {
+                case 200:
+                    $data = ObjectSerializer::deserialize(
+                        $e->getResponseBody(),
+                        '\ActivitySmith\Generated\Model\LiveActivityStreamDeleteResponse',
+                        $e->getResponseHeaders()
+                    );
+                    $e->setResponseObject($data);
+                    break;
+                case 400:
+                    $data = ObjectSerializer::deserialize(
+                        $e->getResponseBody(),
+                        '\ActivitySmith\Generated\Model\BadRequestError',
+                        $e->getResponseHeaders()
+                    );
+                    $e->setResponseObject($data);
+                    break;
+                case 404:
+                    $data = ObjectSerializer::deserialize(
+                        $e->getResponseBody(),
+                        '\ActivitySmith\Generated\Model\NotFoundError',
+                        $e->getResponseHeaders()
+                    );
+                    $e->setResponseObject($data);
+                    break;
+                case 429:
+                    $data = ObjectSerializer::deserialize(
+                        $e->getResponseBody(),
+                        '\ActivitySmith\Generated\Model\RateLimitError',
+                        $e->getResponseHeaders()
+                    );
+                    $e->setResponseObject($data);
+                    break;
+            }
+            throw $e;
+        }
+    }
+
+    /**
+     * Operation endLiveActivityStreamAsync
+     *
+     * End a stream
+     *
+     * @param  string $streamKey Stable identifier for one ongoing thing. Allowed characters: letters, numbers, underscores, and hyphens. (required)
+     * @param  \ActivitySmith\Generated\Model\LiveActivityStreamDeleteRequest $liveActivityStreamDeleteRequest (optional)
+     * @param  string $contentType The value for the Content-Type header. Check self::contentTypes['endLiveActivityStream'] to see the possible values for this operation
+     *
+     * @throws \InvalidArgumentException
+     * @return \GuzzleHttp\Promise\PromiseInterface
+     */
+    public function endLiveActivityStreamAsync($streamKey, $liveActivityStreamDeleteRequest = null, string $contentType = self::contentTypes['endLiveActivityStream'][0])
+    {
+        return $this->endLiveActivityStreamAsyncWithHttpInfo($streamKey, $liveActivityStreamDeleteRequest, $contentType)
+            ->then(
+                function ($response) {
+                    return $response[0];
+                }
+            );
+    }
+
+    /**
+     * Operation endLiveActivityStreamAsyncWithHttpInfo
+     *
+     * End a stream
+     *
+     * @param  string $streamKey Stable identifier for one ongoing thing. Allowed characters: letters, numbers, underscores, and hyphens. (required)
+     * @param  \ActivitySmith\Generated\Model\LiveActivityStreamDeleteRequest $liveActivityStreamDeleteRequest (optional)
+     * @param  string $contentType The value for the Content-Type header. Check self::contentTypes['endLiveActivityStream'] to see the possible values for this operation
+     *
+     * @throws \InvalidArgumentException
+     * @return \GuzzleHttp\Promise\PromiseInterface
+     */
+    public function endLiveActivityStreamAsyncWithHttpInfo($streamKey, $liveActivityStreamDeleteRequest = null, string $contentType = self::contentTypes['endLiveActivityStream'][0])
+    {
+        $returnType = '\ActivitySmith\Generated\Model\LiveActivityStreamDeleteResponse';
+        $request = $this->endLiveActivityStreamRequest($streamKey, $liveActivityStreamDeleteRequest, $contentType);
+
+        return $this->client
+            ->sendAsync($request, $this->createHttpClientOption())
+            ->then(
+                function ($response) use ($returnType) {
+                    if ($returnType === '\SplFileObject') {
+                        $content = $response->getBody(); //stream goes to serializer
+                    } else {
+                        $content = (string) $response->getBody();
+                        if ($returnType !== 'string') {
+                            $content = json_decode($content);
+                        }
+                    }
+
+                    return [
+                        ObjectSerializer::deserialize($content, $returnType, []),
+                        $response->getStatusCode(),
+                        $response->getHeaders()
+                    ];
+                },
+                function ($exception) {
+                    $response = $exception->getResponse();
+                    $statusCode = $response->getStatusCode();
+                    throw new ApiException(
+                        sprintf(
+                            '[%d] Error connecting to the API (%s)',
+                            $statusCode,
+                            $exception->getRequest()->getUri()
+                        ),
+                        $statusCode,
+                        $response->getHeaders(),
+                        (string) $response->getBody()
+                    );
+                }
+            );
+    }
+
+    /**
+     * Create request for operation 'endLiveActivityStream'
+     *
+     * @param  string $streamKey Stable identifier for one ongoing thing. Allowed characters: letters, numbers, underscores, and hyphens. (required)
+     * @param  \ActivitySmith\Generated\Model\LiveActivityStreamDeleteRequest $liveActivityStreamDeleteRequest (optional)
+     * @param  string $contentType The value for the Content-Type header. Check self::contentTypes['endLiveActivityStream'] to see the possible values for this operation
+     *
+     * @throws \InvalidArgumentException
+     * @return \GuzzleHttp\Psr7\Request
+     */
+    public function endLiveActivityStreamRequest($streamKey, $liveActivityStreamDeleteRequest = null, string $contentType = self::contentTypes['endLiveActivityStream'][0])
+    {
+
+        // verify the required parameter 'streamKey' is set
+        if ($streamKey === null || (is_array($streamKey) && count($streamKey) === 0)) {
+            throw new \InvalidArgumentException(
+                'Missing the required parameter $streamKey when calling endLiveActivityStream'
+            );
+        }
+        if (strlen($streamKey) > 255) {
+            throw new \InvalidArgumentException('invalid length for "$streamKey" when calling LiveActivitiesApi.endLiveActivityStream, must be smaller than or equal to 255.');
+        }
+        if (!preg_match("/^[A-Za-z0-9_-]+$/", $streamKey)) {
+            throw new \InvalidArgumentException("invalid value for \"streamKey\" when calling LiveActivitiesApi.endLiveActivityStream, must conform to the pattern /^[A-Za-z0-9_-]+$/.");
+        }
+        
+
+
+        $resourcePath = '/live-activity/stream/{stream_key}';
+        $formParams = [];
+        $queryParams = [];
+        $headerParams = [];
+        $httpBody = '';
+        $multipart = false;
+
+
+
+        // path params
+        if ($streamKey !== null) {
+            $resourcePath = str_replace(
+                '{' . 'stream_key' . '}',
+                ObjectSerializer::toPathValue($streamKey),
+                $resourcePath
+            );
+        }
+
+
+        $headers = $this->headerSelector->selectHeaders(
+            ['application/json', ],
+            $contentType,
+            $multipart
+        );
+
+        // for model (json/xml)
+        if (isset($liveActivityStreamDeleteRequest)) {
+            if (stripos($headers['Content-Type'], 'application/json') !== false) {
+                # if Content-Type contains "application/json", json_encode the body
+                $httpBody = \GuzzleHttp\Utils::jsonEncode(ObjectSerializer::sanitizeForSerialization($liveActivityStreamDeleteRequest));
+            } else {
+                $httpBody = $liveActivityStreamDeleteRequest;
+            }
+        } elseif (count($formParams) > 0) {
+            if ($multipart) {
+                $multipartContents = [];
+                foreach ($formParams as $formParamName => $formParamValue) {
+                    $formParamValueItems = is_array($formParamValue) ? $formParamValue : [$formParamValue];
+                    foreach ($formParamValueItems as $formParamValueItem) {
+                        $multipartContents[] = [
+                            'name' => $formParamName,
+                            'contents' => $formParamValueItem
+                        ];
+                    }
+                }
+                // for HTTP post (form)
+                $httpBody = new MultipartStream($multipartContents);
+
+            } elseif (stripos($headers['Content-Type'], 'application/json') !== false) {
+                # if Content-Type contains "application/json", json_encode the form parameters
+                $httpBody = \GuzzleHttp\Utils::jsonEncode($formParams);
+            } else {
+                // for HTTP post (form)
+                $httpBody = ObjectSerializer::buildQuery($formParams);
+            }
+        }
+
+        // this endpoint requires Bearer (API Key) authentication (access token)
+        if (!empty($this->config->getAccessToken())) {
+            $headers['Authorization'] = 'Bearer ' . $this->config->getAccessToken();
+        }
+
+        $defaultHeaders = [];
+        if ($this->config->getUserAgent()) {
+            $defaultHeaders['User-Agent'] = $this->config->getUserAgent();
+        }
+
+        $headers = array_merge(
+            $defaultHeaders,
+            $headerParams,
+            $headers
+        );
+
+        $operationHost = $this->config->getHost();
+        $query = ObjectSerializer::buildQuery($queryParams);
+        return new Request(
+            'DELETE',
+            $operationHost . $resourcePath . ($query ? "?{$query}" : ''),
+            $headers,
+            $httpBody
+        );
+    }
+
+    /**
+     * Operation reconcileLiveActivityStream
+     *
+     * Send a stream update
+     *
+     * @param  string $streamKey Stable identifier for one ongoing thing. Allowed characters: letters, numbers, underscores, and hyphens. (required)
+     * @param  \ActivitySmith\Generated\Model\LiveActivityStreamRequest $liveActivityStreamRequest liveActivityStreamRequest (required)
+     * @param  string $contentType The value for the Content-Type header. Check self::contentTypes['reconcileLiveActivityStream'] to see the possible values for this operation
+     *
+     * @throws \ActivitySmith\Generated\ApiException on non-2xx response or if the response body is not in the expected format
+     * @throws \InvalidArgumentException
+     * @return \ActivitySmith\Generated\Model\LiveActivityStreamPutResponse|\ActivitySmith\Generated\Model\BadRequestError|\ActivitySmith\Generated\Model\ForbiddenError|\ActivitySmith\Generated\Model\NoRecipientsError|\ActivitySmith\Generated\Model\SendPushNotification429Response
+     */
+    public function reconcileLiveActivityStream($streamKey, $liveActivityStreamRequest, string $contentType = self::contentTypes['reconcileLiveActivityStream'][0])
+    {
+        list($response) = $this->reconcileLiveActivityStreamWithHttpInfo($streamKey, $liveActivityStreamRequest, $contentType);
+        return $response;
+    }
+
+    /**
+     * Operation reconcileLiveActivityStreamWithHttpInfo
+     *
+     * Send a stream update
+     *
+     * @param  string $streamKey Stable identifier for one ongoing thing. Allowed characters: letters, numbers, underscores, and hyphens. (required)
+     * @param  \ActivitySmith\Generated\Model\LiveActivityStreamRequest $liveActivityStreamRequest (required)
+     * @param  string $contentType The value for the Content-Type header. Check self::contentTypes['reconcileLiveActivityStream'] to see the possible values for this operation
+     *
+     * @throws \ActivitySmith\Generated\ApiException on non-2xx response or if the response body is not in the expected format
+     * @throws \InvalidArgumentException
+     * @return array of \ActivitySmith\Generated\Model\LiveActivityStreamPutResponse|\ActivitySmith\Generated\Model\BadRequestError|\ActivitySmith\Generated\Model\ForbiddenError|\ActivitySmith\Generated\Model\NoRecipientsError|\ActivitySmith\Generated\Model\SendPushNotification429Response, HTTP status code, HTTP response headers (array of strings)
+     */
+    public function reconcileLiveActivityStreamWithHttpInfo($streamKey, $liveActivityStreamRequest, string $contentType = self::contentTypes['reconcileLiveActivityStream'][0])
+    {
+        $request = $this->reconcileLiveActivityStreamRequest($streamKey, $liveActivityStreamRequest, $contentType);
+
+        try {
+            $options = $this->createHttpClientOption();
+            try {
+                $response = $this->client->send($request, $options);
+            } catch (RequestException $e) {
+                throw new ApiException(
+                    "[{$e->getCode()}] {$e->getMessage()}",
+                    (int) $e->getCode(),
+                    $e->getResponse() ? $e->getResponse()->getHeaders() : null,
+                    $e->getResponse() ? (string) $e->getResponse()->getBody() : null
+                );
+            } catch (ConnectException $e) {
+                throw new ApiException(
+                    "[{$e->getCode()}] {$e->getMessage()}",
+                    (int) $e->getCode(),
+                    null,
+                    null
+                );
+            }
+
+            $statusCode = $response->getStatusCode();
+
+            if ($statusCode < 200 || $statusCode > 299) {
+                throw new ApiException(
+                    sprintf(
+                        '[%d] Error connecting to the API (%s)',
+                        $statusCode,
+                        (string) $request->getUri()
+                    ),
+                    $statusCode,
+                    $response->getHeaders(),
+                    (string) $response->getBody()
+                );
+            }
+
+            switch($statusCode) {
+                case 200:
+                    if ('\ActivitySmith\Generated\Model\LiveActivityStreamPutResponse' === '\SplFileObject') {
+                        $content = $response->getBody(); //stream goes to serializer
+                    } else {
+                        $content = (string) $response->getBody();
+                        if ('\ActivitySmith\Generated\Model\LiveActivityStreamPutResponse' !== 'string') {
+                            try {
+                                $content = json_decode($content, false, 512, JSON_THROW_ON_ERROR);
+                            } catch (\JsonException $exception) {
+                                throw new ApiException(
+                                    sprintf(
+                                        'Error JSON decoding server response (%s)',
+                                        $request->getUri()
+                                    ),
+                                    $statusCode,
+                                    $response->getHeaders(),
+                                    $content
+                                );
+                            }
+                        }
+                    }
+
+                    return [
+                        ObjectSerializer::deserialize($content, '\ActivitySmith\Generated\Model\LiveActivityStreamPutResponse', []),
+                        $response->getStatusCode(),
+                        $response->getHeaders()
+                    ];
+                case 400:
+                    if ('\ActivitySmith\Generated\Model\BadRequestError' === '\SplFileObject') {
+                        $content = $response->getBody(); //stream goes to serializer
+                    } else {
+                        $content = (string) $response->getBody();
+                        if ('\ActivitySmith\Generated\Model\BadRequestError' !== 'string') {
+                            try {
+                                $content = json_decode($content, false, 512, JSON_THROW_ON_ERROR);
+                            } catch (\JsonException $exception) {
+                                throw new ApiException(
+                                    sprintf(
+                                        'Error JSON decoding server response (%s)',
+                                        $request->getUri()
+                                    ),
+                                    $statusCode,
+                                    $response->getHeaders(),
+                                    $content
+                                );
+                            }
+                        }
+                    }
+
+                    return [
+                        ObjectSerializer::deserialize($content, '\ActivitySmith\Generated\Model\BadRequestError', []),
+                        $response->getStatusCode(),
+                        $response->getHeaders()
+                    ];
+                case 403:
+                    if ('\ActivitySmith\Generated\Model\ForbiddenError' === '\SplFileObject') {
+                        $content = $response->getBody(); //stream goes to serializer
+                    } else {
+                        $content = (string) $response->getBody();
+                        if ('\ActivitySmith\Generated\Model\ForbiddenError' !== 'string') {
+                            try {
+                                $content = json_decode($content, false, 512, JSON_THROW_ON_ERROR);
+                            } catch (\JsonException $exception) {
+                                throw new ApiException(
+                                    sprintf(
+                                        'Error JSON decoding server response (%s)',
+                                        $request->getUri()
+                                    ),
+                                    $statusCode,
+                                    $response->getHeaders(),
+                                    $content
+                                );
+                            }
+                        }
+                    }
+
+                    return [
+                        ObjectSerializer::deserialize($content, '\ActivitySmith\Generated\Model\ForbiddenError', []),
+                        $response->getStatusCode(),
+                        $response->getHeaders()
+                    ];
+                case 404:
+                    if ('\ActivitySmith\Generated\Model\NoRecipientsError' === '\SplFileObject') {
+                        $content = $response->getBody(); //stream goes to serializer
+                    } else {
+                        $content = (string) $response->getBody();
+                        if ('\ActivitySmith\Generated\Model\NoRecipientsError' !== 'string') {
+                            try {
+                                $content = json_decode($content, false, 512, JSON_THROW_ON_ERROR);
+                            } catch (\JsonException $exception) {
+                                throw new ApiException(
+                                    sprintf(
+                                        'Error JSON decoding server response (%s)',
+                                        $request->getUri()
+                                    ),
+                                    $statusCode,
+                                    $response->getHeaders(),
+                                    $content
+                                );
+                            }
+                        }
+                    }
+
+                    return [
+                        ObjectSerializer::deserialize($content, '\ActivitySmith\Generated\Model\NoRecipientsError', []),
+                        $response->getStatusCode(),
+                        $response->getHeaders()
+                    ];
+                case 429:
+                    if ('\ActivitySmith\Generated\Model\SendPushNotification429Response' === '\SplFileObject') {
+                        $content = $response->getBody(); //stream goes to serializer
+                    } else {
+                        $content = (string) $response->getBody();
+                        if ('\ActivitySmith\Generated\Model\SendPushNotification429Response' !== 'string') {
+                            try {
+                                $content = json_decode($content, false, 512, JSON_THROW_ON_ERROR);
+                            } catch (\JsonException $exception) {
+                                throw new ApiException(
+                                    sprintf(
+                                        'Error JSON decoding server response (%s)',
+                                        $request->getUri()
+                                    ),
+                                    $statusCode,
+                                    $response->getHeaders(),
+                                    $content
+                                );
+                            }
+                        }
+                    }
+
+                    return [
+                        ObjectSerializer::deserialize($content, '\ActivitySmith\Generated\Model\SendPushNotification429Response', []),
+                        $response->getStatusCode(),
+                        $response->getHeaders()
+                    ];
+            }
+
+            $returnType = '\ActivitySmith\Generated\Model\LiveActivityStreamPutResponse';
+            if ($returnType === '\SplFileObject') {
+                $content = $response->getBody(); //stream goes to serializer
+            } else {
+                $content = (string) $response->getBody();
+                if ($returnType !== 'string') {
+                    try {
+                        $content = json_decode($content, false, 512, JSON_THROW_ON_ERROR);
+                    } catch (\JsonException $exception) {
+                        throw new ApiException(
+                            sprintf(
+                                'Error JSON decoding server response (%s)',
+                                $request->getUri()
+                            ),
+                            $statusCode,
+                            $response->getHeaders(),
+                            $content
+                        );
+                    }
+                }
+            }
+
+            return [
+                ObjectSerializer::deserialize($content, $returnType, []),
+                $response->getStatusCode(),
+                $response->getHeaders()
+            ];
+
+        } catch (ApiException $e) {
+            switch ($e->getCode()) {
+                case 200:
+                    $data = ObjectSerializer::deserialize(
+                        $e->getResponseBody(),
+                        '\ActivitySmith\Generated\Model\LiveActivityStreamPutResponse',
+                        $e->getResponseHeaders()
+                    );
+                    $e->setResponseObject($data);
+                    break;
+                case 400:
+                    $data = ObjectSerializer::deserialize(
+                        $e->getResponseBody(),
+                        '\ActivitySmith\Generated\Model\BadRequestError',
+                        $e->getResponseHeaders()
+                    );
+                    $e->setResponseObject($data);
+                    break;
+                case 403:
+                    $data = ObjectSerializer::deserialize(
+                        $e->getResponseBody(),
+                        '\ActivitySmith\Generated\Model\ForbiddenError',
+                        $e->getResponseHeaders()
+                    );
+                    $e->setResponseObject($data);
+                    break;
+                case 404:
+                    $data = ObjectSerializer::deserialize(
+                        $e->getResponseBody(),
+                        '\ActivitySmith\Generated\Model\NoRecipientsError',
+                        $e->getResponseHeaders()
+                    );
+                    $e->setResponseObject($data);
+                    break;
+                case 429:
+                    $data = ObjectSerializer::deserialize(
+                        $e->getResponseBody(),
+                        '\ActivitySmith\Generated\Model\SendPushNotification429Response',
+                        $e->getResponseHeaders()
+                    );
+                    $e->setResponseObject($data);
+                    break;
+            }
+            throw $e;
+        }
+    }
+
+    /**
+     * Operation reconcileLiveActivityStreamAsync
+     *
+     * Send a stream update
+     *
+     * @param  string $streamKey Stable identifier for one ongoing thing. Allowed characters: letters, numbers, underscores, and hyphens. (required)
+     * @param  \ActivitySmith\Generated\Model\LiveActivityStreamRequest $liveActivityStreamRequest (required)
+     * @param  string $contentType The value for the Content-Type header. Check self::contentTypes['reconcileLiveActivityStream'] to see the possible values for this operation
+     *
+     * @throws \InvalidArgumentException
+     * @return \GuzzleHttp\Promise\PromiseInterface
+     */
+    public function reconcileLiveActivityStreamAsync($streamKey, $liveActivityStreamRequest, string $contentType = self::contentTypes['reconcileLiveActivityStream'][0])
+    {
+        return $this->reconcileLiveActivityStreamAsyncWithHttpInfo($streamKey, $liveActivityStreamRequest, $contentType)
+            ->then(
+                function ($response) {
+                    return $response[0];
+                }
+            );
+    }
+
+    /**
+     * Operation reconcileLiveActivityStreamAsyncWithHttpInfo
+     *
+     * Send a stream update
+     *
+     * @param  string $streamKey Stable identifier for one ongoing thing. Allowed characters: letters, numbers, underscores, and hyphens. (required)
+     * @param  \ActivitySmith\Generated\Model\LiveActivityStreamRequest $liveActivityStreamRequest (required)
+     * @param  string $contentType The value for the Content-Type header. Check self::contentTypes['reconcileLiveActivityStream'] to see the possible values for this operation
+     *
+     * @throws \InvalidArgumentException
+     * @return \GuzzleHttp\Promise\PromiseInterface
+     */
+    public function reconcileLiveActivityStreamAsyncWithHttpInfo($streamKey, $liveActivityStreamRequest, string $contentType = self::contentTypes['reconcileLiveActivityStream'][0])
+    {
+        $returnType = '\ActivitySmith\Generated\Model\LiveActivityStreamPutResponse';
+        $request = $this->reconcileLiveActivityStreamRequest($streamKey, $liveActivityStreamRequest, $contentType);
+
+        return $this->client
+            ->sendAsync($request, $this->createHttpClientOption())
+            ->then(
+                function ($response) use ($returnType) {
+                    if ($returnType === '\SplFileObject') {
+                        $content = $response->getBody(); //stream goes to serializer
+                    } else {
+                        $content = (string) $response->getBody();
+                        if ($returnType !== 'string') {
+                            $content = json_decode($content);
+                        }
+                    }
+
+                    return [
+                        ObjectSerializer::deserialize($content, $returnType, []),
+                        $response->getStatusCode(),
+                        $response->getHeaders()
+                    ];
+                },
+                function ($exception) {
+                    $response = $exception->getResponse();
+                    $statusCode = $response->getStatusCode();
+                    throw new ApiException(
+                        sprintf(
+                            '[%d] Error connecting to the API (%s)',
+                            $statusCode,
+                            $exception->getRequest()->getUri()
+                        ),
+                        $statusCode,
+                        $response->getHeaders(),
+                        (string) $response->getBody()
+                    );
+                }
+            );
+    }
+
+    /**
+     * Create request for operation 'reconcileLiveActivityStream'
+     *
+     * @param  string $streamKey Stable identifier for one ongoing thing. Allowed characters: letters, numbers, underscores, and hyphens. (required)
+     * @param  \ActivitySmith\Generated\Model\LiveActivityStreamRequest $liveActivityStreamRequest (required)
+     * @param  string $contentType The value for the Content-Type header. Check self::contentTypes['reconcileLiveActivityStream'] to see the possible values for this operation
+     *
+     * @throws \InvalidArgumentException
+     * @return \GuzzleHttp\Psr7\Request
+     */
+    public function reconcileLiveActivityStreamRequest($streamKey, $liveActivityStreamRequest, string $contentType = self::contentTypes['reconcileLiveActivityStream'][0])
+    {
+
+        // verify the required parameter 'streamKey' is set
+        if ($streamKey === null || (is_array($streamKey) && count($streamKey) === 0)) {
+            throw new \InvalidArgumentException(
+                'Missing the required parameter $streamKey when calling reconcileLiveActivityStream'
+            );
+        }
+        if (strlen($streamKey) > 255) {
+            throw new \InvalidArgumentException('invalid length for "$streamKey" when calling LiveActivitiesApi.reconcileLiveActivityStream, must be smaller than or equal to 255.');
+        }
+        if (!preg_match("/^[A-Za-z0-9_-]+$/", $streamKey)) {
+            throw new \InvalidArgumentException("invalid value for \"streamKey\" when calling LiveActivitiesApi.reconcileLiveActivityStream, must conform to the pattern /^[A-Za-z0-9_-]+$/.");
+        }
+        
+        // verify the required parameter 'liveActivityStreamRequest' is set
+        if ($liveActivityStreamRequest === null || (is_array($liveActivityStreamRequest) && count($liveActivityStreamRequest) === 0)) {
+            throw new \InvalidArgumentException(
+                'Missing the required parameter $liveActivityStreamRequest when calling reconcileLiveActivityStream'
+            );
+        }
+
+
+        $resourcePath = '/live-activity/stream/{stream_key}';
+        $formParams = [];
+        $queryParams = [];
+        $headerParams = [];
+        $httpBody = '';
+        $multipart = false;
+
+
+
+        // path params
+        if ($streamKey !== null) {
+            $resourcePath = str_replace(
+                '{' . 'stream_key' . '}',
+                ObjectSerializer::toPathValue($streamKey),
+                $resourcePath
+            );
+        }
+
+
+        $headers = $this->headerSelector->selectHeaders(
+            ['application/json', ],
+            $contentType,
+            $multipart
+        );
+
+        // for model (json/xml)
+        if (isset($liveActivityStreamRequest)) {
+            if (stripos($headers['Content-Type'], 'application/json') !== false) {
+                # if Content-Type contains "application/json", json_encode the body
+                $httpBody = \GuzzleHttp\Utils::jsonEncode(ObjectSerializer::sanitizeForSerialization($liveActivityStreamRequest));
+            } else {
+                $httpBody = $liveActivityStreamRequest;
+            }
+        } elseif (count($formParams) > 0) {
+            if ($multipart) {
+                $multipartContents = [];
+                foreach ($formParams as $formParamName => $formParamValue) {
+                    $formParamValueItems = is_array($formParamValue) ? $formParamValue : [$formParamValue];
+                    foreach ($formParamValueItems as $formParamValueItem) {
+                        $multipartContents[] = [
+                            'name' => $formParamName,
+                            'contents' => $formParamValueItem
+                        ];
+                    }
+                }
+                // for HTTP post (form)
+                $httpBody = new MultipartStream($multipartContents);
+
+            } elseif (stripos($headers['Content-Type'], 'application/json') !== false) {
+                # if Content-Type contains "application/json", json_encode the form parameters
+                $httpBody = \GuzzleHttp\Utils::jsonEncode($formParams);
+            } else {
+                // for HTTP post (form)
+                $httpBody = ObjectSerializer::buildQuery($formParams);
+            }
+        }
+
+        // this endpoint requires Bearer (API Key) authentication (access token)
+        if (!empty($this->config->getAccessToken())) {
+            $headers['Authorization'] = 'Bearer ' . $this->config->getAccessToken();
+        }
+
+        $defaultHeaders = [];
+        if ($this->config->getUserAgent()) {
+            $defaultHeaders['User-Agent'] = $this->config->getUserAgent();
+        }
+
+        $headers = array_merge(
+            $defaultHeaders,
+            $headerParams,
+            $headers
+        );
+
+        $operationHost = $this->config->getHost();
+        $query = ObjectSerializer::buildQuery($queryParams);
+        return new Request(
+            'PUT',
             $operationHost . $resourcePath . ($query ? "?{$query}" : ''),
             $headers,
             $httpBody

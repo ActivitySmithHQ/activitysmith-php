@@ -1,6 +1,6 @@
 <?php
 /**
- * ContentStateStart
+ * StreamContentState
  *
  * PHP version 7.4
  *
@@ -32,16 +32,16 @@ use \ArrayAccess;
 use \ActivitySmith\Generated\ObjectSerializer;
 
 /**
- * ContentStateStart Class Doc Comment
+ * StreamContentState Class Doc Comment
  *
  * @category Class
- * @description Start payload requires title and type. For segmented_progress include number_of_steps and current_step. For progress include percentage or value with upper_limit. For metrics include a non-empty metrics array. Legacy counter/timer/countdown types also use current_step and number_of_steps. For segmented_progress, number_of_steps is not locked and can be changed in later update or end calls.
+ * @description Current state for a managed Live Activity stream. Include type on the first PUT, and whenever the stream may need to start a fresh activity. Supports segmented_progress, progress, metrics, and the legacy counter/timer/countdown step-based types.
  * @package  ActivitySmith\Generated
  * @author   OpenAPI Generator team
  * @link     https://openapi-generator.tech
  * @implements \ArrayAccess<string, mixed>
  */
-class ContentStateStart implements ModelInterface, ArrayAccess, \JsonSerializable
+class StreamContentState implements ModelInterface, ArrayAccess, \JsonSerializable
 {
     public const DISCRIMINATOR = null;
 
@@ -50,7 +50,7 @@ class ContentStateStart implements ModelInterface, ArrayAccess, \JsonSerializabl
       *
       * @var string
       */
-    protected static $openAPIModelName = 'ContentStateStart';
+    protected static $openAPIModelName = 'StreamContentState';
 
     /**
       * Array of property to type mappings. Used for (de)serialization
@@ -65,11 +65,13 @@ class ContentStateStart implements ModelInterface, ArrayAccess, \JsonSerializabl
         'percentage' => 'float',
         'value' => 'float',
         'upperLimit' => 'float',
-        'metrics' => '\ActivitySmith\Generated\Model\ActivityMetric[]',
         'type' => 'string',
         'color' => 'string',
         'stepColor' => 'string',
-        'stepColors' => 'string[]'
+        'stepColors' => 'string[]',
+        'metrics' => '\ActivitySmith\Generated\Model\ActivityMetric[]',
+        'autoDismissSeconds' => 'int',
+        'autoDismissMinutes' => 'int'
     ];
 
     /**
@@ -87,11 +89,13 @@ class ContentStateStart implements ModelInterface, ArrayAccess, \JsonSerializabl
         'percentage' => null,
         'value' => null,
         'upperLimit' => null,
-        'metrics' => null,
         'type' => null,
         'color' => null,
         'stepColor' => null,
-        'stepColors' => null
+        'stepColors' => null,
+        'metrics' => null,
+        'autoDismissSeconds' => null,
+        'autoDismissMinutes' => null
     ];
 
     /**
@@ -107,11 +111,13 @@ class ContentStateStart implements ModelInterface, ArrayAccess, \JsonSerializabl
         'percentage' => false,
         'value' => false,
         'upperLimit' => false,
-        'metrics' => false,
         'type' => false,
         'color' => false,
         'stepColor' => false,
-        'stepColors' => false
+        'stepColors' => false,
+        'metrics' => false,
+        'autoDismissSeconds' => false,
+        'autoDismissMinutes' => false
     ];
 
     /**
@@ -207,11 +213,13 @@ class ContentStateStart implements ModelInterface, ArrayAccess, \JsonSerializabl
         'percentage' => 'percentage',
         'value' => 'value',
         'upperLimit' => 'upper_limit',
-        'metrics' => 'metrics',
         'type' => 'type',
         'color' => 'color',
         'stepColor' => 'step_color',
-        'stepColors' => 'step_colors'
+        'stepColors' => 'step_colors',
+        'metrics' => 'metrics',
+        'autoDismissSeconds' => 'auto_dismiss_seconds',
+        'autoDismissMinutes' => 'auto_dismiss_minutes'
     ];
 
     /**
@@ -227,11 +235,13 @@ class ContentStateStart implements ModelInterface, ArrayAccess, \JsonSerializabl
         'percentage' => 'setPercentage',
         'value' => 'setValue',
         'upperLimit' => 'setUpperLimit',
-        'metrics' => 'setMetrics',
         'type' => 'setType',
         'color' => 'setColor',
         'stepColor' => 'setStepColor',
-        'stepColors' => 'setStepColors'
+        'stepColors' => 'setStepColors',
+        'metrics' => 'setMetrics',
+        'autoDismissSeconds' => 'setAutoDismissSeconds',
+        'autoDismissMinutes' => 'setAutoDismissMinutes'
     ];
 
     /**
@@ -247,11 +257,13 @@ class ContentStateStart implements ModelInterface, ArrayAccess, \JsonSerializabl
         'percentage' => 'getPercentage',
         'value' => 'getValue',
         'upperLimit' => 'getUpperLimit',
-        'metrics' => 'getMetrics',
         'type' => 'getType',
         'color' => 'getColor',
         'stepColor' => 'getStepColor',
-        'stepColors' => 'getStepColors'
+        'stepColors' => 'getStepColors',
+        'metrics' => 'getMetrics',
+        'autoDismissSeconds' => 'getAutoDismissSeconds',
+        'autoDismissMinutes' => 'getAutoDismissMinutes'
     ];
 
     /**
@@ -428,11 +440,13 @@ class ContentStateStart implements ModelInterface, ArrayAccess, \JsonSerializabl
         $this->setIfExists('percentage', $data ?? [], null);
         $this->setIfExists('value', $data ?? [], null);
         $this->setIfExists('upperLimit', $data ?? [], null);
-        $this->setIfExists('metrics', $data ?? [], null);
         $this->setIfExists('type', $data ?? [], null);
         $this->setIfExists('color', $data ?? [], 'blue');
         $this->setIfExists('stepColor', $data ?? [], null);
         $this->setIfExists('stepColors', $data ?? [], null);
+        $this->setIfExists('metrics', $data ?? [], null);
+        $this->setIfExists('autoDismissSeconds', $data ?? [], null);
+        $this->setIfExists('autoDismissMinutes', $data ?? [], null);
     }
 
     /**
@@ -481,13 +495,6 @@ class ContentStateStart implements ModelInterface, ArrayAccess, \JsonSerializabl
             $invalidProperties[] = "invalid value for 'percentage', must be bigger than or equal to 0.";
         }
 
-        if (!is_null($this->container['metrics']) && (count($this->container['metrics']) < 1)) {
-            $invalidProperties[] = "invalid value for 'metrics', number of items must be greater than or equal to 1.";
-        }
-
-        if ($this->container['type'] === null) {
-            $invalidProperties[] = "'type' can't be null";
-        }
         $allowedValues = $this->getTypeAllowableValues();
         if (!is_null($this->container['type']) && !in_array($this->container['type'], $allowedValues, true)) {
             $invalidProperties[] = sprintf(
@@ -513,6 +520,18 @@ class ContentStateStart implements ModelInterface, ArrayAccess, \JsonSerializabl
                 $this->container['stepColor'],
                 implode("', '", $allowedValues)
             );
+        }
+
+        if (!is_null($this->container['metrics']) && (count($this->container['metrics']) < 1)) {
+            $invalidProperties[] = "invalid value for 'metrics', number of items must be greater than or equal to 1.";
+        }
+
+        if (!is_null($this->container['autoDismissSeconds']) && ($this->container['autoDismissSeconds'] < 0)) {
+            $invalidProperties[] = "invalid value for 'autoDismissSeconds', must be bigger than or equal to 0.";
+        }
+
+        if (!is_null($this->container['autoDismissMinutes']) && ($this->container['autoDismissMinutes'] < 0)) {
+            $invalidProperties[] = "invalid value for 'autoDismissMinutes', must be bigger than or equal to 0.";
         }
 
         return $invalidProperties;
@@ -597,7 +616,7 @@ class ContentStateStart implements ModelInterface, ArrayAccess, \JsonSerializabl
     /**
      * Sets numberOfSteps
      *
-     * @param int|null $numberOfSteps Total number of steps. Use for type=segmented_progress. This value can be increased or decreased later when updating or ending the same activity.
+     * @param int|null $numberOfSteps Use for segmented_progress, counter, timer, and countdown.
      *
      * @return self
      */
@@ -608,7 +627,7 @@ class ContentStateStart implements ModelInterface, ArrayAccess, \JsonSerializabl
         }
 
         if (($numberOfSteps < 1)) {
-            throw new \InvalidArgumentException('invalid value for $numberOfSteps when calling ContentStateStart., must be bigger than or equal to 1.');
+            throw new \InvalidArgumentException('invalid value for $numberOfSteps when calling StreamContentState., must be bigger than or equal to 1.');
         }
 
         $this->container['numberOfSteps'] = $numberOfSteps;
@@ -629,7 +648,7 @@ class ContentStateStart implements ModelInterface, ArrayAccess, \JsonSerializabl
     /**
      * Sets currentStep
      *
-     * @param int|null $currentStep Current step. Use for type=segmented_progress.
+     * @param int|null $currentStep Use for segmented_progress, counter, timer, and countdown.
      *
      * @return self
      */
@@ -640,7 +659,7 @@ class ContentStateStart implements ModelInterface, ArrayAccess, \JsonSerializabl
         }
 
         if (($currentStep < 1)) {
-            throw new \InvalidArgumentException('invalid value for $currentStep when calling ContentStateStart., must be bigger than or equal to 1.');
+            throw new \InvalidArgumentException('invalid value for $currentStep when calling StreamContentState., must be bigger than or equal to 1.');
         }
 
         $this->container['currentStep'] = $currentStep;
@@ -661,7 +680,7 @@ class ContentStateStart implements ModelInterface, ArrayAccess, \JsonSerializabl
     /**
      * Sets percentage
      *
-     * @param float|null $percentage Progress percentage (0–100). Use for type=progress. Takes precedence over value/upper_limit if both are provided.
+     * @param float|null $percentage Use for progress. Takes precedence over value/upper_limit if both are provided.
      *
      * @return self
      */
@@ -672,10 +691,10 @@ class ContentStateStart implements ModelInterface, ArrayAccess, \JsonSerializabl
         }
 
         if (($percentage > 100)) {
-            throw new \InvalidArgumentException('invalid value for $percentage when calling ContentStateStart., must be smaller than or equal to 100.');
+            throw new \InvalidArgumentException('invalid value for $percentage when calling StreamContentState., must be smaller than or equal to 100.');
         }
         if (($percentage < 0)) {
-            throw new \InvalidArgumentException('invalid value for $percentage when calling ContentStateStart., must be bigger than or equal to 0.');
+            throw new \InvalidArgumentException('invalid value for $percentage when calling StreamContentState., must be bigger than or equal to 0.');
         }
 
         $this->container['percentage'] = $percentage;
@@ -696,7 +715,7 @@ class ContentStateStart implements ModelInterface, ArrayAccess, \JsonSerializabl
     /**
      * Sets value
      *
-     * @param float|null $value Current progress value. Use with upper_limit for type=progress.
+     * @param float|null $value Current progress value. Use with upper_limit for progress.
      *
      * @return self
      */
@@ -723,7 +742,7 @@ class ContentStateStart implements ModelInterface, ArrayAccess, \JsonSerializabl
     /**
      * Sets upperLimit
      *
-     * @param float|null $upperLimit Maximum progress value. Use with value for type=progress.
+     * @param float|null $upperLimit Maximum progress value. Use with value for progress.
      *
      * @return self
      */
@@ -738,41 +757,9 @@ class ContentStateStart implements ModelInterface, ArrayAccess, \JsonSerializabl
     }
 
     /**
-     * Gets metrics
-     *
-     * @return \ActivitySmith\Generated\Model\ActivityMetric[]|null
-     */
-    public function getMetrics()
-    {
-        return $this->container['metrics'];
-    }
-
-    /**
-     * Sets metrics
-     *
-     * @param \ActivitySmith\Generated\Model\ActivityMetric[]|null $metrics Use for type=metrics.
-     *
-     * @return self
-     */
-    public function setMetrics($metrics)
-    {
-        if (is_null($metrics)) {
-            throw new \InvalidArgumentException('non-nullable metrics cannot be null');
-        }
-
-
-        if ((count($metrics) < 1)) {
-            throw new \InvalidArgumentException('invalid length for $metrics when calling ContentStateStart., number of items must be greater than or equal to 1.');
-        }
-        $this->container['metrics'] = $metrics;
-
-        return $this;
-    }
-
-    /**
      * Gets type
      *
-     * @return string
+     * @return string|null
      */
     public function getType()
     {
@@ -782,7 +769,7 @@ class ContentStateStart implements ModelInterface, ArrayAccess, \JsonSerializabl
     /**
      * Sets type
      *
-     * @param string $type type
+     * @param string|null $type Required on the first PUT or whenever the stream cannot infer the current activity type.
      *
      * @return self
      */
@@ -856,7 +843,7 @@ class ContentStateStart implements ModelInterface, ArrayAccess, \JsonSerializabl
     /**
      * Sets stepColor
      *
-     * @param string|null $stepColor Optional. Overrides color for the current step. Only applies to type=segmented_progress.
+     * @param string|null $stepColor Optional. Overrides color for the current step. Only applies to segmented_progress.
      *
      * @return self
      */
@@ -912,6 +899,102 @@ class ContentStateStart implements ModelInterface, ArrayAccess, \JsonSerializabl
             );
         }
         $this->container['stepColors'] = $stepColors;
+
+        return $this;
+    }
+
+    /**
+     * Gets metrics
+     *
+     * @return \ActivitySmith\Generated\Model\ActivityMetric[]|null
+     */
+    public function getMetrics()
+    {
+        return $this->container['metrics'];
+    }
+
+    /**
+     * Sets metrics
+     *
+     * @param \ActivitySmith\Generated\Model\ActivityMetric[]|null $metrics Use for metrics activities.
+     *
+     * @return self
+     */
+    public function setMetrics($metrics)
+    {
+        if (is_null($metrics)) {
+            throw new \InvalidArgumentException('non-nullable metrics cannot be null');
+        }
+
+
+        if ((count($metrics) < 1)) {
+            throw new \InvalidArgumentException('invalid length for $metrics when calling StreamContentState., number of items must be greater than or equal to 1.');
+        }
+        $this->container['metrics'] = $metrics;
+
+        return $this;
+    }
+
+    /**
+     * Gets autoDismissSeconds
+     *
+     * @return int|null
+     */
+    public function getAutoDismissSeconds()
+    {
+        return $this->container['autoDismissSeconds'];
+    }
+
+    /**
+     * Sets autoDismissSeconds
+     *
+     * @param int|null $autoDismissSeconds Optional. Seconds before the ended Live Activity is dismissed.
+     *
+     * @return self
+     */
+    public function setAutoDismissSeconds($autoDismissSeconds)
+    {
+        if (is_null($autoDismissSeconds)) {
+            throw new \InvalidArgumentException('non-nullable autoDismissSeconds cannot be null');
+        }
+
+        if (($autoDismissSeconds < 0)) {
+            throw new \InvalidArgumentException('invalid value for $autoDismissSeconds when calling StreamContentState., must be bigger than or equal to 0.');
+        }
+
+        $this->container['autoDismissSeconds'] = $autoDismissSeconds;
+
+        return $this;
+    }
+
+    /**
+     * Gets autoDismissMinutes
+     *
+     * @return int|null
+     */
+    public function getAutoDismissMinutes()
+    {
+        return $this->container['autoDismissMinutes'];
+    }
+
+    /**
+     * Sets autoDismissMinutes
+     *
+     * @param int|null $autoDismissMinutes Optional. Minutes before the ended Live Activity is dismissed.
+     *
+     * @return self
+     */
+    public function setAutoDismissMinutes($autoDismissMinutes)
+    {
+        if (is_null($autoDismissMinutes)) {
+            throw new \InvalidArgumentException('non-nullable autoDismissMinutes cannot be null');
+        }
+
+        if (($autoDismissMinutes < 0)) {
+            throw new \InvalidArgumentException('invalid value for $autoDismissMinutes when calling StreamContentState., must be bigger than or equal to 0.');
+        }
+
+        $this->container['autoDismissMinutes'] = $autoDismissMinutes;
 
         return $this;
     }
