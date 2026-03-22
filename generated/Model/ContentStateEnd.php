@@ -35,7 +35,7 @@ use \ActivitySmith\Generated\ObjectSerializer;
  * ContentStateEnd Class Doc Comment
  *
  * @category Class
- * @description End payload requires title. For segmented_progress include current_step and optionally number_of_steps. For progress include percentage or value with upper_limit. Type is optional when ending an existing activity. You can send an updated number_of_steps here if the workflow changed after start.
+ * @description End payload requires title. For segmented_progress include current_step and optionally number_of_steps. For progress include percentage or value with upper_limit. For metrics include a non-empty metrics array. Legacy counter/timer/countdown types also use current_step and number_of_steps. Type is optional when ending an existing activity. You can send an updated number_of_steps here if the workflow changed after start.
  * @package  ActivitySmith\Generated
  * @author   OpenAPI Generator team
  * @link     https://openapi-generator.tech
@@ -65,9 +65,11 @@ class ContentStateEnd implements ModelInterface, ArrayAccess, \JsonSerializable
         'percentage' => 'float',
         'value' => 'float',
         'upperLimit' => 'float',
+        'metrics' => '\ActivitySmith\Generated\Model\ActivityMetric[]',
         'type' => 'string',
         'color' => 'string',
         'stepColor' => 'string',
+        'stepColors' => 'string[]',
         'autoDismissMinutes' => 'int'
     ];
 
@@ -86,9 +88,11 @@ class ContentStateEnd implements ModelInterface, ArrayAccess, \JsonSerializable
         'percentage' => null,
         'value' => null,
         'upperLimit' => null,
+        'metrics' => null,
         'type' => null,
         'color' => null,
         'stepColor' => null,
+        'stepColors' => null,
         'autoDismissMinutes' => null
     ];
 
@@ -105,9 +109,11 @@ class ContentStateEnd implements ModelInterface, ArrayAccess, \JsonSerializable
         'percentage' => false,
         'value' => false,
         'upperLimit' => false,
+        'metrics' => false,
         'type' => false,
         'color' => false,
         'stepColor' => false,
+        'stepColors' => false,
         'autoDismissMinutes' => false
     ];
 
@@ -204,9 +210,11 @@ class ContentStateEnd implements ModelInterface, ArrayAccess, \JsonSerializable
         'percentage' => 'percentage',
         'value' => 'value',
         'upperLimit' => 'upper_limit',
+        'metrics' => 'metrics',
         'type' => 'type',
         'color' => 'color',
         'stepColor' => 'step_color',
+        'stepColors' => 'step_colors',
         'autoDismissMinutes' => 'auto_dismiss_minutes'
     ];
 
@@ -223,9 +231,11 @@ class ContentStateEnd implements ModelInterface, ArrayAccess, \JsonSerializable
         'percentage' => 'setPercentage',
         'value' => 'setValue',
         'upperLimit' => 'setUpperLimit',
+        'metrics' => 'setMetrics',
         'type' => 'setType',
         'color' => 'setColor',
         'stepColor' => 'setStepColor',
+        'stepColors' => 'setStepColors',
         'autoDismissMinutes' => 'setAutoDismissMinutes'
     ];
 
@@ -242,9 +252,11 @@ class ContentStateEnd implements ModelInterface, ArrayAccess, \JsonSerializable
         'percentage' => 'getPercentage',
         'value' => 'getValue',
         'upperLimit' => 'getUpperLimit',
+        'metrics' => 'getMetrics',
         'type' => 'getType',
         'color' => 'getColor',
         'stepColor' => 'getStepColor',
+        'stepColors' => 'getStepColors',
         'autoDismissMinutes' => 'getAutoDismissMinutes'
     ];
 
@@ -291,6 +303,10 @@ class ContentStateEnd implements ModelInterface, ArrayAccess, \JsonSerializable
 
     public const TYPE_SEGMENTED_PROGRESS = 'segmented_progress';
     public const TYPE_PROGRESS = 'progress';
+    public const TYPE_METRICS = 'metrics';
+    public const TYPE_COUNTER = 'counter';
+    public const TYPE_TIMER = 'timer';
+    public const TYPE_COUNTDOWN = 'countdown';
     public const COLOR_LIME = 'lime';
     public const COLOR_GREEN = 'green';
     public const COLOR_CYAN = 'cyan';
@@ -309,6 +325,15 @@ class ContentStateEnd implements ModelInterface, ArrayAccess, \JsonSerializable
     public const STEP_COLOR_RED = 'red';
     public const STEP_COLOR_ORANGE = 'orange';
     public const STEP_COLOR_YELLOW = 'yellow';
+    public const STEP_COLORS_LIME = 'lime';
+    public const STEP_COLORS_GREEN = 'green';
+    public const STEP_COLORS_CYAN = 'cyan';
+    public const STEP_COLORS_BLUE = 'blue';
+    public const STEP_COLORS_PURPLE = 'purple';
+    public const STEP_COLORS_MAGENTA = 'magenta';
+    public const STEP_COLORS_RED = 'red';
+    public const STEP_COLORS_ORANGE = 'orange';
+    public const STEP_COLORS_YELLOW = 'yellow';
 
     /**
      * Gets allowable values of the enum
@@ -320,6 +345,10 @@ class ContentStateEnd implements ModelInterface, ArrayAccess, \JsonSerializable
         return [
             self::TYPE_SEGMENTED_PROGRESS,
             self::TYPE_PROGRESS,
+            self::TYPE_METRICS,
+            self::TYPE_COUNTER,
+            self::TYPE_TIMER,
+            self::TYPE_COUNTDOWN,
         ];
     }
 
@@ -364,6 +393,26 @@ class ContentStateEnd implements ModelInterface, ArrayAccess, \JsonSerializable
     }
 
     /**
+     * Gets allowable values of the enum
+     *
+     * @return string[]
+     */
+    public function getStepColorsAllowableValues()
+    {
+        return [
+            self::STEP_COLORS_LIME,
+            self::STEP_COLORS_GREEN,
+            self::STEP_COLORS_CYAN,
+            self::STEP_COLORS_BLUE,
+            self::STEP_COLORS_PURPLE,
+            self::STEP_COLORS_MAGENTA,
+            self::STEP_COLORS_RED,
+            self::STEP_COLORS_ORANGE,
+            self::STEP_COLORS_YELLOW,
+        ];
+    }
+
+    /**
      * Associative array for storing property values
      *
      * @var mixed[]
@@ -385,9 +434,11 @@ class ContentStateEnd implements ModelInterface, ArrayAccess, \JsonSerializable
         $this->setIfExists('percentage', $data ?? [], null);
         $this->setIfExists('value', $data ?? [], null);
         $this->setIfExists('upperLimit', $data ?? [], null);
+        $this->setIfExists('metrics', $data ?? [], null);
         $this->setIfExists('type', $data ?? [], null);
         $this->setIfExists('color', $data ?? [], 'blue');
         $this->setIfExists('stepColor', $data ?? [], null);
+        $this->setIfExists('stepColors', $data ?? [], null);
         $this->setIfExists('autoDismissMinutes', $data ?? [], 3);
     }
 
@@ -435,6 +486,10 @@ class ContentStateEnd implements ModelInterface, ArrayAccess, \JsonSerializable
 
         if (!is_null($this->container['percentage']) && ($this->container['percentage'] < 0)) {
             $invalidProperties[] = "invalid value for 'percentage', must be bigger than or equal to 0.";
+        }
+
+        if (!is_null($this->container['metrics']) && (count($this->container['metrics']) < 1)) {
+            $invalidProperties[] = "invalid value for 'metrics', number of items must be greater than or equal to 1.";
         }
 
         $allowedValues = $this->getTypeAllowableValues();
@@ -691,6 +746,38 @@ class ContentStateEnd implements ModelInterface, ArrayAccess, \JsonSerializable
     }
 
     /**
+     * Gets metrics
+     *
+     * @return \ActivitySmith\Generated\Model\ActivityMetric[]|null
+     */
+    public function getMetrics()
+    {
+        return $this->container['metrics'];
+    }
+
+    /**
+     * Sets metrics
+     *
+     * @param \ActivitySmith\Generated\Model\ActivityMetric[]|null $metrics Use for type=metrics.
+     *
+     * @return self
+     */
+    public function setMetrics($metrics)
+    {
+        if (is_null($metrics)) {
+            throw new \InvalidArgumentException('non-nullable metrics cannot be null');
+        }
+
+
+        if ((count($metrics) < 1)) {
+            throw new \InvalidArgumentException('invalid length for $metrics when calling ContentStateEnd., number of items must be greater than or equal to 1.');
+        }
+        $this->container['metrics'] = $metrics;
+
+        return $this;
+    }
+
+    /**
      * Gets type
      *
      * @return string|null
@@ -797,6 +884,42 @@ class ContentStateEnd implements ModelInterface, ArrayAccess, \JsonSerializable
             );
         }
         $this->container['stepColor'] = $stepColor;
+
+        return $this;
+    }
+
+    /**
+     * Gets stepColors
+     *
+     * @return string[]|null
+     */
+    public function getStepColors()
+    {
+        return $this->container['stepColors'];
+    }
+
+    /**
+     * Sets stepColors
+     *
+     * @param string[]|null $stepColors Optional. Colors for completed steps. When used with segmented_progress, the array length should match current_step.
+     *
+     * @return self
+     */
+    public function setStepColors($stepColors)
+    {
+        if (is_null($stepColors)) {
+            throw new \InvalidArgumentException('non-nullable stepColors cannot be null');
+        }
+        $allowedValues = $this->getStepColorsAllowableValues();
+        if (array_diff($stepColors, $allowedValues)) {
+            throw new \InvalidArgumentException(
+                sprintf(
+                    "Invalid value for 'stepColors', must be one of '%s'",
+                    implode("', '", $allowedValues)
+                )
+            );
+        }
+        $this->container['stepColors'] = $stepColors;
 
         return $this;
     }
