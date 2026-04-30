@@ -35,7 +35,7 @@ use \ActivitySmith\Generated\ObjectSerializer;
  * StreamContentState Class Doc Comment
  *
  * @category Class
- * @description Current state for a managed Live Activity stream. Include type on the first PUT, and whenever the stream may need to start a fresh activity. Supports segmented_progress, progress, metrics, and the legacy counter/timer/countdown step-based types.
+ * @description Current state for a managed Live Activity stream. Include type on the first PUT, and whenever the stream may need to start a fresh activity. Supports segmented_progress, progress, and metrics types.
  * @package  ActivitySmith\Generated
  * @author   OpenAPI Generator team
  * @link     https://openapi-generator.tech
@@ -310,9 +310,6 @@ class StreamContentState implements ModelInterface, ArrayAccess, \JsonSerializab
     public const TYPE_SEGMENTED_PROGRESS = 'segmented_progress';
     public const TYPE_PROGRESS = 'progress';
     public const TYPE_METRICS = 'metrics';
-    public const TYPE_COUNTER = 'counter';
-    public const TYPE_TIMER = 'timer';
-    public const TYPE_COUNTDOWN = 'countdown';
     public const COLOR_LIME = 'lime';
     public const COLOR_GREEN = 'green';
     public const COLOR_CYAN = 'cyan';
@@ -352,9 +349,6 @@ class StreamContentState implements ModelInterface, ArrayAccess, \JsonSerializab
             self::TYPE_SEGMENTED_PROGRESS,
             self::TYPE_PROGRESS,
             self::TYPE_METRICS,
-            self::TYPE_COUNTER,
-            self::TYPE_TIMER,
-            self::TYPE_COUNTDOWN,
         ];
     }
 
@@ -616,7 +610,7 @@ class StreamContentState implements ModelInterface, ArrayAccess, \JsonSerializab
     /**
      * Sets numberOfSteps
      *
-     * @param int|null $numberOfSteps Use for segmented_progress, counter, timer, and countdown.
+     * @param int|null $numberOfSteps Use for segmented_progress.
      *
      * @return self
      */
@@ -648,7 +642,7 @@ class StreamContentState implements ModelInterface, ArrayAccess, \JsonSerializab
     /**
      * Sets currentStep
      *
-     * @param int|null $currentStep Use for segmented_progress, counter, timer, and countdown.
+     * @param int|null $currentStep Use for segmented_progress.
      *
      * @return self
      */
