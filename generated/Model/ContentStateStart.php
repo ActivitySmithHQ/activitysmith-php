@@ -35,7 +35,7 @@ use \ActivitySmith\Generated\ObjectSerializer;
  * ContentStateStart Class Doc Comment
  *
  * @category Class
- * @description Start payload requires title and type. For segmented_progress include number_of_steps and current_step. For progress include percentage or value with upper_limit. For metrics include a non-empty metrics array. Legacy counter/timer/countdown types also use current_step and number_of_steps. For segmented_progress, number_of_steps is not locked and can be changed in later update or end calls.
+ * @description Start payload requires title and type. For segmented_progress include number_of_steps and current_step. For progress include percentage or value with upper_limit. For metrics include a non-empty metrics array. For segmented_progress, number_of_steps is not locked and can be changed in later update or end calls.
  * @package  ActivitySmith\Generated
  * @author   OpenAPI Generator team
  * @link     https://openapi-generator.tech
@@ -298,9 +298,6 @@ class ContentStateStart implements ModelInterface, ArrayAccess, \JsonSerializabl
     public const TYPE_SEGMENTED_PROGRESS = 'segmented_progress';
     public const TYPE_PROGRESS = 'progress';
     public const TYPE_METRICS = 'metrics';
-    public const TYPE_COUNTER = 'counter';
-    public const TYPE_TIMER = 'timer';
-    public const TYPE_COUNTDOWN = 'countdown';
     public const COLOR_LIME = 'lime';
     public const COLOR_GREEN = 'green';
     public const COLOR_CYAN = 'cyan';
@@ -340,9 +337,6 @@ class ContentStateStart implements ModelInterface, ArrayAccess, \JsonSerializabl
             self::TYPE_SEGMENTED_PROGRESS,
             self::TYPE_PROGRESS,
             self::TYPE_METRICS,
-            self::TYPE_COUNTER,
-            self::TYPE_TIMER,
-            self::TYPE_COUNTDOWN,
         ];
     }
 
