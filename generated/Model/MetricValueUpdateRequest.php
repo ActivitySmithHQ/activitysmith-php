@@ -58,8 +58,7 @@ class MetricValueUpdateRequest implements ModelInterface, ArrayAccess, \JsonSeri
       * @var string[]
       */
     protected static $openAPITypes = [
-        'value' => '\ActivitySmith\Generated\Model\MetricValueUpdateRequestValue',
-        'timestamp' => '\DateTime'
+        'value' => '\ActivitySmith\Generated\Model\MetricValueUpdateRequestValue'
     ];
 
     /**
@@ -70,8 +69,7 @@ class MetricValueUpdateRequest implements ModelInterface, ArrayAccess, \JsonSeri
       * @psalm-var array<string, string|null>
       */
     protected static $openAPIFormats = [
-        'value' => null,
-        'timestamp' => 'date-time'
+        'value' => null
     ];
 
     /**
@@ -80,8 +78,7 @@ class MetricValueUpdateRequest implements ModelInterface, ArrayAccess, \JsonSeri
       * @var boolean[]
       */
     protected static array $openAPINullables = [
-        'value' => false,
-        'timestamp' => false
+        'value' => false
     ];
 
     /**
@@ -170,8 +167,7 @@ class MetricValueUpdateRequest implements ModelInterface, ArrayAccess, \JsonSeri
      * @var string[]
      */
     protected static $attributeMap = [
-        'value' => 'value',
-        'timestamp' => 'timestamp'
+        'value' => 'value'
     ];
 
     /**
@@ -180,8 +176,7 @@ class MetricValueUpdateRequest implements ModelInterface, ArrayAccess, \JsonSeri
      * @var string[]
      */
     protected static $setters = [
-        'value' => 'setValue',
-        'timestamp' => 'setTimestamp'
+        'value' => 'setValue'
     ];
 
     /**
@@ -190,8 +185,7 @@ class MetricValueUpdateRequest implements ModelInterface, ArrayAccess, \JsonSeri
      * @var string[]
      */
     protected static $getters = [
-        'value' => 'getValue',
-        'timestamp' => 'getTimestamp'
+        'value' => 'getValue'
     ];
 
     /**
@@ -252,7 +246,6 @@ class MetricValueUpdateRequest implements ModelInterface, ArrayAccess, \JsonSeri
     public function __construct(array $data = null)
     {
         $this->setIfExists('value', $data ?? [], null);
-        $this->setIfExists('timestamp', $data ?? [], null);
     }
 
     /**
@@ -323,33 +316,6 @@ class MetricValueUpdateRequest implements ModelInterface, ArrayAccess, \JsonSeri
             throw new \InvalidArgumentException('non-nullable value cannot be null');
         }
         $this->container['value'] = $value;
-
-        return $this;
-    }
-
-    /**
-     * Gets timestamp
-     *
-     * @return \DateTime|null
-     */
-    public function getTimestamp()
-    {
-        return $this->container['timestamp'];
-    }
-
-    /**
-     * Sets timestamp
-     *
-     * @param \DateTime|null $timestamp Optional ISO timestamp for when the metric value was measured. Defaults to the server receive time.
-     *
-     * @return self
-     */
-    public function setTimestamp($timestamp)
-    {
-        if (is_null($timestamp)) {
-            throw new \InvalidArgumentException('non-nullable timestamp cannot be null');
-        }
-        $this->container['timestamp'] = $timestamp;
 
         return $this;
     }
