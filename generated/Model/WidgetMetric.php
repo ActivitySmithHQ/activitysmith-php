@@ -65,7 +65,7 @@ class WidgetMetric implements ModelInterface, ArrayAccess, \JsonSerializable
         'unit' => 'string',
         'unitSpacing' => '\ActivitySmith\Generated\Model\MetricUnitSpacing',
         'format' => '\ActivitySmith\Generated\Model\MetricFormat',
-        'latestValue' => '\ActivitySmith\Generated\Model\WidgetMetricLatestValue',
+        'latestValue' => 'float',
         'latestValueAt' => '\DateTime',
         'createdAt' => '\DateTime',
         'updatedAt' => '\DateTime'
@@ -101,12 +101,12 @@ class WidgetMetric implements ModelInterface, ArrayAccess, \JsonSerializable
         'publicId' => false,
         'key' => false,
         'label' => false,
-        'currencyCode' => true,
-        'unit' => true,
+        'currencyCode' => false,
+        'unit' => false,
         'unitSpacing' => false,
         'format' => false,
-        'latestValue' => true,
-        'latestValueAt' => true,
+        'latestValue' => false,
+        'latestValueAt' => false,
         'createdAt' => false,
         'updatedAt' => false
     ];
@@ -547,22 +547,15 @@ class WidgetMetric implements ModelInterface, ArrayAccess, \JsonSerializable
     public function setCurrencyCode($currencyCode)
     {
         if (is_null($currencyCode)) {
-            array_push($this->openAPINullablesSetToNull, 'currencyCode');
-        } else {
-            $nullablesSetToNull = $this->getOpenAPINullablesSetToNull();
-            $index = array_search('currencyCode', $nullablesSetToNull);
-            if ($index !== FALSE) {
-                unset($nullablesSetToNull[$index]);
-                $this->setOpenAPINullablesSetToNull($nullablesSetToNull);
-            }
+            throw new \InvalidArgumentException('non-nullable currencyCode cannot be null');
         }
-        if (!is_null($currencyCode) && (mb_strlen($currencyCode) > 3)) {
+        if ((mb_strlen($currencyCode) > 3)) {
             throw new \InvalidArgumentException('invalid length for $currencyCode when calling WidgetMetric., must be smaller than or equal to 3.');
         }
-        if (!is_null($currencyCode) && (mb_strlen($currencyCode) < 3)) {
+        if ((mb_strlen($currencyCode) < 3)) {
             throw new \InvalidArgumentException('invalid length for $currencyCode when calling WidgetMetric., must be bigger than or equal to 3.');
         }
-        if (!is_null($currencyCode) && (!preg_match("/^[A-Z]{3}$/", ObjectSerializer::toString($currencyCode)))) {
+        if ((!preg_match("/^[A-Z]{3}$/", ObjectSerializer::toString($currencyCode)))) {
             throw new \InvalidArgumentException("invalid value for \$currencyCode when calling WidgetMetric., must conform to the pattern /^[A-Z]{3}$/.");
         }
 
@@ -591,16 +584,9 @@ class WidgetMetric implements ModelInterface, ArrayAccess, \JsonSerializable
     public function setUnit($unit)
     {
         if (is_null($unit)) {
-            array_push($this->openAPINullablesSetToNull, 'unit');
-        } else {
-            $nullablesSetToNull = $this->getOpenAPINullablesSetToNull();
-            $index = array_search('unit', $nullablesSetToNull);
-            if ($index !== FALSE) {
-                unset($nullablesSetToNull[$index]);
-                $this->setOpenAPINullablesSetToNull($nullablesSetToNull);
-            }
+            throw new \InvalidArgumentException('non-nullable unit cannot be null');
         }
-        if (!is_null($unit) && (mb_strlen($unit) > 16)) {
+        if ((mb_strlen($unit) > 16)) {
             throw new \InvalidArgumentException('invalid length for $unit when calling WidgetMetric., must be smaller than or equal to 16.');
         }
 
@@ -666,7 +652,7 @@ class WidgetMetric implements ModelInterface, ArrayAccess, \JsonSerializable
     /**
      * Gets latestValue
      *
-     * @return \ActivitySmith\Generated\Model\WidgetMetricLatestValue
+     * @return float
      */
     public function getLatestValue()
     {
@@ -676,21 +662,14 @@ class WidgetMetric implements ModelInterface, ArrayAccess, \JsonSerializable
     /**
      * Sets latestValue
      *
-     * @param \ActivitySmith\Generated\Model\WidgetMetricLatestValue $latestValue latestValue
+     * @param float $latestValue Latest metric value. Numeric formats return a number. String metrics return text.
      *
      * @return self
      */
     public function setLatestValue($latestValue)
     {
         if (is_null($latestValue)) {
-            array_push($this->openAPINullablesSetToNull, 'latestValue');
-        } else {
-            $nullablesSetToNull = $this->getOpenAPINullablesSetToNull();
-            $index = array_search('latestValue', $nullablesSetToNull);
-            if ($index !== FALSE) {
-                unset($nullablesSetToNull[$index]);
-                $this->setOpenAPINullablesSetToNull($nullablesSetToNull);
-            }
+            throw new \InvalidArgumentException('non-nullable latestValue cannot be null');
         }
         $this->container['latestValue'] = $latestValue;
 
@@ -717,14 +696,7 @@ class WidgetMetric implements ModelInterface, ArrayAccess, \JsonSerializable
     public function setLatestValueAt($latestValueAt)
     {
         if (is_null($latestValueAt)) {
-            array_push($this->openAPINullablesSetToNull, 'latestValueAt');
-        } else {
-            $nullablesSetToNull = $this->getOpenAPINullablesSetToNull();
-            $index = array_search('latestValueAt', $nullablesSetToNull);
-            if ($index !== FALSE) {
-                unset($nullablesSetToNull[$index]);
-                $this->setOpenAPINullablesSetToNull($nullablesSetToNull);
-            }
+            throw new \InvalidArgumentException('non-nullable latestValueAt cannot be null');
         }
         $this->container['latestValueAt'] = $latestValueAt;
 
