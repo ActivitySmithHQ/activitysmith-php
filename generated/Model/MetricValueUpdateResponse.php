@@ -57,7 +57,7 @@ class MetricValueUpdateResponse implements ModelInterface, ArrayAccess, \JsonSer
       * @var string[]
       */
     protected static $openAPITypes = [
-        'metric' => '\ActivitySmith\Generated\Model\WidgetMetric'
+        'success' => 'bool'
     ];
 
     /**
@@ -68,7 +68,7 @@ class MetricValueUpdateResponse implements ModelInterface, ArrayAccess, \JsonSer
       * @psalm-var array<string, string|null>
       */
     protected static $openAPIFormats = [
-        'metric' => null
+        'success' => null
     ];
 
     /**
@@ -77,7 +77,7 @@ class MetricValueUpdateResponse implements ModelInterface, ArrayAccess, \JsonSer
       * @var boolean[]
       */
     protected static array $openAPINullables = [
-        'metric' => false
+        'success' => false
     ];
 
     /**
@@ -166,7 +166,7 @@ class MetricValueUpdateResponse implements ModelInterface, ArrayAccess, \JsonSer
      * @var string[]
      */
     protected static $attributeMap = [
-        'metric' => 'metric'
+        'success' => 'success'
     ];
 
     /**
@@ -175,7 +175,7 @@ class MetricValueUpdateResponse implements ModelInterface, ArrayAccess, \JsonSer
      * @var string[]
      */
     protected static $setters = [
-        'metric' => 'setMetric'
+        'success' => 'setSuccess'
     ];
 
     /**
@@ -184,7 +184,7 @@ class MetricValueUpdateResponse implements ModelInterface, ArrayAccess, \JsonSer
      * @var string[]
      */
     protected static $getters = [
-        'metric' => 'getMetric'
+        'success' => 'getSuccess'
     ];
 
     /**
@@ -244,7 +244,7 @@ class MetricValueUpdateResponse implements ModelInterface, ArrayAccess, \JsonSer
      */
     public function __construct(array $data = null)
     {
-        $this->setIfExists('metric', $data ?? [], null);
+        $this->setIfExists('success', $data ?? [], null);
     }
 
     /**
@@ -274,8 +274,8 @@ class MetricValueUpdateResponse implements ModelInterface, ArrayAccess, \JsonSer
     {
         $invalidProperties = [];
 
-        if ($this->container['metric'] === null) {
-            $invalidProperties[] = "'metric' can't be null";
+        if ($this->container['success'] === null) {
+            $invalidProperties[] = "'success' can't be null";
         }
         return $invalidProperties;
     }
@@ -293,28 +293,28 @@ class MetricValueUpdateResponse implements ModelInterface, ArrayAccess, \JsonSer
 
 
     /**
-     * Gets metric
+     * Gets success
      *
-     * @return \ActivitySmith\Generated\Model\WidgetMetric
+     * @return bool
      */
-    public function getMetric()
+    public function getSuccess()
     {
-        return $this->container['metric'];
+        return $this->container['success'];
     }
 
     /**
-     * Sets metric
+     * Sets success
      *
-     * @param \ActivitySmith\Generated\Model\WidgetMetric $metric metric
+     * @param bool $success success
      *
      * @return self
      */
-    public function setMetric($metric)
+    public function setSuccess($success)
     {
-        if (is_null($metric)) {
-            throw new \InvalidArgumentException('non-nullable metric cannot be null');
+        if (is_null($success)) {
+            throw new \InvalidArgumentException('non-nullable success cannot be null');
         }
-        $this->container['metric'] = $metric;
+        $this->container['success'] = $success;
 
         return $this;
     }
