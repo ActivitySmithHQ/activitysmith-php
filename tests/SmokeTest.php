@@ -25,5 +25,7 @@ final class SmokeTest extends TestCase
         $this->assertTrue(method_exists($client->liveActivities, 'end'));
         $this->assertTrue(method_exists($client->liveActivities, 'stream'));
         $this->assertTrue(method_exists($client->liveActivities, 'endStream'));
+        $this->assertNotNull($client->metrics);
+        $this->assertTrue(method_exists($client->metrics, 'update'));
     }
 }

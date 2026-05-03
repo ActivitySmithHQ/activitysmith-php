@@ -5,8 +5,10 @@ declare(strict_types=1);
 namespace ActivitySmith\Tests;
 
 use ActivitySmith\LiveActivities;
+use ActivitySmith\Metrics;
 use ActivitySmith\Notifications;
 use ActivitySmith\Generated\Api\LiveActivitiesApi;
+use ActivitySmith\Generated\Api\MetricsApi;
 use ActivitySmith\Generated\Api\PushNotificationsApi;
 use PHPUnit\Framework\TestCase;
 
@@ -503,6 +505,53 @@ final class ResourcesTest extends TestCase
         $this->assertSame(
             $response,
             $liveActivities->startLiveActivityWithHttpInfo(['content_state' => ['title' => 'Deploy']])
+        );
+    }
+
+    public function testMetricsShortAndLegacyMethods(): void
+    {
+        $response = (object) ['success' => true];
+        $captured = [];
+
+        $api = $this->getMockBuilder(MetricsApi::class)
+            ->disableOriginalConstructor()
+            ->onlyMethods(['updateMetricValue'])
+            ->getMock();
+
+        $api->expects($this->exactly(3))
+            ->method('updateMetricValue')
+            ->willReturnCallback(function (...$args) use (&$captured, $response) {
+                $captured[] = $args;
+                return $response;
+            });
+
+        $resource = new Metrics($api);
+        $this->assertSame($response, $resource->update('deploy.success_rate', 99.9, '2026-05-03T12:30:00.000Z'));
+        $this->assertSame($response, $resource->update('prod.status', ['value' => 'healthy']));
+        $this->assertSame($response, $resource->updateMetricValue('deploy.success_rate', ['value' => 42]));
+
+        $this->assertSame(
+            [
+                [
+                    'deploy.success_rate',
+                    [
+                        'value' => 99.9,
+                        'timestamp' => '2026-05-03T12:30:00.000Z',
+                    ],
+                    MetricsApi::contentTypes['updateMetricValue'][0],
+                ],
+                [
+                    'prod.status',
+                    ['value' => 'healthy'],
+                    MetricsApi::contentTypes['updateMetricValue'][0],
+                ],
+                [
+                    'deploy.success_rate',
+                    ['value' => 42],
+                    MetricsApi::contentTypes['updateMetricValue'][0],
+                ],
+            ],
+            $captured
         );
     }
 }
