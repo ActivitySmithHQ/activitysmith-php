@@ -1435,7 +1435,7 @@ class LiveActivitiesApi
      *
      * @throws \ActivitySmith\Generated\ApiException on non-2xx response or if the response body is not in the expected format
      * @throws \InvalidArgumentException
-     * @return \ActivitySmith\Generated\Model\LiveActivityStartResponse|\ActivitySmith\Generated\Model\BadRequestError|\ActivitySmith\Generated\Model\ForbiddenError|\ActivitySmith\Generated\Model\NoRecipientsError|\ActivitySmith\Generated\Model\RateLimitError
+     * @return \ActivitySmith\Generated\Model\LiveActivityStartResponse|\ActivitySmith\Generated\Model\BadRequestError|\ActivitySmith\Generated\Model\ForbiddenError|\ActivitySmith\Generated\Model\NoRecipientsError|\ActivitySmith\Generated\Model\SendPushNotification429Response
      */
     public function startLiveActivity($liveActivityStartRequest, string $contentType = self::contentTypes['startLiveActivity'][0])
     {
@@ -1453,7 +1453,7 @@ class LiveActivitiesApi
      *
      * @throws \ActivitySmith\Generated\ApiException on non-2xx response or if the response body is not in the expected format
      * @throws \InvalidArgumentException
-     * @return array of \ActivitySmith\Generated\Model\LiveActivityStartResponse|\ActivitySmith\Generated\Model\BadRequestError|\ActivitySmith\Generated\Model\ForbiddenError|\ActivitySmith\Generated\Model\NoRecipientsError|\ActivitySmith\Generated\Model\RateLimitError, HTTP status code, HTTP response headers (array of strings)
+     * @return array of \ActivitySmith\Generated\Model\LiveActivityStartResponse|\ActivitySmith\Generated\Model\BadRequestError|\ActivitySmith\Generated\Model\ForbiddenError|\ActivitySmith\Generated\Model\NoRecipientsError|\ActivitySmith\Generated\Model\SendPushNotification429Response, HTTP status code, HTTP response headers (array of strings)
      */
     public function startLiveActivityWithHttpInfo($liveActivityStartRequest, string $contentType = self::contentTypes['startLiveActivity'][0])
     {
@@ -1604,11 +1604,11 @@ class LiveActivitiesApi
                         $response->getHeaders()
                     ];
                 case 429:
-                    if ('\ActivitySmith\Generated\Model\RateLimitError' === '\SplFileObject') {
+                    if ('\ActivitySmith\Generated\Model\SendPushNotification429Response' === '\SplFileObject') {
                         $content = $response->getBody(); //stream goes to serializer
                     } else {
                         $content = (string) $response->getBody();
-                        if ('\ActivitySmith\Generated\Model\RateLimitError' !== 'string') {
+                        if ('\ActivitySmith\Generated\Model\SendPushNotification429Response' !== 'string') {
                             try {
                                 $content = json_decode($content, false, 512, JSON_THROW_ON_ERROR);
                             } catch (\JsonException $exception) {
@@ -1626,7 +1626,7 @@ class LiveActivitiesApi
                     }
 
                     return [
-                        ObjectSerializer::deserialize($content, '\ActivitySmith\Generated\Model\RateLimitError', []),
+                        ObjectSerializer::deserialize($content, '\ActivitySmith\Generated\Model\SendPushNotification429Response', []),
                         $response->getStatusCode(),
                         $response->getHeaders()
                     ];
@@ -1697,7 +1697,7 @@ class LiveActivitiesApi
                 case 429:
                     $data = ObjectSerializer::deserialize(
                         $e->getResponseBody(),
-                        '\ActivitySmith\Generated\Model\RateLimitError',
+                        '\ActivitySmith\Generated\Model\SendPushNotification429Response',
                         $e->getResponseHeaders()
                     );
                     $e->setResponseObject($data);
