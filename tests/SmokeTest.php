@@ -5,6 +5,7 @@ declare(strict_types=1);
 namespace ActivitySmith\Tests;
 
 use ActivitySmith\ActivitySmith;
+use ActivitySmith\Version;
 use PHPUnit\Framework\TestCase;
 
 final class SmokeTest extends TestCase
@@ -27,5 +28,6 @@ final class SmokeTest extends TestCase
         $this->assertTrue(method_exists($client->liveActivities, 'endStream'));
         $this->assertNotNull($client->metrics);
         $this->assertTrue(method_exists($client->metrics, 'update'));
+        $this->assertSame('1.2.2', Version::VERSION);
     }
 }
