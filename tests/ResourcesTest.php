@@ -395,6 +395,46 @@ final class ResourcesTest extends TestCase
         );
     }
 
+    public function testLiveActivitiesSupportStatsPayloads(): void
+    {
+        $captured = [];
+        $response = (object) ['success' => true];
+
+        $api = $this->getMockBuilder(LiveActivitiesApi::class)
+            ->disableOriginalConstructor()
+            ->onlyMethods(['startLiveActivity'])
+            ->getMock();
+
+        $api->expects($this->once())
+            ->method('startLiveActivity')
+            ->willReturnCallback(function (...$args) use (&$captured, $response) {
+                $captured[] = $args;
+                return $response;
+            });
+
+        $resource = new LiveActivities($api);
+        $payload = [
+            'content_state' => [
+                'title' => 'Sales',
+                'subtitle' => 'last hour',
+                'type' => LiveActivities::TYPE_STATS,
+                'metrics' => [
+                    ['label' => 'Revenue', 'value' => '$2430', 'color' => 'blue'],
+                    ['label' => 'Orders', 'value' => '37', 'color' => 'green'],
+                    ['label' => 'Conversion', 'value' => '4.8%', 'color' => 'magenta'],
+                ],
+            ],
+        ];
+
+        $this->assertSame($response, $resource->start($payload));
+        $this->assertSame(
+            [
+                [$payload, LiveActivitiesApi::contentTypes['startLiveActivity'][0]],
+            ],
+            $captured
+        );
+    }
+
     public function testLiveActivitiesStreamShortAndLegacyMethods(): void
     {
         $response = (object) ['success' => true];

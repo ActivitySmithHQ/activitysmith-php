@@ -8,6 +8,11 @@ use ActivitySmith\Generated\Api\LiveActivitiesApi;
 
 final class LiveActivities
 {
+    public const TYPE_SEGMENTED_PROGRESS = 'segmented_progress';
+    public const TYPE_PROGRESS = 'progress';
+    public const TYPE_METRICS = 'metrics';
+    public const TYPE_STATS = 'stats';
+
     public function __construct(private LiveActivitiesApi $api)
     {
     }
