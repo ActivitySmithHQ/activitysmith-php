@@ -35,7 +35,7 @@ use \ActivitySmith\Generated\ObjectSerializer;
  * StreamContentState Class Doc Comment
  *
  * @category Class
- * @description Current state for a managed Live Activity stream. Include type on the first PUT, and whenever the stream may need to start a fresh activity. Supports segmented_progress, progress, and metrics types.
+ * @description Current state for a managed Live Activity stream. Include type on the first PUT, and whenever the stream may need to start a fresh activity. Supports segmented_progress, progress, metrics, and stats types.
  * @package  ActivitySmith\Generated
  * @author   OpenAPI Generator team
  * @link     https://openapi-generator.tech
@@ -310,6 +310,7 @@ class StreamContentState implements ModelInterface, ArrayAccess, \JsonSerializab
     public const TYPE_SEGMENTED_PROGRESS = 'segmented_progress';
     public const TYPE_PROGRESS = 'progress';
     public const TYPE_METRICS = 'metrics';
+    public const TYPE_STATS = 'stats';
     public const COLOR_LIME = 'lime';
     public const COLOR_GREEN = 'green';
     public const COLOR_CYAN = 'cyan';
@@ -349,6 +350,7 @@ class StreamContentState implements ModelInterface, ArrayAccess, \JsonSerializab
             self::TYPE_SEGMENTED_PROGRESS,
             self::TYPE_PROGRESS,
             self::TYPE_METRICS,
+            self::TYPE_STATS,
         ];
     }
 
@@ -514,6 +516,10 @@ class StreamContentState implements ModelInterface, ArrayAccess, \JsonSerializab
                 $this->container['stepColor'],
                 implode("', '", $allowedValues)
             );
+        }
+
+        if (!is_null($this->container['metrics']) && (count($this->container['metrics']) > 8)) {
+            $invalidProperties[] = "invalid value for 'metrics', number of items must be less than or equal to 8.";
         }
 
         if (!is_null($this->container['metrics']) && (count($this->container['metrics']) < 1)) {
@@ -910,7 +916,7 @@ class StreamContentState implements ModelInterface, ArrayAccess, \JsonSerializab
     /**
      * Sets metrics
      *
-     * @param \ActivitySmith\Generated\Model\ActivityMetric[]|null $metrics Use for metrics activities.
+     * @param \ActivitySmith\Generated\Model\ActivityMetric[]|null $metrics Use for metrics and stats activities.
      *
      * @return self
      */
@@ -920,7 +926,9 @@ class StreamContentState implements ModelInterface, ArrayAccess, \JsonSerializab
             throw new \InvalidArgumentException('non-nullable metrics cannot be null');
         }
 
-
+        if ((count($metrics) > 8)) {
+            throw new \InvalidArgumentException('invalid value for $metrics when calling StreamContentState., number of items must be less than or equal to 8.');
+        }
         if ((count($metrics) < 1)) {
             throw new \InvalidArgumentException('invalid length for $metrics when calling StreamContentState., number of items must be greater than or equal to 1.');
         }
