@@ -1,6 +1,6 @@
 <?php
 /**
- * ActivityMetric
+ * ActivityMetricValue
  *
  * PHP version 7.4
  *
@@ -32,7 +32,7 @@ use \ArrayAccess;
 use \ActivitySmith\Generated\ObjectSerializer;
 
 /**
- * ActivityMetric Class Doc Comment
+ * ActivityMetricValue Class Doc Comment
  *
  * @category Class
  * @package  ActivitySmith\Generated
@@ -40,7 +40,7 @@ use \ActivitySmith\Generated\ObjectSerializer;
  * @link     https://openapi-generator.tech
  * @implements \ArrayAccess<string, mixed>
  */
-class ActivityMetric implements ModelInterface, ArrayAccess, \JsonSerializable
+class ActivityMetricValue implements ModelInterface, ArrayAccess, \JsonSerializable
 {
     public const DISCRIMINATOR = null;
 
@@ -49,7 +49,7 @@ class ActivityMetric implements ModelInterface, ArrayAccess, \JsonSerializable
       *
       * @var string
       */
-    protected static $openAPIModelName = 'ActivityMetric';
+    protected static $openAPIModelName = 'ActivityMetric_value';
 
     /**
       * Array of property to type mappings. Used for (de)serialization
@@ -57,10 +57,7 @@ class ActivityMetric implements ModelInterface, ArrayAccess, \JsonSerializable
       * @var string[]
       */
     protected static $openAPITypes = [
-        'label' => 'string',
-        'value' => '\ActivitySmith\Generated\Model\ActivityMetricValue',
-        'unit' => 'string',
-        'color' => 'string'
+        
     ];
 
     /**
@@ -71,10 +68,7 @@ class ActivityMetric implements ModelInterface, ArrayAccess, \JsonSerializable
       * @psalm-var array<string, string|null>
       */
     protected static $openAPIFormats = [
-        'label' => null,
-        'value' => null,
-        'unit' => null,
-        'color' => null
+        
     ];
 
     /**
@@ -83,10 +77,7 @@ class ActivityMetric implements ModelInterface, ArrayAccess, \JsonSerializable
       * @var boolean[]
       */
     protected static array $openAPINullables = [
-        'label' => false,
-        'value' => false,
-        'unit' => false,
-        'color' => false
+        
     ];
 
     /**
@@ -175,10 +166,7 @@ class ActivityMetric implements ModelInterface, ArrayAccess, \JsonSerializable
      * @var string[]
      */
     protected static $attributeMap = [
-        'label' => 'label',
-        'value' => 'value',
-        'unit' => 'unit',
-        'color' => 'color'
+        
     ];
 
     /**
@@ -187,10 +175,7 @@ class ActivityMetric implements ModelInterface, ArrayAccess, \JsonSerializable
      * @var string[]
      */
     protected static $setters = [
-        'label' => 'setLabel',
-        'value' => 'setValue',
-        'unit' => 'setUnit',
-        'color' => 'setColor'
+        
     ];
 
     /**
@@ -199,10 +184,7 @@ class ActivityMetric implements ModelInterface, ArrayAccess, \JsonSerializable
      * @var string[]
      */
     protected static $getters = [
-        'label' => 'getLabel',
-        'value' => 'getValue',
-        'unit' => 'getUnit',
-        'color' => 'getColor'
+        
     ];
 
     /**
@@ -246,35 +228,6 @@ class ActivityMetric implements ModelInterface, ArrayAccess, \JsonSerializable
         return self::$openAPIModelName;
     }
 
-    public const COLOR_LIME = 'lime';
-    public const COLOR_GREEN = 'green';
-    public const COLOR_CYAN = 'cyan';
-    public const COLOR_BLUE = 'blue';
-    public const COLOR_PURPLE = 'purple';
-    public const COLOR_MAGENTA = 'magenta';
-    public const COLOR_RED = 'red';
-    public const COLOR_ORANGE = 'orange';
-    public const COLOR_YELLOW = 'yellow';
-
-    /**
-     * Gets allowable values of the enum
-     *
-     * @return string[]
-     */
-    public function getColorAllowableValues()
-    {
-        return [
-            self::COLOR_LIME,
-            self::COLOR_GREEN,
-            self::COLOR_CYAN,
-            self::COLOR_BLUE,
-            self::COLOR_PURPLE,
-            self::COLOR_MAGENTA,
-            self::COLOR_RED,
-            self::COLOR_ORANGE,
-            self::COLOR_YELLOW,
-        ];
-    }
 
     /**
      * Associative array for storing property values
@@ -291,10 +244,6 @@ class ActivityMetric implements ModelInterface, ArrayAccess, \JsonSerializable
      */
     public function __construct(array $data = null)
     {
-        $this->setIfExists('label', $data ?? [], null);
-        $this->setIfExists('value', $data ?? [], null);
-        $this->setIfExists('unit', $data ?? [], null);
-        $this->setIfExists('color', $data ?? [], null);
     }
 
     /**
@@ -324,25 +273,6 @@ class ActivityMetric implements ModelInterface, ArrayAccess, \JsonSerializable
     {
         $invalidProperties = [];
 
-        if ($this->container['label'] === null) {
-            $invalidProperties[] = "'label' can't be null";
-        }
-        if ((mb_strlen($this->container['label']) < 1)) {
-            $invalidProperties[] = "invalid value for 'label', the character length must be bigger than or equal to 1.";
-        }
-
-        if ($this->container['value'] === null) {
-            $invalidProperties[] = "'value' can't be null";
-        }
-        $allowedValues = $this->getColorAllowableValues();
-        if (!is_null($this->container['color']) && !in_array($this->container['color'], $allowedValues, true)) {
-            $invalidProperties[] = sprintf(
-                "invalid value '%s' for 'color', must be one of '%s'",
-                $this->container['color'],
-                implode("', '", $allowedValues)
-            );
-        }
-
         return $invalidProperties;
     }
 
@@ -357,129 +287,6 @@ class ActivityMetric implements ModelInterface, ArrayAccess, \JsonSerializable
         return count($this->listInvalidProperties()) === 0;
     }
 
-
-    /**
-     * Gets label
-     *
-     * @return string
-     */
-    public function getLabel()
-    {
-        return $this->container['label'];
-    }
-
-    /**
-     * Sets label
-     *
-     * @param string $label label
-     *
-     * @return self
-     */
-    public function setLabel($label)
-    {
-        if (is_null($label)) {
-            throw new \InvalidArgumentException('non-nullable label cannot be null');
-        }
-
-        if ((mb_strlen($label) < 1)) {
-            throw new \InvalidArgumentException('invalid length for $label when calling ActivityMetric., must be bigger than or equal to 1.');
-        }
-
-        $this->container['label'] = $label;
-
-        return $this;
-    }
-
-    /**
-     * Gets value
-     *
-     * @return \ActivitySmith\Generated\Model\ActivityMetricValue
-     */
-    public function getValue()
-    {
-        return $this->container['value'];
-    }
-
-    /**
-     * Sets value
-     *
-     * @param \ActivitySmith\Generated\Model\ActivityMetricValue $value value
-     *
-     * @return self
-     */
-    public function setValue($value)
-    {
-        if (is_null($value)) {
-            throw new \InvalidArgumentException('non-nullable value cannot be null');
-        }
-        $this->container['value'] = $value;
-
-        return $this;
-    }
-
-    /**
-     * Gets unit
-     *
-     * @return string|null
-     */
-    public function getUnit()
-    {
-        return $this->container['unit'];
-    }
-
-    /**
-     * Sets unit
-     *
-     * @param string|null $unit unit
-     *
-     * @return self
-     */
-    public function setUnit($unit)
-    {
-        if (is_null($unit)) {
-            throw new \InvalidArgumentException('non-nullable unit cannot be null');
-        }
-        $this->container['unit'] = $unit;
-
-        return $this;
-    }
-
-    /**
-     * Gets color
-     *
-     * @return string|null
-     */
-    public function getColor()
-    {
-        return $this->container['color'];
-    }
-
-    /**
-     * Sets color
-     *
-     * @param string|null $color Optional per-metric accent color for metrics and stats activities.
-     *
-     * @return self
-     */
-    public function setColor($color)
-    {
-        if (is_null($color)) {
-            throw new \InvalidArgumentException('non-nullable color cannot be null');
-        }
-        $allowedValues = $this->getColorAllowableValues();
-        if (!in_array($color, $allowedValues, true)) {
-            throw new \InvalidArgumentException(
-                sprintf(
-                    "Invalid value '%s' for 'color', must be one of '%s'",
-                    $color,
-                    implode("', '", $allowedValues)
-                )
-            );
-        }
-        $this->container['color'] = $color;
-
-        return $this;
-    }
     /**
      * Returns true if offset exists. False otherwise.
      *
