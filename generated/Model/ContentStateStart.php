@@ -35,7 +35,7 @@ use \ActivitySmith\Generated\ObjectSerializer;
  * ContentStateStart Class Doc Comment
  *
  * @category Class
- * @description Start payload requires title and type. For segmented_progress include number_of_steps and current_step. For progress include percentage or value with upper_limit. For metrics include a non-empty metrics array. For segmented_progress, number_of_steps is not locked and can be changed in later update or end calls.
+ * @description Start payload requires title and type. For segmented_progress include number_of_steps and current_step. For progress include percentage or value with upper_limit. For metrics and stats include a non-empty metrics array. For segmented_progress, number_of_steps is not locked and can be changed in later update or end calls.
  * @package  ActivitySmith\Generated
  * @author   OpenAPI Generator team
  * @link     https://openapi-generator.tech
@@ -298,6 +298,7 @@ class ContentStateStart implements ModelInterface, ArrayAccess, \JsonSerializabl
     public const TYPE_SEGMENTED_PROGRESS = 'segmented_progress';
     public const TYPE_PROGRESS = 'progress';
     public const TYPE_METRICS = 'metrics';
+    public const TYPE_STATS = 'stats';
     public const COLOR_LIME = 'lime';
     public const COLOR_GREEN = 'green';
     public const COLOR_CYAN = 'cyan';
@@ -337,6 +338,7 @@ class ContentStateStart implements ModelInterface, ArrayAccess, \JsonSerializabl
             self::TYPE_SEGMENTED_PROGRESS,
             self::TYPE_PROGRESS,
             self::TYPE_METRICS,
+            self::TYPE_STATS,
         ];
     }
 
@@ -473,6 +475,10 @@ class ContentStateStart implements ModelInterface, ArrayAccess, \JsonSerializabl
 
         if (!is_null($this->container['percentage']) && ($this->container['percentage'] < 0)) {
             $invalidProperties[] = "invalid value for 'percentage', must be bigger than or equal to 0.";
+        }
+
+        if (!is_null($this->container['metrics']) && (count($this->container['metrics']) > 8)) {
+            $invalidProperties[] = "invalid value for 'metrics', number of items must be less than or equal to 8.";
         }
 
         if (!is_null($this->container['metrics']) && (count($this->container['metrics']) < 1)) {
@@ -744,7 +750,7 @@ class ContentStateStart implements ModelInterface, ArrayAccess, \JsonSerializabl
     /**
      * Sets metrics
      *
-     * @param \ActivitySmith\Generated\Model\ActivityMetric[]|null $metrics Use for type=metrics.
+     * @param \ActivitySmith\Generated\Model\ActivityMetric[]|null $metrics Use for type=metrics or type=stats.
      *
      * @return self
      */
@@ -754,7 +760,9 @@ class ContentStateStart implements ModelInterface, ArrayAccess, \JsonSerializabl
             throw new \InvalidArgumentException('non-nullable metrics cannot be null');
         }
 
-
+        if ((count($metrics) > 8)) {
+            throw new \InvalidArgumentException('invalid value for $metrics when calling ContentStateStart., number of items must be less than or equal to 8.');
+        }
         if ((count($metrics) < 1)) {
             throw new \InvalidArgumentException('invalid length for $metrics when calling ContentStateStart., number of items must be greater than or equal to 1.');
         }
