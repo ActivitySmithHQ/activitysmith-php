@@ -137,7 +137,7 @@ class LiveActivitiesApi
     /**
      * Operation endLiveActivity
      *
-     * End a Live Activity
+     * End a Live Activity (legacy manual lifecycle)
      *
      * @param  \ActivitySmith\Generated\Model\LiveActivityEndRequest $liveActivityEndRequest liveActivityEndRequest (required)
      * @param  string $contentType The value for the Content-Type header. Check self::contentTypes['endLiveActivity'] to see the possible values for this operation
@@ -155,7 +155,7 @@ class LiveActivitiesApi
     /**
      * Operation endLiveActivityWithHttpInfo
      *
-     * End a Live Activity
+     * End a Live Activity (legacy manual lifecycle)
      *
      * @param  \ActivitySmith\Generated\Model\LiveActivityEndRequest $liveActivityEndRequest (required)
      * @param  string $contentType The value for the Content-Type header. Check self::contentTypes['endLiveActivity'] to see the possible values for this operation
@@ -349,7 +349,7 @@ class LiveActivitiesApi
     /**
      * Operation endLiveActivityAsync
      *
-     * End a Live Activity
+     * End a Live Activity (legacy manual lifecycle)
      *
      * @param  \ActivitySmith\Generated\Model\LiveActivityEndRequest $liveActivityEndRequest (required)
      * @param  string $contentType The value for the Content-Type header. Check self::contentTypes['endLiveActivity'] to see the possible values for this operation
@@ -370,7 +370,7 @@ class LiveActivitiesApi
     /**
      * Operation endLiveActivityAsyncWithHttpInfo
      *
-     * End a Live Activity
+     * End a Live Activity (legacy manual lifecycle)
      *
      * @param  \ActivitySmith\Generated\Model\LiveActivityEndRequest $liveActivityEndRequest (required)
      * @param  string $contentType The value for the Content-Type header. Check self::contentTypes['endLiveActivity'] to see the possible values for this operation
@@ -952,7 +952,7 @@ class LiveActivitiesApi
     /**
      * Operation reconcileLiveActivityStream
      *
-     * Send a stream update
+     * Start a new Live Activity or update an existing one
      *
      * @param  string $streamKey Stable identifier for one ongoing thing. Allowed characters: letters, numbers, underscores, and hyphens. (required)
      * @param  \ActivitySmith\Generated\Model\LiveActivityStreamRequest $liveActivityStreamRequest liveActivityStreamRequest (required)
@@ -971,7 +971,7 @@ class LiveActivitiesApi
     /**
      * Operation reconcileLiveActivityStreamWithHttpInfo
      *
-     * Send a stream update
+     * Start a new Live Activity or update an existing one
      *
      * @param  string $streamKey Stable identifier for one ongoing thing. Allowed characters: letters, numbers, underscores, and hyphens. (required)
      * @param  \ActivitySmith\Generated\Model\LiveActivityStreamRequest $liveActivityStreamRequest (required)
@@ -1236,7 +1236,7 @@ class LiveActivitiesApi
     /**
      * Operation reconcileLiveActivityStreamAsync
      *
-     * Send a stream update
+     * Start a new Live Activity or update an existing one
      *
      * @param  string $streamKey Stable identifier for one ongoing thing. Allowed characters: letters, numbers, underscores, and hyphens. (required)
      * @param  \ActivitySmith\Generated\Model\LiveActivityStreamRequest $liveActivityStreamRequest (required)
@@ -1258,7 +1258,7 @@ class LiveActivitiesApi
     /**
      * Operation reconcileLiveActivityStreamAsyncWithHttpInfo
      *
-     * Send a stream update
+     * Start a new Live Activity or update an existing one
      *
      * @param  string $streamKey Stable identifier for one ongoing thing. Allowed characters: letters, numbers, underscores, and hyphens. (required)
      * @param  \ActivitySmith\Generated\Model\LiveActivityStreamRequest $liveActivityStreamRequest (required)
@@ -1428,7 +1428,7 @@ class LiveActivitiesApi
     /**
      * Operation startLiveActivity
      *
-     * Start a Live Activity
+     * Start a Live Activity (legacy manual lifecycle)
      *
      * @param  \ActivitySmith\Generated\Model\LiveActivityStartRequest $liveActivityStartRequest liveActivityStartRequest (required)
      * @param  string $contentType The value for the Content-Type header. Check self::contentTypes['startLiveActivity'] to see the possible values for this operation
@@ -1446,7 +1446,7 @@ class LiveActivitiesApi
     /**
      * Operation startLiveActivityWithHttpInfo
      *
-     * Start a Live Activity
+     * Start a Live Activity (legacy manual lifecycle)
      *
      * @param  \ActivitySmith\Generated\Model\LiveActivityStartRequest $liveActivityStartRequest (required)
      * @param  string $contentType The value for the Content-Type header. Check self::contentTypes['startLiveActivity'] to see the possible values for this operation
@@ -1710,7 +1710,7 @@ class LiveActivitiesApi
     /**
      * Operation startLiveActivityAsync
      *
-     * Start a Live Activity
+     * Start a Live Activity (legacy manual lifecycle)
      *
      * @param  \ActivitySmith\Generated\Model\LiveActivityStartRequest $liveActivityStartRequest (required)
      * @param  string $contentType The value for the Content-Type header. Check self::contentTypes['startLiveActivity'] to see the possible values for this operation
@@ -1731,7 +1731,7 @@ class LiveActivitiesApi
     /**
      * Operation startLiveActivityAsyncWithHttpInfo
      *
-     * Start a Live Activity
+     * Start a Live Activity (legacy manual lifecycle)
      *
      * @param  \ActivitySmith\Generated\Model\LiveActivityStartRequest $liveActivityStartRequest (required)
      * @param  string $contentType The value for the Content-Type header. Check self::contentTypes['startLiveActivity'] to see the possible values for this operation
@@ -1878,7 +1878,7 @@ class LiveActivitiesApi
     /**
      * Operation updateLiveActivity
      *
-     * Update a Live Activity
+     * Update a Live Activity (legacy manual lifecycle)
      *
      * @param  \ActivitySmith\Generated\Model\LiveActivityUpdateRequest $liveActivityUpdateRequest liveActivityUpdateRequest (required)
      * @param  string $contentType The value for the Content-Type header. Check self::contentTypes['updateLiveActivity'] to see the possible values for this operation
@@ -1896,7 +1896,7 @@ class LiveActivitiesApi
     /**
      * Operation updateLiveActivityWithHttpInfo
      *
-     * Update a Live Activity
+     * Update a Live Activity (legacy manual lifecycle)
      *
      * @param  \ActivitySmith\Generated\Model\LiveActivityUpdateRequest $liveActivityUpdateRequest (required)
      * @param  string $contentType The value for the Content-Type header. Check self::contentTypes['updateLiveActivity'] to see the possible values for this operation
@@ -2090,7 +2090,7 @@ class LiveActivitiesApi
     /**
      * Operation updateLiveActivityAsync
      *
-     * Update a Live Activity
+     * Update a Live Activity (legacy manual lifecycle)
      *
      * @param  \ActivitySmith\Generated\Model\LiveActivityUpdateRequest $liveActivityUpdateRequest (required)
      * @param  string $contentType The value for the Content-Type header. Check self::contentTypes['updateLiveActivity'] to see the possible values for this operation
@@ -2111,7 +2111,7 @@ class LiveActivitiesApi
     /**
      * Operation updateLiveActivityAsyncWithHttpInfo
      *
-     * Update a Live Activity
+     * Update a Live Activity (legacy manual lifecycle)
      *
      * @param  \ActivitySmith\Generated\Model\LiveActivityUpdateRequest $liveActivityUpdateRequest (required)
      * @param  string $contentType The value for the Content-Type header. Check self::contentTypes['updateLiveActivity'] to see the possible values for this operation
