@@ -13,8 +13,36 @@ final class Notifications
     {
     }
 
-    public function send(mixed $request): mixed
+    /**
+     * @param array<int,array<string,mixed>>|null $actions
+     * @param array<string,mixed>|null $target
+     * @param array<int,string>|string|null $channels
+     */
+    public function send(
+        mixed $request = null,
+        ?string $title = null,
+        ?string $message = null,
+        ?string $subtitle = null,
+        ?string $media = null,
+        ?string $redirection = null,
+        ?array $actions = null,
+        ?array $target = null,
+        array|string|null $channels = null
+    ): mixed
     {
+        $request = $this->buildRequest(
+            $request,
+            [
+                'title' => $title,
+                'message' => $message,
+                'subtitle' => $subtitle,
+                'media' => $media,
+                'redirection' => $redirection,
+                'actions' => $actions,
+                'target' => $target,
+                'channels' => $channels,
+            ]
+        );
         $normalized = $this->normalizeTargetChannels($request);
         $this->assertValidMediaActionsCombination($normalized);
 
@@ -23,9 +51,30 @@ final class Notifications
 
     // Backward-compatible alias.
     public function sendPushNotification(
-        mixed $pushNotificationRequest,
-        string $contentType = PushNotificationsApi::contentTypes['sendPushNotification'][0]
+        mixed $pushNotificationRequest = null,
+        string $contentType = PushNotificationsApi::contentTypes['sendPushNotification'][0],
+        ?string $title = null,
+        ?string $message = null,
+        ?string $subtitle = null,
+        ?string $media = null,
+        ?string $redirection = null,
+        ?array $actions = null,
+        ?array $target = null,
+        array|string|null $channels = null
     ): mixed {
+        $pushNotificationRequest = $this->buildRequest(
+            $pushNotificationRequest,
+            [
+                'title' => $title,
+                'message' => $message,
+                'subtitle' => $subtitle,
+                'media' => $media,
+                'redirection' => $redirection,
+                'actions' => $actions,
+                'target' => $target,
+                'channels' => $channels,
+            ]
+        );
         $normalized = $this->normalizeTargetChannels($pushNotificationRequest);
         $this->assertValidMediaActionsCombination($normalized);
 
@@ -38,6 +87,31 @@ final class Notifications
     public function __call(string $name, array $arguments): mixed
     {
         return $this->api->{$name}(...$arguments);
+    }
+
+    /**
+     * @param array<string,mixed> $fields
+     */
+    private function buildRequest(mixed $request, array $fields): mixed
+    {
+        $fields = array_filter(
+            $fields,
+            static fn (mixed $value): bool => $value !== null
+        );
+
+        if ($fields === []) {
+            return $request;
+        }
+
+        if ($request === null) {
+            $request = [];
+        }
+
+        if (!is_array($request)) {
+            throw new InvalidArgumentException('ActivitySmith: named push notification fields can only be combined with an array request');
+        }
+
+        return array_merge($request, $fields);
     }
 
     private function normalizeTargetChannels(mixed $request): mixed

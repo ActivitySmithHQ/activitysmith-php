@@ -5,8 +5,12 @@ declare(strict_types=1);
 namespace ActivitySmith\Tests;
 
 use ActivitySmith\LiveActivities;
+use ActivitySmith\LiveActivityAction;
+use ActivitySmith\LiveActivityContentState;
+use ActivitySmith\LiveActivityMetric;
 use ActivitySmith\Metrics;
 use ActivitySmith\Notifications;
+use ActivitySmith\PushAction;
 use ActivitySmith\Generated\Api\LiveActivitiesApi;
 use ActivitySmith\Generated\Api\MetricsApi;
 use ActivitySmith\Generated\Api\PushNotificationsApi;
@@ -40,6 +44,100 @@ final class ResourcesTest extends TestCase
             [
                 [$payload, PushNotificationsApi::contentTypes['sendPushNotification'][0]],
                 [$payload, PushNotificationsApi::contentTypes['sendPushNotification'][0]],
+            ],
+            $captured
+        );
+    }
+
+    public function testNotificationsNamedFields(): void
+    {
+        $captured = [];
+        $response = (object) ['success' => true];
+
+        $api = $this->getMockBuilder(PushNotificationsApi::class)
+            ->disableOriginalConstructor()
+            ->onlyMethods(['sendPushNotification'])
+            ->getMock();
+
+        $api->expects($this->once())
+            ->method('sendPushNotification')
+            ->willReturnCallback(function (...$args) use (&$captured, $response) {
+                $captured[] = $args;
+                return $response;
+            });
+
+        $resource = new Notifications($api);
+        $this->assertSame(
+            $response,
+            $resource->send(
+                title: 'New subscription 💸',
+                message: 'Customer upgraded to Pro plan',
+                channels: 'sales,customer-success'
+            )
+        );
+
+        $this->assertSame(
+            [
+                [
+                    [
+                        'title' => 'New subscription 💸',
+                        'message' => 'Customer upgraded to Pro plan',
+                        'target' => ['channels' => ['sales', 'customer-success']],
+                    ],
+                    PushNotificationsApi::contentTypes['sendPushNotification'][0],
+                ],
+            ],
+            $captured
+        );
+    }
+
+    public function testPushActionHelper(): void
+    {
+        $captured = [];
+        $response = (object) ['success' => true];
+
+        $api = $this->getMockBuilder(PushNotificationsApi::class)
+            ->disableOriginalConstructor()
+            ->onlyMethods(['sendPushNotification'])
+            ->getMock();
+
+        $api->expects($this->once())
+            ->method('sendPushNotification')
+            ->willReturnCallback(function (...$args) use (&$captured, $response) {
+                $captured[] = $args;
+                return $response;
+            });
+
+        $resource = new Notifications($api);
+        $this->assertSame(
+            $response,
+            $resource->send(
+                title: 'New subscription 💸',
+                actions: [
+                    PushAction::make(
+                        title: 'Open CRM Profile',
+                        type: 'open_url',
+                        url: 'https://crm.example.com/customers/cus_9f3a1d'
+                    ),
+                ],
+            )
+        );
+
+        $this->assertSame(
+            [
+                [
+                    [
+                        'title' => 'New subscription 💸',
+                        'actions' => [
+                            [
+                                'title' => 'Open CRM Profile',
+                                'type' => 'open_url',
+                                'url' => 'https://crm.example.com/customers/cus_9f3a1d',
+                            ],
+                        ],
+                    ],
+                    PushNotificationsApi::contentTypes['sendPushNotification'][0],
+                ],
             ],
             $captured
         );
@@ -432,6 +530,143 @@ final class ResourcesTest extends TestCase
                 [$payload, LiveActivitiesApi::contentTypes['startLiveActivity'][0]],
             ],
             $captured
+        );
+    }
+
+    public function testLiveActivitiesBuildRequestsFromNamedFields(): void
+    {
+        $response = (object) ['success' => true];
+        $captured = [
+            'start' => [],
+            'update' => [],
+            'end' => [],
+        ];
+
+        $api = $this->getMockBuilder(LiveActivitiesApi::class)
+            ->disableOriginalConstructor()
+            ->onlyMethods(['startLiveActivity', 'updateLiveActivity', 'endLiveActivity'])
+            ->getMock();
+
+        $api->expects($this->once())
+            ->method('startLiveActivity')
+            ->willReturnCallback(function (...$args) use (&$captured, $response) {
+                $captured['start'][] = $args;
+                return $response;
+            });
+
+        $api->expects($this->once())
+            ->method('updateLiveActivity')
+            ->willReturnCallback(function (...$args) use (&$captured, $response) {
+                $captured['update'][] = $args;
+                return $response;
+            });
+
+        $api->expects($this->once())
+            ->method('endLiveActivity')
+            ->willReturnCallback(function (...$args) use (&$captured, $response) {
+                $captured['end'][] = $args;
+                return $response;
+            });
+
+        $resource = new LiveActivities($api);
+        $metrics = [
+            LiveActivityMetric::make(label: 'CPU', value: 9, unit: '%'),
+            LiveActivityMetric::make(label: 'MEM', value: 45, unit: '%'),
+        ];
+        $action = LiveActivityAction::make(
+            title: 'Open Dashboard',
+            type: 'open_url',
+            url: 'https://ops.example.com/servers/prod-web-1'
+        );
+        $state = LiveActivityContentState::make(
+            title: 'Server Health',
+            subtitle: 'prod-web-1',
+            type: LiveActivities::TYPE_METRICS,
+            metrics: $metrics
+        );
+
+        $this->assertSame(
+            $response,
+            $resource->start(
+                contentState: $state,
+                action: $action,
+                channels: ['ops']
+            )
+        );
+        $this->assertSame(
+            $response,
+            $resource->update(
+                activityId: 'act-1',
+                title: 'Server Health',
+                subtitle: 'prod-web-1',
+                type: LiveActivities::TYPE_METRICS,
+                metrics: $metrics
+            )
+        );
+        $this->assertSame(
+            $response,
+            $resource->end(
+                activityId: 'act-1',
+                title: 'Server Health',
+                subtitle: 'prod-web-1',
+                type: LiveActivities::TYPE_METRICS,
+                metrics: $metrics,
+                autoDismissMinutes: 2
+            )
+        );
+
+        $this->assertSame(
+            [
+                [
+                    [
+                        'content_state' => [
+                            'title' => 'Server Health',
+                            'subtitle' => 'prod-web-1',
+                            'type' => LiveActivities::TYPE_METRICS,
+                            'metrics' => $metrics,
+                        ],
+                        'action' => $action,
+                        'target' => ['channels' => ['ops']],
+                    ],
+                    LiveActivitiesApi::contentTypes['startLiveActivity'][0],
+                ],
+            ],
+            $captured['start']
+        );
+        $this->assertSame(
+            [
+                [
+                    [
+                        'activity_id' => 'act-1',
+                        'content_state' => [
+                            'title' => 'Server Health',
+                            'subtitle' => 'prod-web-1',
+                            'type' => LiveActivities::TYPE_METRICS,
+                            'metrics' => $metrics,
+                        ],
+                    ],
+                    LiveActivitiesApi::contentTypes['updateLiveActivity'][0],
+                ],
+            ],
+            $captured['update']
+        );
+        $this->assertSame(
+            [
+                [
+                    [
+                        'activity_id' => 'act-1',
+                        'content_state' => [
+                            'title' => 'Server Health',
+                            'subtitle' => 'prod-web-1',
+                            'type' => LiveActivities::TYPE_METRICS,
+                            'metrics' => $metrics,
+                            'auto_dismiss_minutes' => 2,
+                        ],
+                    ],
+                    LiveActivitiesApi::contentTypes['endLiveActivity'][0],
+                ],
+            ],
+            $captured['end']
         );
     }
 

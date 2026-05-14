@@ -39,6 +39,10 @@ composer require activitysmith/activitysmith
 declare(strict_types=1);
 
 use ActivitySmith\ActivitySmith;
+use ActivitySmith\LiveActivityAction;
+use ActivitySmith\LiveActivityContentState;
+use ActivitySmith\LiveActivityMetric;
+use ActivitySmith\PushAction;
 
 $activitysmith = new ActivitySmith($_ENV['ACTIVITYSMITH_API_KEY']);
 ```
@@ -52,10 +56,10 @@ $activitysmith = new ActivitySmith($_ENV['ACTIVITYSMITH_API_KEY']);
 </p>
 
 ```php
-$activitysmith->notifications->send([
-    'title' => 'New subscription 💸',
-    'message' => 'Customer upgraded to Pro plan',
-]);
+$activitysmith->notifications->send(
+    title: 'New subscription 💸',
+    message: 'Customer upgraded to Pro plan',
+);
 ```
 
 ### Rich Push Notifications with Media
@@ -65,12 +69,12 @@ $activitysmith->notifications->send([
 </p>
 
 ```php
-$activitysmith->notifications->send([
-    'title' => 'Homepage ready',
-    'message' => 'Your agent finished the redesign.',
-    'media' => 'https://cdn.example.com/output/homepage-v2.png',
-    'redirection' => 'https://github.com/acme/web/pull/482',
-]);
+$activitysmith->notifications->send(
+    title: 'Homepage ready',
+    message: 'Your agent finished the redesign.',
+    media: 'https://cdn.example.com/output/homepage-v2.png',
+    redirection: 'https://github.com/acme/web/pull/482',
+);
 ```
 
 Send images, videos, or audio with your push notifications, press and hold to preview media directly from the notification, then tap through to open the linked content.
@@ -96,28 +100,28 @@ Actionable push notifications can open a URL on tap or trigger actions when some
 Webhooks are executed by the ActivitySmith backend.
 
 ```php
-$activitysmith->notifications->send([
-    'title' => 'New subscription 💸',
-    'message' => 'Customer upgraded to Pro plan',
-    'redirection' => 'https://crm.example.com/customers/cus_9f3a1d', // Optional
-    'actions' => [ // Optional (max 4)
-        [
-            'title' => 'Open CRM Profile',
-            'type' => 'open_url',
-            'url' => 'https://crm.example.com/customers/cus_9f3a1d',
-        ],
-        [
-            'title' => 'Start Onboarding Workflow',
-            'type' => 'webhook',
-            'url' => 'https://hooks.example.com/activitysmith/onboarding/start',
-            'method' => 'POST',
-            'body' => [
+$activitysmith->notifications->send(
+    title: 'New subscription 💸',
+    message: 'Customer upgraded to Pro plan',
+    redirection: 'https://crm.example.com/customers/cus_9f3a1d', // Optional
+    actions: [ // Optional (max 4)
+        PushAction::make(
+            title: 'Open CRM Profile',
+            type: 'open_url',
+            url: 'https://crm.example.com/customers/cus_9f3a1d',
+        ),
+        PushAction::make(
+            title: 'Start Onboarding Workflow',
+            type: 'webhook',
+            url: 'https://hooks.example.com/activitysmith/onboarding/start',
+            method: 'POST',
+            body: [
                 'customer_id' => 'cus_9f3a1d',
                 'plan' => 'pro',
             ],
-        ],
+        ),
     ],
-]);
+);
 ```
 
 ## Live Activities
@@ -162,21 +166,24 @@ not want to store `activityId` between runs.
 </p>
 
 ```php
-$status = $activitysmith->liveActivities->stream('sales-hourly', [
-    'content_state' => [
-        'title' => 'Sales',
-        'subtitle' => 'last hour',
-        'type' => 'stats',
-        'metrics' => [
-            ['label' => 'Revenue', 'value' => '$2430', 'color' => 'blue'],
-            ['label' => 'Orders', 'value' => '37', 'color' => 'green'],
-            ['label' => 'Conversion', 'value' => '4.8%', 'color' => 'magenta'],
-            ['label' => 'Avg Order', 'value' => '$65.68', 'color' => 'yellow'],
-            ['label' => 'Refunds', 'value' => '$84', 'color' => 'red'],
-            ['label' => 'New Buyers', 'value' => '18', 'color' => 'cyan'],
+$status = $activitysmith->liveActivities->stream(
+    'sales-hourly',
+    [
+        'content_state' => [
+            'title' => 'Sales',
+            'subtitle' => 'last hour',
+            'type' => 'stats',
+            'metrics' => [
+                LiveActivityMetric::make(label: 'Revenue', value: '$2430', color: 'blue'),
+                LiveActivityMetric::make(label: 'Orders', value: '37', color: 'green'),
+                LiveActivityMetric::make(label: 'Conversion', value: '4.8%', color: 'magenta'),
+                LiveActivityMetric::make(label: 'Avg Order', value: '$65.68', color: 'yellow'),
+                LiveActivityMetric::make(label: 'Refunds', value: '$84', color: 'red'),
+                LiveActivityMetric::make(label: 'New Buyers', value: '18', color: 'cyan'),
+            ],
         ],
     ],
-]);
+);
 ```
 
 #### Metrics
@@ -186,17 +193,20 @@ $status = $activitysmith->liveActivities->stream('sales-hourly', [
 </p>
 
 ```php
-$status = $activitysmith->liveActivities->stream('prod-web-1', [
-    'content_state' => [
-        'title' => 'Server Health',
-        'subtitle' => 'prod-web-1',
-        'type' => 'metrics',
-        'metrics' => [
-            ['label' => 'CPU', 'value' => 9, 'unit' => '%'],
-            ['label' => 'MEM', 'value' => 45, 'unit' => '%'],
+$status = $activitysmith->liveActivities->stream(
+    'prod-web-1',
+    [
+        'content_state' => [
+            'title' => 'Server Health',
+            'subtitle' => 'prod-web-1',
+            'type' => 'metrics',
+            'metrics' => [
+                LiveActivityMetric::make(label: 'CPU', value: 9, unit: '%'),
+                LiveActivityMetric::make(label: 'MEM', value: 45, unit: '%'),
+            ],
         ],
     ],
-]);
+);
 ```
 
 #### Segmented progress
@@ -206,15 +216,18 @@ $status = $activitysmith->liveActivities->stream('prod-web-1', [
 </p>
 
 ```php
-$activitysmith->liveActivities->stream('nightly-backup', [
-    'content_state' => [
-        'title' => 'Nightly Backup',
-        'subtitle' => 'upload archive',
-        'type' => 'segmented_progress',
-        'number_of_steps' => 3,
-        'current_step' => 2,
+$activitysmith->liveActivities->stream(
+    'nightly-backup',
+    [
+        'content_state' => [
+            'title' => 'Nightly Backup',
+            'subtitle' => 'upload archive',
+            'type' => 'segmented_progress',
+            'number_of_steps' => 3,
+            'current_step' => 2,
+        ],
     ],
-]);
+);
 ```
 
 #### Progress
@@ -224,14 +237,17 @@ $activitysmith->liveActivities->stream('nightly-backup', [
 </p>
 
 ```php
-$activitysmith->liveActivities->stream('search-reindex', [
-    'content_state' => [
-        'title' => 'Search Reindex',
-        'subtitle' => 'catalog-v2',
-        'type' => 'progress',
-        'percentage' => 42,
+$activitysmith->liveActivities->stream(
+    'search-reindex',
+    [
+        'content_state' => [
+            'title' => 'Search Reindex',
+            'subtitle' => 'catalog-v2',
+            'type' => 'progress',
+            'percentage' => 42,
+        ],
     ],
-]);
+);
 ```
 
 Call `stream(...)` again with the same `streamKey` whenever the state changes.
@@ -243,17 +259,20 @@ Activity on devices. `content_state` is optional here; include it if you want
 to end the stream with a final state.
 
 ```php
-$activitysmith->liveActivities->endStream('prod-web-1', [
-    'content_state' => [
-        'title' => 'Server Health',
-        'subtitle' => 'prod-web-1',
-        'type' => 'metrics',
-        'metrics' => [
-            ['label' => 'CPU', 'value' => 7, 'unit' => '%'],
-            ['label' => 'MEM', 'value' => 38, 'unit' => '%'],
+$activitysmith->liveActivities->endStream(
+    'prod-web-1',
+    [
+        'content_state' => [
+            'title' => 'Server Health',
+            'subtitle' => 'prod-web-1',
+            'type' => 'metrics',
+            'metrics' => [
+                LiveActivityMetric::make(label: 'CPU', value: 7, unit: '%'),
+                LiveActivityMetric::make(label: 'MEM', value: 38, unit: '%'),
+            ],
         ],
     ],
-]);
+);
 ```
 
 If you later send another `stream(...)` request with the same `streamKey`,
@@ -279,7 +298,7 @@ Use these methods when you want to manage the Live Activity lifecycle yourself:
 
 ### Stats Type
 
-Keep your key numbers on your Lock Screen. `stats` fits 1 to 8 labeled values,
+Keep your key numbers on your Lock Screen. `stats` fits up to 8 labeled values,
 such as revenue, orders, conversion, uptime, or any other business metric you
 want visible at a glance. Each metric can use a formatted string or number as
 its `value`. Add `color` to a metric to show an accent dot next to its label;
@@ -298,12 +317,12 @@ $start = $activitysmith->liveActivities->start([
         'subtitle' => 'last hour',
         'type' => 'stats',
         'metrics' => [
-            ['label' => 'Revenue', 'value' => '$2430', 'color' => 'blue'],
-            ['label' => 'Orders', 'value' => '37', 'color' => 'green'],
-            ['label' => 'Conversion', 'value' => '4.8%', 'color' => 'magenta'],
-            ['label' => 'Avg Order', 'value' => '$65.68', 'color' => 'yellow'],
-            ['label' => 'Refunds', 'value' => '$84', 'color' => 'red'],
-            ['label' => 'New Buyers', 'value' => '18', 'color' => 'cyan'],
+            LiveActivityMetric::make(label: 'Revenue', value: '$2430', color: 'blue'),
+            LiveActivityMetric::make(label: 'Orders', value: '37', color: 'green'),
+            LiveActivityMetric::make(label: 'Conversion', value: '4.8%', color: 'magenta'),
+            LiveActivityMetric::make(label: 'Avg Order', value: '$65.68', color: 'yellow'),
+            LiveActivityMetric::make(label: 'Refunds', value: '$84', color: 'red'),
+            LiveActivityMetric::make(label: 'New Buyers', value: '18', color: 'cyan'),
         ],
     ],
 ]);
@@ -321,12 +340,12 @@ $activitysmith->liveActivities->update([
         'subtitle' => 'last hour',
         'type' => 'stats',
         'metrics' => [
-            ['label' => 'Revenue', 'value' => '$3180', 'color' => 'blue'],
-            ['label' => 'Orders', 'value' => '51', 'color' => 'green'],
-            ['label' => 'Conversion', 'value' => '5.2%', 'color' => 'magenta'],
-            ['label' => 'Avg Order', 'value' => '$62.35', 'color' => 'yellow'],
-            ['label' => 'Refunds', 'value' => '$126', 'color' => 'red'],
-            ['label' => 'New Buyers', 'value' => '24', 'color' => 'cyan'],
+            LiveActivityMetric::make(label: 'Revenue', value: '$3180', color: 'blue'),
+            LiveActivityMetric::make(label: 'Orders', value: '51', color: 'green'),
+            LiveActivityMetric::make(label: 'Conversion', value: '5.2%', color: 'magenta'),
+            LiveActivityMetric::make(label: 'Avg Order', value: '$62.35', color: 'yellow'),
+            LiveActivityMetric::make(label: 'Refunds', value: '$126', color: 'red'),
+            LiveActivityMetric::make(label: 'New Buyers', value: '24', color: 'cyan'),
         ],
     ],
 ]);
@@ -342,12 +361,12 @@ $activitysmith->liveActivities->end([
         'subtitle' => 'last hour',
         'type' => 'stats',
         'metrics' => [
-            ['label' => 'Revenue', 'value' => '$3460', 'color' => 'blue'],
-            ['label' => 'Orders', 'value' => '58', 'color' => 'green'],
-            ['label' => 'Conversion', 'value' => '5.4%', 'color' => 'magenta'],
-            ['label' => 'Avg Order', 'value' => '$59.66', 'color' => 'yellow'],
-            ['label' => 'Refunds', 'value' => '$92', 'color' => 'red'],
-            ['label' => 'New Buyers', 'value' => '31', 'color' => 'cyan'],
+            LiveActivityMetric::make(label: 'Revenue', value: '$3460', color: 'blue'),
+            LiveActivityMetric::make(label: 'Orders', value: '58', color: 'green'),
+            LiveActivityMetric::make(label: 'Conversion', value: '5.4%', color: 'magenta'),
+            LiveActivityMetric::make(label: 'Avg Order', value: '$59.66', color: 'yellow'),
+            LiveActivityMetric::make(label: 'Refunds', value: '$92', color: 'red'),
+            LiveActivityMetric::make(label: 'New Buyers', value: '31', color: 'cyan'),
         ],
         'auto_dismiss_minutes' => 2,
     ],
@@ -372,8 +391,8 @@ $start = $activitysmith->liveActivities->start([
         'subtitle' => 'prod-web-1',
         'type' => 'metrics',
         'metrics' => [
-            ['label' => 'CPU', 'value' => 9, 'unit' => '%'],
-            ['label' => 'MEM', 'value' => 45, 'unit' => '%'],
+            LiveActivityMetric::make(label: 'CPU', value: 9, unit: '%'),
+            LiveActivityMetric::make(label: 'MEM', value: 45, unit: '%'),
         ],
     ],
 ]);
@@ -395,8 +414,8 @@ $activitysmith->liveActivities->update([
         'subtitle' => 'prod-web-1',
         'type' => 'metrics',
         'metrics' => [
-            ['label' => 'CPU', 'value' => 76, 'unit' => '%'],
-            ['label' => 'MEM', 'value' => 52, 'unit' => '%'],
+            LiveActivityMetric::make(label: 'CPU', value: 76, unit: '%'),
+            LiveActivityMetric::make(label: 'MEM', value: 52, unit: '%'),
         ],
     ],
 ]);
@@ -416,8 +435,8 @@ $activitysmith->liveActivities->end([
         'subtitle' => 'prod-web-1',
         'type' => 'metrics',
         'metrics' => [
-            ['label' => 'CPU', 'value' => 7, 'unit' => '%'],
-            ['label' => 'MEM', 'value' => 38, 'unit' => '%'],
+            LiveActivityMetric::make(label: 'CPU', value: 7, unit: '%'),
+            LiveActivityMetric::make(label: 'MEM', value: 38, unit: '%'),
         ],
         'auto_dismiss_minutes' => 2,
     ],
@@ -442,9 +461,9 @@ $start = $activitysmith->liveActivities->start([
     'content_state' => [
         'title' => 'Nightly database backup',
         'subtitle' => 'create snapshot',
+        'type' => 'segmented_progress',
         'number_of_steps' => 3,
         'current_step' => 1,
-        'type' => 'segmented_progress',
         'color' => 'yellow',
     ],
 ]);
@@ -560,22 +579,22 @@ Just like Actionable Push Notifications, Live Activities can have a button that 
 #### Open URL action
 
 ```php
-$start = $activitysmith->liveActivities->start([
-    'content_state' => [
-        'title' => 'Server Health',
-        'subtitle' => 'prod-web-1',
-        'type' => 'metrics',
-        'metrics' => [
-            ['label' => 'CPU', 'value' => 76, 'unit' => '%'],
-            ['label' => 'MEM', 'value' => 52, 'unit' => '%'],
+$start = $activitysmith->liveActivities->start(
+    contentState: LiveActivityContentState::make(
+        title: 'Server Health',
+        subtitle: 'prod-web-1',
+        type: 'metrics',
+        metrics: [
+            LiveActivityMetric::make(label: 'CPU', value: 76, unit: '%'),
+            LiveActivityMetric::make(label: 'MEM', value: 52, unit: '%'),
         ],
-    ],
-    'action' => [
-        'title' => 'Open Dashboard',
-        'type' => 'open_url',
-        'url' => 'https://ops.example.com/servers/prod-web-1',
-    ],
-]);
+    ),
+    action: LiveActivityAction::make(
+        title: 'Open Dashboard',
+        type: 'open_url',
+        url: 'https://ops.example.com/servers/prod-web-1',
+    ),
+);
 
 $activityId = $start->getActivityId();
 ```
@@ -587,25 +606,25 @@ $activityId = $start->getActivityId();
 </p>
 
 ```php
-$activitysmith->liveActivities->update([
-    'activity_id' => $activityId,
-    'content_state' => [
-        'title' => 'Reindexing product search',
-        'subtitle' => 'Shard 7 of 12',
-        'number_of_steps' => 12,
-        'current_step' => 7,
-    ],
-    'action' => [
-        'title' => 'Pause Reindex',
-        'type' => 'webhook',
-        'url' => 'https://ops.example.com/hooks/search/reindex/pause',
-        'method' => 'POST',
-        'body' => [
+$activitysmith->liveActivities->update(
+    activityId: $activityId,
+    contentState: LiveActivityContentState::make(
+        title: 'Reindexing product search',
+        subtitle: 'Shard 7 of 12',
+        numberOfSteps: 12,
+        currentStep: 7,
+    ),
+    action: LiveActivityAction::make(
+        title: 'Pause Reindex',
+        type: 'webhook',
+        url: 'https://ops.example.com/hooks/search/reindex/pause',
+        method: 'POST',
+        body: [
             'job_id' => 'reindex-2026-03-19',
             'requested_by' => 'activitysmith-php',
         ],
-    ],
-]);
+    ),
+);
 ```
 
 ## Channels
@@ -613,11 +632,11 @@ $activitysmith->liveActivities->update([
 Channels are used to target specific team members or devices. Can be used for both push notifications and live activities.
 
 ```php
-$activitysmith->notifications->send([
-    'title' => 'New subscription 💸',
-    'message' => 'Customer upgraded to Pro plan',
-    'channels' => ['sales', 'customer-success'], // Optional
-]);
+$activitysmith->notifications->send(
+    title: 'New subscription 💸',
+    message: 'Customer upgraded to Pro plan',
+    channels: ['sales', 'customer-success'], // Optional
+);
 ```
 
 ## Widgets
@@ -646,9 +665,9 @@ $activitysmith->metrics->update('prod.status', 'healthy');
 
 ```php
 try {
-    $activitysmith->notifications->send([
-        'title' => 'New subscription 💸',
-    ]);
+    $activitysmith->notifications->send(
+        title: 'New subscription 💸',
+    );
 } catch (Throwable $err) {
     echo 'Request failed: ' . $err->getMessage() . PHP_EOL;
 }
