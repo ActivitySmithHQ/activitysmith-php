@@ -168,21 +168,19 @@ not want to store `activityId` between runs.
 ```php
 $status = $activitysmith->liveActivities->stream(
     'sales-hourly',
-    [
-        'content_state' => [
-            'title' => 'Sales',
-            'subtitle' => 'last hour',
-            'type' => 'stats',
-            'metrics' => [
-                LiveActivityMetric::make(label: 'Revenue', value: '$2430', color: 'blue'),
-                LiveActivityMetric::make(label: 'Orders', value: '37', color: 'green'),
-                LiveActivityMetric::make(label: 'Conversion', value: '4.8%', color: 'magenta'),
-                LiveActivityMetric::make(label: 'Avg Order', value: '$65.68', color: 'yellow'),
-                LiveActivityMetric::make(label: 'Refunds', value: '$84', color: 'red'),
-                LiveActivityMetric::make(label: 'New Buyers', value: '18', color: 'cyan'),
-            ],
+    contentState: LiveActivityContentState::make(
+        title: 'Sales',
+        subtitle: 'last hour',
+        type: 'stats',
+        metrics: [
+            LiveActivityMetric::make(label: 'Revenue', value: '$2430', color: 'blue'),
+            LiveActivityMetric::make(label: 'Orders', value: '37', color: 'green'),
+            LiveActivityMetric::make(label: 'Conversion', value: '4.8%', color: 'magenta'),
+            LiveActivityMetric::make(label: 'Avg Order', value: '$65.68', color: 'yellow'),
+            LiveActivityMetric::make(label: 'Refunds', value: '$84', color: 'red'),
+            LiveActivityMetric::make(label: 'New Buyers', value: '18', color: 'cyan'),
         ],
-    ],
+    ),
 );
 ```
 
@@ -195,17 +193,15 @@ $status = $activitysmith->liveActivities->stream(
 ```php
 $status = $activitysmith->liveActivities->stream(
     'prod-web-1',
-    [
-        'content_state' => [
-            'title' => 'Server Health',
-            'subtitle' => 'prod-web-1',
-            'type' => 'metrics',
-            'metrics' => [
-                LiveActivityMetric::make(label: 'CPU', value: 9, unit: '%'),
-                LiveActivityMetric::make(label: 'MEM', value: 45, unit: '%'),
-            ],
+    contentState: LiveActivityContentState::make(
+        title: 'Server Health',
+        subtitle: 'prod-web-1',
+        type: 'metrics',
+        metrics: [
+            LiveActivityMetric::make(label: 'CPU', value: 9, unit: '%'),
+            LiveActivityMetric::make(label: 'MEM', value: 45, unit: '%'),
         ],
-    ],
+    ),
 );
 ```
 
@@ -218,15 +214,13 @@ $status = $activitysmith->liveActivities->stream(
 ```php
 $activitysmith->liveActivities->stream(
     'nightly-backup',
-    [
-        'content_state' => [
-            'title' => 'Nightly Backup',
-            'subtitle' => 'upload archive',
-            'type' => 'segmented_progress',
-            'number_of_steps' => 3,
-            'current_step' => 2,
-        ],
-    ],
+    contentState: LiveActivityContentState::make(
+        title: 'Nightly Backup',
+        subtitle: 'upload archive',
+        type: 'segmented_progress',
+        numberOfSteps: 3,
+        currentStep: 2,
+    ),
 );
 ```
 
@@ -239,14 +233,12 @@ $activitysmith->liveActivities->stream(
 ```php
 $activitysmith->liveActivities->stream(
     'search-reindex',
-    [
-        'content_state' => [
-            'title' => 'Search Reindex',
-            'subtitle' => 'catalog-v2',
-            'type' => 'progress',
-            'percentage' => 42,
-        ],
-    ],
+    contentState: LiveActivityContentState::make(
+        title: 'Search Reindex',
+        subtitle: 'catalog-v2',
+        type: 'progress',
+        percentage: 42,
+    ),
 );
 ```
 
@@ -261,17 +253,15 @@ to end the stream with a final state.
 ```php
 $activitysmith->liveActivities->endStream(
     'prod-web-1',
-    [
-        'content_state' => [
-            'title' => 'Server Health',
-            'subtitle' => 'prod-web-1',
-            'type' => 'metrics',
-            'metrics' => [
-                LiveActivityMetric::make(label: 'CPU', value: 7, unit: '%'),
-                LiveActivityMetric::make(label: 'MEM', value: 38, unit: '%'),
-            ],
+    contentState: LiveActivityContentState::make(
+        title: 'Server Health',
+        subtitle: 'prod-web-1',
+        type: 'metrics',
+        metrics: [
+            LiveActivityMetric::make(label: 'CPU', value: 7, unit: '%'),
+            LiveActivityMetric::make(label: 'MEM', value: 38, unit: '%'),
         ],
-    ],
+    ),
 );
 ```
 
@@ -311,12 +301,12 @@ omit `color` to show the label without a dot.
 </p>
 
 ```php
-$start = $activitysmith->liveActivities->start([
-    'content_state' => [
-        'title' => 'Sales',
-        'subtitle' => 'last hour',
-        'type' => 'stats',
-        'metrics' => [
+$start = $activitysmith->liveActivities->start(
+    contentState: LiveActivityContentState::make(
+        title: 'Sales',
+        subtitle: 'last hour',
+        type: 'stats',
+        metrics: [
             LiveActivityMetric::make(label: 'Revenue', value: '$2430', color: 'blue'),
             LiveActivityMetric::make(label: 'Orders', value: '37', color: 'green'),
             LiveActivityMetric::make(label: 'Conversion', value: '4.8%', color: 'magenta'),
@@ -324,8 +314,8 @@ $start = $activitysmith->liveActivities->start([
             LiveActivityMetric::make(label: 'Refunds', value: '$84', color: 'red'),
             LiveActivityMetric::make(label: 'New Buyers', value: '18', color: 'cyan'),
         ],
-    ],
-]);
+    ),
+);
 
 $activityId = $start->getActivityId();
 ```
@@ -333,13 +323,13 @@ $activityId = $start->getActivityId();
 #### Update
 
 ```php
-$activitysmith->liveActivities->update([
-    'activity_id' => $activityId,
-    'content_state' => [
-        'title' => 'Sales',
-        'subtitle' => 'last hour',
-        'type' => 'stats',
-        'metrics' => [
+$activitysmith->liveActivities->update(
+    activityId: $activityId,
+    contentState: LiveActivityContentState::make(
+        title: 'Sales',
+        subtitle: 'last hour',
+        type: 'stats',
+        metrics: [
             LiveActivityMetric::make(label: 'Revenue', value: '$3180', color: 'blue'),
             LiveActivityMetric::make(label: 'Orders', value: '51', color: 'green'),
             LiveActivityMetric::make(label: 'Conversion', value: '5.2%', color: 'magenta'),
@@ -347,20 +337,20 @@ $activitysmith->liveActivities->update([
             LiveActivityMetric::make(label: 'Refunds', value: '$126', color: 'red'),
             LiveActivityMetric::make(label: 'New Buyers', value: '24', color: 'cyan'),
         ],
-    ],
-]);
+    ),
+);
 ```
 
 #### End
 
 ```php
-$activitysmith->liveActivities->end([
-    'activity_id' => $activityId,
-    'content_state' => [
-        'title' => 'Sales',
-        'subtitle' => 'last hour',
-        'type' => 'stats',
-        'metrics' => [
+$activitysmith->liveActivities->end(
+    activityId: $activityId,
+    contentState: LiveActivityContentState::make(
+        title: 'Sales',
+        subtitle: 'last hour',
+        type: 'stats',
+        metrics: [
             LiveActivityMetric::make(label: 'Revenue', value: '$3460', color: 'blue'),
             LiveActivityMetric::make(label: 'Orders', value: '58', color: 'green'),
             LiveActivityMetric::make(label: 'Conversion', value: '5.4%', color: 'magenta'),
@@ -368,9 +358,9 @@ $activitysmith->liveActivities->end([
             LiveActivityMetric::make(label: 'Refunds', value: '$92', color: 'red'),
             LiveActivityMetric::make(label: 'New Buyers', value: '31', color: 'cyan'),
         ],
-        'auto_dismiss_minutes' => 2,
-    ],
-]);
+        autoDismissMinutes: 2,
+    ),
+);
 ```
 
 ### Metrics Type
@@ -385,17 +375,17 @@ server health, queue pressure, or database load.
 </p>
 
 ```php
-$start = $activitysmith->liveActivities->start([
-    'content_state' => [
-        'title' => 'Server Health',
-        'subtitle' => 'prod-web-1',
-        'type' => 'metrics',
-        'metrics' => [
+$start = $activitysmith->liveActivities->start(
+    contentState: LiveActivityContentState::make(
+        title: 'Server Health',
+        subtitle: 'prod-web-1',
+        type: 'metrics',
+        metrics: [
             LiveActivityMetric::make(label: 'CPU', value: 9, unit: '%'),
             LiveActivityMetric::make(label: 'MEM', value: 45, unit: '%'),
         ],
-    ],
-]);
+    ),
+);
 
 $activityId = $start->getActivityId();
 ```
@@ -407,18 +397,18 @@ $activityId = $start->getActivityId();
 </p>
 
 ```php
-$activitysmith->liveActivities->update([
-    'activity_id' => $activityId,
-    'content_state' => [
-        'title' => 'Server Health',
-        'subtitle' => 'prod-web-1',
-        'type' => 'metrics',
-        'metrics' => [
+$activitysmith->liveActivities->update(
+    activityId: $activityId,
+    contentState: LiveActivityContentState::make(
+        title: 'Server Health',
+        subtitle: 'prod-web-1',
+        type: 'metrics',
+        metrics: [
             LiveActivityMetric::make(label: 'CPU', value: 76, unit: '%'),
             LiveActivityMetric::make(label: 'MEM', value: 52, unit: '%'),
         ],
-    ],
-]);
+    ),
+);
 ```
 
 #### End
@@ -428,19 +418,19 @@ $activitysmith->liveActivities->update([
 </p>
 
 ```php
-$activitysmith->liveActivities->end([
-    'activity_id' => $activityId,
-    'content_state' => [
-        'title' => 'Server Health',
-        'subtitle' => 'prod-web-1',
-        'type' => 'metrics',
-        'metrics' => [
+$activitysmith->liveActivities->end(
+    activityId: $activityId,
+    contentState: LiveActivityContentState::make(
+        title: 'Server Health',
+        subtitle: 'prod-web-1',
+        type: 'metrics',
+        metrics: [
             LiveActivityMetric::make(label: 'CPU', value: 7, unit: '%'),
             LiveActivityMetric::make(label: 'MEM', value: 38, unit: '%'),
         ],
-        'auto_dismiss_minutes' => 2,
-    ],
-]);
+        autoDismissMinutes: 2,
+    ),
+);
 ```
 
 ### Segmented Progress Type
@@ -457,16 +447,16 @@ workflow changes.
 </p>
 
 ```php
-$start = $activitysmith->liveActivities->start([
-    'content_state' => [
-        'title' => 'Nightly database backup',
-        'subtitle' => 'create snapshot',
-        'type' => 'segmented_progress',
-        'number_of_steps' => 3,
-        'current_step' => 1,
-        'color' => 'yellow',
-    ],
-]);
+$start = $activitysmith->liveActivities->start(
+    contentState: LiveActivityContentState::make(
+        title: 'Nightly database backup',
+        subtitle: 'create snapshot',
+        type: 'segmented_progress',
+        numberOfSteps: 3,
+        currentStep: 1,
+        color: 'yellow',
+    ),
+);
 
 $activityId = $start->getActivityId();
 ```
@@ -478,15 +468,15 @@ $activityId = $start->getActivityId();
 </p>
 
 ```php
-$activitysmith->liveActivities->update([
-    'activity_id' => $activityId,
-    'content_state' => [
-        'title' => 'Nightly database backup',
-        'subtitle' => 'upload archive',
-        'number_of_steps' => 3,
-        'current_step' => 2,
-    ],
-]);
+$activitysmith->liveActivities->update(
+    activityId: $activityId,
+    contentState: LiveActivityContentState::make(
+        title: 'Nightly database backup',
+        subtitle: 'upload archive',
+        numberOfSteps: 3,
+        currentStep: 2,
+    ),
+);
 ```
 
 #### End
@@ -496,16 +486,16 @@ $activitysmith->liveActivities->update([
 </p>
 
 ```php
-$activitysmith->liveActivities->end([
-    'activity_id' => $activityId,
-    'content_state' => [
-        'title' => 'Nightly database backup',
-        'subtitle' => 'verify restore',
-        'number_of_steps' => 3,
-        'current_step' => 3,
-        'auto_dismiss_minutes' => 2,
-    ],
-]);
+$activitysmith->liveActivities->end(
+    activityId: $activityId,
+    contentState: LiveActivityContentState::make(
+        title: 'Nightly database backup',
+        subtitle: 'verify restore',
+        numberOfSteps: 3,
+        currentStep: 3,
+        autoDismissMinutes: 2,
+    ),
+);
 ```
 
 ### Progress Type
@@ -521,14 +511,14 @@ numeric range is the clearest signal.
 </p>
 
 ```php
-$start = $activitysmith->liveActivities->start([
-    'content_state' => [
-        'title' => 'EV Charging',
-        'subtitle' => 'Added 30 mi range',
-        'type' => 'progress',
-        'percentage' => 15,
-    ],
-]);
+$start = $activitysmith->liveActivities->start(
+    contentState: LiveActivityContentState::make(
+        title: 'EV Charging',
+        subtitle: 'Added 30 mi range',
+        type: 'progress',
+        percentage: 15,
+    ),
+);
 
 $activityId = $start->getActivityId();
 ```
@@ -540,14 +530,14 @@ $activityId = $start->getActivityId();
 </p>
 
 ```php
-$activitysmith->liveActivities->update([
-    'activity_id' => $activityId,
-    'content_state' => [
-        'title' => 'EV Charging',
-        'subtitle' => 'Added 120 mi range',
-        'percentage' => 60,
-    ],
-]);
+$activitysmith->liveActivities->update(
+    activityId: $activityId,
+    contentState: LiveActivityContentState::make(
+        title: 'EV Charging',
+        subtitle: 'Added 120 mi range',
+        percentage: 60,
+    ),
+);
 ```
 
 #### End
@@ -557,15 +547,15 @@ $activitysmith->liveActivities->update([
 </p>
 
 ```php
-$activitysmith->liveActivities->end([
-    'activity_id' => $activityId,
-    'content_state' => [
-        'title' => 'EV Charging',
-        'subtitle' => 'Added 200 mi range',
-        'percentage' => 100,
-        'auto_dismiss_minutes' => 2,
-    ],
-]);
+$activitysmith->liveActivities->end(
+    activityId: $activityId,
+    contentState: LiveActivityContentState::make(
+        title: 'EV Charging',
+        subtitle: 'Added 200 mi range',
+        percentage: 100,
+        autoDismissMinutes: 2,
+    ),
+);
 ```
 
 ### Live Activity Action
