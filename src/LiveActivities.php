@@ -12,6 +12,7 @@ final class LiveActivities
     public const TYPE_PROGRESS = 'progress';
     public const TYPE_METRICS = 'metrics';
     public const TYPE_STATS = 'stats';
+    public const TYPE_ALERT = 'alert';
 
     public function __construct(private LiveActivitiesApi $api)
     {
@@ -23,6 +24,9 @@ final class LiveActivities
         mixed $title = null,
         mixed $subtitle = null,
         mixed $type = null,
+        mixed $message = null,
+        mixed $icon = null,
+        mixed $badge = null,
         mixed $metrics = null,
         mixed $numberOfSteps = null,
         mixed $currentStep = null,
@@ -41,6 +45,9 @@ final class LiveActivities
             'title' => $title,
             'subtitle' => $subtitle,
             'type' => $type,
+            'message' => $message,
+            'icon' => $icon,
+            'badge' => $badge,
             'metrics' => $metrics,
             'number_of_steps' => $numberOfSteps,
             'current_step' => $currentStep,
@@ -66,6 +73,9 @@ final class LiveActivities
         mixed $title = null,
         mixed $subtitle = null,
         mixed $type = null,
+        mixed $message = null,
+        mixed $icon = null,
+        mixed $badge = null,
         mixed $metrics = null,
         mixed $numberOfSteps = null,
         mixed $currentStep = null,
@@ -81,6 +91,9 @@ final class LiveActivities
             'title' => $title,
             'subtitle' => $subtitle,
             'type' => $type,
+            'message' => $message,
+            'icon' => $icon,
+            'badge' => $badge,
             'metrics' => $metrics,
             'number_of_steps' => $numberOfSteps,
             'current_step' => $currentStep,
@@ -104,6 +117,9 @@ final class LiveActivities
         mixed $title = null,
         mixed $subtitle = null,
         mixed $type = null,
+        mixed $message = null,
+        mixed $icon = null,
+        mixed $badge = null,
         mixed $metrics = null,
         mixed $numberOfSteps = null,
         mixed $currentStep = null,
@@ -120,6 +136,9 @@ final class LiveActivities
             'title' => $title,
             'subtitle' => $subtitle,
             'type' => $type,
+            'message' => $message,
+            'icon' => $icon,
+            'badge' => $badge,
             'metrics' => $metrics,
             'number_of_steps' => $numberOfSteps,
             'current_step' => $currentStep,
@@ -144,6 +163,9 @@ final class LiveActivities
         mixed $title = null,
         mixed $subtitle = null,
         mixed $type = null,
+        mixed $message = null,
+        mixed $icon = null,
+        mixed $badge = null,
         mixed $metrics = null,
         mixed $numberOfSteps = null,
         mixed $currentStep = null,
@@ -162,6 +184,9 @@ final class LiveActivities
             'title' => $title,
             'subtitle' => $subtitle,
             'type' => $type,
+            'message' => $message,
+            'icon' => $icon,
+            'badge' => $badge,
             'metrics' => $metrics,
             'number_of_steps' => $numberOfSteps,
             'current_step' => $currentStep,
@@ -190,6 +215,9 @@ final class LiveActivities
         mixed $title = null,
         mixed $subtitle = null,
         mixed $type = null,
+        mixed $message = null,
+        mixed $icon = null,
+        mixed $badge = null,
         mixed $metrics = null,
         mixed $numberOfSteps = null,
         mixed $currentStep = null,
@@ -207,6 +235,9 @@ final class LiveActivities
             'title' => $title,
             'subtitle' => $subtitle,
             'type' => $type,
+            'message' => $message,
+            'icon' => $icon,
+            'badge' => $badge,
             'metrics' => $metrics,
             'number_of_steps' => $numberOfSteps,
             'current_step' => $currentStep,
@@ -333,6 +364,7 @@ final class LiveActivities
         }
 
         if ($contentState !== null) {
+            $contentState = $this->normalizeContentState($contentState);
             $existingContentState = $request['content_state'] ?? [];
             if (!is_array($existingContentState) || !is_array($contentState)) {
                 throw new \InvalidArgumentException('ActivitySmith: content_state must be an array');
@@ -346,6 +378,7 @@ final class LiveActivities
                 throw new \InvalidArgumentException('ActivitySmith: content_state must be an array');
             }
             $request['content_state'] = array_merge($existingContentState, $contentStateFields);
+            $request['content_state'] = $this->normalizeContentState($request['content_state']);
         }
 
         if (array_key_exists('activity_id', $requestFields)) {
@@ -356,5 +389,18 @@ final class LiveActivities
         }
 
         return array_merge($request, $requestFields);
+    }
+
+    /**
+     * @param array<string,mixed> $contentState
+     * @return array<string,mixed>
+     */
+    private function normalizeContentState(array $contentState): array
+    {
+        if (($contentState['type'] ?? null) === self::TYPE_ALERT) {
+            unset($contentState['color']);
+        }
+
+        return $contentState;
     }
 }

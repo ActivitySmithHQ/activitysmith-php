@@ -6,6 +6,8 @@ namespace ActivitySmith\Tests;
 
 use ActivitySmith\LiveActivities;
 use ActivitySmith\LiveActivityAction;
+use ActivitySmith\LiveActivityAlertBadge;
+use ActivitySmith\LiveActivityAlertIcon;
 use ActivitySmith\LiveActivityContentState;
 use ActivitySmith\LiveActivityMetric;
 use ActivitySmith\Metrics;
@@ -528,6 +530,58 @@ final class ResourcesTest extends TestCase
         $this->assertSame(
             [
                 [$payload, LiveActivitiesApi::contentTypes['startLiveActivity'][0]],
+            ],
+            $captured
+        );
+    }
+
+    public function testLiveActivitiesSupportAlertHelpers(): void
+    {
+        $captured = [];
+        $response = (object) ['success' => true];
+
+        $api = $this->getMockBuilder(LiveActivitiesApi::class)
+            ->disableOriginalConstructor()
+            ->onlyMethods(['reconcileLiveActivityStream'])
+            ->getMock();
+
+        $api->expects($this->once())
+            ->method('reconcileLiveActivityStream')
+            ->willReturnCallback(function (...$args) use (&$captured, $response) {
+                $captured[] = $args;
+                return $response;
+            });
+
+        $resource = new LiveActivities($api);
+        $state = LiveActivityContentState::make(
+            title: 'Reactivation',
+            type: LiveActivities::TYPE_ALERT,
+            message: 'Lumen came back after 2 weeks',
+            icon: LiveActivityAlertIcon::make(symbol: 'sparkles', color: 'yellow'),
+            badge: LiveActivityAlertBadge::make(title: 'Customer', color: 'magenta'),
+            color: 'red'
+        );
+
+        $this->assertArrayNotHasKey('color', $state);
+        $this->assertSame(
+            $response,
+            $resource->stream('customer-ops', contentState: $state)
+        );
+        $this->assertSame(
+            [
+                [
+                    'customer-ops',
+                    [
+                        'content_state' => [
+                            'title' => 'Reactivation',
+                            'type' => LiveActivities::TYPE_ALERT,
+                            'message' => 'Lumen came back after 2 weeks',
+                            'icon' => ['symbol' => 'sparkles', 'color' => 'yellow'],
+                            'badge' => ['title' => 'Customer', 'color' => 'magenta'],
+                        ],
+                    ],
+                    LiveActivitiesApi::contentTypes['reconcileLiveActivityStream'][0],
+                ],
             ],
             $captured
         );
