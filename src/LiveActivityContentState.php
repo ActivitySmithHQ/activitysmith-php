@@ -41,7 +41,7 @@ final class LiveActivityContentState
             'percentage' => $percentage,
             'value' => $value,
             'upper_limit' => $upperLimit,
-            'color' => $type === LiveActivities::TYPE_ALERT ? null : $color,
+            'color' => $color,
             'step_color' => $stepColor,
             'auto_dismiss_seconds' => $autoDismissSeconds,
             'auto_dismiss_minutes' => $autoDismissMinutes,

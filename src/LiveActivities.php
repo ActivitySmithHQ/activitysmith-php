@@ -364,7 +364,6 @@ final class LiveActivities
         }
 
         if ($contentState !== null) {
-            $contentState = $this->normalizeContentState($contentState);
             $existingContentState = $request['content_state'] ?? [];
             if (!is_array($existingContentState) || !is_array($contentState)) {
                 throw new \InvalidArgumentException('ActivitySmith: content_state must be an array');
@@ -378,7 +377,6 @@ final class LiveActivities
                 throw new \InvalidArgumentException('ActivitySmith: content_state must be an array');
             }
             $request['content_state'] = array_merge($existingContentState, $contentStateFields);
-            $request['content_state'] = $this->normalizeContentState($request['content_state']);
         }
 
         if (array_key_exists('activity_id', $requestFields)) {
@@ -389,18 +387,5 @@ final class LiveActivities
         }
 
         return array_merge($request, $requestFields);
-    }
-
-    /**
-     * @param array<string,mixed> $contentState
-     * @return array<string,mixed>
-     */
-    private function normalizeContentState(array $contentState): array
-    {
-        if (($contentState['type'] ?? null) === self::TYPE_ALERT) {
-            unset($contentState['color']);
-        }
-
-        return $contentState;
     }
 }

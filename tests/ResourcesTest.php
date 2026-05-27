@@ -557,12 +557,11 @@ final class ResourcesTest extends TestCase
             title: 'Reactivation',
             type: LiveActivities::TYPE_ALERT,
             message: 'Lumen came back after 2 weeks',
-            icon: LiveActivityAlertIcon::make(symbol: 'sparkles', color: 'yellow'),
+            icon: LiveActivityAlertIcon::make(symbol: 'cloud.sun', color: 'yellow'),
             badge: LiveActivityAlertBadge::make(title: 'Customer', color: 'magenta'),
             color: 'red'
         );
 
-        $this->assertArrayNotHasKey('color', $state);
         $this->assertSame(
             $response,
             $resource->stream('customer-ops', contentState: $state)
@@ -576,8 +575,9 @@ final class ResourcesTest extends TestCase
                             'title' => 'Reactivation',
                             'type' => LiveActivities::TYPE_ALERT,
                             'message' => 'Lumen came back after 2 weeks',
-                            'icon' => ['symbol' => 'sparkles', 'color' => 'yellow'],
+                            'icon' => ['symbol' => 'cloud.sun', 'color' => 'yellow'],
                             'badge' => ['title' => 'Customer', 'color' => 'magenta'],
+                            'color' => 'red',
                         ],
                     ],
                     LiveActivitiesApi::contentTypes['reconcileLiveActivityStream'][0],
