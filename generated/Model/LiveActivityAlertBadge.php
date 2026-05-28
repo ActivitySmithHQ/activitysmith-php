@@ -35,7 +35,7 @@ use \ActivitySmith\Generated\ObjectSerializer;
  * LiveActivityAlertBadge Class Doc Comment
  *
  * @category Class
- * @description Optional badge for alert Live Activities.
+ * @description Optional badge for Alert Live Activities.
  * @package  ActivitySmith\Generated
  * @author   OpenAPI Generator team
  * @link     https://openapi-generator.tech

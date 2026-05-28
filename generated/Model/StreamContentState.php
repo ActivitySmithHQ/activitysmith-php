@@ -839,7 +839,7 @@ class StreamContentState implements ModelInterface, ArrayAccess, \JsonSerializab
     /**
      * Sets color
      *
-     * @param string|null $color Optional. Accent color for progress, segmented_progress, and metrics Live Activities. For alert Live Activities, this tints the action button when action is included.
+     * @param string|null $color Optional. Accent color for progress, segmented_progress, and metrics Live Activities. For Alert Live Activities, this tints the action button when action is included.
      *
      * @return self
      */

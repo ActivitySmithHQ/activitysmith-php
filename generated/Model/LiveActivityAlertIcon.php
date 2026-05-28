@@ -35,7 +35,7 @@ use \ActivitySmith\Generated\ObjectSerializer;
  * LiveActivityAlertIcon Class Doc Comment
  *
  * @category Class
- * @description Optional SF Symbol icon for alert Live Activities.
+ * @description Optional SF Symbol icon for Alert Live Activities.
  * @package  ActivitySmith\Generated
  * @author   OpenAPI Generator team
  * @link     https://openapi-generator.tech

@@ -289,7 +289,7 @@ $activitysmith->liveActivities->endStream(
 ### Live Activity Action
 
 Live Activities can include one optional action button. Use it to open a URL from the Live Activity or trigger a backend webhook.
-For alert Live Activities, set `color` on `LiveActivityContentState::make(...)` to tint the action button. Icon and badge colors only affect the icon and badge.
+For Alert Live Activities, set `color` on `LiveActivityContentState::make(...)` to tint the action button. Icon and badge colors only affect the icon and badge.
 
 <p align="center">
   <img
