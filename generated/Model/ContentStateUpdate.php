@@ -35,7 +35,7 @@ use \ActivitySmith\Generated\ObjectSerializer;
  * ContentStateUpdate Class Doc Comment
  *
  * @category Class
- * @description Update payload requires title. For segmented_progress include current_step and optionally number_of_steps. For progress include percentage or value with upper_limit. For metrics and stats include a non-empty metrics array. Type is optional when updating an existing activity. You can increase or decrease number_of_steps during updates.
+ * @description Update payload requires title. For segmented_progress include current_step and optionally number_of_steps. For progress include percentage or value with upper_limit. For metrics and stats include a non-empty metrics array. For alert include message, with optional icon and badge. Type is optional when updating an existing activity. You can increase or decrease number_of_steps during updates.
  * @package  ActivitySmith\Generated
  * @author   OpenAPI Generator team
  * @link     https://openapi-generator.tech
@@ -66,6 +66,9 @@ class ContentStateUpdate implements ModelInterface, ArrayAccess, \JsonSerializab
         'value' => 'float',
         'upperLimit' => 'float',
         'metrics' => '\ActivitySmith\Generated\Model\ActivityMetric[]',
+        'message' => 'string',
+        'icon' => '\ActivitySmith\Generated\Model\LiveActivityAlertIcon',
+        'badge' => '\ActivitySmith\Generated\Model\LiveActivityAlertBadge',
         'type' => 'string',
         'color' => 'string',
         'stepColor' => 'string',
@@ -88,6 +91,9 @@ class ContentStateUpdate implements ModelInterface, ArrayAccess, \JsonSerializab
         'value' => null,
         'upperLimit' => null,
         'metrics' => null,
+        'message' => null,
+        'icon' => null,
+        'badge' => null,
         'type' => null,
         'color' => null,
         'stepColor' => null,
@@ -108,6 +114,9 @@ class ContentStateUpdate implements ModelInterface, ArrayAccess, \JsonSerializab
         'value' => false,
         'upperLimit' => false,
         'metrics' => false,
+        'message' => false,
+        'icon' => false,
+        'badge' => false,
         'type' => false,
         'color' => false,
         'stepColor' => false,
@@ -208,6 +217,9 @@ class ContentStateUpdate implements ModelInterface, ArrayAccess, \JsonSerializab
         'value' => 'value',
         'upperLimit' => 'upper_limit',
         'metrics' => 'metrics',
+        'message' => 'message',
+        'icon' => 'icon',
+        'badge' => 'badge',
         'type' => 'type',
         'color' => 'color',
         'stepColor' => 'step_color',
@@ -228,6 +240,9 @@ class ContentStateUpdate implements ModelInterface, ArrayAccess, \JsonSerializab
         'value' => 'setValue',
         'upperLimit' => 'setUpperLimit',
         'metrics' => 'setMetrics',
+        'message' => 'setMessage',
+        'icon' => 'setIcon',
+        'badge' => 'setBadge',
         'type' => 'setType',
         'color' => 'setColor',
         'stepColor' => 'setStepColor',
@@ -248,6 +263,9 @@ class ContentStateUpdate implements ModelInterface, ArrayAccess, \JsonSerializab
         'value' => 'getValue',
         'upperLimit' => 'getUpperLimit',
         'metrics' => 'getMetrics',
+        'message' => 'getMessage',
+        'icon' => 'getIcon',
+        'badge' => 'getBadge',
         'type' => 'getType',
         'color' => 'getColor',
         'stepColor' => 'getStepColor',
@@ -299,6 +317,7 @@ class ContentStateUpdate implements ModelInterface, ArrayAccess, \JsonSerializab
     public const TYPE_PROGRESS = 'progress';
     public const TYPE_METRICS = 'metrics';
     public const TYPE_STATS = 'stats';
+    public const TYPE_ALERT = 'alert';
     public const COLOR_LIME = 'lime';
     public const COLOR_GREEN = 'green';
     public const COLOR_CYAN = 'cyan';
@@ -308,6 +327,7 @@ class ContentStateUpdate implements ModelInterface, ArrayAccess, \JsonSerializab
     public const COLOR_RED = 'red';
     public const COLOR_ORANGE = 'orange';
     public const COLOR_YELLOW = 'yellow';
+    public const COLOR_GRAY = 'gray';
     public const STEP_COLOR_LIME = 'lime';
     public const STEP_COLOR_GREEN = 'green';
     public const STEP_COLOR_CYAN = 'cyan';
@@ -317,6 +337,7 @@ class ContentStateUpdate implements ModelInterface, ArrayAccess, \JsonSerializab
     public const STEP_COLOR_RED = 'red';
     public const STEP_COLOR_ORANGE = 'orange';
     public const STEP_COLOR_YELLOW = 'yellow';
+    public const STEP_COLOR_GRAY = 'gray';
     public const STEP_COLORS_LIME = 'lime';
     public const STEP_COLORS_GREEN = 'green';
     public const STEP_COLORS_CYAN = 'cyan';
@@ -326,6 +347,7 @@ class ContentStateUpdate implements ModelInterface, ArrayAccess, \JsonSerializab
     public const STEP_COLORS_RED = 'red';
     public const STEP_COLORS_ORANGE = 'orange';
     public const STEP_COLORS_YELLOW = 'yellow';
+    public const STEP_COLORS_GRAY = 'gray';
 
     /**
      * Gets allowable values of the enum
@@ -339,6 +361,7 @@ class ContentStateUpdate implements ModelInterface, ArrayAccess, \JsonSerializab
             self::TYPE_PROGRESS,
             self::TYPE_METRICS,
             self::TYPE_STATS,
+            self::TYPE_ALERT,
         ];
     }
 
@@ -359,6 +382,7 @@ class ContentStateUpdate implements ModelInterface, ArrayAccess, \JsonSerializab
             self::COLOR_RED,
             self::COLOR_ORANGE,
             self::COLOR_YELLOW,
+            self::COLOR_GRAY,
         ];
     }
 
@@ -379,6 +403,7 @@ class ContentStateUpdate implements ModelInterface, ArrayAccess, \JsonSerializab
             self::STEP_COLOR_RED,
             self::STEP_COLOR_ORANGE,
             self::STEP_COLOR_YELLOW,
+            self::STEP_COLOR_GRAY,
         ];
     }
 
@@ -399,6 +424,7 @@ class ContentStateUpdate implements ModelInterface, ArrayAccess, \JsonSerializab
             self::STEP_COLORS_RED,
             self::STEP_COLORS_ORANGE,
             self::STEP_COLORS_YELLOW,
+            self::STEP_COLORS_GRAY,
         ];
     }
 
@@ -425,8 +451,11 @@ class ContentStateUpdate implements ModelInterface, ArrayAccess, \JsonSerializab
         $this->setIfExists('value', $data ?? [], null);
         $this->setIfExists('upperLimit', $data ?? [], null);
         $this->setIfExists('metrics', $data ?? [], null);
+        $this->setIfExists('message', $data ?? [], null);
+        $this->setIfExists('icon', $data ?? [], null);
+        $this->setIfExists('badge', $data ?? [], null);
         $this->setIfExists('type', $data ?? [], null);
-        $this->setIfExists('color', $data ?? [], 'blue');
+        $this->setIfExists('color', $data ?? [], null);
         $this->setIfExists('stepColor', $data ?? [], null);
         $this->setIfExists('stepColors', $data ?? [], null);
     }
@@ -483,6 +512,10 @@ class ContentStateUpdate implements ModelInterface, ArrayAccess, \JsonSerializab
 
         if (!is_null($this->container['metrics']) && (count($this->container['metrics']) < 1)) {
             $invalidProperties[] = "invalid value for 'metrics', number of items must be greater than or equal to 1.";
+        }
+
+        if (!is_null($this->container['message']) && (mb_strlen($this->container['message']) < 1)) {
+            $invalidProperties[] = "invalid value for 'message', the character length must be bigger than or equal to 1.";
         }
 
         $allowedValues = $this->getTypeAllowableValues();
@@ -769,6 +802,92 @@ class ContentStateUpdate implements ModelInterface, ArrayAccess, \JsonSerializab
     }
 
     /**
+     * Gets message
+     *
+     * @return string|null
+     */
+    public function getMessage()
+    {
+        return $this->container['message'];
+    }
+
+    /**
+     * Sets message
+     *
+     * @param string|null $message Alert message. Use for type=alert.
+     *
+     * @return self
+     */
+    public function setMessage($message)
+    {
+        if (is_null($message)) {
+            throw new \InvalidArgumentException('non-nullable message cannot be null');
+        }
+
+        if ((mb_strlen($message) < 1)) {
+            throw new \InvalidArgumentException('invalid length for $message when calling ContentStateUpdate., must be bigger than or equal to 1.');
+        }
+
+        $this->container['message'] = $message;
+
+        return $this;
+    }
+
+    /**
+     * Gets icon
+     *
+     * @return \ActivitySmith\Generated\Model\LiveActivityAlertIcon|null
+     */
+    public function getIcon()
+    {
+        return $this->container['icon'];
+    }
+
+    /**
+     * Sets icon
+     *
+     * @param \ActivitySmith\Generated\Model\LiveActivityAlertIcon|null $icon Optional SF Symbol icon for type=alert.
+     *
+     * @return self
+     */
+    public function setIcon($icon)
+    {
+        if (is_null($icon)) {
+            throw new \InvalidArgumentException('non-nullable icon cannot be null');
+        }
+        $this->container['icon'] = $icon;
+
+        return $this;
+    }
+
+    /**
+     * Gets badge
+     *
+     * @return \ActivitySmith\Generated\Model\LiveActivityAlertBadge|null
+     */
+    public function getBadge()
+    {
+        return $this->container['badge'];
+    }
+
+    /**
+     * Sets badge
+     *
+     * @param \ActivitySmith\Generated\Model\LiveActivityAlertBadge|null $badge Optional badge for type=alert.
+     *
+     * @return self
+     */
+    public function setBadge($badge)
+    {
+        if (is_null($badge)) {
+            throw new \InvalidArgumentException('non-nullable badge cannot be null');
+        }
+        $this->container['badge'] = $badge;
+
+        return $this;
+    }
+
+    /**
      * Gets type
      *
      * @return string|null
@@ -818,7 +937,7 @@ class ContentStateUpdate implements ModelInterface, ArrayAccess, \JsonSerializab
     /**
      * Sets color
      *
-     * @param string|null $color Optional. Accent color for the Live Activity. Defaults to blue.
+     * @param string|null $color Optional. Accent color for progress, segmented_progress, and metrics Live Activities. For Alert Live Activities, this tints the action button when action is included.
      *
      * @return self
      */

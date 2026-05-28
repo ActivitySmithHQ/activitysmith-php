@@ -14,6 +14,9 @@ final class LiveActivityContentState
         string $title,
         ?string $type = null,
         ?string $subtitle = null,
+        ?string $message = null,
+        ?array $icon = null,
+        ?array $badge = null,
         ?array $metrics = null,
         ?int $numberOfSteps = null,
         ?int $currentStep = null,
@@ -25,22 +28,27 @@ final class LiveActivityContentState
         ?int $autoDismissSeconds = null,
         ?int $autoDismissMinutes = null
     ): array {
+        $state = [
+            'title' => $title,
+            'subtitle' => $subtitle,
+            'type' => $type,
+            'message' => $message,
+            'icon' => $icon,
+            'badge' => $badge,
+            'metrics' => $metrics,
+            'number_of_steps' => $numberOfSteps,
+            'current_step' => $currentStep,
+            'percentage' => $percentage,
+            'value' => $value,
+            'upper_limit' => $upperLimit,
+            'color' => $color,
+            'step_color' => $stepColor,
+            'auto_dismiss_seconds' => $autoDismissSeconds,
+            'auto_dismiss_minutes' => $autoDismissMinutes,
+        ];
+
         return array_filter(
-            [
-                'title' => $title,
-                'subtitle' => $subtitle,
-                'type' => $type,
-                'metrics' => $metrics,
-                'number_of_steps' => $numberOfSteps,
-                'current_step' => $currentStep,
-                'percentage' => $percentage,
-                'value' => $value,
-                'upper_limit' => $upperLimit,
-                'color' => $color,
-                'step_color' => $stepColor,
-                'auto_dismiss_seconds' => $autoDismissSeconds,
-                'auto_dismiss_minutes' => $autoDismissMinutes,
-            ],
+            $state,
             static fn (mixed $value): bool => $value !== null
         );
     }
