@@ -494,8 +494,8 @@ class ContentStateStart implements ModelInterface, ArrayAccess, \JsonSerializabl
             $invalidProperties[] = "invalid value for 'numberOfSteps', must be bigger than or equal to 1.";
         }
 
-        if (!is_null($this->container['currentStep']) && ($this->container['currentStep'] < 1)) {
-            $invalidProperties[] = "invalid value for 'currentStep', must be bigger than or equal to 1.";
+        if (!is_null($this->container['currentStep']) && ($this->container['currentStep'] < 0)) {
+            $invalidProperties[] = "invalid value for 'currentStep', must be bigger than or equal to 0.";
         }
 
         if (!is_null($this->container['percentage']) && ($this->container['percentage'] > 100)) {
@@ -662,7 +662,7 @@ class ContentStateStart implements ModelInterface, ArrayAccess, \JsonSerializabl
     /**
      * Sets currentStep
      *
-     * @param int|null $currentStep Current step. Use for type=segmented_progress.
+     * @param int|null $currentStep Current completed step count. Use for type=segmented_progress. Set 0 when the activity has started but no segment is complete yet. Must be less than or equal to number_of_steps.
      *
      * @return self
      */
@@ -672,8 +672,8 @@ class ContentStateStart implements ModelInterface, ArrayAccess, \JsonSerializabl
             throw new \InvalidArgumentException('non-nullable currentStep cannot be null');
         }
 
-        if (($currentStep < 1)) {
-            throw new \InvalidArgumentException('invalid value for $currentStep when calling ContentStateStart., must be bigger than or equal to 1.');
+        if (($currentStep < 0)) {
+            throw new \InvalidArgumentException('invalid value for $currentStep when calling ContentStateStart., must be bigger than or equal to 0.');
         }
 
         $this->container['currentStep'] = $currentStep;
