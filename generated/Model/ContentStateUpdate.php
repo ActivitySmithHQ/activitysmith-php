@@ -35,7 +35,7 @@ use \ActivitySmith\Generated\ObjectSerializer;
  * ContentStateUpdate Class Doc Comment
  *
  * @category Class
- * @description Update payload requires title. For segmented_progress include current_step and optionally number_of_steps. For progress include percentage or value with upper_limit. For metrics and stats include a non-empty metrics array. For alert include message, with optional icon and badge. Type is optional when updating an existing activity. You can increase or decrease number_of_steps during updates.
+ * @description Update payload requires title. For segmented_progress include current_step and optionally number_of_steps. For progress include percentage or value with upper_limit. For metrics and stats include a non-empty metrics array. For alert include message. Optional icon is supported by all Live Activity types. Optional badge is supported by alert, progress, and segmented_progress. Type is optional when updating an existing activity. You can increase or decrease number_of_steps during updates.
  * @package  ActivitySmith\Generated
  * @author   OpenAPI Generator team
  * @link     https://openapi-generator.tech
@@ -846,7 +846,7 @@ class ContentStateUpdate implements ModelInterface, ArrayAccess, \JsonSerializab
     /**
      * Sets icon
      *
-     * @param \ActivitySmith\Generated\Model\LiveActivityAlertIcon|null $icon Optional SF Symbol icon for type=alert.
+     * @param \ActivitySmith\Generated\Model\LiveActivityAlertIcon|null $icon Optional SF Symbol icon. Supported by alert, progress, segmented_progress, metrics, and stats.
      *
      * @return self
      */
@@ -873,7 +873,7 @@ class ContentStateUpdate implements ModelInterface, ArrayAccess, \JsonSerializab
     /**
      * Sets badge
      *
-     * @param \ActivitySmith\Generated\Model\LiveActivityAlertBadge|null $badge Optional badge for type=alert.
+     * @param \ActivitySmith\Generated\Model\LiveActivityAlertBadge|null $badge Optional badge. Supported by alert, progress, and segmented_progress.
      *
      * @return self
      */

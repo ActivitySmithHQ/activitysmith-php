@@ -1015,7 +1015,7 @@ class StreamContentState implements ModelInterface, ArrayAccess, \JsonSerializab
     /**
      * Sets icon
      *
-     * @param \ActivitySmith\Generated\Model\LiveActivityAlertIcon|null $icon Optional SF Symbol icon for type=alert.
+     * @param \ActivitySmith\Generated\Model\LiveActivityAlertIcon|null $icon Optional SF Symbol icon. Supported by alert, progress, segmented_progress, metrics, and stats.
      *
      * @return self
      */
@@ -1042,7 +1042,7 @@ class StreamContentState implements ModelInterface, ArrayAccess, \JsonSerializab
     /**
      * Sets badge
      *
-     * @param \ActivitySmith\Generated\Model\LiveActivityAlertBadge|null $badge Optional badge for type=alert.
+     * @param \ActivitySmith\Generated\Model\LiveActivityAlertBadge|null $badge Optional badge. Supported by alert, progress, and segmented_progress.
      *
      * @return self
      */
