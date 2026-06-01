@@ -16,6 +16,11 @@ use ActivitySmith\PushAction;
 use ActivitySmith\Generated\Api\LiveActivitiesApi;
 use ActivitySmith\Generated\Api\MetricsApi;
 use ActivitySmith\Generated\Api\PushNotificationsApi;
+use ActivitySmith\Generated\Model\LiveActivityAction as GeneratedLiveActivityAction;
+use ActivitySmith\Generated\Model\LiveActivityActionType;
+use ActivitySmith\Generated\Model\PushNotificationAction as GeneratedPushNotificationAction;
+use ActivitySmith\Generated\Model\PushNotificationActionType;
+use ActivitySmith\Generated\Model\PushNotificationRequest as GeneratedPushNotificationRequest;
 use PHPUnit\Framework\TestCase;
 
 final class ResourcesTest extends TestCase
@@ -119,7 +124,7 @@ final class ResourcesTest extends TestCase
                     PushAction::make(
                         title: 'Open CRM Profile',
                         type: 'open_url',
-                        url: 'https://crm.example.com/customers/cus_9f3a1d'
+                        url: 'shortcuts://run-shortcut?name=Open%20CRM'
                     ),
                 ],
             )
@@ -134,7 +139,7 @@ final class ResourcesTest extends TestCase
                             [
                                 'title' => 'Open CRM Profile',
                                 'type' => 'open_url',
-                                'url' => 'https://crm.example.com/customers/cus_9f3a1d',
+                                'url' => 'shortcuts://run-shortcut?name=Open%20CRM',
                             ],
                         ],
                     ],
@@ -143,6 +148,60 @@ final class ResourcesTest extends TestCase
             ],
             $captured
         );
+    }
+
+    public function testGeneratedPushNotificationOpenUrlAllowsShortcuts(): void
+    {
+        $action = new GeneratedPushNotificationAction([
+            'title' => 'Chat',
+            'type' => PushNotificationActionType::OPEN_URL,
+            'url' => 'shortcuts://run-shortcut?name=JARVIS',
+        ]);
+
+        $this->assertTrue($action->valid());
+    }
+
+    public function testGeneratedPushNotificationWebhookRejectsShortcuts(): void
+    {
+        $action = new GeneratedPushNotificationAction([
+            'title' => 'Chat',
+            'type' => PushNotificationActionType::WEBHOOK,
+            'url' => 'shortcuts://run-shortcut?name=JARVIS',
+        ]);
+
+        $this->assertFalse($action->valid());
+    }
+
+    public function testGeneratedPushNotificationRedirectionAllowsShortcuts(): void
+    {
+        $request = new GeneratedPushNotificationRequest([
+            'title' => 'Task finished',
+            'redirection' => 'shortcuts://run-shortcut?name=Jarvis',
+        ]);
+
+        $this->assertTrue($request->valid());
+    }
+
+    public function testGeneratedLiveActivityOpenUrlAllowsShortcuts(): void
+    {
+        $action = new GeneratedLiveActivityAction([
+            'title' => 'Chat',
+            'type' => LiveActivityActionType::OPEN_URL,
+            'url' => 'shortcuts://run-shortcut?name=JARVIS',
+        ]);
+
+        $this->assertTrue($action->valid());
+    }
+
+    public function testGeneratedLiveActivityWebhookRejectsShortcuts(): void
+    {
+        $action = new GeneratedLiveActivityAction([
+            'title' => 'Chat',
+            'type' => LiveActivityActionType::WEBHOOK,
+            'url' => 'shortcuts://run-shortcut?name=JARVIS',
+        ]);
+
+        $this->assertFalse($action->valid());
     }
 
     public function testNotificationsMapsChannelsToTarget(): void
@@ -185,7 +244,7 @@ final class ResourcesTest extends TestCase
             ->onlyMethods(['sendPushNotification'])
             ->getMock();
 
-        $api->expects($this->once())
+        $api->expects($this->exactly(2))
             ->method('sendPushNotification')
             ->willReturnCallback(function (...$args) use (&$captured, $response) {
                 $captured[] = $args;
@@ -200,9 +259,20 @@ final class ResourcesTest extends TestCase
         ];
 
         $this->assertSame($response, $resource->send($payload));
+        $this->assertSame($response, $resource->send(
+            title: 'Run Shortcut',
+            redirection: 'shortcuts://run-shortcut?name=Jarvis'
+        ));
         $this->assertSame(
             [
                 [$payload, PushNotificationsApi::contentTypes['sendPushNotification'][0]],
+                [
+                    [
+                        'title' => 'Run Shortcut',
+                        'redirection' => 'shortcuts://run-shortcut?name=Jarvis',
+                    ],
+                    PushNotificationsApi::contentTypes['sendPushNotification'][0],
+                ],
             ],
             $captured
         );
@@ -402,7 +472,7 @@ final class ResourcesTest extends TestCase
             'action' => [
                 'title' => 'Open Workflow',
                 'type' => 'open_url',
-                'url' => 'https://github.com/acme/payments-api/actions/runs/1234567890',
+                'url' => 'shortcuts://run-shortcut?name=Deploy%20Status',
             ],
         ];
 
@@ -436,7 +506,7 @@ final class ResourcesTest extends TestCase
             'action' => [
                 'title' => 'Open Workflow',
                 'type' => 'open_url',
-                'url' => 'https://github.com/acme/payments-api/actions/runs/1234567890',
+                'url' => 'shortcuts://run-shortcut?name=Deploy%20Status',
             ],
         ];
 
@@ -587,6 +657,79 @@ final class ResourcesTest extends TestCase
         );
     }
 
+    public function testLiveActivitiesSupportIconAndBadgeOnNonAlertTypes(): void
+    {
+        $response = (object) ['success' => true];
+        $captured = [];
+
+        $api = $this->getMockBuilder(LiveActivitiesApi::class)
+            ->disableOriginalConstructor()
+            ->onlyMethods(['reconcileLiveActivityStream'])
+            ->getMock();
+
+        $api->expects($this->exactly(2))
+            ->method('reconcileLiveActivityStream')
+            ->willReturnCallback(function (...$args) use (&$captured, $response) {
+                $captured[] = $args;
+                return $response;
+            });
+
+        $resource = new LiveActivities($api);
+
+        $resource->stream(
+            'prod-web-1',
+            contentState: LiveActivityContentState::make(
+                title: 'Server Health',
+                subtitle: 'prod-web-1',
+                type: LiveActivities::TYPE_METRICS,
+                icon: LiveActivityAlertIcon::make(symbol: 'server.rack', color: 'blue'),
+                metrics: [LiveActivityMetric::make(label: 'CPU', value: 18, unit: '%')]
+            )
+        );
+        $resource->stream(
+            'nightly-database-backup',
+            contentState: LiveActivityContentState::make(
+                title: 'Nightly Database Backup',
+                subtitle: 'verify restore',
+                type: LiveActivities::TYPE_PROGRESS,
+                badge: LiveActivityAlertBadge::make(title: 'S3', color: 'cyan'),
+                percentage: 62
+            )
+        );
+
+        $this->assertSame(
+            [
+                [
+                    'prod-web-1',
+                    [
+                        'content_state' => [
+                            'title' => 'Server Health',
+                            'subtitle' => 'prod-web-1',
+                            'type' => LiveActivities::TYPE_METRICS,
+                            'icon' => ['symbol' => 'server.rack', 'color' => 'blue'],
+                            'metrics' => [['label' => 'CPU', 'value' => 18, 'unit' => '%']],
+                        ],
+                    ],
+                    LiveActivitiesApi::contentTypes['reconcileLiveActivityStream'][0],
+                ],
+                [
+                    'nightly-database-backup',
+                    [
+                        'content_state' => [
+                            'title' => 'Nightly Database Backup',
+                            'subtitle' => 'verify restore',
+                            'type' => LiveActivities::TYPE_PROGRESS,
+                            'badge' => ['title' => 'S3', 'color' => 'cyan'],
+                            'percentage' => 62,
+                        ],
+                    ],
+                    LiveActivitiesApi::contentTypes['reconcileLiveActivityStream'][0],
+                ],
+            ],
+            $captured
+        );
+    }
+
     public function testLiveActivitiesBuildRequestsFromNamedFields(): void
     {
         $response = (object) ['success' => true];
@@ -630,7 +773,7 @@ final class ResourcesTest extends TestCase
         $action = LiveActivityAction::make(
             title: 'Open Dashboard',
             type: 'open_url',
-            url: 'https://ops.example.com/servers/prod-web-1'
+            url: 'shortcuts://run-shortcut?name=Open%20Dashboard'
         );
         $state = LiveActivityContentState::make(
             title: 'Server Health',

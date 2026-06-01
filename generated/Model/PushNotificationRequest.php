@@ -344,8 +344,8 @@ class PushNotificationRequest implements ModelInterface, ArrayAccess, \JsonSeria
             $invalidProperties[] = "invalid value for 'media', must be conform to the pattern /^https:\/\//.";
         }
 
-        if (!is_null($this->container['redirection']) && !preg_match("/^https:\/\//", $this->container['redirection'])) {
-            $invalidProperties[] = "invalid value for 'redirection', must be conform to the pattern /^https:\/\//.";
+        if (!is_null($this->container['redirection']) && !preg_match("/^(https|shortcuts):\/\//", $this->container['redirection'])) {
+            $invalidProperties[] = "invalid value for 'redirection', must be conform to the pattern /^(https|shortcuts):\/\//.";
         }
 
         if (!is_null($this->container['actions']) && (count($this->container['actions']) > 4)) {
@@ -493,7 +493,7 @@ class PushNotificationRequest implements ModelInterface, ArrayAccess, \JsonSeria
     /**
      * Sets redirection
      *
-     * @param string|null $redirection Optional HTTPS URL opened when user taps the notification body. Overrides the default tap target from `media` when both are provided.
+     * @param string|null $redirection Optional HTTPS or shortcuts:// URL opened when user taps the notification body. Overrides the default tap target from `media` when both are provided.
      *
      * @return self
      */
@@ -503,8 +503,8 @@ class PushNotificationRequest implements ModelInterface, ArrayAccess, \JsonSeria
             throw new \InvalidArgumentException('non-nullable redirection cannot be null');
         }
 
-        if ((!preg_match("/^https:\/\//", ObjectSerializer::toString($redirection)))) {
-            throw new \InvalidArgumentException("invalid value for \$redirection when calling PushNotificationRequest., must conform to the pattern /^https:\/\//.");
+        if ((!preg_match("/^(https|shortcuts):\/\//", ObjectSerializer::toString($redirection)))) {
+            throw new \InvalidArgumentException("invalid value for \$redirection when calling PushNotificationRequest., must conform to the pattern /^(https|shortcuts):\/\//.");
         }
 
         $this->container['redirection'] = $redirection;

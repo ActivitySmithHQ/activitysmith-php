@@ -35,7 +35,7 @@ use \ActivitySmith\Generated\ObjectSerializer;
  * ContentStateEnd Class Doc Comment
  *
  * @category Class
- * @description End payload requires title. For segmented_progress include current_step and optionally number_of_steps. For progress include percentage or value with upper_limit. For metrics and stats include a non-empty metrics array. For alert include message, with optional icon and badge. Type is optional when ending an existing activity. You can send an updated number_of_steps here if the workflow changed after start.
+ * @description End payload requires title. For segmented_progress include current_step and optionally number_of_steps. For progress include percentage or value with upper_limit. For metrics and stats include a non-empty metrics array. For alert include message. Optional icon is supported by all Live Activity types. Optional badge is supported by alert, progress, and segmented_progress. Type is optional when ending an existing activity. You can send an updated number_of_steps here if the workflow changed after start.
  * @package  ActivitySmith\Generated
  * @author   OpenAPI Generator team
  * @link     https://openapi-generator.tech
@@ -857,7 +857,7 @@ class ContentStateEnd implements ModelInterface, ArrayAccess, \JsonSerializable
     /**
      * Sets icon
      *
-     * @param \ActivitySmith\Generated\Model\LiveActivityAlertIcon|null $icon Optional SF Symbol icon for type=alert.
+     * @param \ActivitySmith\Generated\Model\LiveActivityAlertIcon|null $icon Optional SF Symbol icon. Supported by alert, progress, segmented_progress, metrics, and stats.
      *
      * @return self
      */
@@ -884,7 +884,7 @@ class ContentStateEnd implements ModelInterface, ArrayAccess, \JsonSerializable
     /**
      * Sets badge
      *
-     * @param \ActivitySmith\Generated\Model\LiveActivityAlertBadge|null $badge Optional badge for type=alert.
+     * @param \ActivitySmith\Generated\Model\LiveActivityAlertBadge|null $badge Optional badge. Supported by alert, progress, and segmented_progress.
      *
      * @return self
      */
