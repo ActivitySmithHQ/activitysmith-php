@@ -312,6 +312,15 @@ class LiveActivityAction implements ModelInterface, ArrayAccess, \JsonSerializab
         if ($this->container['url'] === null) {
             $invalidProperties[] = "'url' can't be null";
         }
+        if ($this->container['url'] !== null) {
+            $actionType = $this->container['type'];
+            if ($actionType === LiveActivityActionType::OPEN_URL && !preg_match('/^(https|shortcuts):\/\//', (string) $this->container['url'])) {
+                $invalidProperties[] = "invalid value for 'url', open_url must use https or shortcuts.";
+            }
+            if ($actionType === LiveActivityActionType::WEBHOOK && !preg_match('/^https:\/\//', (string) $this->container['url'])) {
+                $invalidProperties[] = "invalid value for 'url', webhook must use https.";
+            }
+        }
         return $invalidProperties;
     }
 
@@ -402,6 +411,13 @@ class LiveActivityAction implements ModelInterface, ArrayAccess, \JsonSerializab
     {
         if (is_null($url)) {
             throw new \InvalidArgumentException('non-nullable url cannot be null');
+        }
+        $actionType = $this->container['type'] ?? null;
+        if ($actionType === LiveActivityActionType::OPEN_URL && !preg_match('/^(https|shortcuts):\/\//', (string) $url)) {
+            throw new \InvalidArgumentException("invalid value for \$url when calling LiveActivityAction., open_url must use https or shortcuts.");
+        }
+        if ($actionType === LiveActivityActionType::WEBHOOK && !preg_match('/^https:\/\//', (string) $url)) {
+            throw new \InvalidArgumentException("invalid value for \$url when calling LiveActivityAction., webhook must use https.");
         }
         $this->container['url'] = $url;
 
@@ -551,5 +567,4 @@ class LiveActivityAction implements ModelInterface, ArrayAccess, \JsonSerializab
         return json_encode(ObjectSerializer::sanitizeForSerialization($this));
     }
 }
-
 

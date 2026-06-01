@@ -15,4 +15,5 @@ final class LiveActivityColor
     public const RED = 'red';
     public const ORANGE = 'orange';
     public const YELLOW = 'yellow';
+    public const GRAY = 'gray';
 }
