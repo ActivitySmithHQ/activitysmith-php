@@ -402,7 +402,7 @@ class PushNotificationAction implements ModelInterface, ArrayAccess, \JsonSerial
     /**
      * Sets url
      *
-     * @param string $url Action URL. For open_url, use an HTTPS or shortcuts:// URL. For webhook, use an HTTPS URL called by the ActivitySmith backend.
+     * @param string $url Action URL. For open_url, use an HTTPS URL or a shortcuts://run-shortcut?name=... URL. For webhook, use an HTTPS URL called by the ActivitySmith backend.
      *
      * @return self
      */
