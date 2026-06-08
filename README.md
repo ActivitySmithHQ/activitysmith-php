@@ -136,10 +136,10 @@ There are six types of Live Activities:
 
 - `stats`: best for showing business numbers side by side, such as revenue, sales, new users, conversion, refunds, or any other value you want visible at a glance
 - `metrics`: best for live percentage values that change often, like server CPU, memory usage, disk usage, or error rate
-- `timer`: best for countdowns and elapsed timers, like benchmark runs, cooking timers, workouts, soak windows, and long-running jobs
 - `segmented_progress`: best for anything that moves through clear stages, like deployments, onboarding flows, backups, ETL pipelines, migrations, and AI agent runs
 - `progress`: best for tracking real-time progress with percentage, like tasks, backups, migrations, syncs, or uploads
 - `alert`: best for status updates, such as feature adoption, reactivation, onboarding blockers, incidents, escalations, and other operational states
+- `timer`: best for countdowns and elapsed runtime, like benchmark runs, uploads, backups, transcodes, and long-running jobs
 
 ### Start & Update Live Activity
 
@@ -244,25 +244,6 @@ $activitysmith->liveActivities->stream(
 );
 ```
 
-#### Timer
-
-Use `durationSeconds` for a countdown. Omit `countsDown` for the default countdown behavior, or set `countsDown: false` for an elapsed timer.
-
-```php
-$activitysmith->liveActivities->stream(
-    'benchmark-run',
-    contentState: LiveActivityContentState::make(
-        title: 'Benchmark Run',
-        subtitle: 'sampling performance',
-        type: LiveActivities::TYPE_TIMER,
-        durationSeconds: 300,
-        color: 'cyan',
-    ),
-);
-```
-
-Later updates can change the title, subtitle, color, icon, or action without resetting the timer. Include `durationSeconds` again only when you want to restart the timer window from that update.
-
 #### Alert
 
 <p align="center">
@@ -285,6 +266,33 @@ $activitysmith->liveActivities->stream(
     ),
 );
 ```
+
+#### Timer
+
+<p align="center">
+  <img
+    src="https://cdn.activitysmith.com/features/timer-live-activity.png"
+    alt="Timer Live Activity showing a benchmark run countdown"
+    width="680"
+  />
+</p>
+
+```php
+$activitysmith->liveActivities->stream(
+    'benchmark-run',
+    contentState: LiveActivityContentState::make(
+        title: 'Benchmark Run',
+        subtitle: 'sampling',
+        type: 'timer',
+        durationSeconds: 300,
+        color: 'cyan',
+    ),
+);
+```
+
+For a countdown, send `duration_seconds`. You can update `title`, `subtitle`, `color`, or any other visible field as the work changes. Leave `duration_seconds` out unless you want to change the timer.
+
+To start at 00:00 and count up, set `counts_down: false` and leave out `duration_seconds`.
 
 ### End Live Activity
 
