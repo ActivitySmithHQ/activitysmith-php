@@ -35,7 +35,7 @@ use \ActivitySmith\Generated\ObjectSerializer;
  * ContentStateStart Class Doc Comment
  *
  * @category Class
- * @description Start payload requires title and type. For segmented_progress include number_of_steps and current_step. For progress include percentage or value with upper_limit. For metrics and stats include a non-empty metrics array. For alert include message. Optional icon is supported by all Live Activity types. Optional badge is supported by alert, progress, and segmented_progress. For segmented_progress, number_of_steps is not locked and can be changed in later update or end calls.
+ * @description Start payload requires title and type. For segmented_progress include number_of_steps and current_step. For progress include percentage or value with upper_limit. For metrics and stats include a non-empty metrics array. For alert include message. For timer include duration_seconds for countdowns, or set counts_down false without duration_seconds for an open-ended elapsed timer. Optional icon is supported by all Live Activity types. Optional badge is supported by alert, progress, and segmented_progress. For segmented_progress, number_of_steps is not locked and can be changed in later update or end calls.
  * @package  ActivitySmith\Generated
  * @author   OpenAPI Generator team
  * @link     https://openapi-generator.tech
@@ -65,6 +65,9 @@ class ContentStateStart implements ModelInterface, ArrayAccess, \JsonSerializabl
         'percentage' => 'float',
         'value' => 'float',
         'upperLimit' => 'float',
+        'durationSeconds' => 'float',
+        'countsDown' => 'bool',
+        'isRunning' => 'bool',
         'metrics' => '\ActivitySmith\Generated\Model\ActivityMetric[]',
         'message' => 'string',
         'icon' => '\ActivitySmith\Generated\Model\LiveActivityAlertIcon',
@@ -90,6 +93,9 @@ class ContentStateStart implements ModelInterface, ArrayAccess, \JsonSerializabl
         'percentage' => null,
         'value' => null,
         'upperLimit' => null,
+        'durationSeconds' => null,
+        'countsDown' => null,
+        'isRunning' => null,
         'metrics' => null,
         'message' => null,
         'icon' => null,
@@ -113,6 +119,9 @@ class ContentStateStart implements ModelInterface, ArrayAccess, \JsonSerializabl
         'percentage' => false,
         'value' => false,
         'upperLimit' => false,
+        'durationSeconds' => false,
+        'countsDown' => false,
+        'isRunning' => false,
         'metrics' => false,
         'message' => false,
         'icon' => false,
@@ -216,6 +225,9 @@ class ContentStateStart implements ModelInterface, ArrayAccess, \JsonSerializabl
         'percentage' => 'percentage',
         'value' => 'value',
         'upperLimit' => 'upper_limit',
+        'durationSeconds' => 'duration_seconds',
+        'countsDown' => 'counts_down',
+        'isRunning' => 'is_running',
         'metrics' => 'metrics',
         'message' => 'message',
         'icon' => 'icon',
@@ -239,6 +251,9 @@ class ContentStateStart implements ModelInterface, ArrayAccess, \JsonSerializabl
         'percentage' => 'setPercentage',
         'value' => 'setValue',
         'upperLimit' => 'setUpperLimit',
+        'durationSeconds' => 'setDurationSeconds',
+        'countsDown' => 'setCountsDown',
+        'isRunning' => 'setIsRunning',
         'metrics' => 'setMetrics',
         'message' => 'setMessage',
         'icon' => 'setIcon',
@@ -262,6 +277,9 @@ class ContentStateStart implements ModelInterface, ArrayAccess, \JsonSerializabl
         'percentage' => 'getPercentage',
         'value' => 'getValue',
         'upperLimit' => 'getUpperLimit',
+        'durationSeconds' => 'getDurationSeconds',
+        'countsDown' => 'getCountsDown',
+        'isRunning' => 'getIsRunning',
         'metrics' => 'getMetrics',
         'message' => 'getMessage',
         'icon' => 'getIcon',
@@ -318,6 +336,7 @@ class ContentStateStart implements ModelInterface, ArrayAccess, \JsonSerializabl
     public const TYPE_METRICS = 'metrics';
     public const TYPE_STATS = 'stats';
     public const TYPE_ALERT = 'alert';
+    public const TYPE_TIMER = 'timer';
     public const COLOR_LIME = 'lime';
     public const COLOR_GREEN = 'green';
     public const COLOR_CYAN = 'cyan';
@@ -362,6 +381,7 @@ class ContentStateStart implements ModelInterface, ArrayAccess, \JsonSerializabl
             self::TYPE_METRICS,
             self::TYPE_STATS,
             self::TYPE_ALERT,
+            self::TYPE_TIMER,
         ];
     }
 
@@ -450,6 +470,9 @@ class ContentStateStart implements ModelInterface, ArrayAccess, \JsonSerializabl
         $this->setIfExists('percentage', $data ?? [], null);
         $this->setIfExists('value', $data ?? [], null);
         $this->setIfExists('upperLimit', $data ?? [], null);
+        $this->setIfExists('durationSeconds', $data ?? [], null);
+        $this->setIfExists('countsDown', $data ?? [], true);
+        $this->setIfExists('isRunning', $data ?? [], true);
         $this->setIfExists('metrics', $data ?? [], null);
         $this->setIfExists('message', $data ?? [], null);
         $this->setIfExists('icon', $data ?? [], null);
@@ -771,6 +794,87 @@ class ContentStateStart implements ModelInterface, ArrayAccess, \JsonSerializabl
     }
 
     /**
+     * Gets durationSeconds
+     *
+     * @return float|null
+     */
+    public function getDurationSeconds()
+    {
+        return $this->container['durationSeconds'];
+    }
+
+    /**
+     * Sets durationSeconds
+     *
+     * @param float|null $durationSeconds Timer duration in seconds. For type=timer countdowns, required on start when counts_down is true or omitted.
+     *
+     * @return self
+     */
+    public function setDurationSeconds($durationSeconds)
+    {
+        if (is_null($durationSeconds)) {
+            throw new \InvalidArgumentException('non-nullable durationSeconds cannot be null');
+        }
+        $this->container['durationSeconds'] = $durationSeconds;
+
+        return $this;
+    }
+
+    /**
+     * Gets countsDown
+     *
+     * @return bool|null
+     */
+    public function getCountsDown()
+    {
+        return $this->container['countsDown'];
+    }
+
+    /**
+     * Sets countsDown
+     *
+     * @param bool|null $countsDown Use with type=timer. When true or omitted, the timer counts down from duration_seconds. Set false for an elapsed timer; omit duration_seconds for an open-ended elapsed timer.
+     *
+     * @return self
+     */
+    public function setCountsDown($countsDown)
+    {
+        if (is_null($countsDown)) {
+            throw new \InvalidArgumentException('non-nullable countsDown cannot be null');
+        }
+        $this->container['countsDown'] = $countsDown;
+
+        return $this;
+    }
+
+    /**
+     * Gets isRunning
+     *
+     * @return bool|null
+     */
+    public function getIsRunning()
+    {
+        return $this->container['isRunning'];
+    }
+
+    /**
+     * Sets isRunning
+     *
+     * @param bool|null $isRunning Use with type=timer. Defaults to true. Set false to pause/freeze via API; set true on a paused timer to resume.
+     *
+     * @return self
+     */
+    public function setIsRunning($isRunning)
+    {
+        if (is_null($isRunning)) {
+            throw new \InvalidArgumentException('non-nullable isRunning cannot be null');
+        }
+        $this->container['isRunning'] = $isRunning;
+
+        return $this;
+    }
+
+    /**
      * Gets metrics
      *
      * @return \ActivitySmith\Generated\Model\ActivityMetric[]|null
@@ -849,7 +953,7 @@ class ContentStateStart implements ModelInterface, ArrayAccess, \JsonSerializabl
     /**
      * Sets icon
      *
-     * @param \ActivitySmith\Generated\Model\LiveActivityAlertIcon|null $icon Optional SF Symbol icon. Supported by alert, progress, segmented_progress, metrics, and stats.
+     * @param \ActivitySmith\Generated\Model\LiveActivityAlertIcon|null $icon Optional SF Symbol icon. Supported by alert, progress, segmented_progress, metrics, stats, and timer.
      *
      * @return self
      */
@@ -940,7 +1044,7 @@ class ContentStateStart implements ModelInterface, ArrayAccess, \JsonSerializabl
     /**
      * Sets color
      *
-     * @param string|null $color Optional. Accent color for progress, segmented_progress, and metrics Live Activities. For Alert Live Activities, this tints the action button when action is included.
+     * @param string|null $color Optional. Accent color for progress, segmented_progress, metrics, and timer Live Activities. For Alert Live Activities, this tints the action button when action is included.
      *
      * @return self
      */

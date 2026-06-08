@@ -311,15 +311,6 @@ class PushNotificationAction implements ModelInterface, ArrayAccess, \JsonSerial
         if ($this->container['url'] === null) {
             $invalidProperties[] = "'url' can't be null";
         }
-        if ($this->container['url'] !== null) {
-            $actionType = $this->container['type'];
-            if ($actionType === PushNotificationActionType::OPEN_URL && !preg_match('/^(https|shortcuts):\/\//', (string) $this->container['url'])) {
-                $invalidProperties[] = "invalid value for 'url', open_url must use https or shortcuts.";
-            }
-            if ($actionType === PushNotificationActionType::WEBHOOK && !preg_match('/^https:\/\//', (string) $this->container['url'])) {
-                $invalidProperties[] = "invalid value for 'url', webhook must use https.";
-            }
-        }
         return $invalidProperties;
     }
 
@@ -402,7 +393,7 @@ class PushNotificationAction implements ModelInterface, ArrayAccess, \JsonSerial
     /**
      * Sets url
      *
-     * @param string $url Action URL. For open_url, use an HTTPS URL or a shortcuts://run-shortcut?name=... URL. For webhook, use an HTTPS URL called by the ActivitySmith backend.
+     * @param string $url Action URL. For open_url, use an HTTPS URL or a shortcuts://run-shortcut?name=... URL that runs a specific iPhone Shortcut. For webhook, use an HTTPS URL called by the ActivitySmith backend.
      *
      * @return self
      */
@@ -410,13 +401,6 @@ class PushNotificationAction implements ModelInterface, ArrayAccess, \JsonSerial
     {
         if (is_null($url)) {
             throw new \InvalidArgumentException('non-nullable url cannot be null');
-        }
-        $actionType = $this->container['type'] ?? null;
-        if ($actionType === PushNotificationActionType::OPEN_URL && !preg_match('/^(https|shortcuts):\/\//', (string) $url)) {
-            throw new \InvalidArgumentException("invalid value for \$url when calling PushNotificationAction., open_url must use https or shortcuts.");
-        }
-        if ($actionType === PushNotificationActionType::WEBHOOK && !preg_match('/^https:\/\//', (string) $url)) {
-            throw new \InvalidArgumentException("invalid value for \$url when calling PushNotificationAction., webhook must use https.");
         }
         $this->container['url'] = $url;
 
@@ -566,4 +550,5 @@ class PushNotificationAction implements ModelInterface, ArrayAccess, \JsonSerial
         return json_encode(ObjectSerializer::sanitizeForSerialization($this));
     }
 }
+
 

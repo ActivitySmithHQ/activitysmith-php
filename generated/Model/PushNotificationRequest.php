@@ -493,7 +493,7 @@ class PushNotificationRequest implements ModelInterface, ArrayAccess, \JsonSeria
     /**
      * Sets redirection
      *
-     * @param string|null $redirection Optional HTTPS URL or shortcuts://run-shortcut?name=... URL opened when user taps the notification body. Overrides the default tap target from `media` when both are provided.
+     * @param string|null $redirection Optional HTTPS URL or shortcuts://run-shortcut?name=... URL opened when the user taps the notification body. Use shortcuts://run-shortcut?name=... to run a specific iPhone Shortcut that already exists on the user's device. Overrides the default tap target from `media` when both are provided.
      *
      * @return self
      */
