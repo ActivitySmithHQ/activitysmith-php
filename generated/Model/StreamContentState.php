@@ -35,7 +35,7 @@ use \ActivitySmith\Generated\ObjectSerializer;
  * StreamContentState Class Doc Comment
  *
  * @category Class
- * @description Current state for a managed Live Activity stream. Include type on the first PUT, and whenever the stream may need to start a fresh activity. Supports segmented_progress, progress, metrics, stats, and alert types.
+ * @description Current state for a managed Live Activity stream. Include type on the first PUT, and whenever the stream may need to start a fresh activity. Supports segmented_progress, progress, metrics, stats, alert, and timer types. For timer, send duration_seconds to start or reset a bounded timer; omit duration_seconds on later updates to preserve the existing timer window.
  * @package  ActivitySmith\Generated
  * @author   OpenAPI Generator team
  * @link     https://openapi-generator.tech
@@ -65,6 +65,9 @@ class StreamContentState implements ModelInterface, ArrayAccess, \JsonSerializab
         'percentage' => 'float',
         'value' => 'float',
         'upperLimit' => 'float',
+        'durationSeconds' => 'float',
+        'countsDown' => 'bool',
+        'isRunning' => 'bool',
         'type' => 'string',
         'color' => 'string',
         'stepColor' => 'string',
@@ -92,6 +95,9 @@ class StreamContentState implements ModelInterface, ArrayAccess, \JsonSerializab
         'percentage' => null,
         'value' => null,
         'upperLimit' => null,
+        'durationSeconds' => null,
+        'countsDown' => null,
+        'isRunning' => null,
         'type' => null,
         'color' => null,
         'stepColor' => null,
@@ -117,6 +123,9 @@ class StreamContentState implements ModelInterface, ArrayAccess, \JsonSerializab
         'percentage' => false,
         'value' => false,
         'upperLimit' => false,
+        'durationSeconds' => false,
+        'countsDown' => false,
+        'isRunning' => false,
         'type' => false,
         'color' => false,
         'stepColor' => false,
@@ -222,6 +231,9 @@ class StreamContentState implements ModelInterface, ArrayAccess, \JsonSerializab
         'percentage' => 'percentage',
         'value' => 'value',
         'upperLimit' => 'upper_limit',
+        'durationSeconds' => 'duration_seconds',
+        'countsDown' => 'counts_down',
+        'isRunning' => 'is_running',
         'type' => 'type',
         'color' => 'color',
         'stepColor' => 'step_color',
@@ -247,6 +259,9 @@ class StreamContentState implements ModelInterface, ArrayAccess, \JsonSerializab
         'percentage' => 'setPercentage',
         'value' => 'setValue',
         'upperLimit' => 'setUpperLimit',
+        'durationSeconds' => 'setDurationSeconds',
+        'countsDown' => 'setCountsDown',
+        'isRunning' => 'setIsRunning',
         'type' => 'setType',
         'color' => 'setColor',
         'stepColor' => 'setStepColor',
@@ -272,6 +287,9 @@ class StreamContentState implements ModelInterface, ArrayAccess, \JsonSerializab
         'percentage' => 'getPercentage',
         'value' => 'getValue',
         'upperLimit' => 'getUpperLimit',
+        'durationSeconds' => 'getDurationSeconds',
+        'countsDown' => 'getCountsDown',
+        'isRunning' => 'getIsRunning',
         'type' => 'getType',
         'color' => 'getColor',
         'stepColor' => 'getStepColor',
@@ -330,6 +348,7 @@ class StreamContentState implements ModelInterface, ArrayAccess, \JsonSerializab
     public const TYPE_METRICS = 'metrics';
     public const TYPE_STATS = 'stats';
     public const TYPE_ALERT = 'alert';
+    public const TYPE_TIMER = 'timer';
     public const COLOR_LIME = 'lime';
     public const COLOR_GREEN = 'green';
     public const COLOR_CYAN = 'cyan';
@@ -374,6 +393,7 @@ class StreamContentState implements ModelInterface, ArrayAccess, \JsonSerializab
             self::TYPE_METRICS,
             self::TYPE_STATS,
             self::TYPE_ALERT,
+            self::TYPE_TIMER,
         ];
     }
 
@@ -462,6 +482,9 @@ class StreamContentState implements ModelInterface, ArrayAccess, \JsonSerializab
         $this->setIfExists('percentage', $data ?? [], null);
         $this->setIfExists('value', $data ?? [], null);
         $this->setIfExists('upperLimit', $data ?? [], null);
+        $this->setIfExists('durationSeconds', $data ?? [], null);
+        $this->setIfExists('countsDown', $data ?? [], true);
+        $this->setIfExists('isRunning', $data ?? [], true);
         $this->setIfExists('type', $data ?? [], null);
         $this->setIfExists('color', $data ?? [], null);
         $this->setIfExists('stepColor', $data ?? [], null);
@@ -790,6 +813,87 @@ class StreamContentState implements ModelInterface, ArrayAccess, \JsonSerializab
     }
 
     /**
+     * Gets durationSeconds
+     *
+     * @return float|null
+     */
+    public function getDurationSeconds()
+    {
+        return $this->container['durationSeconds'];
+    }
+
+    /**
+     * Sets durationSeconds
+     *
+     * @param float|null $durationSeconds Timer duration in seconds. For type=timer, send duration_seconds to start or reset the timer window; omit it on later stream updates to preserve the existing timer window.
+     *
+     * @return self
+     */
+    public function setDurationSeconds($durationSeconds)
+    {
+        if (is_null($durationSeconds)) {
+            throw new \InvalidArgumentException('non-nullable durationSeconds cannot be null');
+        }
+        $this->container['durationSeconds'] = $durationSeconds;
+
+        return $this;
+    }
+
+    /**
+     * Gets countsDown
+     *
+     * @return bool|null
+     */
+    public function getCountsDown()
+    {
+        return $this->container['countsDown'];
+    }
+
+    /**
+     * Sets countsDown
+     *
+     * @param bool|null $countsDown Use with type=timer. When true or omitted, the timer counts down from duration_seconds. Set false for an elapsed timer; omit duration_seconds for an open-ended elapsed timer.
+     *
+     * @return self
+     */
+    public function setCountsDown($countsDown)
+    {
+        if (is_null($countsDown)) {
+            throw new \InvalidArgumentException('non-nullable countsDown cannot be null');
+        }
+        $this->container['countsDown'] = $countsDown;
+
+        return $this;
+    }
+
+    /**
+     * Gets isRunning
+     *
+     * @return bool|null
+     */
+    public function getIsRunning()
+    {
+        return $this->container['isRunning'];
+    }
+
+    /**
+     * Sets isRunning
+     *
+     * @param bool|null $isRunning Use with type=timer. Defaults to true. Set false to pause/freeze via API; set true on a paused timer to resume.
+     *
+     * @return self
+     */
+    public function setIsRunning($isRunning)
+    {
+        if (is_null($isRunning)) {
+            throw new \InvalidArgumentException('non-nullable isRunning cannot be null');
+        }
+        $this->container['isRunning'] = $isRunning;
+
+        return $this;
+    }
+
+    /**
      * Gets type
      *
      * @return string|null
@@ -839,7 +943,7 @@ class StreamContentState implements ModelInterface, ArrayAccess, \JsonSerializab
     /**
      * Sets color
      *
-     * @param string|null $color Optional. Accent color for progress, segmented_progress, and metrics Live Activities. For Alert Live Activities, this tints the action button when action is included.
+     * @param string|null $color Optional. Accent color for progress, segmented_progress, metrics, and timer Live Activities. For Alert Live Activities, this tints the action button when action is included.
      *
      * @return self
      */
@@ -1015,7 +1119,7 @@ class StreamContentState implements ModelInterface, ArrayAccess, \JsonSerializab
     /**
      * Sets icon
      *
-     * @param \ActivitySmith\Generated\Model\LiveActivityAlertIcon|null $icon Optional SF Symbol icon. Supported by alert, progress, segmented_progress, metrics, and stats.
+     * @param \ActivitySmith\Generated\Model\LiveActivityAlertIcon|null $icon Optional SF Symbol icon. Supported by alert, progress, segmented_progress, metrics, stats, and timer.
      *
      * @return self
      */

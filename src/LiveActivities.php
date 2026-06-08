@@ -13,6 +13,7 @@ final class LiveActivities
     public const TYPE_METRICS = 'metrics';
     public const TYPE_STATS = 'stats';
     public const TYPE_ALERT = 'alert';
+    public const TYPE_TIMER = 'timer';
 
     public function __construct(private LiveActivitiesApi $api)
     {
@@ -38,7 +39,9 @@ final class LiveActivities
         mixed $action = null,
         mixed $alert = null,
         mixed $target = null,
-        mixed $channels = null
+        mixed $channels = null,
+        mixed $durationSeconds = null,
+        mixed $countsDown = null
     ): mixed
     {
         $request = $this->buildRequest($request, $contentState, [
@@ -54,6 +57,8 @@ final class LiveActivities
             'percentage' => $percentage,
             'value' => $value,
             'upper_limit' => $upperLimit,
+            'duration_seconds' => $durationSeconds,
+            'counts_down' => $countsDown,
             'color' => $color,
             'step_color' => $stepColor,
         ], [
@@ -84,7 +89,9 @@ final class LiveActivities
         mixed $upperLimit = null,
         mixed $color = null,
         mixed $stepColor = null,
-        mixed $action = null
+        mixed $action = null,
+        mixed $durationSeconds = null,
+        mixed $countsDown = null
     ): mixed
     {
         $request = $this->buildRequest($request, $contentState, [
@@ -100,6 +107,8 @@ final class LiveActivities
             'percentage' => $percentage,
             'value' => $value,
             'upper_limit' => $upperLimit,
+            'duration_seconds' => $durationSeconds,
+            'counts_down' => $countsDown,
             'color' => $color,
             'step_color' => $stepColor,
         ], [
@@ -129,7 +138,9 @@ final class LiveActivities
         mixed $color = null,
         mixed $stepColor = null,
         mixed $autoDismissMinutes = null,
-        mixed $action = null
+        mixed $action = null,
+        mixed $durationSeconds = null,
+        mixed $countsDown = null
     ): mixed
     {
         $request = $this->buildRequest($request, $contentState, [
@@ -145,6 +156,8 @@ final class LiveActivities
             'percentage' => $percentage,
             'value' => $value,
             'upper_limit' => $upperLimit,
+            'duration_seconds' => $durationSeconds,
+            'counts_down' => $countsDown,
             'color' => $color,
             'step_color' => $stepColor,
             'auto_dismiss_minutes' => $autoDismissMinutes,
@@ -177,7 +190,9 @@ final class LiveActivities
         mixed $action = null,
         mixed $alert = null,
         mixed $target = null,
-        mixed $channels = null
+        mixed $channels = null,
+        mixed $durationSeconds = null,
+        mixed $countsDown = null
     ): mixed
     {
         $request = $this->buildRequest($request, $contentState, [
@@ -193,6 +208,8 @@ final class LiveActivities
             'percentage' => $percentage,
             'value' => $value,
             'upper_limit' => $upperLimit,
+            'duration_seconds' => $durationSeconds,
+            'counts_down' => $countsDown,
             'color' => $color,
             'step_color' => $stepColor,
         ], [
@@ -228,7 +245,9 @@ final class LiveActivities
         mixed $stepColor = null,
         mixed $autoDismissMinutes = null,
         mixed $action = null,
-        mixed $alert = null
+        mixed $alert = null,
+        mixed $durationSeconds = null,
+        mixed $countsDown = null
     ): mixed
     {
         $request = $this->buildRequest($request, $contentState, [
@@ -244,6 +263,8 @@ final class LiveActivities
             'percentage' => $percentage,
             'value' => $value,
             'upper_limit' => $upperLimit,
+            'duration_seconds' => $durationSeconds,
+            'counts_down' => $countsDown,
             'color' => $color,
             'step_color' => $stepColor,
             'auto_dismiss_minutes' => $autoDismissMinutes,

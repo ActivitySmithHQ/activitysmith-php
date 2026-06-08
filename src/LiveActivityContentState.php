@@ -26,7 +26,9 @@ final class LiveActivityContentState
         ?string $color = null,
         ?string $stepColor = null,
         ?int $autoDismissSeconds = null,
-        ?int $autoDismissMinutes = null
+        ?int $autoDismissMinutes = null,
+        int|float|null $durationSeconds = null,
+        ?bool $countsDown = null
     ): array {
         $state = [
             'title' => $title,
@@ -41,6 +43,8 @@ final class LiveActivityContentState
             'percentage' => $percentage,
             'value' => $value,
             'upper_limit' => $upperLimit,
+            'duration_seconds' => $durationSeconds,
+            'counts_down' => $countsDown,
             'color' => $color,
             'step_color' => $stepColor,
             'auto_dismiss_seconds' => $autoDismissSeconds,

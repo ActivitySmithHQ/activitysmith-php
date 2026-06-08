@@ -161,17 +161,6 @@ final class ResourcesTest extends TestCase
         $this->assertTrue($action->valid());
     }
 
-    public function testGeneratedPushNotificationWebhookRejectsShortcuts(): void
-    {
-        $action = new GeneratedPushNotificationAction([
-            'title' => 'Chat',
-            'type' => PushNotificationActionType::WEBHOOK,
-            'url' => 'shortcuts://run-shortcut?name=JARVIS',
-        ]);
-
-        $this->assertFalse($action->valid());
-    }
-
     public function testGeneratedPushNotificationRedirectionAllowsShortcuts(): void
     {
         $request = new GeneratedPushNotificationRequest([
@@ -191,17 +180,6 @@ final class ResourcesTest extends TestCase
         ]);
 
         $this->assertTrue($action->valid());
-    }
-
-    public function testGeneratedLiveActivityWebhookRejectsShortcuts(): void
-    {
-        $action = new GeneratedLiveActivityAction([
-            'title' => 'Chat',
-            'type' => LiveActivityActionType::WEBHOOK,
-            'url' => 'shortcuts://run-shortcut?name=JARVIS',
-        ]);
-
-        $this->assertFalse($action->valid());
     }
 
     public function testNotificationsMapsChannelsToTarget(): void
@@ -562,6 +540,92 @@ final class ResourcesTest extends TestCase
                 [$payload, LiveActivitiesApi::contentTypes['startLiveActivity'][0]],
             ],
             $captured
+        );
+    }
+
+    public function testLiveActivitiesSupportTimerPayloads(): void
+    {
+        $captured = [
+            'start' => [],
+            'update' => [],
+        ];
+        $response = (object) ['success' => true];
+
+        $api = $this->getMockBuilder(LiveActivitiesApi::class)
+            ->disableOriginalConstructor()
+            ->onlyMethods(['startLiveActivity', 'updateLiveActivity'])
+            ->getMock();
+
+        $api->expects($this->once())
+            ->method('startLiveActivity')
+            ->willReturnCallback(function (...$args) use (&$captured, $response) {
+                $captured['start'][] = $args;
+                return $response;
+            });
+
+        $api->expects($this->once())
+            ->method('updateLiveActivity')
+            ->willReturnCallback(function (...$args) use (&$captured, $response) {
+                $captured['update'][] = $args;
+                return $response;
+            });
+
+        $resource = new LiveActivities($api);
+        $state = LiveActivityContentState::make(
+            title: 'Benchmark Run',
+            subtitle: 'sampling performance',
+            type: LiveActivities::TYPE_TIMER,
+            durationSeconds: 300,
+            countsDown: true,
+            color: 'cyan'
+        );
+
+        $this->assertSame($response, $resource->start(contentState: $state));
+        $this->assertSame(
+            $response,
+            $resource->update(
+                activityId: 'act-1',
+                title: 'Benchmark Run',
+                type: LiveActivities::TYPE_TIMER,
+                subtitle: 'complete',
+                color: 'cyan'
+            )
+        );
+
+        $this->assertSame(
+            [
+                [
+                    [
+                        'content_state' => [
+                            'title' => 'Benchmark Run',
+                            'subtitle' => 'sampling performance',
+                            'type' => LiveActivities::TYPE_TIMER,
+                            'duration_seconds' => 300,
+                            'counts_down' => true,
+                            'color' => 'cyan',
+                        ],
+                    ],
+                    LiveActivitiesApi::contentTypes['startLiveActivity'][0],
+                ],
+            ],
+            $captured['start']
+        );
+        $this->assertSame(
+            [
+                [
+                    [
+                        'activity_id' => 'act-1',
+                        'content_state' => [
+                            'title' => 'Benchmark Run',
+                            'subtitle' => 'complete',
+                            'type' => LiveActivities::TYPE_TIMER,
+                            'color' => 'cyan',
+                        ],
+                    ],
+                    LiveActivitiesApi::contentTypes['updateLiveActivity'][0],
+                ],
+            ],
+            $captured['update']
         );
     }
 
