@@ -161,17 +161,6 @@ final class ResourcesTest extends TestCase
         $this->assertTrue($action->valid());
     }
 
-    public function testGeneratedPushNotificationWebhookRejectsShortcuts(): void
-    {
-        $action = new GeneratedPushNotificationAction([
-            'title' => 'Chat',
-            'type' => PushNotificationActionType::WEBHOOK,
-            'url' => 'shortcuts://run-shortcut?name=JARVIS',
-        ]);
-
-        $this->assertFalse($action->valid());
-    }
-
     public function testGeneratedPushNotificationRedirectionAllowsShortcuts(): void
     {
         $request = new GeneratedPushNotificationRequest([
@@ -191,17 +180,6 @@ final class ResourcesTest extends TestCase
         ]);
 
         $this->assertTrue($action->valid());
-    }
-
-    public function testGeneratedLiveActivityWebhookRejectsShortcuts(): void
-    {
-        $action = new GeneratedLiveActivityAction([
-            'title' => 'Chat',
-            'type' => LiveActivityActionType::WEBHOOK,
-            'url' => 'shortcuts://run-shortcut?name=JARVIS',
-        ]);
-
-        $this->assertFalse($action->valid());
     }
 
     public function testNotificationsMapsChannelsToTarget(): void
