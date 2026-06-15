@@ -60,6 +60,7 @@ class LiveActivityStartRequest implements ModelInterface, ArrayAccess, \JsonSeri
     protected static $openAPITypes = [
         'contentState' => '\ActivitySmith\Generated\Model\ContentStateStart',
         'action' => '\ActivitySmith\Generated\Model\LiveActivityAction',
+        'secondaryAction' => '\ActivitySmith\Generated\Model\LiveActivityAction',
         'alert' => '\ActivitySmith\Generated\Model\AlertPayload',
         'target' => '\ActivitySmith\Generated\Model\ChannelTarget'
     ];
@@ -74,6 +75,7 @@ class LiveActivityStartRequest implements ModelInterface, ArrayAccess, \JsonSeri
     protected static $openAPIFormats = [
         'contentState' => null,
         'action' => null,
+        'secondaryAction' => null,
         'alert' => null,
         'target' => null
     ];
@@ -86,6 +88,7 @@ class LiveActivityStartRequest implements ModelInterface, ArrayAccess, \JsonSeri
     protected static array $openAPINullables = [
         'contentState' => false,
         'action' => false,
+        'secondaryAction' => false,
         'alert' => false,
         'target' => false
     ];
@@ -178,6 +181,7 @@ class LiveActivityStartRequest implements ModelInterface, ArrayAccess, \JsonSeri
     protected static $attributeMap = [
         'contentState' => 'content_state',
         'action' => 'action',
+        'secondaryAction' => 'secondary_action',
         'alert' => 'alert',
         'target' => 'target'
     ];
@@ -190,6 +194,7 @@ class LiveActivityStartRequest implements ModelInterface, ArrayAccess, \JsonSeri
     protected static $setters = [
         'contentState' => 'setContentState',
         'action' => 'setAction',
+        'secondaryAction' => 'setSecondaryAction',
         'alert' => 'setAlert',
         'target' => 'setTarget'
     ];
@@ -202,6 +207,7 @@ class LiveActivityStartRequest implements ModelInterface, ArrayAccess, \JsonSeri
     protected static $getters = [
         'contentState' => 'getContentState',
         'action' => 'getAction',
+        'secondaryAction' => 'getSecondaryAction',
         'alert' => 'getAlert',
         'target' => 'getTarget'
     ];
@@ -265,6 +271,7 @@ class LiveActivityStartRequest implements ModelInterface, ArrayAccess, \JsonSeri
     {
         $this->setIfExists('contentState', $data ?? [], null);
         $this->setIfExists('action', $data ?? [], null);
+        $this->setIfExists('secondaryAction', $data ?? [], null);
         $this->setIfExists('alert', $data ?? [], null);
         $this->setIfExists('target', $data ?? [], null);
     }
@@ -364,6 +371,33 @@ class LiveActivityStartRequest implements ModelInterface, ArrayAccess, \JsonSeri
             throw new \InvalidArgumentException('non-nullable action cannot be null');
         }
         $this->container['action'] = $action;
+
+        return $this;
+    }
+
+    /**
+     * Gets secondaryAction
+     *
+     * @return \ActivitySmith\Generated\Model\LiveActivityAction|null
+     */
+    public function getSecondaryAction()
+    {
+        return $this->container['secondaryAction'];
+    }
+
+    /**
+     * Sets secondaryAction
+     *
+     * @param \ActivitySmith\Generated\Model\LiveActivityAction|null $secondaryAction Optional secondary action button. Supported only for alert, progress, and segmented_progress Live Activities. Uses the same open_url, shortcuts://, and webhook shapes as action.
+     *
+     * @return self
+     */
+    public function setSecondaryAction($secondaryAction)
+    {
+        if (is_null($secondaryAction)) {
+            throw new \InvalidArgumentException('non-nullable secondaryAction cannot be null');
+        }
+        $this->container['secondaryAction'] = $secondaryAction;
 
         return $this;
     }
