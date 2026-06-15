@@ -316,15 +316,15 @@ $activitysmith->liveActivities->endStream(
 
 ### Live Activity Action
 
-Live Activities can include a primary action button. `secondary_action` adds a secondary button for `alert`, `progress`, and `segmented_progress` Live Activities, using the same `open_url`, `shortcuts://`, and `webhook` payload shapes as `action`.
+Live Activities can include an action button.
 
 - `open_url`: open an HTTPS URL.
-- `open_url` with a `shortcuts://run-shortcut?name=...` URL: run a specific iPhone Shortcut, for example to open an app.
+- `open_url` with a `shortcuts://` URL: run an Apple Shortcut, for example to open an app.
 - `webhook`: trigger a backend GET/POST workflow.
 
 <p align="center">
   <img
-    src="https://cdn.activitysmith.com/features/live-activity-with-action.png?v=20260319-1"
+    src="https://cdn.activitysmith.com/features/metrics-live-activity-action.png"
     alt="Live Activity with action button"
     width="680"
   />
@@ -394,10 +394,53 @@ $activitysmith->liveActivities->stream(
             'requested_by' => 'activitysmith-php',
         ],
     ),
+);
+```
+
+#### Secondary action
+
+<p align="center">
+  <img
+    src="https://cdn.activitysmith.com/features/live-activity-secondary-action.png"
+    alt="Alert Live Activity with primary and secondary action buttons"
+    width="680"
+  />
+</p>
+
+Use `secondaryAction` when you want a second button beside the primary `action`.
+
+The secondary action button is supported for `alert`, `progress`, and `segmented_progress` Live Activities. Both buttons use the same `open_url`, `webhook`, and Apple Shortcut payload shapes.
+
+```php
+$activitysmith->liveActivities->stream(
+    'agent-approval',
+    contentState: LiveActivityContentState::make(
+        title: 'Approval Needed',
+        message: 'Should I send the follow-up email to Brightlane?',
+        type: 'alert',
+        color: 'green',
+        icon: LiveActivityAlertIcon::make(symbol: 'sparkles', color: 'green'),
+        badge: LiveActivityAlertBadge::make(title: 'Agent', color: 'green'),
+    ),
+    action: LiveActivityAction::make(
+        title: 'Send',
+        type: 'webhook',
+        url: 'https://agent.example.com/live-activity/approve',
+        method: 'POST',
+        body: [
+            'approval_id' => 'approval_01JY3J7Q9S0P8M1V5PZK7DR4M2',
+            'decision' => 'send',
+        ],
+    ),
     secondaryAction: LiveActivityAction::make(
-        title: 'Open Runbook',
-        type: 'open_url',
-        url: 'https://ops.example.com/runbooks/search-reindex',
+        title: 'Deny',
+        type: 'webhook',
+        url: 'https://agent.example.com/live-activity/deny',
+        method: 'POST',
+        body: [
+            'approval_id' => 'approval_01JY3J7Q9S0P8M1V5PZK7DR4M2',
+            'decision' => 'deny',
+        ],
     ),
 );
 ```
