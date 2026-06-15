@@ -41,7 +41,8 @@ final class LiveActivities
         mixed $target = null,
         mixed $channels = null,
         mixed $durationSeconds = null,
-        mixed $countsDown = null
+        mixed $countsDown = null,
+        mixed $secondaryAction = null
     ): mixed
     {
         $request = $this->buildRequest($request, $contentState, [
@@ -63,6 +64,7 @@ final class LiveActivities
             'step_color' => $stepColor,
         ], [
             'action' => $action,
+            'secondary_action' => $secondaryAction,
             'alert' => $alert,
             'target' => $target,
             'channels' => $channels,
@@ -91,7 +93,8 @@ final class LiveActivities
         mixed $stepColor = null,
         mixed $action = null,
         mixed $durationSeconds = null,
-        mixed $countsDown = null
+        mixed $countsDown = null,
+        mixed $secondaryAction = null
     ): mixed
     {
         $request = $this->buildRequest($request, $contentState, [
@@ -114,6 +117,7 @@ final class LiveActivities
         ], [
             'activity_id' => $activityId,
             'action' => $action,
+            'secondary_action' => $secondaryAction,
         ]);
 
         return $this->api->updateLiveActivity($request);
@@ -140,7 +144,8 @@ final class LiveActivities
         mixed $autoDismissMinutes = null,
         mixed $action = null,
         mixed $durationSeconds = null,
-        mixed $countsDown = null
+        mixed $countsDown = null,
+        mixed $secondaryAction = null
     ): mixed
     {
         $request = $this->buildRequest($request, $contentState, [
@@ -164,6 +169,7 @@ final class LiveActivities
         ], [
             'activity_id' => $activityId,
             'action' => $action,
+            'secondary_action' => $secondaryAction,
         ]);
 
         return $this->api->endLiveActivity($request);
@@ -192,7 +198,8 @@ final class LiveActivities
         mixed $target = null,
         mixed $channels = null,
         mixed $durationSeconds = null,
-        mixed $countsDown = null
+        mixed $countsDown = null,
+        mixed $secondaryAction = null
     ): mixed
     {
         $request = $this->buildRequest($request, $contentState, [
@@ -214,6 +221,7 @@ final class LiveActivities
             'step_color' => $stepColor,
         ], [
             'action' => $action,
+            'secondary_action' => $secondaryAction,
             'alert' => $alert,
             'target' => $target,
             'channels' => $channels,
@@ -247,7 +255,8 @@ final class LiveActivities
         mixed $action = null,
         mixed $alert = null,
         mixed $durationSeconds = null,
-        mixed $countsDown = null
+        mixed $countsDown = null,
+        mixed $secondaryAction = null
     ): mixed
     {
         $request = $this->buildRequest($request, $contentState, [
@@ -270,6 +279,7 @@ final class LiveActivities
             'auto_dismiss_minutes' => $autoDismissMinutes,
         ], [
             'action' => $action,
+            'secondary_action' => $secondaryAction,
             'alert' => $alert,
         ]);
 
