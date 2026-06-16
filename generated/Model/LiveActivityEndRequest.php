@@ -60,7 +60,8 @@ class LiveActivityEndRequest implements ModelInterface, ArrayAccess, \JsonSerial
     protected static $openAPITypes = [
         'activityId' => 'string',
         'contentState' => '\ActivitySmith\Generated\Model\ContentStateEnd',
-        'action' => '\ActivitySmith\Generated\Model\LiveActivityAction'
+        'action' => '\ActivitySmith\Generated\Model\LiveActivityAction',
+        'secondaryAction' => '\ActivitySmith\Generated\Model\LiveActivityAction'
     ];
 
     /**
@@ -73,7 +74,8 @@ class LiveActivityEndRequest implements ModelInterface, ArrayAccess, \JsonSerial
     protected static $openAPIFormats = [
         'activityId' => null,
         'contentState' => null,
-        'action' => null
+        'action' => null,
+        'secondaryAction' => null
     ];
 
     /**
@@ -84,7 +86,8 @@ class LiveActivityEndRequest implements ModelInterface, ArrayAccess, \JsonSerial
     protected static array $openAPINullables = [
         'activityId' => false,
         'contentState' => false,
-        'action' => false
+        'action' => false,
+        'secondaryAction' => false
     ];
 
     /**
@@ -175,7 +178,8 @@ class LiveActivityEndRequest implements ModelInterface, ArrayAccess, \JsonSerial
     protected static $attributeMap = [
         'activityId' => 'activity_id',
         'contentState' => 'content_state',
-        'action' => 'action'
+        'action' => 'action',
+        'secondaryAction' => 'secondary_action'
     ];
 
     /**
@@ -186,7 +190,8 @@ class LiveActivityEndRequest implements ModelInterface, ArrayAccess, \JsonSerial
     protected static $setters = [
         'activityId' => 'setActivityId',
         'contentState' => 'setContentState',
-        'action' => 'setAction'
+        'action' => 'setAction',
+        'secondaryAction' => 'setSecondaryAction'
     ];
 
     /**
@@ -197,7 +202,8 @@ class LiveActivityEndRequest implements ModelInterface, ArrayAccess, \JsonSerial
     protected static $getters = [
         'activityId' => 'getActivityId',
         'contentState' => 'getContentState',
-        'action' => 'getAction'
+        'action' => 'getAction',
+        'secondaryAction' => 'getSecondaryAction'
     ];
 
     /**
@@ -260,6 +266,7 @@ class LiveActivityEndRequest implements ModelInterface, ArrayAccess, \JsonSerial
         $this->setIfExists('activityId', $data ?? [], null);
         $this->setIfExists('contentState', $data ?? [], null);
         $this->setIfExists('action', $data ?? [], null);
+        $this->setIfExists('secondaryAction', $data ?? [], null);
     }
 
     /**
@@ -387,6 +394,33 @@ class LiveActivityEndRequest implements ModelInterface, ArrayAccess, \JsonSerial
             throw new \InvalidArgumentException('non-nullable action cannot be null');
         }
         $this->container['action'] = $action;
+
+        return $this;
+    }
+
+    /**
+     * Gets secondaryAction
+     *
+     * @return \ActivitySmith\Generated\Model\LiveActivityAction|null
+     */
+    public function getSecondaryAction()
+    {
+        return $this->container['secondaryAction'];
+    }
+
+    /**
+     * Sets secondaryAction
+     *
+     * @param \ActivitySmith\Generated\Model\LiveActivityAction|null $secondaryAction Optional secondary action button. Supported only for alert, progress, and segmented_progress Live Activities. Uses the same open_url, shortcuts://, and webhook shapes as action.
+     *
+     * @return self
+     */
+    public function setSecondaryAction($secondaryAction)
+    {
+        if (is_null($secondaryAction)) {
+            throw new \InvalidArgumentException('non-nullable secondaryAction cannot be null');
+        }
+        $this->container['secondaryAction'] = $secondaryAction;
 
         return $this;
     }

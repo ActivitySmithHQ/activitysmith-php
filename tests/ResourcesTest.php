@@ -839,6 +839,11 @@ final class ResourcesTest extends TestCase
             type: 'open_url',
             url: 'shortcuts://run-shortcut?name=Open%20Dashboard'
         );
+        $secondaryAction = LiveActivityAction::make(
+            title: 'Deny',
+            type: 'webhook',
+            url: 'https://ops.example.com/hooks/server-health/deny'
+        );
         $state = LiveActivityContentState::make(
             title: 'Server Health',
             subtitle: 'prod-web-1',
@@ -851,6 +856,7 @@ final class ResourcesTest extends TestCase
             $resource->start(
                 contentState: $state,
                 action: $action,
+                secondaryAction: $secondaryAction,
                 channels: ['ops']
             )
         );
@@ -861,7 +867,8 @@ final class ResourcesTest extends TestCase
                 title: 'Server Health',
                 subtitle: 'prod-web-1',
                 type: LiveActivities::TYPE_METRICS,
-                metrics: $metrics
+                metrics: $metrics,
+                secondaryAction: $secondaryAction
             )
         );
         $this->assertSame(
@@ -872,7 +879,8 @@ final class ResourcesTest extends TestCase
                 subtitle: 'prod-web-1',
                 type: LiveActivities::TYPE_METRICS,
                 metrics: $metrics,
-                autoDismissMinutes: 2
+                autoDismissMinutes: 2,
+                secondaryAction: $secondaryAction
             )
         );
 
@@ -887,6 +895,7 @@ final class ResourcesTest extends TestCase
                             'metrics' => $metrics,
                         ],
                         'action' => $action,
+                        'secondary_action' => $secondaryAction,
                         'target' => ['channels' => ['ops']],
                     ],
                     LiveActivitiesApi::contentTypes['startLiveActivity'][0],
@@ -905,6 +914,7 @@ final class ResourcesTest extends TestCase
                             'type' => LiveActivities::TYPE_METRICS,
                             'metrics' => $metrics,
                         ],
+                        'secondary_action' => $secondaryAction,
                     ],
                     LiveActivitiesApi::contentTypes['updateLiveActivity'][0],
                 ],
@@ -923,6 +933,7 @@ final class ResourcesTest extends TestCase
                             'metrics' => $metrics,
                             'auto_dismiss_minutes' => 2,
                         ],
+                        'secondary_action' => $secondaryAction,
                     ],
                     LiveActivitiesApi::contentTypes['endLiveActivity'][0],
                 ],
