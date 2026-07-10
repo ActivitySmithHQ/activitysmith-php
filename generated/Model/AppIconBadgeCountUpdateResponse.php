@@ -1,6 +1,6 @@
 <?php
 /**
- * PushNotificationAction
+ * AppIconBadgeCountUpdateResponse
  *
  * PHP version 7.4
  *
@@ -32,7 +32,7 @@ use \ArrayAccess;
 use \ActivitySmith\Generated\ObjectSerializer;
 
 /**
- * PushNotificationAction Class Doc Comment
+ * AppIconBadgeCountUpdateResponse Class Doc Comment
  *
  * @category Class
  * @package  ActivitySmith\Generated
@@ -40,7 +40,7 @@ use \ActivitySmith\Generated\ObjectSerializer;
  * @link     https://openapi-generator.tech
  * @implements \ArrayAccess<string, mixed>
  */
-class PushNotificationAction implements ModelInterface, ArrayAccess, \JsonSerializable
+class AppIconBadgeCountUpdateResponse implements ModelInterface, ArrayAccess, \JsonSerializable
 {
     public const DISCRIMINATOR = null;
 
@@ -49,7 +49,7 @@ class PushNotificationAction implements ModelInterface, ArrayAccess, \JsonSerial
       *
       * @var string
       */
-    protected static $openAPIModelName = 'PushNotificationAction';
+    protected static $openAPIModelName = 'AppIconBadgeCountUpdateResponse';
 
     /**
       * Array of property to type mappings. Used for (de)serialization
@@ -57,11 +57,12 @@ class PushNotificationAction implements ModelInterface, ArrayAccess, \JsonSerial
       * @var string[]
       */
     protected static $openAPITypes = [
-        'title' => 'string',
-        'type' => '\ActivitySmith\Generated\Model\PushNotificationActionType',
-        'url' => 'string',
-        'method' => '\ActivitySmith\Generated\Model\PushNotificationWebhookMethod',
-        'body' => 'object'
+        'success' => 'bool',
+        'badge' => 'int',
+        'devicesNotified' => 'int',
+        'usersNotified' => 'int',
+        'effectiveChannelSlugs' => 'string[]',
+        'timestamp' => '\DateTime'
     ];
 
     /**
@@ -72,11 +73,12 @@ class PushNotificationAction implements ModelInterface, ArrayAccess, \JsonSerial
       * @psalm-var array<string, string|null>
       */
     protected static $openAPIFormats = [
-        'title' => null,
-        'type' => null,
-        'url' => 'uri',
-        'method' => null,
-        'body' => null
+        'success' => null,
+        'badge' => null,
+        'devicesNotified' => null,
+        'usersNotified' => null,
+        'effectiveChannelSlugs' => null,
+        'timestamp' => 'date-time'
     ];
 
     /**
@@ -85,11 +87,12 @@ class PushNotificationAction implements ModelInterface, ArrayAccess, \JsonSerial
       * @var boolean[]
       */
     protected static array $openAPINullables = [
-        'title' => false,
-        'type' => false,
-        'url' => false,
-        'method' => false,
-        'body' => false
+        'success' => false,
+        'badge' => false,
+        'devicesNotified' => false,
+        'usersNotified' => false,
+        'effectiveChannelSlugs' => false,
+        'timestamp' => false
     ];
 
     /**
@@ -178,11 +181,12 @@ class PushNotificationAction implements ModelInterface, ArrayAccess, \JsonSerial
      * @var string[]
      */
     protected static $attributeMap = [
-        'title' => 'title',
-        'type' => 'type',
-        'url' => 'url',
-        'method' => 'method',
-        'body' => 'body'
+        'success' => 'success',
+        'badge' => 'badge',
+        'devicesNotified' => 'devices_notified',
+        'usersNotified' => 'users_notified',
+        'effectiveChannelSlugs' => 'effective_channel_slugs',
+        'timestamp' => 'timestamp'
     ];
 
     /**
@@ -191,11 +195,12 @@ class PushNotificationAction implements ModelInterface, ArrayAccess, \JsonSerial
      * @var string[]
      */
     protected static $setters = [
-        'title' => 'setTitle',
-        'type' => 'setType',
-        'url' => 'setUrl',
-        'method' => 'setMethod',
-        'body' => 'setBody'
+        'success' => 'setSuccess',
+        'badge' => 'setBadge',
+        'devicesNotified' => 'setDevicesNotified',
+        'usersNotified' => 'setUsersNotified',
+        'effectiveChannelSlugs' => 'setEffectiveChannelSlugs',
+        'timestamp' => 'setTimestamp'
     ];
 
     /**
@@ -204,11 +209,12 @@ class PushNotificationAction implements ModelInterface, ArrayAccess, \JsonSerial
      * @var string[]
      */
     protected static $getters = [
-        'title' => 'getTitle',
-        'type' => 'getType',
-        'url' => 'getUrl',
-        'method' => 'getMethod',
-        'body' => 'getBody'
+        'success' => 'getSuccess',
+        'badge' => 'getBadge',
+        'devicesNotified' => 'getDevicesNotified',
+        'usersNotified' => 'getUsersNotified',
+        'effectiveChannelSlugs' => 'getEffectiveChannelSlugs',
+        'timestamp' => 'getTimestamp'
     ];
 
     /**
@@ -268,11 +274,12 @@ class PushNotificationAction implements ModelInterface, ArrayAccess, \JsonSerial
      */
     public function __construct(array $data = null)
     {
-        $this->setIfExists('title', $data ?? [], null);
-        $this->setIfExists('type', $data ?? [], null);
-        $this->setIfExists('url', $data ?? [], null);
-        $this->setIfExists('method', $data ?? [], null);
-        $this->setIfExists('body', $data ?? [], null);
+        $this->setIfExists('success', $data ?? [], null);
+        $this->setIfExists('badge', $data ?? [], null);
+        $this->setIfExists('devicesNotified', $data ?? [], null);
+        $this->setIfExists('usersNotified', $data ?? [], null);
+        $this->setIfExists('effectiveChannelSlugs', $data ?? [], null);
+        $this->setIfExists('timestamp', $data ?? [], null);
     }
 
     /**
@@ -302,14 +309,31 @@ class PushNotificationAction implements ModelInterface, ArrayAccess, \JsonSerial
     {
         $invalidProperties = [];
 
-        if ($this->container['title'] === null) {
-            $invalidProperties[] = "'title' can't be null";
+        if ($this->container['success'] === null) {
+            $invalidProperties[] = "'success' can't be null";
         }
-        if ($this->container['type'] === null) {
-            $invalidProperties[] = "'type' can't be null";
+        if ($this->container['badge'] === null) {
+            $invalidProperties[] = "'badge' can't be null";
         }
-        if ($this->container['url'] === null) {
-            $invalidProperties[] = "'url' can't be null";
+        if (($this->container['badge'] > 2147483647)) {
+            $invalidProperties[] = "invalid value for 'badge', must be smaller than or equal to 2147483647.";
+        }
+
+        if (($this->container['badge'] < 0)) {
+            $invalidProperties[] = "invalid value for 'badge', must be bigger than or equal to 0.";
+        }
+
+        if ($this->container['devicesNotified'] === null) {
+            $invalidProperties[] = "'devicesNotified' can't be null";
+        }
+        if ($this->container['usersNotified'] === null) {
+            $invalidProperties[] = "'usersNotified' can't be null";
+        }
+        if ($this->container['effectiveChannelSlugs'] === null) {
+            $invalidProperties[] = "'effectiveChannelSlugs' can't be null";
+        }
+        if ($this->container['timestamp'] === null) {
+            $invalidProperties[] = "'timestamp' can't be null";
         }
         return $invalidProperties;
     }
@@ -327,136 +351,171 @@ class PushNotificationAction implements ModelInterface, ArrayAccess, \JsonSerial
 
 
     /**
-     * Gets title
+     * Gets success
      *
-     * @return string
+     * @return bool
      */
-    public function getTitle()
+    public function getSuccess()
     {
-        return $this->container['title'];
+        return $this->container['success'];
     }
 
     /**
-     * Sets title
+     * Sets success
      *
-     * @param string $title Button title displayed in iOS expanded notification UI.
+     * @param bool $success success
      *
      * @return self
      */
-    public function setTitle($title)
+    public function setSuccess($success)
     {
-        if (is_null($title)) {
-            throw new \InvalidArgumentException('non-nullable title cannot be null');
+        if (is_null($success)) {
+            throw new \InvalidArgumentException('non-nullable success cannot be null');
         }
-        $this->container['title'] = $title;
+        $this->container['success'] = $success;
 
         return $this;
     }
 
     /**
-     * Gets type
+     * Gets badge
      *
-     * @return \ActivitySmith\Generated\Model\PushNotificationActionType
+     * @return int
      */
-    public function getType()
+    public function getBadge()
     {
-        return $this->container['type'];
+        return $this->container['badge'];
     }
 
     /**
-     * Sets type
+     * Sets badge
      *
-     * @param \ActivitySmith\Generated\Model\PushNotificationActionType $type type
+     * @param int $badge badge
      *
      * @return self
      */
-    public function setType($type)
+    public function setBadge($badge)
     {
-        if (is_null($type)) {
-            throw new \InvalidArgumentException('non-nullable type cannot be null');
+        if (is_null($badge)) {
+            throw new \InvalidArgumentException('non-nullable badge cannot be null');
         }
-        $this->container['type'] = $type;
+
+        if (($badge > 2147483647)) {
+            throw new \InvalidArgumentException('invalid value for $badge when calling AppIconBadgeCountUpdateResponse., must be smaller than or equal to 2147483647.');
+        }
+        if (($badge < 0)) {
+            throw new \InvalidArgumentException('invalid value for $badge when calling AppIconBadgeCountUpdateResponse., must be bigger than or equal to 0.');
+        }
+
+        $this->container['badge'] = $badge;
 
         return $this;
     }
 
     /**
-     * Gets url
+     * Gets devicesNotified
      *
-     * @return string
+     * @return int
      */
-    public function getUrl()
+    public function getDevicesNotified()
     {
-        return $this->container['url'];
+        return $this->container['devicesNotified'];
     }
 
     /**
-     * Sets url
+     * Sets devicesNotified
      *
-     * @param string $url Action URL. For open_url, use an HTTPS URL or a shortcuts://run-shortcut?name=... URL that runs a specific iPhone Shortcut. For webhook, use an HTTPS URL called by the ActivitySmith backend.
+     * @param int $devicesNotified devicesNotified
      *
      * @return self
      */
-    public function setUrl($url)
+    public function setDevicesNotified($devicesNotified)
     {
-        if (is_null($url)) {
-            throw new \InvalidArgumentException('non-nullable url cannot be null');
+        if (is_null($devicesNotified)) {
+            throw new \InvalidArgumentException('non-nullable devicesNotified cannot be null');
         }
-        $this->container['url'] = $url;
+        $this->container['devicesNotified'] = $devicesNotified;
 
         return $this;
     }
 
     /**
-     * Gets method
+     * Gets usersNotified
      *
-     * @return \ActivitySmith\Generated\Model\PushNotificationWebhookMethod|null
+     * @return int
      */
-    public function getMethod()
+    public function getUsersNotified()
     {
-        return $this->container['method'];
+        return $this->container['usersNotified'];
     }
 
     /**
-     * Sets method
+     * Sets usersNotified
      *
-     * @param \ActivitySmith\Generated\Model\PushNotificationWebhookMethod|null $method Webhook HTTP method. Used only when type=webhook.
+     * @param int $usersNotified usersNotified
      *
      * @return self
      */
-    public function setMethod($method)
+    public function setUsersNotified($usersNotified)
     {
-        if (is_null($method)) {
-            throw new \InvalidArgumentException('non-nullable method cannot be null');
+        if (is_null($usersNotified)) {
+            throw new \InvalidArgumentException('non-nullable usersNotified cannot be null');
         }
-        $this->container['method'] = $method;
+        $this->container['usersNotified'] = $usersNotified;
 
         return $this;
     }
 
     /**
-     * Gets body
+     * Gets effectiveChannelSlugs
      *
-     * @return object|null
+     * @return string[]
      */
-    public function getBody()
+    public function getEffectiveChannelSlugs()
     {
-        return $this->container['body'];
+        return $this->container['effectiveChannelSlugs'];
     }
 
     /**
-     * Sets body
+     * Sets effectiveChannelSlugs
      *
-     * @param object|null $body Optional webhook payload body. Used only when type=webhook.
+     * @param string[] $effectiveChannelSlugs effectiveChannelSlugs
      *
      * @return self
      */
-    public function setBody($body)
+    public function setEffectiveChannelSlugs($effectiveChannelSlugs)
     {
-        if (is_null($body)) {
-            throw new \InvalidArgumentException('non-nullable body cannot be null');
+        if (is_null($effectiveChannelSlugs)) {
+            throw new \InvalidArgumentException('non-nullable effectiveChannelSlugs cannot be null');
         }
-        $this->container['body'] = $body;
+        $this->container['effectiveChannelSlugs'] = $effectiveChannelSlugs;
+
+        return $this;
+    }
+
+    /**
+     * Gets timestamp
+     *
+     * @return \DateTime
+     */
+    public function getTimestamp()
+    {
+        return $this->container['timestamp'];
+    }
+
+    /**
+     * Sets timestamp
+     *
+     * @param \DateTime $timestamp timestamp
+     *
+     * @return self
+     */
+    public function setTimestamp($timestamp)
+    {
+        if (is_null($timestamp)) {
+            throw new \InvalidArgumentException('non-nullable timestamp cannot be null');
+        }
+        $this->container['timestamp'] = $timestamp;
 
         return $this;
     }

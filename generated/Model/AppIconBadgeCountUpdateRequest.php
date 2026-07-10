@@ -1,6 +1,6 @@
 <?php
 /**
- * PushNotificationAction
+ * AppIconBadgeCountUpdateRequest
  *
  * PHP version 7.4
  *
@@ -32,15 +32,16 @@ use \ArrayAccess;
 use \ActivitySmith\Generated\ObjectSerializer;
 
 /**
- * PushNotificationAction Class Doc Comment
+ * AppIconBadgeCountUpdateRequest Class Doc Comment
  *
  * @category Class
+ * @description App Icon Badge Count update. Send badge 0 to clear the count.
  * @package  ActivitySmith\Generated
  * @author   OpenAPI Generator team
  * @link     https://openapi-generator.tech
  * @implements \ArrayAccess<string, mixed>
  */
-class PushNotificationAction implements ModelInterface, ArrayAccess, \JsonSerializable
+class AppIconBadgeCountUpdateRequest implements ModelInterface, ArrayAccess, \JsonSerializable
 {
     public const DISCRIMINATOR = null;
 
@@ -49,7 +50,7 @@ class PushNotificationAction implements ModelInterface, ArrayAccess, \JsonSerial
       *
       * @var string
       */
-    protected static $openAPIModelName = 'PushNotificationAction';
+    protected static $openAPIModelName = 'AppIconBadgeCountUpdateRequest';
 
     /**
       * Array of property to type mappings. Used for (de)serialization
@@ -57,11 +58,8 @@ class PushNotificationAction implements ModelInterface, ArrayAccess, \JsonSerial
       * @var string[]
       */
     protected static $openAPITypes = [
-        'title' => 'string',
-        'type' => '\ActivitySmith\Generated\Model\PushNotificationActionType',
-        'url' => 'string',
-        'method' => '\ActivitySmith\Generated\Model\PushNotificationWebhookMethod',
-        'body' => 'object'
+        'badge' => 'int',
+        'target' => '\ActivitySmith\Generated\Model\ChannelTarget'
     ];
 
     /**
@@ -72,11 +70,8 @@ class PushNotificationAction implements ModelInterface, ArrayAccess, \JsonSerial
       * @psalm-var array<string, string|null>
       */
     protected static $openAPIFormats = [
-        'title' => null,
-        'type' => null,
-        'url' => 'uri',
-        'method' => null,
-        'body' => null
+        'badge' => null,
+        'target' => null
     ];
 
     /**
@@ -85,11 +80,8 @@ class PushNotificationAction implements ModelInterface, ArrayAccess, \JsonSerial
       * @var boolean[]
       */
     protected static array $openAPINullables = [
-        'title' => false,
-        'type' => false,
-        'url' => false,
-        'method' => false,
-        'body' => false
+        'badge' => false,
+        'target' => false
     ];
 
     /**
@@ -178,11 +170,8 @@ class PushNotificationAction implements ModelInterface, ArrayAccess, \JsonSerial
      * @var string[]
      */
     protected static $attributeMap = [
-        'title' => 'title',
-        'type' => 'type',
-        'url' => 'url',
-        'method' => 'method',
-        'body' => 'body'
+        'badge' => 'badge',
+        'target' => 'target'
     ];
 
     /**
@@ -191,11 +180,8 @@ class PushNotificationAction implements ModelInterface, ArrayAccess, \JsonSerial
      * @var string[]
      */
     protected static $setters = [
-        'title' => 'setTitle',
-        'type' => 'setType',
-        'url' => 'setUrl',
-        'method' => 'setMethod',
-        'body' => 'setBody'
+        'badge' => 'setBadge',
+        'target' => 'setTarget'
     ];
 
     /**
@@ -204,11 +190,8 @@ class PushNotificationAction implements ModelInterface, ArrayAccess, \JsonSerial
      * @var string[]
      */
     protected static $getters = [
-        'title' => 'getTitle',
-        'type' => 'getType',
-        'url' => 'getUrl',
-        'method' => 'getMethod',
-        'body' => 'getBody'
+        'badge' => 'getBadge',
+        'target' => 'getTarget'
     ];
 
     /**
@@ -268,11 +251,8 @@ class PushNotificationAction implements ModelInterface, ArrayAccess, \JsonSerial
      */
     public function __construct(array $data = null)
     {
-        $this->setIfExists('title', $data ?? [], null);
-        $this->setIfExists('type', $data ?? [], null);
-        $this->setIfExists('url', $data ?? [], null);
-        $this->setIfExists('method', $data ?? [], null);
-        $this->setIfExists('body', $data ?? [], null);
+        $this->setIfExists('badge', $data ?? [], null);
+        $this->setIfExists('target', $data ?? [], null);
     }
 
     /**
@@ -302,15 +282,17 @@ class PushNotificationAction implements ModelInterface, ArrayAccess, \JsonSerial
     {
         $invalidProperties = [];
 
-        if ($this->container['title'] === null) {
-            $invalidProperties[] = "'title' can't be null";
+        if ($this->container['badge'] === null) {
+            $invalidProperties[] = "'badge' can't be null";
         }
-        if ($this->container['type'] === null) {
-            $invalidProperties[] = "'type' can't be null";
+        if (($this->container['badge'] > 2147483647)) {
+            $invalidProperties[] = "invalid value for 'badge', must be smaller than or equal to 2147483647.";
         }
-        if ($this->container['url'] === null) {
-            $invalidProperties[] = "'url' can't be null";
+
+        if (($this->container['badge'] < 0)) {
+            $invalidProperties[] = "invalid value for 'badge', must be bigger than or equal to 0.";
         }
+
         return $invalidProperties;
     }
 
@@ -327,136 +309,63 @@ class PushNotificationAction implements ModelInterface, ArrayAccess, \JsonSerial
 
 
     /**
-     * Gets title
+     * Gets badge
      *
-     * @return string
+     * @return int
      */
-    public function getTitle()
+    public function getBadge()
     {
-        return $this->container['title'];
+        return $this->container['badge'];
     }
 
     /**
-     * Sets title
+     * Sets badge
      *
-     * @param string $title Button title displayed in iOS expanded notification UI.
+     * @param int $badge The count to show on the ActivitySmith app icon. Send 0 to clear it.
      *
      * @return self
      */
-    public function setTitle($title)
+    public function setBadge($badge)
     {
-        if (is_null($title)) {
-            throw new \InvalidArgumentException('non-nullable title cannot be null');
+        if (is_null($badge)) {
+            throw new \InvalidArgumentException('non-nullable badge cannot be null');
         }
-        $this->container['title'] = $title;
+
+        if (($badge > 2147483647)) {
+            throw new \InvalidArgumentException('invalid value for $badge when calling AppIconBadgeCountUpdateRequest., must be smaller than or equal to 2147483647.');
+        }
+        if (($badge < 0)) {
+            throw new \InvalidArgumentException('invalid value for $badge when calling AppIconBadgeCountUpdateRequest., must be bigger than or equal to 0.');
+        }
+
+        $this->container['badge'] = $badge;
 
         return $this;
     }
 
     /**
-     * Gets type
+     * Gets target
      *
-     * @return \ActivitySmith\Generated\Model\PushNotificationActionType
+     * @return \ActivitySmith\Generated\Model\ChannelTarget|null
      */
-    public function getType()
+    public function getTarget()
     {
-        return $this->container['type'];
+        return $this->container['target'];
     }
 
     /**
-     * Sets type
+     * Sets target
      *
-     * @param \ActivitySmith\Generated\Model\PushNotificationActionType $type type
+     * @param \ActivitySmith\Generated\Model\ChannelTarget|null $target target
      *
      * @return self
      */
-    public function setType($type)
+    public function setTarget($target)
     {
-        if (is_null($type)) {
-            throw new \InvalidArgumentException('non-nullable type cannot be null');
+        if (is_null($target)) {
+            throw new \InvalidArgumentException('non-nullable target cannot be null');
         }
-        $this->container['type'] = $type;
-
-        return $this;
-    }
-
-    /**
-     * Gets url
-     *
-     * @return string
-     */
-    public function getUrl()
-    {
-        return $this->container['url'];
-    }
-
-    /**
-     * Sets url
-     *
-     * @param string $url Action URL. For open_url, use an HTTPS URL or a shortcuts://run-shortcut?name=... URL that runs a specific iPhone Shortcut. For webhook, use an HTTPS URL called by the ActivitySmith backend.
-     *
-     * @return self
-     */
-    public function setUrl($url)
-    {
-        if (is_null($url)) {
-            throw new \InvalidArgumentException('non-nullable url cannot be null');
-        }
-        $this->container['url'] = $url;
-
-        return $this;
-    }
-
-    /**
-     * Gets method
-     *
-     * @return \ActivitySmith\Generated\Model\PushNotificationWebhookMethod|null
-     */
-    public function getMethod()
-    {
-        return $this->container['method'];
-    }
-
-    /**
-     * Sets method
-     *
-     * @param \ActivitySmith\Generated\Model\PushNotificationWebhookMethod|null $method Webhook HTTP method. Used only when type=webhook.
-     *
-     * @return self
-     */
-    public function setMethod($method)
-    {
-        if (is_null($method)) {
-            throw new \InvalidArgumentException('non-nullable method cannot be null');
-        }
-        $this->container['method'] = $method;
-
-        return $this;
-    }
-
-    /**
-     * Gets body
-     *
-     * @return object|null
-     */
-    public function getBody()
-    {
-        return $this->container['body'];
-    }
-
-    /**
-     * Sets body
-     *
-     * @param object|null $body Optional webhook payload body. Used only when type=webhook.
-     *
-     * @return self
-     */
-    public function setBody($body)
-    {
-        if (is_null($body)) {
-            throw new \InvalidArgumentException('non-nullable body cannot be null');
-        }
-        $this->container['body'] = $body;
+        $this->container['target'] = $target;
 
         return $this;
     }
