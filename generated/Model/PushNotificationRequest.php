@@ -63,7 +63,7 @@ class PushNotificationRequest implements ModelInterface, ArrayAccess, \JsonSeria
         'media' => 'string',
         'redirection' => 'string',
         'actions' => '\ActivitySmith\Generated\Model\PushNotificationAction[]',
-        'payload' => 'array<string,mixed>',
+        'payload' => 'object',
         'badge' => 'int',
         'sound' => 'string',
         'target' => '\ActivitySmith\Generated\Model\ChannelTarget'
@@ -546,7 +546,7 @@ class PushNotificationRequest implements ModelInterface, ArrayAccess, \JsonSeria
     /**
      * Gets payload
      *
-     * @return array<string,mixed>|null
+     * @return object|null
      */
     public function getPayload()
     {
@@ -556,7 +556,7 @@ class PushNotificationRequest implements ModelInterface, ArrayAccess, \JsonSeria
     /**
      * Sets payload
      *
-     * @param array<string,mixed>|null $payload payload
+     * @param object|null $payload payload
      *
      * @return self
      */

@@ -20,8 +20,9 @@ See [API reference](https://activitysmith.com/docs/api-reference/introduction).
   - [Live Activity Action](#live-activity-action)
   - [Icons and Badges](#icons-and-badges)
   - [Live Activity Colors](#live-activity-colors)
-- [Channels](#channels)
 - [Widgets](#widgets)
+- [App Icon Badge Count](#app-icon-badge-count)
+- [Channels](#channels)
 
 ## Installation
 
@@ -514,18 +515,6 @@ Choose from these colors for the Live Activity accent, including progress bars a
 
 `lime`, `green`, `cyan`, `blue`, `purple`, `magenta`, `red`, `orange`, `yellow`, `gray`
 
-## Channels
-
-Channels are used to target specific team members or devices. Can be used for both push notifications and live activities.
-
-```php
-$activitysmith->notifications->send(
-    title: 'New subscription 💸',
-    message: 'Customer upgraded to Pro plan',
-    channels: ['sales', 'customer-success'], // Optional
-);
-```
-
 ## Widgets
 
 <p align="center">
@@ -546,6 +535,58 @@ String metric values work too.
 
 ```php
 $activitysmith->metrics->update('prod.status', 'healthy');
+```
+
+## App Icon Badge Count
+
+<p align="center">
+  <img src="https://cdn.activitysmith.com/features/badge-count.png" alt="ActivitySmith app icon with an App Icon Badge Count" width="680" />
+</p>
+
+Show the number you care about on your ActivitySmith app icon. Track MRR, a customer count, a stock price, or any other value you want to keep in view.
+
+Set or update the badge value.
+
+```php
+$activitysmith->badgeCount(8333);
+```
+
+To clear the badge, set its value to 0.
+
+```php
+$activitysmith->badgeCount(0);
+```
+
+## Channels
+
+Use `channels` to target specific team members or devices
+
+### Push Notifications
+
+```php
+$activitysmith->notifications->send(
+    title: 'New subscription 💸',
+    message: 'Customer upgraded to Pro plan',
+    channels: ['sales', 'customer-success'],
+);
+```
+
+### Live Activities
+
+```php
+$activitysmith->liveActivities->start(
+    title: 'Nightly Database Backup',
+    subtitle: 'verify restore',
+    type: 'progress',
+    percentage: 62,
+    channels: ['sales', 'customer-success'],
+);
+```
+
+### App Icon Badge Count
+
+```php
+$activitysmith->badgeCount(3, channels: ['sales', 'customer-success']);
 ```
 
 ## Error Handling

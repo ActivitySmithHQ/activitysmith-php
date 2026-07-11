@@ -5,6 +5,7 @@ declare(strict_types=1);
 namespace ActivitySmith\Tests;
 
 use ActivitySmith\LiveActivities;
+use ActivitySmith\ActivitySmith;
 use ActivitySmith\LiveActivityAction;
 use ActivitySmith\LiveActivityAlertBadge;
 use ActivitySmith\LiveActivityAlertIcon;
@@ -14,6 +15,7 @@ use ActivitySmith\Metrics;
 use ActivitySmith\Notifications;
 use ActivitySmith\PushAction;
 use ActivitySmith\Generated\Api\LiveActivitiesApi;
+use ActivitySmith\Generated\Api\AppIconBadgesApi;
 use ActivitySmith\Generated\Api\MetricsApi;
 use ActivitySmith\Generated\Api\PushNotificationsApi;
 use ActivitySmith\Generated\Model\LiveActivityAction as GeneratedLiveActivityAction;
@@ -25,6 +27,43 @@ use PHPUnit\Framework\TestCase;
 
 final class ResourcesTest extends TestCase
 {
+    public function testBadgeCountClearsAndTargetsChannels(): void
+    {
+        $client = new ActivitySmith('test');
+        $captured = [];
+        $api = $this->getMockBuilder(AppIconBadgesApi::class)
+            ->disableOriginalConstructor()
+            ->onlyMethods(['updateAppIconBadgeCount'])
+            ->getMock();
+        $api->method('updateAppIconBadgeCount')
+            ->willReturnCallback(static function (mixed $request) use (&$captured): mixed {
+                $captured[] = $request;
+                return $request;
+            });
+
+        $property = new \ReflectionProperty(ActivitySmith::class, 'appIconBadges');
+        $property->setValue($client, $api);
+
+        self::assertSame(['badge' => 0], $client->badgeCount(0));
+        self::assertSame(
+            [
+                'badge' => 3,
+                'target' => ['channels' => ['sales', 'customer-success']],
+            ],
+            $client->badgeCount(3, 'sales,customer-success')
+        );
+        self::assertSame(
+            [
+                ['badge' => 0],
+                [
+                    'badge' => 3,
+                    'target' => ['channels' => ['sales', 'customer-success']],
+                ],
+            ],
+            $captured
+        );
+    }
+
     public function testNotificationsShortAndLegacyMethods(): void
     {
         $payload = ['title' => 'Build Failed'];

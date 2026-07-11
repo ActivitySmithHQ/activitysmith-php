@@ -16,6 +16,7 @@ final class ActivitySmith
     private const PUSH_API_CLASS = 'ActivitySmith\\Generated\\Api\\PushNotificationsApi';
     private const LIVE_API_CLASS = 'ActivitySmith\\Generated\\Api\\LiveActivitiesApi';
     private const METRICS_API_CLASS = 'ActivitySmith\\Generated\\Api\\MetricsApi';
+    private const APP_ICON_BADGES_API_CLASS = 'ActivitySmith\\Generated\\Api\\AppIconBadgesApi';
     private const SDK_HEADER_NAME = 'X-ActivitySmith-SDK';
 
     /** @var Notifications */
@@ -26,6 +27,8 @@ final class ActivitySmith
 
     /** @var Metrics */
     public $metrics;
+
+    private $appIconBadges;
 
     public function __construct(string $apiKey)
     {
@@ -39,6 +42,7 @@ final class ActivitySmith
         $pushApiClass = self::PUSH_API_CLASS;
         $liveApiClass = self::LIVE_API_CLASS;
         $metricsApiClass = self::METRICS_API_CLASS;
+        $appIconBadgesApiClass = self::APP_ICON_BADGES_API_CLASS;
 
         $configuration = $configurationClass::getDefaultConfiguration();
         $configuration->setAccessToken($apiKey);
@@ -56,6 +60,21 @@ final class ActivitySmith
         $this->notifications = new Notifications(new $pushApiClass($httpClient, $configuration));
         $this->liveActivities = new LiveActivities(new $liveApiClass($httpClient, $configuration));
         $this->metrics = new Metrics(new $metricsApiClass($httpClient, $configuration));
+        $this->appIconBadges = new $appIconBadgesApiClass($httpClient, $configuration);
+    }
+
+    /**
+     * @param array<int,string>|string|null $channels
+     */
+    public function badgeCount(int $value, array|string|null $channels = null): mixed
+    {
+        $request = ['badge' => $value];
+        $channels = $this->normalizeChannels($channels);
+        if ($channels !== []) {
+            $request['target'] = ['channels' => $channels];
+        }
+
+        return $this->appIconBadges->updateAppIconBadgeCount($request);
     }
 
     private function assertGeneratedClientIsPresent(): void
@@ -65,10 +84,33 @@ final class ActivitySmith
             || !class_exists(self::PUSH_API_CLASS)
             || !class_exists(self::LIVE_API_CLASS)
             || !class_exists(self::METRICS_API_CLASS)
+            || !class_exists(self::APP_ICON_BADGES_API_CLASS)
         ) {
             throw new RuntimeException(
                 'Generated PHP client not found. Run SDK regeneration so /generated contains OpenAPI output.'
             );
         }
+    }
+
+    /**
+     * @param array<int,string>|string|null $channels
+     * @return array<int,string>
+     */
+    private function normalizeChannels(array|string|null $channels): array
+    {
+        if (is_string($channels)) {
+            $channels = explode(',', $channels);
+        }
+
+        if (!is_array($channels)) {
+            return [];
+        }
+
+        return array_values(
+            array_filter(
+                array_map('trim', $channels),
+                static fn (string $channel): bool => $channel !== ''
+            )
+        );
     }
 }

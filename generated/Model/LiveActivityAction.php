@@ -62,7 +62,7 @@ class LiveActivityAction implements ModelInterface, ArrayAccess, \JsonSerializab
         'type' => '\ActivitySmith\Generated\Model\LiveActivityActionType',
         'url' => 'string',
         'method' => '\ActivitySmith\Generated\Model\LiveActivityWebhookMethod',
-        'body' => 'array<string,mixed>'
+        'body' => 'object'
     ];
 
     /**
@@ -438,7 +438,7 @@ class LiveActivityAction implements ModelInterface, ArrayAccess, \JsonSerializab
     /**
      * Gets body
      *
-     * @return array<string,mixed>|null
+     * @return object|null
      */
     public function getBody()
     {
@@ -448,7 +448,7 @@ class LiveActivityAction implements ModelInterface, ArrayAccess, \JsonSerializab
     /**
      * Sets body
      *
-     * @param array<string,mixed>|null $body Optional webhook payload body. Used only when type=webhook.
+     * @param object|null $body Optional webhook payload body. Used only when type=webhook.
      *
      * @return self
      */
