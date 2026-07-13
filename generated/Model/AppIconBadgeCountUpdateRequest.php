@@ -35,7 +35,6 @@ use \ActivitySmith\Generated\ObjectSerializer;
  * AppIconBadgeCountUpdateRequest Class Doc Comment
  *
  * @category Class
- * @description App Icon Badge Count update. Send badge 0 to clear the count.
  * @package  ActivitySmith\Generated
  * @author   OpenAPI Generator team
  * @link     https://openapi-generator.tech
