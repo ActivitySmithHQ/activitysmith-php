@@ -67,6 +67,7 @@ class LiveActivityStreamPutResponse implements ModelInterface, ArrayAccess, \Jso
         'devicesQueued' => 'int',
         'usersNotified' => 'int',
         'effectiveChannelSlugs' => 'string[]',
+        'tags' => 'string[]',
         'timestamp' => '\DateTime'
     ];
 
@@ -87,6 +88,7 @@ class LiveActivityStreamPutResponse implements ModelInterface, ArrayAccess, \Jso
         'devicesQueued' => null,
         'usersNotified' => null,
         'effectiveChannelSlugs' => null,
+        'tags' => null,
         'timestamp' => 'date-time'
     ];
 
@@ -105,6 +107,7 @@ class LiveActivityStreamPutResponse implements ModelInterface, ArrayAccess, \Jso
         'devicesQueued' => false,
         'usersNotified' => false,
         'effectiveChannelSlugs' => false,
+        'tags' => false,
         'timestamp' => false
     ];
 
@@ -203,6 +206,7 @@ class LiveActivityStreamPutResponse implements ModelInterface, ArrayAccess, \Jso
         'devicesQueued' => 'devices_queued',
         'usersNotified' => 'users_notified',
         'effectiveChannelSlugs' => 'effective_channel_slugs',
+        'tags' => 'tags',
         'timestamp' => 'timestamp'
     ];
 
@@ -221,6 +225,7 @@ class LiveActivityStreamPutResponse implements ModelInterface, ArrayAccess, \Jso
         'devicesQueued' => 'setDevicesQueued',
         'usersNotified' => 'setUsersNotified',
         'effectiveChannelSlugs' => 'setEffectiveChannelSlugs',
+        'tags' => 'setTags',
         'timestamp' => 'setTimestamp'
     ];
 
@@ -239,6 +244,7 @@ class LiveActivityStreamPutResponse implements ModelInterface, ArrayAccess, \Jso
         'devicesQueued' => 'getDevicesQueued',
         'usersNotified' => 'getUsersNotified',
         'effectiveChannelSlugs' => 'getEffectiveChannelSlugs',
+        'tags' => 'getTags',
         'timestamp' => 'getTimestamp'
     ];
 
@@ -329,6 +335,7 @@ class LiveActivityStreamPutResponse implements ModelInterface, ArrayAccess, \Jso
         $this->setIfExists('devicesQueued', $data ?? [], null);
         $this->setIfExists('usersNotified', $data ?? [], null);
         $this->setIfExists('effectiveChannelSlugs', $data ?? [], null);
+        $this->setIfExists('tags', $data ?? [], null);
         $this->setIfExists('timestamp', $data ?? [], null);
     }
 
@@ -651,6 +658,33 @@ class LiveActivityStreamPutResponse implements ModelInterface, ArrayAccess, \Jso
             throw new \InvalidArgumentException('non-nullable effectiveChannelSlugs cannot be null');
         }
         $this->container['effectiveChannelSlugs'] = $effectiveChannelSlugs;
+
+        return $this;
+    }
+
+    /**
+     * Gets tags
+     *
+     * @return string[]|null
+     */
+    public function getTags()
+    {
+        return $this->container['tags'];
+    }
+
+    /**
+     * Sets tags
+     *
+     * @param string[]|null $tags Optional tags to organize and filter notification history.
+     *
+     * @return self
+     */
+    public function setTags($tags)
+    {
+        if (is_null($tags)) {
+            throw new \InvalidArgumentException('non-nullable tags cannot be null');
+        }
+        $this->container['tags'] = $tags;
 
         return $this;
     }

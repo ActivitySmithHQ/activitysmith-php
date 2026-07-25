@@ -66,7 +66,8 @@ class PushNotificationRequest implements ModelInterface, ArrayAccess, \JsonSeria
         'payload' => 'object',
         'badge' => 'int',
         'sound' => 'string',
-        'target' => '\ActivitySmith\Generated\Model\ChannelTarget'
+        'target' => '\ActivitySmith\Generated\Model\ChannelTarget',
+        'tags' => 'string[]'
     ];
 
     /**
@@ -86,7 +87,8 @@ class PushNotificationRequest implements ModelInterface, ArrayAccess, \JsonSeria
         'payload' => null,
         'badge' => null,
         'sound' => null,
-        'target' => null
+        'target' => null,
+        'tags' => null
     ];
 
     /**
@@ -104,7 +106,8 @@ class PushNotificationRequest implements ModelInterface, ArrayAccess, \JsonSeria
         'payload' => false,
         'badge' => false,
         'sound' => false,
-        'target' => false
+        'target' => false,
+        'tags' => false
     ];
 
     /**
@@ -202,7 +205,8 @@ class PushNotificationRequest implements ModelInterface, ArrayAccess, \JsonSeria
         'payload' => 'payload',
         'badge' => 'badge',
         'sound' => 'sound',
-        'target' => 'target'
+        'target' => 'target',
+        'tags' => 'tags'
     ];
 
     /**
@@ -220,7 +224,8 @@ class PushNotificationRequest implements ModelInterface, ArrayAccess, \JsonSeria
         'payload' => 'setPayload',
         'badge' => 'setBadge',
         'sound' => 'setSound',
-        'target' => 'setTarget'
+        'target' => 'setTarget',
+        'tags' => 'setTags'
     ];
 
     /**
@@ -238,7 +243,8 @@ class PushNotificationRequest implements ModelInterface, ArrayAccess, \JsonSeria
         'payload' => 'getPayload',
         'badge' => 'getBadge',
         'sound' => 'getSound',
-        'target' => 'getTarget'
+        'target' => 'getTarget',
+        'tags' => 'getTags'
     ];
 
     /**
@@ -308,6 +314,7 @@ class PushNotificationRequest implements ModelInterface, ArrayAccess, \JsonSeria
         $this->setIfExists('badge', $data ?? [], null);
         $this->setIfExists('sound', $data ?? [], null);
         $this->setIfExists('target', $data ?? [], null);
+        $this->setIfExists('tags', $data ?? [], null);
     }
 
     /**
@@ -344,8 +351,8 @@ class PushNotificationRequest implements ModelInterface, ArrayAccess, \JsonSeria
             $invalidProperties[] = "invalid value for 'media', must be conform to the pattern /^https:\/\//.";
         }
 
-        if (!is_null($this->container['redirection']) && !preg_match("/^(https|shortcuts):\/\//", $this->container['redirection'])) {
-            $invalidProperties[] = "invalid value for 'redirection', must be conform to the pattern /^(https|shortcuts):\/\//.";
+        if (!is_null($this->container['redirection']) && !preg_match("/^(http|https|shortcuts):\/\//", $this->container['redirection'])) {
+            $invalidProperties[] = "invalid value for 'redirection', must be conform to the pattern /^(http|https|shortcuts):\/\//.";
         }
 
         if (!is_null($this->container['actions']) && (count($this->container['actions']) > 4)) {
@@ -493,7 +500,7 @@ class PushNotificationRequest implements ModelInterface, ArrayAccess, \JsonSeria
     /**
      * Sets redirection
      *
-     * @param string|null $redirection Optional HTTPS URL or shortcuts://run-shortcut?name=... URL opened when the user taps the notification body. Use shortcuts://run-shortcut?name=... to run a specific iPhone Shortcut that already exists on the user's device. Overrides the default tap target from `media` when both are provided.
+     * @param string|null $redirection Optional HTTP URL, HTTPS URL, or shortcuts://run-shortcut?name=... URL opened when the user taps the notification body. Use shortcuts://run-shortcut?name=... to run a specific iPhone Shortcut that already exists on the user's device. Overrides the default tap target from `media` when both are provided.
      *
      * @return self
      */
@@ -503,8 +510,8 @@ class PushNotificationRequest implements ModelInterface, ArrayAccess, \JsonSeria
             throw new \InvalidArgumentException('non-nullable redirection cannot be null');
         }
 
-        if ((!preg_match("/^(https|shortcuts):\/\//", ObjectSerializer::toString($redirection)))) {
-            throw new \InvalidArgumentException("invalid value for \$redirection when calling PushNotificationRequest., must conform to the pattern /^(https|shortcuts):\/\//.");
+        if ((!preg_match("/^(http|https|shortcuts):\/\//", ObjectSerializer::toString($redirection)))) {
+            throw new \InvalidArgumentException("invalid value for \$redirection when calling PushNotificationRequest., must conform to the pattern /^(http|https|shortcuts):\/\//.");
         }
 
         $this->container['redirection'] = $redirection;
@@ -647,6 +654,33 @@ class PushNotificationRequest implements ModelInterface, ArrayAccess, \JsonSeria
             throw new \InvalidArgumentException('non-nullable target cannot be null');
         }
         $this->container['target'] = $target;
+
+        return $this;
+    }
+
+    /**
+     * Gets tags
+     *
+     * @return string[]|null
+     */
+    public function getTags()
+    {
+        return $this->container['tags'];
+    }
+
+    /**
+     * Sets tags
+     *
+     * @param string[]|null $tags Optional tags to organize and filter notification history.
+     *
+     * @return self
+     */
+    public function setTags($tags)
+    {
+        if (is_null($tags)) {
+            throw new \InvalidArgumentException('non-nullable tags cannot be null');
+        }
+        $this->container['tags'] = $tags;
 
         return $this;
     }

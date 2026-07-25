@@ -42,7 +42,8 @@ final class LiveActivities
         mixed $channels = null,
         mixed $durationSeconds = null,
         mixed $countsDown = null,
-        mixed $secondaryAction = null
+        mixed $secondaryAction = null,
+        mixed $tags = null
     ): mixed
     {
         $request = $this->buildRequest($request, $contentState, [
@@ -68,6 +69,7 @@ final class LiveActivities
             'alert' => $alert,
             'target' => $target,
             'channels' => $channels,
+            'tags' => $tags,
         ]);
 
         return $this->api->startLiveActivity($this->normalizeTargetChannels($request));
@@ -199,7 +201,8 @@ final class LiveActivities
         mixed $channels = null,
         mixed $durationSeconds = null,
         mixed $countsDown = null,
-        mixed $secondaryAction = null
+        mixed $secondaryAction = null,
+        mixed $tags = null
     ): mixed
     {
         $request = $this->buildRequest($request, $contentState, [
@@ -225,6 +228,7 @@ final class LiveActivities
             'alert' => $alert,
             'target' => $target,
             'channels' => $channels,
+            'tags' => $tags,
         ]);
 
         return $this->api->reconcileLiveActivityStream(

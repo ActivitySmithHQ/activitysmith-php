@@ -17,6 +17,7 @@ final class Notifications
      * @param array<int,array<string,mixed>>|null $actions
      * @param array<string,mixed>|null $target
      * @param array<int,string>|string|null $channels
+     * @param array<int,string>|null $tags
      */
     public function send(
         mixed $request = null,
@@ -27,7 +28,8 @@ final class Notifications
         ?string $redirection = null,
         ?array $actions = null,
         ?array $target = null,
-        array|string|null $channels = null
+        array|string|null $channels = null,
+        ?array $tags = null
     ): mixed
     {
         $request = $this->buildRequest(
@@ -41,6 +43,7 @@ final class Notifications
                 'actions' => $actions,
                 'target' => $target,
                 'channels' => $channels,
+                'tags' => $tags,
             ]
         );
         $normalized = $this->normalizeTargetChannels($request);
@@ -60,7 +63,8 @@ final class Notifications
         ?string $redirection = null,
         ?array $actions = null,
         ?array $target = null,
-        array|string|null $channels = null
+        array|string|null $channels = null,
+        ?array $tags = null
     ): mixed {
         $pushNotificationRequest = $this->buildRequest(
             $pushNotificationRequest,
@@ -73,6 +77,7 @@ final class Notifications
                 'actions' => $actions,
                 'target' => $target,
                 'channels' => $channels,
+                'tags' => $tags,
             ]
         );
         $normalized = $this->normalizeTargetChannels($pushNotificationRequest);
