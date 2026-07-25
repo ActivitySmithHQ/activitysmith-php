@@ -118,7 +118,8 @@ final class ResourcesTest extends TestCase
             $resource->send(
                 title: 'New subscription 💸',
                 message: 'Customer upgraded to Pro plan',
-                channels: 'sales,customer-success'
+                channels: 'sales,customer-success',
+                tags: ['user:382', 'billing']
             )
         );
 
@@ -128,6 +129,7 @@ final class ResourcesTest extends TestCase
                     [
                         'title' => 'New subscription 💸',
                         'message' => 'Customer upgraded to Pro plan',
+                        'tags' => ['user:382', 'billing'],
                         'target' => ['channels' => ['sales', 'customer-success']],
                     ],
                     PushNotificationsApi::contentTypes['sendPushNotification'][0],
@@ -896,7 +898,8 @@ final class ResourcesTest extends TestCase
                 contentState: $state,
                 action: $action,
                 secondaryAction: $secondaryAction,
-                channels: ['ops']
+                channels: ['ops'],
+                tags: ['user:382', 'environment:production']
             )
         );
         $this->assertSame(
@@ -935,6 +938,7 @@ final class ResourcesTest extends TestCase
                         ],
                         'action' => $action,
                         'secondary_action' => $secondaryAction,
+                        'tags' => ['user:382', 'environment:production'],
                         'target' => ['channels' => ['ops']],
                     ],
                     LiveActivitiesApi::contentTypes['startLiveActivity'][0],
@@ -1033,7 +1037,14 @@ final class ResourcesTest extends TestCase
             ],
         ];
 
-        $this->assertSame($response, $resource->stream('prod-web-1', $streamPayload));
+        $this->assertSame(
+            $response,
+            $resource->stream(
+                'prod-web-1',
+                $streamPayload,
+                tags: ['user:382', 'environment:production']
+            )
+        );
         $this->assertSame($response, $resource->reconcileLiveActivityStream('prod-web-1', $streamPayload));
         $this->assertSame($response, $resource->endStream('prod-web-1', $endPayload));
         $this->assertSame($response, $resource->endLiveActivityStream('prod-web-1', $endPayload));
@@ -1042,10 +1053,15 @@ final class ResourcesTest extends TestCase
             'content_state' => $streamPayload['content_state'],
             'target' => ['channels' => ['ops']],
         ];
+        $expectedTaggedStreamPayload = [
+            'content_state' => $streamPayload['content_state'],
+            'tags' => ['user:382', 'environment:production'],
+            'target' => ['channels' => ['ops']],
+        ];
 
         $this->assertSame(
             [
-                ['prod-web-1', $expectedStreamPayload, LiveActivitiesApi::contentTypes['reconcileLiveActivityStream'][0]],
+                ['prod-web-1', $expectedTaggedStreamPayload, LiveActivitiesApi::contentTypes['reconcileLiveActivityStream'][0]],
                 ['prod-web-1', $expectedStreamPayload, LiveActivitiesApi::contentTypes['reconcileLiveActivityStream'][0]],
             ],
             $captured['stream']
