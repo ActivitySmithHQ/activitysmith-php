@@ -61,6 +61,7 @@ class PushNotificationResponse implements ModelInterface, ArrayAccess, \JsonSeri
         'devicesNotified' => 'int',
         'usersNotified' => 'int',
         'effectiveChannelSlugs' => 'string[]',
+        'tags' => 'string[]',
         'timestamp' => '\DateTime'
     ];
 
@@ -76,6 +77,7 @@ class PushNotificationResponse implements ModelInterface, ArrayAccess, \JsonSeri
         'devicesNotified' => null,
         'usersNotified' => null,
         'effectiveChannelSlugs' => null,
+        'tags' => null,
         'timestamp' => 'date-time'
     ];
 
@@ -89,6 +91,7 @@ class PushNotificationResponse implements ModelInterface, ArrayAccess, \JsonSeri
         'devicesNotified' => false,
         'usersNotified' => false,
         'effectiveChannelSlugs' => false,
+        'tags' => false,
         'timestamp' => false
     ];
 
@@ -182,6 +185,7 @@ class PushNotificationResponse implements ModelInterface, ArrayAccess, \JsonSeri
         'devicesNotified' => 'devices_notified',
         'usersNotified' => 'users_notified',
         'effectiveChannelSlugs' => 'effective_channel_slugs',
+        'tags' => 'tags',
         'timestamp' => 'timestamp'
     ];
 
@@ -195,6 +199,7 @@ class PushNotificationResponse implements ModelInterface, ArrayAccess, \JsonSeri
         'devicesNotified' => 'setDevicesNotified',
         'usersNotified' => 'setUsersNotified',
         'effectiveChannelSlugs' => 'setEffectiveChannelSlugs',
+        'tags' => 'setTags',
         'timestamp' => 'setTimestamp'
     ];
 
@@ -208,6 +213,7 @@ class PushNotificationResponse implements ModelInterface, ArrayAccess, \JsonSeri
         'devicesNotified' => 'getDevicesNotified',
         'usersNotified' => 'getUsersNotified',
         'effectiveChannelSlugs' => 'getEffectiveChannelSlugs',
+        'tags' => 'getTags',
         'timestamp' => 'getTimestamp'
     ];
 
@@ -272,6 +278,7 @@ class PushNotificationResponse implements ModelInterface, ArrayAccess, \JsonSeri
         $this->setIfExists('devicesNotified', $data ?? [], null);
         $this->setIfExists('usersNotified', $data ?? [], null);
         $this->setIfExists('effectiveChannelSlugs', $data ?? [], null);
+        $this->setIfExists('tags', $data ?? [], null);
         $this->setIfExists('timestamp', $data ?? [], null);
     }
 
@@ -427,6 +434,33 @@ class PushNotificationResponse implements ModelInterface, ArrayAccess, \JsonSeri
             throw new \InvalidArgumentException('non-nullable effectiveChannelSlugs cannot be null');
         }
         $this->container['effectiveChannelSlugs'] = $effectiveChannelSlugs;
+
+        return $this;
+    }
+
+    /**
+     * Gets tags
+     *
+     * @return string[]|null
+     */
+    public function getTags()
+    {
+        return $this->container['tags'];
+    }
+
+    /**
+     * Sets tags
+     *
+     * @param string[]|null $tags Optional tags to organize and filter notification history.
+     *
+     * @return self
+     */
+    public function setTags($tags)
+    {
+        if (is_null($tags)) {
+            throw new \InvalidArgumentException('non-nullable tags cannot be null');
+        }
+        $this->container['tags'] = $tags;
 
         return $this;
     }

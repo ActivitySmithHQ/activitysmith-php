@@ -63,6 +63,7 @@ class LiveActivityStartResponse implements ModelInterface, ArrayAccess, \JsonSer
         'usersNotified' => 'int',
         'activityId' => 'string',
         'effectiveChannelSlugs' => 'string[]',
+        'tags' => 'string[]',
         'timestamp' => '\DateTime'
     ];
 
@@ -79,6 +80,7 @@ class LiveActivityStartResponse implements ModelInterface, ArrayAccess, \JsonSer
         'usersNotified' => null,
         'activityId' => null,
         'effectiveChannelSlugs' => null,
+        'tags' => null,
         'timestamp' => 'date-time'
     ];
 
@@ -93,6 +95,7 @@ class LiveActivityStartResponse implements ModelInterface, ArrayAccess, \JsonSer
         'usersNotified' => false,
         'activityId' => false,
         'effectiveChannelSlugs' => false,
+        'tags' => false,
         'timestamp' => false
     ];
 
@@ -187,6 +190,7 @@ class LiveActivityStartResponse implements ModelInterface, ArrayAccess, \JsonSer
         'usersNotified' => 'users_notified',
         'activityId' => 'activity_id',
         'effectiveChannelSlugs' => 'effective_channel_slugs',
+        'tags' => 'tags',
         'timestamp' => 'timestamp'
     ];
 
@@ -201,6 +205,7 @@ class LiveActivityStartResponse implements ModelInterface, ArrayAccess, \JsonSer
         'usersNotified' => 'setUsersNotified',
         'activityId' => 'setActivityId',
         'effectiveChannelSlugs' => 'setEffectiveChannelSlugs',
+        'tags' => 'setTags',
         'timestamp' => 'setTimestamp'
     ];
 
@@ -215,6 +220,7 @@ class LiveActivityStartResponse implements ModelInterface, ArrayAccess, \JsonSer
         'usersNotified' => 'getUsersNotified',
         'activityId' => 'getActivityId',
         'effectiveChannelSlugs' => 'getEffectiveChannelSlugs',
+        'tags' => 'getTags',
         'timestamp' => 'getTimestamp'
     ];
 
@@ -280,6 +286,7 @@ class LiveActivityStartResponse implements ModelInterface, ArrayAccess, \JsonSer
         $this->setIfExists('usersNotified', $data ?? [], null);
         $this->setIfExists('activityId', $data ?? [], null);
         $this->setIfExists('effectiveChannelSlugs', $data ?? [], null);
+        $this->setIfExists('tags', $data ?? [], null);
         $this->setIfExists('timestamp', $data ?? [], null);
     }
 
@@ -465,6 +472,33 @@ class LiveActivityStartResponse implements ModelInterface, ArrayAccess, \JsonSer
             throw new \InvalidArgumentException('non-nullable effectiveChannelSlugs cannot be null');
         }
         $this->container['effectiveChannelSlugs'] = $effectiveChannelSlugs;
+
+        return $this;
+    }
+
+    /**
+     * Gets tags
+     *
+     * @return string[]|null
+     */
+    public function getTags()
+    {
+        return $this->container['tags'];
+    }
+
+    /**
+     * Sets tags
+     *
+     * @param string[]|null $tags Optional tags to organize and filter notification history.
+     *
+     * @return self
+     */
+    public function setTags($tags)
+    {
+        if (is_null($tags)) {
+            throw new \InvalidArgumentException('non-nullable tags cannot be null');
+        }
+        $this->container['tags'] = $tags;
 
         return $this;
     }

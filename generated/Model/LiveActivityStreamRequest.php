@@ -63,7 +63,8 @@ class LiveActivityStreamRequest implements ModelInterface, ArrayAccess, \JsonSer
         'secondaryAction' => '\ActivitySmith\Generated\Model\LiveActivityAction',
         'alert' => '\ActivitySmith\Generated\Model\AlertPayload',
         'channels' => 'string[]',
-        'target' => '\ActivitySmith\Generated\Model\ChannelTarget'
+        'target' => '\ActivitySmith\Generated\Model\ChannelTarget',
+        'tags' => 'string[]'
     ];
 
     /**
@@ -79,7 +80,8 @@ class LiveActivityStreamRequest implements ModelInterface, ArrayAccess, \JsonSer
         'secondaryAction' => null,
         'alert' => null,
         'channels' => null,
-        'target' => null
+        'target' => null,
+        'tags' => null
     ];
 
     /**
@@ -93,7 +95,8 @@ class LiveActivityStreamRequest implements ModelInterface, ArrayAccess, \JsonSer
         'secondaryAction' => false,
         'alert' => false,
         'channels' => false,
-        'target' => false
+        'target' => false,
+        'tags' => false
     ];
 
     /**
@@ -187,7 +190,8 @@ class LiveActivityStreamRequest implements ModelInterface, ArrayAccess, \JsonSer
         'secondaryAction' => 'secondary_action',
         'alert' => 'alert',
         'channels' => 'channels',
-        'target' => 'target'
+        'target' => 'target',
+        'tags' => 'tags'
     ];
 
     /**
@@ -201,7 +205,8 @@ class LiveActivityStreamRequest implements ModelInterface, ArrayAccess, \JsonSer
         'secondaryAction' => 'setSecondaryAction',
         'alert' => 'setAlert',
         'channels' => 'setChannels',
-        'target' => 'setTarget'
+        'target' => 'setTarget',
+        'tags' => 'setTags'
     ];
 
     /**
@@ -215,7 +220,8 @@ class LiveActivityStreamRequest implements ModelInterface, ArrayAccess, \JsonSer
         'secondaryAction' => 'getSecondaryAction',
         'alert' => 'getAlert',
         'channels' => 'getChannels',
-        'target' => 'getTarget'
+        'target' => 'getTarget',
+        'tags' => 'getTags'
     ];
 
     /**
@@ -281,6 +287,7 @@ class LiveActivityStreamRequest implements ModelInterface, ArrayAccess, \JsonSer
         $this->setIfExists('alert', $data ?? [], null);
         $this->setIfExists('channels', $data ?? [], null);
         $this->setIfExists('target', $data ?? [], null);
+        $this->setIfExists('tags', $data ?? [], null);
     }
 
     /**
@@ -399,7 +406,7 @@ class LiveActivityStreamRequest implements ModelInterface, ArrayAccess, \JsonSer
     /**
      * Sets secondaryAction
      *
-     * @param \ActivitySmith\Generated\Model\LiveActivityAction|null $secondaryAction Optional secondary action button. Supported only for alert, progress, and segmented_progress Live Activities. Uses the same open_url, shortcuts://, and webhook shapes as action.
+     * @param \ActivitySmith\Generated\Model\LiveActivityAction|null $secondaryAction Optional secondary action button. Supported for alert, progress, and segmented_progress Live Activities. Uses the same open_url, shortcuts://, and webhook shapes as action.
      *
      * @return self
      */
@@ -495,6 +502,33 @@ class LiveActivityStreamRequest implements ModelInterface, ArrayAccess, \JsonSer
             throw new \InvalidArgumentException('non-nullable target cannot be null');
         }
         $this->container['target'] = $target;
+
+        return $this;
+    }
+
+    /**
+     * Gets tags
+     *
+     * @return string[]|null
+     */
+    public function getTags()
+    {
+        return $this->container['tags'];
+    }
+
+    /**
+     * Sets tags
+     *
+     * @param string[]|null $tags Optional tags to organize and filter notification history.
+     *
+     * @return self
+     */
+    public function setTags($tags)
+    {
+        if (is_null($tags)) {
+            throw new \InvalidArgumentException('non-nullable tags cannot be null');
+        }
+        $this->container['tags'] = $tags;
 
         return $this;
     }
