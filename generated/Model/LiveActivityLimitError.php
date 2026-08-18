@@ -60,7 +60,7 @@ class LiveActivityLimitError implements ModelInterface, ArrayAccess, \JsonSerial
         'error' => 'string',
         'message' => 'string',
         'limit' => 'int',
-        'active' => 'int'
+        'blockedDevices' => 'int'
     ];
 
     /**
@@ -74,7 +74,7 @@ class LiveActivityLimitError implements ModelInterface, ArrayAccess, \JsonSerial
         'error' => null,
         'message' => null,
         'limit' => null,
-        'active' => null
+        'blockedDevices' => null
     ];
 
     /**
@@ -86,7 +86,7 @@ class LiveActivityLimitError implements ModelInterface, ArrayAccess, \JsonSerial
         'error' => false,
         'message' => false,
         'limit' => false,
-        'active' => false
+        'blockedDevices' => false
     ];
 
     /**
@@ -178,7 +178,7 @@ class LiveActivityLimitError implements ModelInterface, ArrayAccess, \JsonSerial
         'error' => 'error',
         'message' => 'message',
         'limit' => 'limit',
-        'active' => 'active'
+        'blockedDevices' => 'blocked_devices'
     ];
 
     /**
@@ -190,7 +190,7 @@ class LiveActivityLimitError implements ModelInterface, ArrayAccess, \JsonSerial
         'error' => 'setError',
         'message' => 'setMessage',
         'limit' => 'setLimit',
-        'active' => 'setActive'
+        'blockedDevices' => 'setBlockedDevices'
     ];
 
     /**
@@ -202,7 +202,7 @@ class LiveActivityLimitError implements ModelInterface, ArrayAccess, \JsonSerial
         'error' => 'getError',
         'message' => 'getMessage',
         'limit' => 'getLimit',
-        'active' => 'getActive'
+        'blockedDevices' => 'getBlockedDevices'
     ];
 
     /**
@@ -265,7 +265,7 @@ class LiveActivityLimitError implements ModelInterface, ArrayAccess, \JsonSerial
         $this->setIfExists('error', $data ?? [], null);
         $this->setIfExists('message', $data ?? [], null);
         $this->setIfExists('limit', $data ?? [], null);
-        $this->setIfExists('active', $data ?? [], null);
+        $this->setIfExists('blockedDevices', $data ?? [], null);
     }
 
     /**
@@ -304,8 +304,8 @@ class LiveActivityLimitError implements ModelInterface, ArrayAccess, \JsonSerial
         if ($this->container['limit'] === null) {
             $invalidProperties[] = "'limit' can't be null";
         }
-        if ($this->container['active'] === null) {
-            $invalidProperties[] = "'active' can't be null";
+        if ($this->container['blockedDevices'] === null) {
+            $invalidProperties[] = "'blockedDevices' can't be null";
         }
         return $invalidProperties;
     }
@@ -404,28 +404,28 @@ class LiveActivityLimitError implements ModelInterface, ArrayAccess, \JsonSerial
     }
 
     /**
-     * Gets active
+     * Gets blockedDevices
      *
      * @return int
      */
-    public function getActive()
+    public function getBlockedDevices()
     {
-        return $this->container['active'];
+        return $this->container['blockedDevices'];
     }
 
     /**
-     * Sets active
+     * Sets blockedDevices
      *
-     * @param int $active Current number of active Live Activities.
+     * @param int $blockedDevices Number of targeted devices that have reached the enforced iOS Live Activity concurrency threshold.
      *
      * @return self
      */
-    public function setActive($active)
+    public function setBlockedDevices($blockedDevices)
     {
-        if (is_null($active)) {
-            throw new \InvalidArgumentException('non-nullable active cannot be null');
+        if (is_null($blockedDevices)) {
+            throw new \InvalidArgumentException('non-nullable blockedDevices cannot be null');
         }
-        $this->container['active'] = $active;
+        $this->container['blockedDevices'] = $blockedDevices;
 
         return $this;
     }
