@@ -60,7 +60,9 @@ class LiveActivityLimitError implements ModelInterface, ArrayAccess, \JsonSerial
         'error' => 'string',
         'message' => 'string',
         'limit' => 'int',
-        'active' => 'int'
+        'active' => 'int',
+        'blockedDevices' => 'int',
+        'targetedDevices' => 'int'
     ];
 
     /**
@@ -74,7 +76,9 @@ class LiveActivityLimitError implements ModelInterface, ArrayAccess, \JsonSerial
         'error' => null,
         'message' => null,
         'limit' => null,
-        'active' => null
+        'active' => null,
+        'blockedDevices' => null,
+        'targetedDevices' => null
     ];
 
     /**
@@ -86,7 +90,9 @@ class LiveActivityLimitError implements ModelInterface, ArrayAccess, \JsonSerial
         'error' => false,
         'message' => false,
         'limit' => false,
-        'active' => false
+        'active' => false,
+        'blockedDevices' => false,
+        'targetedDevices' => false
     ];
 
     /**
@@ -178,7 +184,9 @@ class LiveActivityLimitError implements ModelInterface, ArrayAccess, \JsonSerial
         'error' => 'error',
         'message' => 'message',
         'limit' => 'limit',
-        'active' => 'active'
+        'active' => 'active',
+        'blockedDevices' => 'blocked_devices',
+        'targetedDevices' => 'targeted_devices'
     ];
 
     /**
@@ -190,7 +198,9 @@ class LiveActivityLimitError implements ModelInterface, ArrayAccess, \JsonSerial
         'error' => 'setError',
         'message' => 'setMessage',
         'limit' => 'setLimit',
-        'active' => 'setActive'
+        'active' => 'setActive',
+        'blockedDevices' => 'setBlockedDevices',
+        'targetedDevices' => 'setTargetedDevices'
     ];
 
     /**
@@ -202,7 +212,9 @@ class LiveActivityLimitError implements ModelInterface, ArrayAccess, \JsonSerial
         'error' => 'getError',
         'message' => 'getMessage',
         'limit' => 'getLimit',
-        'active' => 'getActive'
+        'active' => 'getActive',
+        'blockedDevices' => 'getBlockedDevices',
+        'targetedDevices' => 'getTargetedDevices'
     ];
 
     /**
@@ -266,6 +278,8 @@ class LiveActivityLimitError implements ModelInterface, ArrayAccess, \JsonSerial
         $this->setIfExists('message', $data ?? [], null);
         $this->setIfExists('limit', $data ?? [], null);
         $this->setIfExists('active', $data ?? [], null);
+        $this->setIfExists('blockedDevices', $data ?? [], null);
+        $this->setIfExists('targetedDevices', $data ?? [], null);
     }
 
     /**
@@ -416,7 +430,7 @@ class LiveActivityLimitError implements ModelInterface, ArrayAccess, \JsonSerial
     /**
      * Sets active
      *
-     * @param int $active Current number of active Live Activities.
+     * @param int $active Highest number of active Live Activities among the targeted devices.
      *
      * @return self
      */
@@ -426,6 +440,60 @@ class LiveActivityLimitError implements ModelInterface, ArrayAccess, \JsonSerial
             throw new \InvalidArgumentException('non-nullable active cannot be null');
         }
         $this->container['active'] = $active;
+
+        return $this;
+    }
+
+    /**
+     * Gets blockedDevices
+     *
+     * @return int|null
+     */
+    public function getBlockedDevices()
+    {
+        return $this->container['blockedDevices'];
+    }
+
+    /**
+     * Sets blockedDevices
+     *
+     * @param int|null $blockedDevices Number of targeted devices that have reached the enforced iOS Live Activity concurrency threshold. Included only when targeted devices have mixed capacity.
+     *
+     * @return self
+     */
+    public function setBlockedDevices($blockedDevices)
+    {
+        if (is_null($blockedDevices)) {
+            throw new \InvalidArgumentException('non-nullable blockedDevices cannot be null');
+        }
+        $this->container['blockedDevices'] = $blockedDevices;
+
+        return $this;
+    }
+
+    /**
+     * Gets targetedDevices
+     *
+     * @return int|null
+     */
+    public function getTargetedDevices()
+    {
+        return $this->container['targetedDevices'];
+    }
+
+    /**
+     * Sets targetedDevices
+     *
+     * @param int|null $targetedDevices Total number of targeted devices. Included only when targeted devices have mixed capacity.
+     *
+     * @return self
+     */
+    public function setTargetedDevices($targetedDevices)
+    {
+        if (is_null($targetedDevices)) {
+            throw new \InvalidArgumentException('non-nullable targetedDevices cannot be null');
+        }
+        $this->container['targetedDevices'] = $targetedDevices;
 
         return $this;
     }
