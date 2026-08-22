@@ -132,7 +132,7 @@ class AppIconBadgesApi
      *
      * @throws \ActivitySmith\Generated\ApiException on non-2xx response or if the response body is not in the expected format
      * @throws \InvalidArgumentException
-     * @return \ActivitySmith\Generated\Model\AppIconBadgeCountUpdateResponse|\ActivitySmith\Generated\Model\BadRequestError|\ActivitySmith\Generated\Model\ForbiddenError|\ActivitySmith\Generated\Model\NoRecipientsError|\ActivitySmith\Generated\Model\RateLimitError
+     * @return \ActivitySmith\Generated\Model\AppIconBadgeCountUpdateResponse|\ActivitySmith\Generated\Model\BadRequestError|\ActivitySmith\Generated\Model\ForbiddenError|\ActivitySmith\Generated\Model\UpdateAppIconBadgeCount422Response|\ActivitySmith\Generated\Model\AppIconBadgeCountUpdateError|\ActivitySmith\Generated\Model\RateLimitError
      */
     public function updateAppIconBadgeCount($appIconBadgeCountUpdateRequest, string $contentType = self::contentTypes['updateAppIconBadgeCount'][0])
     {
@@ -150,7 +150,7 @@ class AppIconBadgesApi
      *
      * @throws \ActivitySmith\Generated\ApiException on non-2xx response or if the response body is not in the expected format
      * @throws \InvalidArgumentException
-     * @return array of \ActivitySmith\Generated\Model\AppIconBadgeCountUpdateResponse|\ActivitySmith\Generated\Model\BadRequestError|\ActivitySmith\Generated\Model\ForbiddenError|\ActivitySmith\Generated\Model\NoRecipientsError|\ActivitySmith\Generated\Model\RateLimitError, HTTP status code, HTTP response headers (array of strings)
+     * @return array of \ActivitySmith\Generated\Model\AppIconBadgeCountUpdateResponse|\ActivitySmith\Generated\Model\BadRequestError|\ActivitySmith\Generated\Model\ForbiddenError|\ActivitySmith\Generated\Model\UpdateAppIconBadgeCount422Response|\ActivitySmith\Generated\Model\AppIconBadgeCountUpdateError|\ActivitySmith\Generated\Model\RateLimitError, HTTP status code, HTTP response headers (array of strings)
      */
     public function updateAppIconBadgeCountWithHttpInfo($appIconBadgeCountUpdateRequest, string $contentType = self::contentTypes['updateAppIconBadgeCount'][0])
     {
@@ -273,12 +273,12 @@ class AppIconBadgesApi
                         $response->getStatusCode(),
                         $response->getHeaders()
                     ];
-                case 404:
-                    if ('\ActivitySmith\Generated\Model\NoRecipientsError' === '\SplFileObject') {
+                case 422:
+                    if ('\ActivitySmith\Generated\Model\UpdateAppIconBadgeCount422Response' === '\SplFileObject') {
                         $content = $response->getBody(); //stream goes to serializer
                     } else {
                         $content = (string) $response->getBody();
-                        if ('\ActivitySmith\Generated\Model\NoRecipientsError' !== 'string') {
+                        if ('\ActivitySmith\Generated\Model\UpdateAppIconBadgeCount422Response' !== 'string') {
                             try {
                                 $content = json_decode($content, false, 512, JSON_THROW_ON_ERROR);
                             } catch (\JsonException $exception) {
@@ -296,7 +296,34 @@ class AppIconBadgesApi
                     }
 
                     return [
-                        ObjectSerializer::deserialize($content, '\ActivitySmith\Generated\Model\NoRecipientsError', []),
+                        ObjectSerializer::deserialize($content, '\ActivitySmith\Generated\Model\UpdateAppIconBadgeCount422Response', []),
+                        $response->getStatusCode(),
+                        $response->getHeaders()
+                    ];
+                case 502:
+                    if ('\ActivitySmith\Generated\Model\AppIconBadgeCountUpdateError' === '\SplFileObject') {
+                        $content = $response->getBody(); //stream goes to serializer
+                    } else {
+                        $content = (string) $response->getBody();
+                        if ('\ActivitySmith\Generated\Model\AppIconBadgeCountUpdateError' !== 'string') {
+                            try {
+                                $content = json_decode($content, false, 512, JSON_THROW_ON_ERROR);
+                            } catch (\JsonException $exception) {
+                                throw new ApiException(
+                                    sprintf(
+                                        'Error JSON decoding server response (%s)',
+                                        $request->getUri()
+                                    ),
+                                    $statusCode,
+                                    $response->getHeaders(),
+                                    $content
+                                );
+                            }
+                        }
+                    }
+
+                    return [
+                        ObjectSerializer::deserialize($content, '\ActivitySmith\Generated\Model\AppIconBadgeCountUpdateError', []),
                         $response->getStatusCode(),
                         $response->getHeaders()
                     ];
@@ -383,10 +410,18 @@ class AppIconBadgesApi
                     );
                     $e->setResponseObject($data);
                     break;
-                case 404:
+                case 422:
                     $data = ObjectSerializer::deserialize(
                         $e->getResponseBody(),
-                        '\ActivitySmith\Generated\Model\NoRecipientsError',
+                        '\ActivitySmith\Generated\Model\UpdateAppIconBadgeCount422Response',
+                        $e->getResponseHeaders()
+                    );
+                    $e->setResponseObject($data);
+                    break;
+                case 502:
+                    $data = ObjectSerializer::deserialize(
+                        $e->getResponseBody(),
+                        '\ActivitySmith\Generated\Model\AppIconBadgeCountUpdateError',
                         $e->getResponseHeaders()
                     );
                     $e->setResponseObject($data);
