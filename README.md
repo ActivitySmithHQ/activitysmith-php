@@ -532,7 +532,12 @@ Metadata adds extra information to Push Notification and Live Activity details i
 $activitysmith->notifications->send(
     title: 'New subscription 💸',
     message: 'Customer upgraded to Pro plan',
-    metadata: ['customer_id' => '382', 'plan' => 'Pro', 'amount' => 29, 'trial' => false],
+    metadata: [
+        'customer_id' => '382',
+        'plan' => 'Pro',
+        'amount' => 29,
+        'trial' => false,
+    ],
 );
 
 $activitysmith->liveActivities->stream(
@@ -540,7 +545,10 @@ $activitysmith->liveActivities->stream(
     title: 'Customer Import',
     type: 'progress',
     percentage: 60,
-    metadata: ['job_id' => 'import-382', 'records' => 1200],
+    metadata: [
+        'job_id' => 'import-382',
+        'records' => 1200,
+    ],
 );
 ```
 
