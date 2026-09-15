@@ -43,7 +43,8 @@ final class LiveActivities
         mixed $durationSeconds = null,
         mixed $countsDown = null,
         mixed $secondaryAction = null,
-        mixed $tags = null
+        mixed $tags = null,
+        array|\stdClass|null $metadata = null
     ): mixed
     {
         $request = $this->buildRequest($request, $contentState, [
@@ -70,8 +71,10 @@ final class LiveActivities
             'target' => $target,
             'channels' => $channels,
             'tags' => $tags,
+            'metadata' => $metadata,
         ]);
 
+        $request = Metadata::normalizeRequest($request);
         return $this->api->startLiveActivity($this->normalizeTargetChannels($request));
     }
 
@@ -96,7 +99,9 @@ final class LiveActivities
         mixed $action = null,
         mixed $durationSeconds = null,
         mixed $countsDown = null,
-        mixed $secondaryAction = null
+        mixed $secondaryAction = null,
+        ?array $tags = null,
+        array|\stdClass|null $metadata = null
     ): mixed
     {
         $request = $this->buildRequest($request, $contentState, [
@@ -118,10 +123,13 @@ final class LiveActivities
             'step_color' => $stepColor,
         ], [
             'activity_id' => $activityId,
+            'tags' => $tags,
+            'metadata' => $metadata,
             'action' => $action,
             'secondary_action' => $secondaryAction,
         ]);
 
+        $request = Metadata::normalizeRequest($request);
         return $this->api->updateLiveActivity($request);
     }
 
@@ -147,7 +155,9 @@ final class LiveActivities
         mixed $action = null,
         mixed $durationSeconds = null,
         mixed $countsDown = null,
-        mixed $secondaryAction = null
+        mixed $secondaryAction = null,
+        ?array $tags = null,
+        array|\stdClass|null $metadata = null
     ): mixed
     {
         $request = $this->buildRequest($request, $contentState, [
@@ -170,10 +180,13 @@ final class LiveActivities
             'auto_dismiss_minutes' => $autoDismissMinutes,
         ], [
             'activity_id' => $activityId,
+            'tags' => $tags,
+            'metadata' => $metadata,
             'action' => $action,
             'secondary_action' => $secondaryAction,
         ]);
 
+        $request = Metadata::normalizeRequest($request);
         return $this->api->endLiveActivity($request);
     }
 
@@ -202,7 +215,8 @@ final class LiveActivities
         mixed $durationSeconds = null,
         mixed $countsDown = null,
         mixed $secondaryAction = null,
-        mixed $tags = null
+        mixed $tags = null,
+        array|\stdClass|null $metadata = null
     ): mixed
     {
         $request = $this->buildRequest($request, $contentState, [
@@ -229,8 +243,10 @@ final class LiveActivities
             'target' => $target,
             'channels' => $channels,
             'tags' => $tags,
+            'metadata' => $metadata,
         ]);
 
+        $request = Metadata::normalizeRequest($request);
         return $this->api->reconcileLiveActivityStream(
             $streamKey,
             $this->normalizeTargetChannels($request)
@@ -260,7 +276,9 @@ final class LiveActivities
         mixed $alert = null,
         mixed $durationSeconds = null,
         mixed $countsDown = null,
-        mixed $secondaryAction = null
+        mixed $secondaryAction = null,
+        ?array $tags = null,
+        array|\stdClass|null $metadata = null
     ): mixed
     {
         $request = $this->buildRequest($request, $contentState, [
@@ -285,9 +303,11 @@ final class LiveActivities
             'action' => $action,
             'secondary_action' => $secondaryAction,
             'alert' => $alert,
+            'tags' => $tags,
+            'metadata' => $metadata,
         ]);
 
-        return $this->api->endLiveActivityStream($streamKey, $request);
+        return $this->api->endLiveActivityStream($streamKey, Metadata::normalizeRequest($request));
     }
 
     // Backward-compatible aliases.
@@ -296,7 +316,7 @@ final class LiveActivities
         string $contentType = LiveActivitiesApi::contentTypes['startLiveActivity'][0]
     ): mixed {
         return $this->api->startLiveActivity(
-            $this->normalizeTargetChannels($liveActivityStartRequest),
+            Metadata::normalizeRequest($this->normalizeTargetChannels($liveActivityStartRequest)),
             $contentType
         );
     }
@@ -305,14 +325,14 @@ final class LiveActivities
         mixed $liveActivityUpdateRequest,
         string $contentType = LiveActivitiesApi::contentTypes['updateLiveActivity'][0]
     ): mixed {
-        return $this->api->updateLiveActivity($liveActivityUpdateRequest, $contentType);
+        return $this->api->updateLiveActivity(Metadata::normalizeRequest($liveActivityUpdateRequest), $contentType);
     }
 
     public function endLiveActivity(
         mixed $liveActivityEndRequest,
         string $contentType = LiveActivitiesApi::contentTypes['endLiveActivity'][0]
     ): mixed {
-        return $this->api->endLiveActivity($liveActivityEndRequest, $contentType);
+        return $this->api->endLiveActivity(Metadata::normalizeRequest($liveActivityEndRequest), $contentType);
     }
 
     public function reconcileLiveActivityStream(
@@ -322,7 +342,7 @@ final class LiveActivities
     ): mixed {
         return $this->api->reconcileLiveActivityStream(
             $streamKey,
-            $this->normalizeTargetChannels($liveActivityStreamRequest),
+            Metadata::normalizeRequest($this->normalizeTargetChannels($liveActivityStreamRequest)),
             $contentType
         );
     }
@@ -334,7 +354,7 @@ final class LiveActivities
     ): mixed {
         return $this->api->endLiveActivityStream(
             $streamKey,
-            $liveActivityStreamDeleteRequest,
+            Metadata::normalizeRequest($liveActivityStreamDeleteRequest),
             $contentType
         );
     }
