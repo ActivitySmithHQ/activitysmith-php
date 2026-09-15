@@ -27,6 +27,74 @@ use PHPUnit\Framework\TestCase;
 
 final class ResourcesTest extends TestCase
 {
+    public function testExternalPushURLsAndStreamEndFields(): void
+    {
+        foreach (['http://example.com', 'https://example.com', 'shortcuts://run-shortcut?name=Test', 'spotify://', 'spotify:track:123'] as $url) {
+            $request = new GeneratedPushNotificationRequest(['title' => 'Job', 'redirection' => $url]);
+            $body = json_decode(json_encode(\ActivitySmith\Generated\ObjectSerializer::sanitizeForSerialization($request)), true);
+            $this->assertSame($url, $body['redirection']);
+        }
+        foreach ([null, [], ['finished']] as $tags) {
+            $api = $this->getMockBuilder(LiveActivitiesApi::class)->disableOriginalConstructor()->onlyMethods(['endLiveActivityStream'])->getMock();
+            $api->expects($this->once())->method('endLiveActivityStream')->willReturnCallback(function ($key, $request) use ($tags) {
+                $body = json_decode(json_encode(\ActivitySmith\Generated\ObjectSerializer::sanitizeForSerialization($request)), true);
+                $this->assertSame($tags !== null, array_key_exists('tags', $body));
+                if ($tags !== null) $this->assertSame($tags, $body['tags']);
+                return (object) ['success' => true];
+            });
+            (new LiveActivities($api))->endStream('job', tags: $tags, metadata: []);
+        }
+    }
+
+    public function testMetadataPreservesScalarsAndEmptyObjects(): void
+    {
+        foreach (['send' => 'sendPushNotification', 'start' => 'startLiveActivity', 'update' => 'updateLiveActivity', 'end' => 'endLiveActivity', 'stream' => 'reconcileLiveActivityStream', 'endStream' => 'endLiveActivityStream'] as $method => $apiMethod) {
+            $class = $method === 'send' ? PushNotificationsApi::class : LiveActivitiesApi::class;
+            $api = $this->getMockBuilder($class)->disableOriginalConstructor()->onlyMethods([$apiMethod])->getMock();
+            $captured = [];
+            $api->method($apiMethod)->willReturnCallback(function (...$args) use (&$captured, $method) {
+                $request = $args[in_array($method, ['stream', 'endStream']) ? 1 : 0];
+                $captured[] = json_decode(json_encode(\ActivitySmith\Generated\ObjectSerializer::sanitizeForSerialization($request)));
+                return (object) ['success' => true];
+            });
+            $resource = $method === 'send' ? new Notifications($api) : new LiveActivities($api);
+            foreach ([null, [], ['order' => '382', 'ready' => false, 'count' => 0, 'empty' => '', 'ratio' => 1.25]] as $metadata) {
+                if (in_array($method, ['stream', 'endStream'])) $resource->$method('job', title: 'Job', metadata: $metadata);
+                else $resource->$method(title: 'Job', metadata: $metadata);
+                $body = end($captured);
+                $this->assertSame($metadata !== null, property_exists($body, 'metadata'));
+                if ($metadata !== null) $this->assertEquals((object) $metadata, $body->metadata);
+            }
+        }
+        $model = new \ActivitySmith\Generated\Model\LiveActivityUpdateRequest(['activityId' => 'a', 'metadata' => [], 'contentState' => ['title' => 'Job']]);
+        $body = json_decode(json_encode(\ActivitySmith\Generated\ObjectSerializer::sanitizeForSerialization($model)));
+        $this->assertInstanceOf(\stdClass::class, $body->metadata);
+    }
+
+    public function testLegacyTagsSerializeEmptyArraysAndOmitNull(): void
+    {
+        foreach (['update' => 'updateLiveActivity', 'end' => 'endLiveActivity'] as $method => $apiMethod) {
+            $api = $this->getMockBuilder(LiveActivitiesApi::class)->disableOriginalConstructor()->onlyMethods([$apiMethod])->getMock();
+            $captured = [];
+            $api->method($apiMethod)->willReturnCallback(function ($request) use (&$captured) {
+                $captured[] = json_decode(json_encode(\ActivitySmith\Generated\ObjectSerializer::sanitizeForSerialization($request)), true);
+                return (object) ['success' => true];
+            });
+            $resource = new LiveActivities($api);
+            foreach ([null, ['billing'], []] as $tags) {
+                $resource->$method(activityId: 'activity-1', title: 'Job', tags: $tags);
+                $body = end($captured);
+                $this->assertSame($tags !== null, array_key_exists('tags', $body));
+                if ($tags !== null) $this->assertSame($tags, $body['tags']);
+                $class = $method === 'update' ? \ActivitySmith\Generated\Model\LiveActivityUpdateRequest::class : \ActivitySmith\Generated\Model\LiveActivityEndRequest::class;
+                $model = new $class($body);
+                $serialized = json_decode(json_encode(\ActivitySmith\Generated\ObjectSerializer::sanitizeForSerialization($model)), true);
+                $this->assertSame($tags !== null, array_key_exists('tags', $serialized));
+                if ($tags !== null) $this->assertSame($tags, $serialized['tags']);
+            }
+        }
+    }
+
     public function testBadgeCountClearsAndTargetsChannels(): void
     {
         $client = new ActivitySmith('test');

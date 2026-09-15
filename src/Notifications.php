@@ -29,7 +29,8 @@ final class Notifications
         ?array $actions = null,
         ?array $target = null,
         array|string|null $channels = null,
-        ?array $tags = null
+        ?array $tags = null,
+        array|\stdClass|null $metadata = null
     ): mixed
     {
         $request = $this->buildRequest(
@@ -44,9 +45,10 @@ final class Notifications
                 'target' => $target,
                 'channels' => $channels,
                 'tags' => $tags,
+                'metadata' => $metadata,
             ]
         );
-        $normalized = $this->normalizeTargetChannels($request);
+        $normalized = Metadata::normalizeRequest($this->normalizeTargetChannels($request));
         $this->assertValidMediaActionsCombination($normalized);
 
         return $this->api->sendPushNotification($normalized);
@@ -64,7 +66,8 @@ final class Notifications
         ?array $actions = null,
         ?array $target = null,
         array|string|null $channels = null,
-        ?array $tags = null
+        ?array $tags = null,
+        array|\stdClass|null $metadata = null
     ): mixed {
         $pushNotificationRequest = $this->buildRequest(
             $pushNotificationRequest,
@@ -78,9 +81,10 @@ final class Notifications
                 'target' => $target,
                 'channels' => $channels,
                 'tags' => $tags,
+                'metadata' => $metadata,
             ]
         );
-        $normalized = $this->normalizeTargetChannels($pushNotificationRequest);
+        $normalized = Metadata::normalizeRequest($this->normalizeTargetChannels($pushNotificationRequest));
         $this->assertValidMediaActionsCombination($normalized);
 
         return $this->api->sendPushNotification(

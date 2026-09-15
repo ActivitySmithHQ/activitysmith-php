@@ -58,6 +58,8 @@ class LiveActivityStreamDeleteRequest implements ModelInterface, ArrayAccess, \J
       * @var string[]
       */
     protected static $openAPITypes = [
+        'metadata' => 'array<string,\ActivitySmith\Generated\Model\MetadataValue>',
+        'tags' => 'string[]',
         'contentState' => '\ActivitySmith\Generated\Model\StreamContentState',
         'action' => '\ActivitySmith\Generated\Model\LiveActivityAction',
         'secondaryAction' => '\ActivitySmith\Generated\Model\LiveActivityAction',
@@ -72,6 +74,8 @@ class LiveActivityStreamDeleteRequest implements ModelInterface, ArrayAccess, \J
       * @psalm-var array<string, string|null>
       */
     protected static $openAPIFormats = [
+        'metadata' => null,
+        'tags' => null,
         'contentState' => null,
         'action' => null,
         'secondaryAction' => null,
@@ -84,6 +88,8 @@ class LiveActivityStreamDeleteRequest implements ModelInterface, ArrayAccess, \J
       * @var boolean[]
       */
     protected static array $openAPINullables = [
+        'metadata' => false,
+        'tags' => false,
         'contentState' => false,
         'action' => false,
         'secondaryAction' => false,
@@ -176,6 +182,8 @@ class LiveActivityStreamDeleteRequest implements ModelInterface, ArrayAccess, \J
      * @var string[]
      */
     protected static $attributeMap = [
+        'metadata' => 'metadata',
+        'tags' => 'tags',
         'contentState' => 'content_state',
         'action' => 'action',
         'secondaryAction' => 'secondary_action',
@@ -188,6 +196,8 @@ class LiveActivityStreamDeleteRequest implements ModelInterface, ArrayAccess, \J
      * @var string[]
      */
     protected static $setters = [
+        'metadata' => 'setMetadata',
+        'tags' => 'setTags',
         'contentState' => 'setContentState',
         'action' => 'setAction',
         'secondaryAction' => 'setSecondaryAction',
@@ -200,6 +210,8 @@ class LiveActivityStreamDeleteRequest implements ModelInterface, ArrayAccess, \J
      * @var string[]
      */
     protected static $getters = [
+        'metadata' => 'getMetadata',
+        'tags' => 'getTags',
         'contentState' => 'getContentState',
         'action' => 'getAction',
         'secondaryAction' => 'getSecondaryAction',
@@ -263,6 +275,8 @@ class LiveActivityStreamDeleteRequest implements ModelInterface, ArrayAccess, \J
      */
     public function __construct(array $data = null)
     {
+        $this->setIfExists('metadata', $data ?? [], null);
+        $this->setIfExists('tags', $data ?? [], null);
         $this->setIfExists('contentState', $data ?? [], null);
         $this->setIfExists('action', $data ?? [], null);
         $this->setIfExists('secondaryAction', $data ?? [], null);
@@ -296,6 +310,10 @@ class LiveActivityStreamDeleteRequest implements ModelInterface, ArrayAccess, \J
     {
         $invalidProperties = [];
 
+        if (!is_null($this->container['metadata']) && (count($this->container['metadata']) > 50)) {
+            $invalidProperties[] = "invalid value for 'metadata', number of items must be less than or equal to 50.";
+        }
+
         return $invalidProperties;
     }
 
@@ -310,6 +328,64 @@ class LiveActivityStreamDeleteRequest implements ModelInterface, ArrayAccess, \J
         return count($this->listInvalidProperties()) === 0;
     }
 
+
+    /**
+     * Gets metadata
+     *
+     * @return array<string,\ActivitySmith\Generated\Model\MetadataValue>|null
+     */
+    public function getMetadata()
+    {
+        return $this->container['metadata'];
+    }
+
+    /**
+     * Sets metadata
+     *
+     * @param array<string,\ActivitySmith\Generated\Model\MetadataValue>|null $metadata Additional information shown in notification and Live Activity details in ActivitySmith. Not displayed in the Push Notification or Live Activity on the device. Values must be strings, finite numbers, or booleans. At most 50 entries and 16 KB of serialized UTF-8 JSON. Omit on updates to preserve existing Metadata; send {} to clear it.
+     *
+     * @return self
+     */
+    public function setMetadata($metadata)
+    {
+        if (is_null($metadata)) {
+            throw new \InvalidArgumentException('non-nullable metadata cannot be null');
+        }
+
+        if ((count($metadata) > 50)) {
+            throw new \InvalidArgumentException('invalid value for $metadata when calling LiveActivityStreamDeleteRequest., number of items must be less than or equal to 50.');
+        }
+        $this->container['metadata'] = $metadata;
+
+        return $this;
+    }
+
+    /**
+     * Gets tags
+     *
+     * @return string[]|null
+     */
+    public function getTags()
+    {
+        return $this->container['tags'];
+    }
+
+    /**
+     * Sets tags
+     *
+     * @param string[]|null $tags Optional tags to organize and filter notification history.
+     *
+     * @return self
+     */
+    public function setTags($tags)
+    {
+        if (is_null($tags)) {
+            throw new \InvalidArgumentException('non-nullable tags cannot be null');
+        }
+        $this->container['tags'] = $tags;
+
+        return $this;
+    }
 
     /**
      * Gets contentState

@@ -58,7 +58,9 @@ class LiveActivityUpdateRequest implements ModelInterface, ArrayAccess, \JsonSer
       * @var string[]
       */
     protected static $openAPITypes = [
+        'metadata' => 'array<string,\ActivitySmith\Generated\Model\MetadataValue>',
         'activityId' => 'string',
+        'tags' => 'string[]',
         'contentState' => '\ActivitySmith\Generated\Model\ContentStateUpdate',
         'action' => '\ActivitySmith\Generated\Model\LiveActivityAction',
         'secondaryAction' => '\ActivitySmith\Generated\Model\LiveActivityAction'
@@ -72,7 +74,9 @@ class LiveActivityUpdateRequest implements ModelInterface, ArrayAccess, \JsonSer
       * @psalm-var array<string, string|null>
       */
     protected static $openAPIFormats = [
+        'metadata' => null,
         'activityId' => null,
+        'tags' => null,
         'contentState' => null,
         'action' => null,
         'secondaryAction' => null
@@ -84,7 +88,9 @@ class LiveActivityUpdateRequest implements ModelInterface, ArrayAccess, \JsonSer
       * @var boolean[]
       */
     protected static array $openAPINullables = [
+        'metadata' => false,
         'activityId' => false,
+        'tags' => false,
         'contentState' => false,
         'action' => false,
         'secondaryAction' => false
@@ -176,7 +182,9 @@ class LiveActivityUpdateRequest implements ModelInterface, ArrayAccess, \JsonSer
      * @var string[]
      */
     protected static $attributeMap = [
+        'metadata' => 'metadata',
         'activityId' => 'activity_id',
+        'tags' => 'tags',
         'contentState' => 'content_state',
         'action' => 'action',
         'secondaryAction' => 'secondary_action'
@@ -188,7 +196,9 @@ class LiveActivityUpdateRequest implements ModelInterface, ArrayAccess, \JsonSer
      * @var string[]
      */
     protected static $setters = [
+        'metadata' => 'setMetadata',
         'activityId' => 'setActivityId',
+        'tags' => 'setTags',
         'contentState' => 'setContentState',
         'action' => 'setAction',
         'secondaryAction' => 'setSecondaryAction'
@@ -200,7 +210,9 @@ class LiveActivityUpdateRequest implements ModelInterface, ArrayAccess, \JsonSer
      * @var string[]
      */
     protected static $getters = [
+        'metadata' => 'getMetadata',
         'activityId' => 'getActivityId',
+        'tags' => 'getTags',
         'contentState' => 'getContentState',
         'action' => 'getAction',
         'secondaryAction' => 'getSecondaryAction'
@@ -263,7 +275,9 @@ class LiveActivityUpdateRequest implements ModelInterface, ArrayAccess, \JsonSer
      */
     public function __construct(array $data = null)
     {
+        $this->setIfExists('metadata', $data ?? [], null);
         $this->setIfExists('activityId', $data ?? [], null);
+        $this->setIfExists('tags', $data ?? [], null);
         $this->setIfExists('contentState', $data ?? [], null);
         $this->setIfExists('action', $data ?? [], null);
         $this->setIfExists('secondaryAction', $data ?? [], null);
@@ -296,9 +310,17 @@ class LiveActivityUpdateRequest implements ModelInterface, ArrayAccess, \JsonSer
     {
         $invalidProperties = [];
 
+        if (!is_null($this->container['metadata']) && (count($this->container['metadata']) > 50)) {
+            $invalidProperties[] = "invalid value for 'metadata', number of items must be less than or equal to 50.";
+        }
+
         if ($this->container['activityId'] === null) {
             $invalidProperties[] = "'activityId' can't be null";
         }
+        if (!is_null($this->container['tags']) && (count($this->container['tags']) > 20)) {
+            $invalidProperties[] = "invalid value for 'tags', number of items must be less than or equal to 20.";
+        }
+
         if ($this->container['contentState'] === null) {
             $invalidProperties[] = "'contentState' can't be null";
         }
@@ -316,6 +338,37 @@ class LiveActivityUpdateRequest implements ModelInterface, ArrayAccess, \JsonSer
         return count($this->listInvalidProperties()) === 0;
     }
 
+
+    /**
+     * Gets metadata
+     *
+     * @return array<string,\ActivitySmith\Generated\Model\MetadataValue>|null
+     */
+    public function getMetadata()
+    {
+        return $this->container['metadata'];
+    }
+
+    /**
+     * Sets metadata
+     *
+     * @param array<string,\ActivitySmith\Generated\Model\MetadataValue>|null $metadata Additional information shown in notification and Live Activity details in ActivitySmith. Not displayed in the Push Notification or Live Activity on the device. Values must be strings, finite numbers, or booleans. At most 50 entries and 16 KB of serialized UTF-8 JSON. Omit on updates to preserve existing Metadata; send {} to clear it.
+     *
+     * @return self
+     */
+    public function setMetadata($metadata)
+    {
+        if (is_null($metadata)) {
+            throw new \InvalidArgumentException('non-nullable metadata cannot be null');
+        }
+
+        if ((count($metadata) > 50)) {
+            throw new \InvalidArgumentException('invalid value for $metadata when calling LiveActivityUpdateRequest., number of items must be less than or equal to 50.');
+        }
+        $this->container['metadata'] = $metadata;
+
+        return $this;
+    }
 
     /**
      * Gets activityId
@@ -340,6 +393,37 @@ class LiveActivityUpdateRequest implements ModelInterface, ArrayAccess, \JsonSer
             throw new \InvalidArgumentException('non-nullable activityId cannot be null');
         }
         $this->container['activityId'] = $activityId;
+
+        return $this;
+    }
+
+    /**
+     * Gets tags
+     *
+     * @return string[]|null
+     */
+    public function getTags()
+    {
+        return $this->container['tags'];
+    }
+
+    /**
+     * Sets tags
+     *
+     * @param string[]|null $tags Tags for notification history. Omit to keep existing Tags, supply an array to replace them, or send an empty array to clear them.
+     *
+     * @return self
+     */
+    public function setTags($tags)
+    {
+        if (is_null($tags)) {
+            throw new \InvalidArgumentException('non-nullable tags cannot be null');
+        }
+
+        if ((count($tags) > 20)) {
+            throw new \InvalidArgumentException('invalid value for $tags when calling LiveActivityUpdateRequest., number of items must be less than or equal to 20.');
+        }
+        $this->container['tags'] = $tags;
 
         return $this;
     }
