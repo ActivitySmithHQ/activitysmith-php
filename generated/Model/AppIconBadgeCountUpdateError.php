@@ -1,6 +1,6 @@
 <?php
 /**
- * AppIconBadgeCountUpdateResponse
+ * AppIconBadgeCountUpdateError
  *
  * PHP version 7.4
  *
@@ -32,7 +32,7 @@ use \ArrayAccess;
 use \ActivitySmith\Generated\ObjectSerializer;
 
 /**
- * AppIconBadgeCountUpdateResponse Class Doc Comment
+ * AppIconBadgeCountUpdateError Class Doc Comment
  *
  * @category Class
  * @package  ActivitySmith\Generated
@@ -40,7 +40,7 @@ use \ActivitySmith\Generated\ObjectSerializer;
  * @link     https://openapi-generator.tech
  * @implements \ArrayAccess<string, mixed>
  */
-class AppIconBadgeCountUpdateResponse implements ModelInterface, ArrayAccess, \JsonSerializable
+class AppIconBadgeCountUpdateError implements ModelInterface, ArrayAccess, \JsonSerializable
 {
     public const DISCRIMINATOR = null;
 
@@ -49,7 +49,7 @@ class AppIconBadgeCountUpdateResponse implements ModelInterface, ArrayAccess, \J
       *
       * @var string
       */
-    protected static $openAPIModelName = 'AppIconBadgeCountUpdateResponse';
+    protected static $openAPIModelName = 'AppIconBadgeCountUpdateError';
 
     /**
       * Array of property to type mappings. Used for (de)serialization
@@ -57,14 +57,15 @@ class AppIconBadgeCountUpdateResponse implements ModelInterface, ArrayAccess, \J
       * @var string[]
       */
     protected static $openAPITypes = [
-        'success' => 'bool',
+        'error' => 'string',
+        'code' => 'string',
+        'message' => 'string',
         'badge' => 'int',
+        'devicesTargeted' => 'int',
         'devicesUpdated' => 'int',
         'usersUpdated' => 'int',
         'devicesNotified' => 'int',
-        'usersNotified' => 'int',
-        'effectiveChannelSlugs' => 'string[]',
-        'timestamp' => '\DateTime'
+        'effectiveChannelSlugs' => 'string[]'
     ];
 
     /**
@@ -75,14 +76,15 @@ class AppIconBadgeCountUpdateResponse implements ModelInterface, ArrayAccess, \J
       * @psalm-var array<string, string|null>
       */
     protected static $openAPIFormats = [
-        'success' => null,
+        'error' => null,
+        'code' => null,
+        'message' => null,
         'badge' => null,
+        'devicesTargeted' => null,
         'devicesUpdated' => null,
         'usersUpdated' => null,
         'devicesNotified' => null,
-        'usersNotified' => null,
-        'effectiveChannelSlugs' => null,
-        'timestamp' => 'date-time'
+        'effectiveChannelSlugs' => null
     ];
 
     /**
@@ -91,14 +93,15 @@ class AppIconBadgeCountUpdateResponse implements ModelInterface, ArrayAccess, \J
       * @var boolean[]
       */
     protected static array $openAPINullables = [
-        'success' => false,
+        'error' => false,
+        'code' => false,
+        'message' => false,
         'badge' => false,
+        'devicesTargeted' => false,
         'devicesUpdated' => false,
         'usersUpdated' => false,
         'devicesNotified' => false,
-        'usersNotified' => false,
-        'effectiveChannelSlugs' => false,
-        'timestamp' => false
+        'effectiveChannelSlugs' => false
     ];
 
     /**
@@ -187,14 +190,15 @@ class AppIconBadgeCountUpdateResponse implements ModelInterface, ArrayAccess, \J
      * @var string[]
      */
     protected static $attributeMap = [
-        'success' => 'success',
+        'error' => 'error',
+        'code' => 'code',
+        'message' => 'message',
         'badge' => 'badge',
+        'devicesTargeted' => 'devices_targeted',
         'devicesUpdated' => 'devices_updated',
         'usersUpdated' => 'users_updated',
         'devicesNotified' => 'devices_notified',
-        'usersNotified' => 'users_notified',
-        'effectiveChannelSlugs' => 'effective_channel_slugs',
-        'timestamp' => 'timestamp'
+        'effectiveChannelSlugs' => 'effective_channel_slugs'
     ];
 
     /**
@@ -203,14 +207,15 @@ class AppIconBadgeCountUpdateResponse implements ModelInterface, ArrayAccess, \J
      * @var string[]
      */
     protected static $setters = [
-        'success' => 'setSuccess',
+        'error' => 'setError',
+        'code' => 'setCode',
+        'message' => 'setMessage',
         'badge' => 'setBadge',
+        'devicesTargeted' => 'setDevicesTargeted',
         'devicesUpdated' => 'setDevicesUpdated',
         'usersUpdated' => 'setUsersUpdated',
         'devicesNotified' => 'setDevicesNotified',
-        'usersNotified' => 'setUsersNotified',
-        'effectiveChannelSlugs' => 'setEffectiveChannelSlugs',
-        'timestamp' => 'setTimestamp'
+        'effectiveChannelSlugs' => 'setEffectiveChannelSlugs'
     ];
 
     /**
@@ -219,14 +224,15 @@ class AppIconBadgeCountUpdateResponse implements ModelInterface, ArrayAccess, \J
      * @var string[]
      */
     protected static $getters = [
-        'success' => 'getSuccess',
+        'error' => 'getError',
+        'code' => 'getCode',
+        'message' => 'getMessage',
         'badge' => 'getBadge',
+        'devicesTargeted' => 'getDevicesTargeted',
         'devicesUpdated' => 'getDevicesUpdated',
         'usersUpdated' => 'getUsersUpdated',
         'devicesNotified' => 'getDevicesNotified',
-        'usersNotified' => 'getUsersNotified',
-        'effectiveChannelSlugs' => 'getEffectiveChannelSlugs',
-        'timestamp' => 'getTimestamp'
+        'effectiveChannelSlugs' => 'getEffectiveChannelSlugs'
     ];
 
     /**
@@ -270,6 +276,21 @@ class AppIconBadgeCountUpdateResponse implements ModelInterface, ArrayAccess, \J
         return self::$openAPIModelName;
     }
 
+    public const CODE_DEVICE_DISCONNECTED = 'badge_device_disconnected';
+    public const CODE_UPDATE_FAILED = 'badge_update_failed';
+
+    /**
+     * Gets allowable values of the enum
+     *
+     * @return string[]
+     */
+    public function getCodeAllowableValues()
+    {
+        return [
+            self::CODE_DEVICE_DISCONNECTED,
+            self::CODE_UPDATE_FAILED,
+        ];
+    }
 
     /**
      * Associative array for storing property values
@@ -286,14 +307,15 @@ class AppIconBadgeCountUpdateResponse implements ModelInterface, ArrayAccess, \J
      */
     public function __construct(array $data = null)
     {
-        $this->setIfExists('success', $data ?? [], null);
+        $this->setIfExists('error', $data ?? [], null);
+        $this->setIfExists('code', $data ?? [], null);
+        $this->setIfExists('message', $data ?? [], null);
         $this->setIfExists('badge', $data ?? [], null);
+        $this->setIfExists('devicesTargeted', $data ?? [], null);
         $this->setIfExists('devicesUpdated', $data ?? [], null);
         $this->setIfExists('usersUpdated', $data ?? [], null);
         $this->setIfExists('devicesNotified', $data ?? [], null);
-        $this->setIfExists('usersNotified', $data ?? [], null);
         $this->setIfExists('effectiveChannelSlugs', $data ?? [], null);
-        $this->setIfExists('timestamp', $data ?? [], null);
     }
 
     /**
@@ -323,8 +345,23 @@ class AppIconBadgeCountUpdateResponse implements ModelInterface, ArrayAccess, \J
     {
         $invalidProperties = [];
 
-        if ($this->container['success'] === null) {
-            $invalidProperties[] = "'success' can't be null";
+        if ($this->container['error'] === null) {
+            $invalidProperties[] = "'error' can't be null";
+        }
+        if ($this->container['code'] === null) {
+            $invalidProperties[] = "'code' can't be null";
+        }
+        $allowedValues = $this->getCodeAllowableValues();
+        if (!is_null($this->container['code']) && !in_array($this->container['code'], $allowedValues, true)) {
+            $invalidProperties[] = sprintf(
+                "invalid value '%s' for 'code', must be one of '%s'",
+                $this->container['code'],
+                implode("', '", $allowedValues)
+            );
+        }
+
+        if ($this->container['message'] === null) {
+            $invalidProperties[] = "'message' can't be null";
         }
         if ($this->container['badge'] === null) {
             $invalidProperties[] = "'badge' can't be null";
@@ -339,15 +376,6 @@ class AppIconBadgeCountUpdateResponse implements ModelInterface, ArrayAccess, \J
 
         if ($this->container['devicesUpdated'] === null) {
             $invalidProperties[] = "'devicesUpdated' can't be null";
-        }
-        if ($this->container['usersUpdated'] === null) {
-            $invalidProperties[] = "'usersUpdated' can't be null";
-        }
-        if ($this->container['effectiveChannelSlugs'] === null) {
-            $invalidProperties[] = "'effectiveChannelSlugs' can't be null";
-        }
-        if ($this->container['timestamp'] === null) {
-            $invalidProperties[] = "'timestamp' can't be null";
         }
         return $invalidProperties;
     }
@@ -365,28 +393,92 @@ class AppIconBadgeCountUpdateResponse implements ModelInterface, ArrayAccess, \J
 
 
     /**
-     * Gets success
+     * Gets error
      *
-     * @return bool
+     * @return string
      */
-    public function getSuccess()
+    public function getError()
     {
-        return $this->container['success'];
+        return $this->container['error'];
     }
 
     /**
-     * Sets success
+     * Sets error
      *
-     * @param bool $success success
+     * @param string $error error
      *
      * @return self
      */
-    public function setSuccess($success)
+    public function setError($error)
     {
-        if (is_null($success)) {
-            throw new \InvalidArgumentException('non-nullable success cannot be null');
+        if (is_null($error)) {
+            throw new \InvalidArgumentException('non-nullable error cannot be null');
         }
-        $this->container['success'] = $success;
+        $this->container['error'] = $error;
+
+        return $this;
+    }
+
+    /**
+     * Gets code
+     *
+     * @return string
+     */
+    public function getCode()
+    {
+        return $this->container['code'];
+    }
+
+    /**
+     * Sets code
+     *
+     * @param string $code code
+     *
+     * @return self
+     */
+    public function setCode($code)
+    {
+        if (is_null($code)) {
+            throw new \InvalidArgumentException('non-nullable code cannot be null');
+        }
+        $allowedValues = $this->getCodeAllowableValues();
+        if (!in_array($code, $allowedValues, true)) {
+            throw new \InvalidArgumentException(
+                sprintf(
+                    "Invalid value '%s' for 'code', must be one of '%s'",
+                    $code,
+                    implode("', '", $allowedValues)
+                )
+            );
+        }
+        $this->container['code'] = $code;
+
+        return $this;
+    }
+
+    /**
+     * Gets message
+     *
+     * @return string
+     */
+    public function getMessage()
+    {
+        return $this->container['message'];
+    }
+
+    /**
+     * Sets message
+     *
+     * @param string $message message
+     *
+     * @return self
+     */
+    public function setMessage($message)
+    {
+        if (is_null($message)) {
+            throw new \InvalidArgumentException('non-nullable message cannot be null');
+        }
+        $this->container['message'] = $message;
 
         return $this;
     }
@@ -415,13 +507,40 @@ class AppIconBadgeCountUpdateResponse implements ModelInterface, ArrayAccess, \J
         }
 
         if (($badge > 2147483647)) {
-            throw new \InvalidArgumentException('invalid value for $badge when calling AppIconBadgeCountUpdateResponse., must be smaller than or equal to 2147483647.');
+            throw new \InvalidArgumentException('invalid value for $badge when calling AppIconBadgeCountUpdateError., must be smaller than or equal to 2147483647.');
         }
         if (($badge < 0)) {
-            throw new \InvalidArgumentException('invalid value for $badge when calling AppIconBadgeCountUpdateResponse., must be bigger than or equal to 0.');
+            throw new \InvalidArgumentException('invalid value for $badge when calling AppIconBadgeCountUpdateError., must be bigger than or equal to 0.');
         }
 
         $this->container['badge'] = $badge;
+
+        return $this;
+    }
+
+    /**
+     * Gets devicesTargeted
+     *
+     * @return int|null
+     */
+    public function getDevicesTargeted()
+    {
+        return $this->container['devicesTargeted'];
+    }
+
+    /**
+     * Sets devicesTargeted
+     *
+     * @param int|null $devicesTargeted devicesTargeted
+     *
+     * @return self
+     */
+    public function setDevicesTargeted($devicesTargeted)
+    {
+        if (is_null($devicesTargeted)) {
+            throw new \InvalidArgumentException('non-nullable devicesTargeted cannot be null');
+        }
+        $this->container['devicesTargeted'] = $devicesTargeted;
 
         return $this;
     }
@@ -439,7 +558,7 @@ class AppIconBadgeCountUpdateResponse implements ModelInterface, ArrayAccess, \J
     /**
      * Sets devicesUpdated
      *
-     * @param int $devicesUpdated Number of devices whose App Icon Badge Count was updated.
+     * @param int $devicesUpdated devicesUpdated
      *
      * @return self
      */
@@ -456,7 +575,7 @@ class AppIconBadgeCountUpdateResponse implements ModelInterface, ArrayAccess, \J
     /**
      * Gets usersUpdated
      *
-     * @return int
+     * @return int|null
      */
     public function getUsersUpdated()
     {
@@ -466,7 +585,7 @@ class AppIconBadgeCountUpdateResponse implements ModelInterface, ArrayAccess, \J
     /**
      * Sets usersUpdated
      *
-     * @param int $usersUpdated Number of account users with at least one updated device.
+     * @param int|null $usersUpdated usersUpdated
      *
      * @return self
      */
@@ -510,38 +629,9 @@ class AppIconBadgeCountUpdateResponse implements ModelInterface, ArrayAccess, \J
     }
 
     /**
-     * Gets usersNotified
-     *
-     * @return int|null
-     * @deprecated
-     */
-    public function getUsersNotified()
-    {
-        return $this->container['usersNotified'];
-    }
-
-    /**
-     * Sets usersNotified
-     *
-     * @param int|null $usersNotified Deprecated compatibility alias for users_updated.
-     *
-     * @return self
-     * @deprecated
-     */
-    public function setUsersNotified($usersNotified)
-    {
-        if (is_null($usersNotified)) {
-            throw new \InvalidArgumentException('non-nullable usersNotified cannot be null');
-        }
-        $this->container['usersNotified'] = $usersNotified;
-
-        return $this;
-    }
-
-    /**
      * Gets effectiveChannelSlugs
      *
-     * @return string[]
+     * @return string[]|null
      */
     public function getEffectiveChannelSlugs()
     {
@@ -551,7 +641,7 @@ class AppIconBadgeCountUpdateResponse implements ModelInterface, ArrayAccess, \J
     /**
      * Sets effectiveChannelSlugs
      *
-     * @param string[] $effectiveChannelSlugs effectiveChannelSlugs
+     * @param string[]|null $effectiveChannelSlugs effectiveChannelSlugs
      *
      * @return self
      */
@@ -561,33 +651,6 @@ class AppIconBadgeCountUpdateResponse implements ModelInterface, ArrayAccess, \J
             throw new \InvalidArgumentException('non-nullable effectiveChannelSlugs cannot be null');
         }
         $this->container['effectiveChannelSlugs'] = $effectiveChannelSlugs;
-
-        return $this;
-    }
-
-    /**
-     * Gets timestamp
-     *
-     * @return \DateTime
-     */
-    public function getTimestamp()
-    {
-        return $this->container['timestamp'];
-    }
-
-    /**
-     * Sets timestamp
-     *
-     * @param \DateTime $timestamp timestamp
-     *
-     * @return self
-     */
-    public function setTimestamp($timestamp)
-    {
-        if (is_null($timestamp)) {
-            throw new \InvalidArgumentException('non-nullable timestamp cannot be null');
-        }
-        $this->container['timestamp'] = $timestamp;
 
         return $this;
     }

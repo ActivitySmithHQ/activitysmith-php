@@ -58,6 +58,7 @@ class LiveActivityStreamRequest implements ModelInterface, ArrayAccess, \JsonSer
       * @var string[]
       */
     protected static $openAPITypes = [
+        'metadata' => 'array<string,\ActivitySmith\Generated\Model\MetadataValue>',
         'contentState' => '\ActivitySmith\Generated\Model\StreamContentState',
         'action' => '\ActivitySmith\Generated\Model\LiveActivityAction',
         'secondaryAction' => '\ActivitySmith\Generated\Model\LiveActivityAction',
@@ -75,6 +76,7 @@ class LiveActivityStreamRequest implements ModelInterface, ArrayAccess, \JsonSer
       * @psalm-var array<string, string|null>
       */
     protected static $openAPIFormats = [
+        'metadata' => null,
         'contentState' => null,
         'action' => null,
         'secondaryAction' => null,
@@ -90,6 +92,7 @@ class LiveActivityStreamRequest implements ModelInterface, ArrayAccess, \JsonSer
       * @var boolean[]
       */
     protected static array $openAPINullables = [
+        'metadata' => false,
         'contentState' => false,
         'action' => false,
         'secondaryAction' => false,
@@ -185,6 +188,7 @@ class LiveActivityStreamRequest implements ModelInterface, ArrayAccess, \JsonSer
      * @var string[]
      */
     protected static $attributeMap = [
+        'metadata' => 'metadata',
         'contentState' => 'content_state',
         'action' => 'action',
         'secondaryAction' => 'secondary_action',
@@ -200,6 +204,7 @@ class LiveActivityStreamRequest implements ModelInterface, ArrayAccess, \JsonSer
      * @var string[]
      */
     protected static $setters = [
+        'metadata' => 'setMetadata',
         'contentState' => 'setContentState',
         'action' => 'setAction',
         'secondaryAction' => 'setSecondaryAction',
@@ -215,6 +220,7 @@ class LiveActivityStreamRequest implements ModelInterface, ArrayAccess, \JsonSer
      * @var string[]
      */
     protected static $getters = [
+        'metadata' => 'getMetadata',
         'contentState' => 'getContentState',
         'action' => 'getAction',
         'secondaryAction' => 'getSecondaryAction',
@@ -281,6 +287,7 @@ class LiveActivityStreamRequest implements ModelInterface, ArrayAccess, \JsonSer
      */
     public function __construct(array $data = null)
     {
+        $this->setIfExists('metadata', $data ?? [], null);
         $this->setIfExists('contentState', $data ?? [], null);
         $this->setIfExists('action', $data ?? [], null);
         $this->setIfExists('secondaryAction', $data ?? [], null);
@@ -317,6 +324,10 @@ class LiveActivityStreamRequest implements ModelInterface, ArrayAccess, \JsonSer
     {
         $invalidProperties = [];
 
+        if (!is_null($this->container['metadata']) && (count($this->container['metadata']) > 50)) {
+            $invalidProperties[] = "invalid value for 'metadata', number of items must be less than or equal to 50.";
+        }
+
         if ($this->container['contentState'] === null) {
             $invalidProperties[] = "'contentState' can't be null";
         }
@@ -338,6 +349,37 @@ class LiveActivityStreamRequest implements ModelInterface, ArrayAccess, \JsonSer
         return count($this->listInvalidProperties()) === 0;
     }
 
+
+    /**
+     * Gets metadata
+     *
+     * @return array<string,\ActivitySmith\Generated\Model\MetadataValue>|null
+     */
+    public function getMetadata()
+    {
+        return $this->container['metadata'];
+    }
+
+    /**
+     * Sets metadata
+     *
+     * @param array<string,\ActivitySmith\Generated\Model\MetadataValue>|null $metadata Additional information shown in notification and Live Activity details in ActivitySmith. Not displayed in the Push Notification or Live Activity on the device. Values must be strings, finite numbers, or booleans. At most 50 entries and 16 KB of serialized UTF-8 JSON. Omit on updates to preserve existing Metadata; send {} to clear it.
+     *
+     * @return self
+     */
+    public function setMetadata($metadata)
+    {
+        if (is_null($metadata)) {
+            throw new \InvalidArgumentException('non-nullable metadata cannot be null');
+        }
+
+        if ((count($metadata) > 50)) {
+            throw new \InvalidArgumentException('invalid value for $metadata when calling LiveActivityStreamRequest., number of items must be less than or equal to 50.');
+        }
+        $this->container['metadata'] = $metadata;
+
+        return $this;
+    }
 
     /**
      * Gets contentState

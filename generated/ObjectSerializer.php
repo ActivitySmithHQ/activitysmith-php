@@ -77,7 +77,8 @@ class ObjectSerializer
             foreach ($data as $property => $value) {
                 $data[$property] = self::sanitizeForSerialization($value);
             }
-            return $data;
+            // OpenAPI string-keyed maps must serialize as JSON objects, including {}.
+            return str_starts_with($type ?? '', 'array<string,') ? (object) $data : $data;
         }
 
         if (is_object($data)) {
