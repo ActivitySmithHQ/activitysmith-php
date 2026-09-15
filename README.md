@@ -602,7 +602,3 @@ try {
 ### [Packagist](https://packagist.org/packages/activitysmith/activitysmith)
 
 Install the ActivitySmith PHP SDK from Packagist
-
-### [Source Code](https://github.com/ActivitySmithHQ/activitysmith-php)
-
-View the PHP SDK source on GitHub
