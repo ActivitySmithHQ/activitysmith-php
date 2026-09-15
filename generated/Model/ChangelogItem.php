@@ -1,6 +1,6 @@
 <?php
 /**
- * PushNotificationAction
+ * ChangelogItem
  *
  * PHP version 7.4
  *
@@ -32,7 +32,7 @@ use \ArrayAccess;
 use \ActivitySmith\Generated\ObjectSerializer;
 
 /**
- * PushNotificationAction Class Doc Comment
+ * ChangelogItem Class Doc Comment
  *
  * @category Class
  * @package  ActivitySmith\Generated
@@ -40,7 +40,7 @@ use \ActivitySmith\Generated\ObjectSerializer;
  * @link     https://openapi-generator.tech
  * @implements \ArrayAccess<string, mixed>
  */
-class PushNotificationAction implements ModelInterface, ArrayAccess, \JsonSerializable
+class ChangelogItem implements ModelInterface, ArrayAccess, \JsonSerializable
 {
     public const DISCRIMINATOR = null;
 
@@ -49,7 +49,7 @@ class PushNotificationAction implements ModelInterface, ArrayAccess, \JsonSerial
       *
       * @var string
       */
-    protected static $openAPIModelName = 'PushNotificationAction';
+    protected static $openAPIModelName = 'ChangelogItem';
 
     /**
       * Array of property to type mappings. Used for (de)serialization
@@ -57,11 +57,11 @@ class PushNotificationAction implements ModelInterface, ArrayAccess, \JsonSerial
       * @var string[]
       */
     protected static $openAPITypes = [
+        'icon' => 'string',
         'title' => 'string',
-        'type' => '\ActivitySmith\Generated\Model\PushNotificationActionType',
-        'url' => 'string',
-        'method' => '\ActivitySmith\Generated\Model\PushNotificationWebhookMethod',
-        'body' => 'object'
+        'body' => 'string',
+        'imageUrl' => 'string',
+        'accentColor' => 'string'
     ];
 
     /**
@@ -72,11 +72,11 @@ class PushNotificationAction implements ModelInterface, ArrayAccess, \JsonSerial
       * @psalm-var array<string, string|null>
       */
     protected static $openAPIFormats = [
+        'icon' => null,
         'title' => null,
-        'type' => null,
-        'url' => 'uri',
-        'method' => null,
-        'body' => null
+        'body' => null,
+        'imageUrl' => 'uri',
+        'accentColor' => null
     ];
 
     /**
@@ -85,11 +85,11 @@ class PushNotificationAction implements ModelInterface, ArrayAccess, \JsonSerial
       * @var boolean[]
       */
     protected static array $openAPINullables = [
+        'icon' => true,
         'title' => false,
-        'type' => false,
-        'url' => false,
-        'method' => false,
-        'body' => false
+        'body' => false,
+        'imageUrl' => true,
+        'accentColor' => true
     ];
 
     /**
@@ -178,11 +178,11 @@ class PushNotificationAction implements ModelInterface, ArrayAccess, \JsonSerial
      * @var string[]
      */
     protected static $attributeMap = [
+        'icon' => 'icon',
         'title' => 'title',
-        'type' => 'type',
-        'url' => 'url',
-        'method' => 'method',
-        'body' => 'body'
+        'body' => 'body',
+        'imageUrl' => 'image_url',
+        'accentColor' => 'accent_color'
     ];
 
     /**
@@ -191,11 +191,11 @@ class PushNotificationAction implements ModelInterface, ArrayAccess, \JsonSerial
      * @var string[]
      */
     protected static $setters = [
+        'icon' => 'setIcon',
         'title' => 'setTitle',
-        'type' => 'setType',
-        'url' => 'setUrl',
-        'method' => 'setMethod',
-        'body' => 'setBody'
+        'body' => 'setBody',
+        'imageUrl' => 'setImageUrl',
+        'accentColor' => 'setAccentColor'
     ];
 
     /**
@@ -204,11 +204,11 @@ class PushNotificationAction implements ModelInterface, ArrayAccess, \JsonSerial
      * @var string[]
      */
     protected static $getters = [
+        'icon' => 'getIcon',
         'title' => 'getTitle',
-        'type' => 'getType',
-        'url' => 'getUrl',
-        'method' => 'getMethod',
-        'body' => 'getBody'
+        'body' => 'getBody',
+        'imageUrl' => 'getImageUrl',
+        'accentColor' => 'getAccentColor'
     ];
 
     /**
@@ -268,11 +268,11 @@ class PushNotificationAction implements ModelInterface, ArrayAccess, \JsonSerial
      */
     public function __construct(array $data = null)
     {
+        $this->setIfExists('icon', $data ?? [], null);
         $this->setIfExists('title', $data ?? [], null);
-        $this->setIfExists('type', $data ?? [], null);
-        $this->setIfExists('url', $data ?? [], null);
-        $this->setIfExists('method', $data ?? [], null);
         $this->setIfExists('body', $data ?? [], null);
+        $this->setIfExists('imageUrl', $data ?? [], null);
+        $this->setIfExists('accentColor', $data ?? [], null);
     }
 
     /**
@@ -305,11 +305,8 @@ class PushNotificationAction implements ModelInterface, ArrayAccess, \JsonSerial
         if ($this->container['title'] === null) {
             $invalidProperties[] = "'title' can't be null";
         }
-        if ($this->container['type'] === null) {
-            $invalidProperties[] = "'type' can't be null";
-        }
-        if ($this->container['url'] === null) {
-            $invalidProperties[] = "'url' can't be null";
+        if ($this->container['body'] === null) {
+            $invalidProperties[] = "'body' can't be null";
         }
         return $invalidProperties;
     }
@@ -327,6 +324,40 @@ class PushNotificationAction implements ModelInterface, ArrayAccess, \JsonSerial
 
 
     /**
+     * Gets icon
+     *
+     * @return string|null
+     */
+    public function getIcon()
+    {
+        return $this->container['icon'];
+    }
+
+    /**
+     * Sets icon
+     *
+     * @param string|null $icon icon
+     *
+     * @return self
+     */
+    public function setIcon($icon)
+    {
+        if (is_null($icon)) {
+            array_push($this->openAPINullablesSetToNull, 'icon');
+        } else {
+            $nullablesSetToNull = $this->getOpenAPINullablesSetToNull();
+            $index = array_search('icon', $nullablesSetToNull);
+            if ($index !== FALSE) {
+                unset($nullablesSetToNull[$index]);
+                $this->setOpenAPINullablesSetToNull($nullablesSetToNull);
+            }
+        }
+        $this->container['icon'] = $icon;
+
+        return $this;
+    }
+
+    /**
      * Gets title
      *
      * @return string
@@ -339,7 +370,7 @@ class PushNotificationAction implements ModelInterface, ArrayAccess, \JsonSerial
     /**
      * Sets title
      *
-     * @param string $title Button title displayed in iOS expanded notification UI.
+     * @param string $title title
      *
      * @return self
      */
@@ -354,90 +385,9 @@ class PushNotificationAction implements ModelInterface, ArrayAccess, \JsonSerial
     }
 
     /**
-     * Gets type
-     *
-     * @return \ActivitySmith\Generated\Model\PushNotificationActionType
-     */
-    public function getType()
-    {
-        return $this->container['type'];
-    }
-
-    /**
-     * Sets type
-     *
-     * @param \ActivitySmith\Generated\Model\PushNotificationActionType $type type
-     *
-     * @return self
-     */
-    public function setType($type)
-    {
-        if (is_null($type)) {
-            throw new \InvalidArgumentException('non-nullable type cannot be null');
-        }
-        $this->container['type'] = $type;
-
-        return $this;
-    }
-
-    /**
-     * Gets url
-     *
-     * @return string
-     */
-    public function getUrl()
-    {
-        return $this->container['url'];
-    }
-
-    /**
-     * Sets url
-     *
-     * @param string $url Action URL. For open_url, use HTTP, HTTPS, Shortcuts, or an installed app’s custom URL scheme, such as spotify:// or spotify:track:123. Custom app schemes require iOS 1.13.4 build 2 or later; no web fallback is provided. Internal and executable schemes are blocked. For webhook, use an HTTPS URL called by the ActivitySmith backend.
-     *
-     * @return self
-     */
-    public function setUrl($url)
-    {
-        if (is_null($url)) {
-            throw new \InvalidArgumentException('non-nullable url cannot be null');
-        }
-        $this->container['url'] = $url;
-
-        return $this;
-    }
-
-    /**
-     * Gets method
-     *
-     * @return \ActivitySmith\Generated\Model\PushNotificationWebhookMethod|null
-     */
-    public function getMethod()
-    {
-        return $this->container['method'];
-    }
-
-    /**
-     * Sets method
-     *
-     * @param \ActivitySmith\Generated\Model\PushNotificationWebhookMethod|null $method Webhook HTTP method. Used only when type=webhook.
-     *
-     * @return self
-     */
-    public function setMethod($method)
-    {
-        if (is_null($method)) {
-            throw new \InvalidArgumentException('non-nullable method cannot be null');
-        }
-        $this->container['method'] = $method;
-
-        return $this;
-    }
-
-    /**
      * Gets body
      *
-     * @return object|null
+     * @return string
      */
     public function getBody()
     {
@@ -447,7 +397,7 @@ class PushNotificationAction implements ModelInterface, ArrayAccess, \JsonSerial
     /**
      * Sets body
      *
-     * @param object|null $body Optional webhook payload body. Used only when type=webhook.
+     * @param string $body body
      *
      * @return self
      */
@@ -457,6 +407,74 @@ class PushNotificationAction implements ModelInterface, ArrayAccess, \JsonSerial
             throw new \InvalidArgumentException('non-nullable body cannot be null');
         }
         $this->container['body'] = $body;
+
+        return $this;
+    }
+
+    /**
+     * Gets imageUrl
+     *
+     * @return string|null
+     */
+    public function getImageUrl()
+    {
+        return $this->container['imageUrl'];
+    }
+
+    /**
+     * Sets imageUrl
+     *
+     * @param string|null $imageUrl imageUrl
+     *
+     * @return self
+     */
+    public function setImageUrl($imageUrl)
+    {
+        if (is_null($imageUrl)) {
+            array_push($this->openAPINullablesSetToNull, 'imageUrl');
+        } else {
+            $nullablesSetToNull = $this->getOpenAPINullablesSetToNull();
+            $index = array_search('imageUrl', $nullablesSetToNull);
+            if ($index !== FALSE) {
+                unset($nullablesSetToNull[$index]);
+                $this->setOpenAPINullablesSetToNull($nullablesSetToNull);
+            }
+        }
+        $this->container['imageUrl'] = $imageUrl;
+
+        return $this;
+    }
+
+    /**
+     * Gets accentColor
+     *
+     * @return string|null
+     */
+    public function getAccentColor()
+    {
+        return $this->container['accentColor'];
+    }
+
+    /**
+     * Sets accentColor
+     *
+     * @param string|null $accentColor accentColor
+     *
+     * @return self
+     */
+    public function setAccentColor($accentColor)
+    {
+        if (is_null($accentColor)) {
+            array_push($this->openAPINullablesSetToNull, 'accentColor');
+        } else {
+            $nullablesSetToNull = $this->getOpenAPINullablesSetToNull();
+            $index = array_search('accentColor', $nullablesSetToNull);
+            if ($index !== FALSE) {
+                unset($nullablesSetToNull[$index]);
+                $this->setOpenAPINullablesSetToNull($nullablesSetToNull);
+            }
+        }
+        $this->container['accentColor'] = $accentColor;
 
         return $this;
     }

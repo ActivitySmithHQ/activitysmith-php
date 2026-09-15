@@ -57,6 +57,7 @@ class PushNotificationRequest implements ModelInterface, ArrayAccess, \JsonSeria
       * @var string[]
       */
     protected static $openAPITypes = [
+        'metadata' => 'array<string,\ActivitySmith\Generated\Model\MetadataValue>',
         'title' => 'string',
         'message' => 'string',
         'subtitle' => 'string',
@@ -78,6 +79,7 @@ class PushNotificationRequest implements ModelInterface, ArrayAccess, \JsonSeria
       * @psalm-var array<string, string|null>
       */
     protected static $openAPIFormats = [
+        'metadata' => null,
         'title' => null,
         'message' => null,
         'subtitle' => null,
@@ -97,6 +99,7 @@ class PushNotificationRequest implements ModelInterface, ArrayAccess, \JsonSeria
       * @var boolean[]
       */
     protected static array $openAPINullables = [
+        'metadata' => false,
         'title' => false,
         'message' => false,
         'subtitle' => false,
@@ -196,6 +199,7 @@ class PushNotificationRequest implements ModelInterface, ArrayAccess, \JsonSeria
      * @var string[]
      */
     protected static $attributeMap = [
+        'metadata' => 'metadata',
         'title' => 'title',
         'message' => 'message',
         'subtitle' => 'subtitle',
@@ -215,6 +219,7 @@ class PushNotificationRequest implements ModelInterface, ArrayAccess, \JsonSeria
      * @var string[]
      */
     protected static $setters = [
+        'metadata' => 'setMetadata',
         'title' => 'setTitle',
         'message' => 'setMessage',
         'subtitle' => 'setSubtitle',
@@ -234,6 +239,7 @@ class PushNotificationRequest implements ModelInterface, ArrayAccess, \JsonSeria
      * @var string[]
      */
     protected static $getters = [
+        'metadata' => 'getMetadata',
         'title' => 'getTitle',
         'message' => 'getMessage',
         'subtitle' => 'getSubtitle',
@@ -304,6 +310,7 @@ class PushNotificationRequest implements ModelInterface, ArrayAccess, \JsonSeria
      */
     public function __construct(array $data = null)
     {
+        $this->setIfExists('metadata', $data ?? [], null);
         $this->setIfExists('title', $data ?? [], null);
         $this->setIfExists('message', $data ?? [], null);
         $this->setIfExists('subtitle', $data ?? [], null);
@@ -344,6 +351,10 @@ class PushNotificationRequest implements ModelInterface, ArrayAccess, \JsonSeria
     {
         $invalidProperties = [];
 
+        if (!is_null($this->container['metadata']) && (count($this->container['metadata']) > 50)) {
+            $invalidProperties[] = "invalid value for 'metadata', number of items must be less than or equal to 50.";
+        }
+
         if ($this->container['title'] === null) {
             $invalidProperties[] = "'title' can't be null";
         }
@@ -351,8 +362,12 @@ class PushNotificationRequest implements ModelInterface, ArrayAccess, \JsonSeria
             $invalidProperties[] = "invalid value for 'media', must be conform to the pattern /^https:\/\//.";
         }
 
-        if (!is_null($this->container['redirection']) && !preg_match("/^(http|https|shortcuts):\/\//", $this->container['redirection'])) {
-            $invalidProperties[] = "invalid value for 'redirection', must be conform to the pattern /^(http|https|shortcuts):\/\//.";
+        if (!is_null($this->container['redirection']) && (mb_strlen($this->container['redirection']) > 2048)) {
+            $invalidProperties[] = "invalid value for 'redirection', the character length must be smaller than or equal to 2048.";
+        }
+
+        if (!is_null($this->container['redirection']) && !preg_match("/^[A-Za-z][A-Za-z0-9+.-]*:/", $this->container['redirection'])) {
+            $invalidProperties[] = "invalid value for 'redirection', must be conform to the pattern /^[A-Za-z][A-Za-z0-9+.-]*:/.";
         }
 
         if (!is_null($this->container['actions']) && (count($this->container['actions']) > 4)) {
@@ -373,6 +388,37 @@ class PushNotificationRequest implements ModelInterface, ArrayAccess, \JsonSeria
         return count($this->listInvalidProperties()) === 0;
     }
 
+
+    /**
+     * Gets metadata
+     *
+     * @return array<string,\ActivitySmith\Generated\Model\MetadataValue>|null
+     */
+    public function getMetadata()
+    {
+        return $this->container['metadata'];
+    }
+
+    /**
+     * Sets metadata
+     *
+     * @param array<string,\ActivitySmith\Generated\Model\MetadataValue>|null $metadata Additional information shown in notification and Live Activity details in ActivitySmith. Not displayed in the Push Notification or Live Activity on the device. Values must be strings, finite numbers, or booleans. At most 50 entries and 16 KB of serialized UTF-8 JSON. Omit on updates to preserve existing Metadata; send {} to clear it.
+     *
+     * @return self
+     */
+    public function setMetadata($metadata)
+    {
+        if (is_null($metadata)) {
+            throw new \InvalidArgumentException('non-nullable metadata cannot be null');
+        }
+
+        if ((count($metadata) > 50)) {
+            throw new \InvalidArgumentException('invalid value for $metadata when calling PushNotificationRequest., number of items must be less than or equal to 50.');
+        }
+        $this->container['metadata'] = $metadata;
+
+        return $this;
+    }
 
     /**
      * Gets title
@@ -500,7 +546,7 @@ class PushNotificationRequest implements ModelInterface, ArrayAccess, \JsonSeria
     /**
      * Sets redirection
      *
-     * @param string|null $redirection Optional HTTP URL, HTTPS URL, or shortcuts://run-shortcut?name=... URL opened when the user taps the notification body. Use shortcuts://run-shortcut?name=... to run a specific iPhone Shortcut that already exists on the user's device. Overrides the default tap target from `media` when both are provided.
+     * @param string|null $redirection Optional HTTP, HTTPS, Shortcuts, or installed app URL opened when the user taps the notification body. Custom schemes such as spotify:// and spotify:track:123 require iOS 1.13.4 build 2 or later and an installed handler; no web fallback is provided. Internal and executable schemes are blocked. Overrides the default tap target from media.
      *
      * @return self
      */
@@ -509,9 +555,11 @@ class PushNotificationRequest implements ModelInterface, ArrayAccess, \JsonSeria
         if (is_null($redirection)) {
             throw new \InvalidArgumentException('non-nullable redirection cannot be null');
         }
-
-        if ((!preg_match("/^(http|https|shortcuts):\/\//", ObjectSerializer::toString($redirection)))) {
-            throw new \InvalidArgumentException("invalid value for \$redirection when calling PushNotificationRequest., must conform to the pattern /^(http|https|shortcuts):\/\//.");
+        if ((mb_strlen($redirection) > 2048)) {
+            throw new \InvalidArgumentException('invalid length for $redirection when calling PushNotificationRequest., must be smaller than or equal to 2048.');
+        }
+        if ((!preg_match("/^[A-Za-z][A-Za-z0-9+.-]*:/", ObjectSerializer::toString($redirection)))) {
+            throw new \InvalidArgumentException("invalid value for \$redirection when calling PushNotificationRequest., must conform to the pattern /^[A-Za-z][A-Za-z0-9+.-]*:/.");
         }
 
         $this->container['redirection'] = $redirection;

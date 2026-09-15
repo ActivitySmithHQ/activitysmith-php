@@ -1,6 +1,6 @@
 <?php
 /**
- * PushNotificationAction
+ * HealthCheck
  *
  * PHP version 7.4
  *
@@ -32,7 +32,7 @@ use \ArrayAccess;
 use \ActivitySmith\Generated\ObjectSerializer;
 
 /**
- * PushNotificationAction Class Doc Comment
+ * HealthCheck Class Doc Comment
  *
  * @category Class
  * @package  ActivitySmith\Generated
@@ -40,7 +40,7 @@ use \ActivitySmith\Generated\ObjectSerializer;
  * @link     https://openapi-generator.tech
  * @implements \ArrayAccess<string, mixed>
  */
-class PushNotificationAction implements ModelInterface, ArrayAccess, \JsonSerializable
+class HealthCheck implements ModelInterface, ArrayAccess, \JsonSerializable
 {
     public const DISCRIMINATOR = null;
 
@@ -49,7 +49,7 @@ class PushNotificationAction implements ModelInterface, ArrayAccess, \JsonSerial
       *
       * @var string
       */
-    protected static $openAPIModelName = 'PushNotificationAction';
+    protected static $openAPIModelName = 'HealthCheck';
 
     /**
       * Array of property to type mappings. Used for (de)serialization
@@ -57,11 +57,9 @@ class PushNotificationAction implements ModelInterface, ArrayAccess, \JsonSerial
       * @var string[]
       */
     protected static $openAPITypes = [
-        'title' => 'string',
-        'type' => '\ActivitySmith\Generated\Model\PushNotificationActionType',
-        'url' => 'string',
-        'method' => '\ActivitySmith\Generated\Model\PushNotificationWebhookMethod',
-        'body' => 'object'
+        'name' => 'string',
+        'status' => 'string',
+        'durationMs' => 'int'
     ];
 
     /**
@@ -72,11 +70,9 @@ class PushNotificationAction implements ModelInterface, ArrayAccess, \JsonSerial
       * @psalm-var array<string, string|null>
       */
     protected static $openAPIFormats = [
-        'title' => null,
-        'type' => null,
-        'url' => 'uri',
-        'method' => null,
-        'body' => null
+        'name' => null,
+        'status' => null,
+        'durationMs' => null
     ];
 
     /**
@@ -85,11 +81,9 @@ class PushNotificationAction implements ModelInterface, ArrayAccess, \JsonSerial
       * @var boolean[]
       */
     protected static array $openAPINullables = [
-        'title' => false,
-        'type' => false,
-        'url' => false,
-        'method' => false,
-        'body' => false
+        'name' => false,
+        'status' => false,
+        'durationMs' => false
     ];
 
     /**
@@ -178,11 +172,9 @@ class PushNotificationAction implements ModelInterface, ArrayAccess, \JsonSerial
      * @var string[]
      */
     protected static $attributeMap = [
-        'title' => 'title',
-        'type' => 'type',
-        'url' => 'url',
-        'method' => 'method',
-        'body' => 'body'
+        'name' => 'name',
+        'status' => 'status',
+        'durationMs' => 'duration_ms'
     ];
 
     /**
@@ -191,11 +183,9 @@ class PushNotificationAction implements ModelInterface, ArrayAccess, \JsonSerial
      * @var string[]
      */
     protected static $setters = [
-        'title' => 'setTitle',
-        'type' => 'setType',
-        'url' => 'setUrl',
-        'method' => 'setMethod',
-        'body' => 'setBody'
+        'name' => 'setName',
+        'status' => 'setStatus',
+        'durationMs' => 'setDurationMs'
     ];
 
     /**
@@ -204,11 +194,9 @@ class PushNotificationAction implements ModelInterface, ArrayAccess, \JsonSerial
      * @var string[]
      */
     protected static $getters = [
-        'title' => 'getTitle',
-        'type' => 'getType',
-        'url' => 'getUrl',
-        'method' => 'getMethod',
-        'body' => 'getBody'
+        'name' => 'getName',
+        'status' => 'getStatus',
+        'durationMs' => 'getDurationMs'
     ];
 
     /**
@@ -252,6 +240,36 @@ class PushNotificationAction implements ModelInterface, ArrayAccess, \JsonSerial
         return self::$openAPIModelName;
     }
 
+    public const NAME_DATABASE = 'database';
+    public const NAME_REDIS = 'redis';
+    public const STATUS_OK = 'ok';
+    public const STATUS_FAILED = 'failed';
+
+    /**
+     * Gets allowable values of the enum
+     *
+     * @return string[]
+     */
+    public function getNameAllowableValues()
+    {
+        return [
+            self::NAME_DATABASE,
+            self::NAME_REDIS,
+        ];
+    }
+
+    /**
+     * Gets allowable values of the enum
+     *
+     * @return string[]
+     */
+    public function getStatusAllowableValues()
+    {
+        return [
+            self::STATUS_OK,
+            self::STATUS_FAILED,
+        ];
+    }
 
     /**
      * Associative array for storing property values
@@ -268,11 +286,9 @@ class PushNotificationAction implements ModelInterface, ArrayAccess, \JsonSerial
      */
     public function __construct(array $data = null)
     {
-        $this->setIfExists('title', $data ?? [], null);
-        $this->setIfExists('type', $data ?? [], null);
-        $this->setIfExists('url', $data ?? [], null);
-        $this->setIfExists('method', $data ?? [], null);
-        $this->setIfExists('body', $data ?? [], null);
+        $this->setIfExists('name', $data ?? [], null);
+        $this->setIfExists('status', $data ?? [], null);
+        $this->setIfExists('durationMs', $data ?? [], null);
     }
 
     /**
@@ -302,15 +318,37 @@ class PushNotificationAction implements ModelInterface, ArrayAccess, \JsonSerial
     {
         $invalidProperties = [];
 
-        if ($this->container['title'] === null) {
-            $invalidProperties[] = "'title' can't be null";
+        if ($this->container['name'] === null) {
+            $invalidProperties[] = "'name' can't be null";
         }
-        if ($this->container['type'] === null) {
-            $invalidProperties[] = "'type' can't be null";
+        $allowedValues = $this->getNameAllowableValues();
+        if (!is_null($this->container['name']) && !in_array($this->container['name'], $allowedValues, true)) {
+            $invalidProperties[] = sprintf(
+                "invalid value '%s' for 'name', must be one of '%s'",
+                $this->container['name'],
+                implode("', '", $allowedValues)
+            );
         }
-        if ($this->container['url'] === null) {
-            $invalidProperties[] = "'url' can't be null";
+
+        if ($this->container['status'] === null) {
+            $invalidProperties[] = "'status' can't be null";
         }
+        $allowedValues = $this->getStatusAllowableValues();
+        if (!is_null($this->container['status']) && !in_array($this->container['status'], $allowedValues, true)) {
+            $invalidProperties[] = sprintf(
+                "invalid value '%s' for 'status', must be one of '%s'",
+                $this->container['status'],
+                implode("', '", $allowedValues)
+            );
+        }
+
+        if ($this->container['durationMs'] === null) {
+            $invalidProperties[] = "'durationMs' can't be null";
+        }
+        if (($this->container['durationMs'] < 0)) {
+            $invalidProperties[] = "invalid value for 'durationMs', must be bigger than or equal to 0.";
+        }
+
         return $invalidProperties;
     }
 
@@ -327,136 +365,107 @@ class PushNotificationAction implements ModelInterface, ArrayAccess, \JsonSerial
 
 
     /**
-     * Gets title
+     * Gets name
      *
      * @return string
      */
-    public function getTitle()
+    public function getName()
     {
-        return $this->container['title'];
+        return $this->container['name'];
     }
 
     /**
-     * Sets title
+     * Sets name
      *
-     * @param string $title Button title displayed in iOS expanded notification UI.
+     * @param string $name name
      *
      * @return self
      */
-    public function setTitle($title)
+    public function setName($name)
     {
-        if (is_null($title)) {
-            throw new \InvalidArgumentException('non-nullable title cannot be null');
+        if (is_null($name)) {
+            throw new \InvalidArgumentException('non-nullable name cannot be null');
         }
-        $this->container['title'] = $title;
+        $allowedValues = $this->getNameAllowableValues();
+        if (!in_array($name, $allowedValues, true)) {
+            throw new \InvalidArgumentException(
+                sprintf(
+                    "Invalid value '%s' for 'name', must be one of '%s'",
+                    $name,
+                    implode("', '", $allowedValues)
+                )
+            );
+        }
+        $this->container['name'] = $name;
 
         return $this;
     }
 
     /**
-     * Gets type
-     *
-     * @return \ActivitySmith\Generated\Model\PushNotificationActionType
-     */
-    public function getType()
-    {
-        return $this->container['type'];
-    }
-
-    /**
-     * Sets type
-     *
-     * @param \ActivitySmith\Generated\Model\PushNotificationActionType $type type
-     *
-     * @return self
-     */
-    public function setType($type)
-    {
-        if (is_null($type)) {
-            throw new \InvalidArgumentException('non-nullable type cannot be null');
-        }
-        $this->container['type'] = $type;
-
-        return $this;
-    }
-
-    /**
-     * Gets url
+     * Gets status
      *
      * @return string
      */
-    public function getUrl()
+    public function getStatus()
     {
-        return $this->container['url'];
+        return $this->container['status'];
     }
 
     /**
-     * Sets url
+     * Sets status
      *
-     * @param string $url Action URL. For open_url, use HTTP, HTTPS, Shortcuts, or an installed app’s custom URL scheme, such as spotify:// or spotify:track:123. Custom app schemes require iOS 1.13.4 build 2 or later; no web fallback is provided. Internal and executable schemes are blocked. For webhook, use an HTTPS URL called by the ActivitySmith backend.
+     * @param string $status status
      *
      * @return self
      */
-    public function setUrl($url)
+    public function setStatus($status)
     {
-        if (is_null($url)) {
-            throw new \InvalidArgumentException('non-nullable url cannot be null');
+        if (is_null($status)) {
+            throw new \InvalidArgumentException('non-nullable status cannot be null');
         }
-        $this->container['url'] = $url;
+        $allowedValues = $this->getStatusAllowableValues();
+        if (!in_array($status, $allowedValues, true)) {
+            throw new \InvalidArgumentException(
+                sprintf(
+                    "Invalid value '%s' for 'status', must be one of '%s'",
+                    $status,
+                    implode("', '", $allowedValues)
+                )
+            );
+        }
+        $this->container['status'] = $status;
 
         return $this;
     }
 
     /**
-     * Gets method
+     * Gets durationMs
      *
-     * @return \ActivitySmith\Generated\Model\PushNotificationWebhookMethod|null
+     * @return int
      */
-    public function getMethod()
+    public function getDurationMs()
     {
-        return $this->container['method'];
+        return $this->container['durationMs'];
     }
 
     /**
-     * Sets method
+     * Sets durationMs
      *
-     * @param \ActivitySmith\Generated\Model\PushNotificationWebhookMethod|null $method Webhook HTTP method. Used only when type=webhook.
+     * @param int $durationMs durationMs
      *
      * @return self
      */
-    public function setMethod($method)
+    public function setDurationMs($durationMs)
     {
-        if (is_null($method)) {
-            throw new \InvalidArgumentException('non-nullable method cannot be null');
+        if (is_null($durationMs)) {
+            throw new \InvalidArgumentException('non-nullable durationMs cannot be null');
         }
-        $this->container['method'] = $method;
 
-        return $this;
-    }
-
-    /**
-     * Gets body
-     *
-     * @return object|null
-     */
-    public function getBody()
-    {
-        return $this->container['body'];
-    }
-
-    /**
-     * Sets body
-     *
-     * @param object|null $body Optional webhook payload body. Used only when type=webhook.
-     *
-     * @return self
-     */
-    public function setBody($body)
-    {
-        if (is_null($body)) {
-            throw new \InvalidArgumentException('non-nullable body cannot be null');
+        if (($durationMs < 0)) {
+            throw new \InvalidArgumentException('invalid value for $durationMs when calling HealthCheck., must be bigger than or equal to 0.');
         }
-        $this->container['body'] = $body;
+
+        $this->container['durationMs'] = $durationMs;
 
         return $this;
     }

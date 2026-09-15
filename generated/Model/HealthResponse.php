@@ -1,6 +1,6 @@
 <?php
 /**
- * PushNotificationAction
+ * HealthResponse
  *
  * PHP version 7.4
  *
@@ -32,7 +32,7 @@ use \ArrayAccess;
 use \ActivitySmith\Generated\ObjectSerializer;
 
 /**
- * PushNotificationAction Class Doc Comment
+ * HealthResponse Class Doc Comment
  *
  * @category Class
  * @package  ActivitySmith\Generated
@@ -40,7 +40,7 @@ use \ActivitySmith\Generated\ObjectSerializer;
  * @link     https://openapi-generator.tech
  * @implements \ArrayAccess<string, mixed>
  */
-class PushNotificationAction implements ModelInterface, ArrayAccess, \JsonSerializable
+class HealthResponse implements ModelInterface, ArrayAccess, \JsonSerializable
 {
     public const DISCRIMINATOR = null;
 
@@ -49,7 +49,7 @@ class PushNotificationAction implements ModelInterface, ArrayAccess, \JsonSerial
       *
       * @var string
       */
-    protected static $openAPIModelName = 'PushNotificationAction';
+    protected static $openAPIModelName = 'HealthResponse';
 
     /**
       * Array of property to type mappings. Used for (de)serialization
@@ -57,11 +57,10 @@ class PushNotificationAction implements ModelInterface, ArrayAccess, \JsonSerial
       * @var string[]
       */
     protected static $openAPITypes = [
-        'title' => 'string',
-        'type' => '\ActivitySmith\Generated\Model\PushNotificationActionType',
-        'url' => 'string',
-        'method' => '\ActivitySmith\Generated\Model\PushNotificationWebhookMethod',
-        'body' => 'object'
+        'ok' => 'bool',
+        'service' => 'string',
+        'timestamp' => '\DateTime',
+        'checks' => '\ActivitySmith\Generated\Model\HealthCheck[]'
     ];
 
     /**
@@ -72,11 +71,10 @@ class PushNotificationAction implements ModelInterface, ArrayAccess, \JsonSerial
       * @psalm-var array<string, string|null>
       */
     protected static $openAPIFormats = [
-        'title' => null,
-        'type' => null,
-        'url' => 'uri',
-        'method' => null,
-        'body' => null
+        'ok' => null,
+        'service' => null,
+        'timestamp' => 'date-time',
+        'checks' => null
     ];
 
     /**
@@ -85,11 +83,10 @@ class PushNotificationAction implements ModelInterface, ArrayAccess, \JsonSerial
       * @var boolean[]
       */
     protected static array $openAPINullables = [
-        'title' => false,
-        'type' => false,
-        'url' => false,
-        'method' => false,
-        'body' => false
+        'ok' => false,
+        'service' => false,
+        'timestamp' => false,
+        'checks' => false
     ];
 
     /**
@@ -178,11 +175,10 @@ class PushNotificationAction implements ModelInterface, ArrayAccess, \JsonSerial
      * @var string[]
      */
     protected static $attributeMap = [
-        'title' => 'title',
-        'type' => 'type',
-        'url' => 'url',
-        'method' => 'method',
-        'body' => 'body'
+        'ok' => 'ok',
+        'service' => 'service',
+        'timestamp' => 'timestamp',
+        'checks' => 'checks'
     ];
 
     /**
@@ -191,11 +187,10 @@ class PushNotificationAction implements ModelInterface, ArrayAccess, \JsonSerial
      * @var string[]
      */
     protected static $setters = [
-        'title' => 'setTitle',
-        'type' => 'setType',
-        'url' => 'setUrl',
-        'method' => 'setMethod',
-        'body' => 'setBody'
+        'ok' => 'setOk',
+        'service' => 'setService',
+        'timestamp' => 'setTimestamp',
+        'checks' => 'setChecks'
     ];
 
     /**
@@ -204,11 +199,10 @@ class PushNotificationAction implements ModelInterface, ArrayAccess, \JsonSerial
      * @var string[]
      */
     protected static $getters = [
-        'title' => 'getTitle',
-        'type' => 'getType',
-        'url' => 'getUrl',
-        'method' => 'getMethod',
-        'body' => 'getBody'
+        'ok' => 'getOk',
+        'service' => 'getService',
+        'timestamp' => 'getTimestamp',
+        'checks' => 'getChecks'
     ];
 
     /**
@@ -268,11 +262,10 @@ class PushNotificationAction implements ModelInterface, ArrayAccess, \JsonSerial
      */
     public function __construct(array $data = null)
     {
-        $this->setIfExists('title', $data ?? [], null);
-        $this->setIfExists('type', $data ?? [], null);
-        $this->setIfExists('url', $data ?? [], null);
-        $this->setIfExists('method', $data ?? [], null);
-        $this->setIfExists('body', $data ?? [], null);
+        $this->setIfExists('ok', $data ?? [], null);
+        $this->setIfExists('service', $data ?? [], null);
+        $this->setIfExists('timestamp', $data ?? [], null);
+        $this->setIfExists('checks', $data ?? [], null);
     }
 
     /**
@@ -302,14 +295,17 @@ class PushNotificationAction implements ModelInterface, ArrayAccess, \JsonSerial
     {
         $invalidProperties = [];
 
-        if ($this->container['title'] === null) {
-            $invalidProperties[] = "'title' can't be null";
+        if ($this->container['ok'] === null) {
+            $invalidProperties[] = "'ok' can't be null";
         }
-        if ($this->container['type'] === null) {
-            $invalidProperties[] = "'type' can't be null";
+        if ($this->container['service'] === null) {
+            $invalidProperties[] = "'service' can't be null";
         }
-        if ($this->container['url'] === null) {
-            $invalidProperties[] = "'url' can't be null";
+        if ($this->container['timestamp'] === null) {
+            $invalidProperties[] = "'timestamp' can't be null";
+        }
+        if ($this->container['checks'] === null) {
+            $invalidProperties[] = "'checks' can't be null";
         }
         return $invalidProperties;
     }
@@ -327,136 +323,109 @@ class PushNotificationAction implements ModelInterface, ArrayAccess, \JsonSerial
 
 
     /**
-     * Gets title
+     * Gets ok
+     *
+     * @return bool
+     */
+    public function getOk()
+    {
+        return $this->container['ok'];
+    }
+
+    /**
+     * Sets ok
+     *
+     * @param bool $ok ok
+     *
+     * @return self
+     */
+    public function setOk($ok)
+    {
+        if (is_null($ok)) {
+            throw new \InvalidArgumentException('non-nullable ok cannot be null');
+        }
+        $this->container['ok'] = $ok;
+
+        return $this;
+    }
+
+    /**
+     * Gets service
      *
      * @return string
      */
-    public function getTitle()
+    public function getService()
     {
-        return $this->container['title'];
+        return $this->container['service'];
     }
 
     /**
-     * Sets title
+     * Sets service
      *
-     * @param string $title Button title displayed in iOS expanded notification UI.
+     * @param string $service service
      *
      * @return self
      */
-    public function setTitle($title)
+    public function setService($service)
     {
-        if (is_null($title)) {
-            throw new \InvalidArgumentException('non-nullable title cannot be null');
+        if (is_null($service)) {
+            throw new \InvalidArgumentException('non-nullable service cannot be null');
         }
-        $this->container['title'] = $title;
+        $this->container['service'] = $service;
 
         return $this;
     }
 
     /**
-     * Gets type
+     * Gets timestamp
      *
-     * @return \ActivitySmith\Generated\Model\PushNotificationActionType
+     * @return \DateTime
      */
-    public function getType()
+    public function getTimestamp()
     {
-        return $this->container['type'];
+        return $this->container['timestamp'];
     }
 
     /**
-     * Sets type
+     * Sets timestamp
      *
-     * @param \ActivitySmith\Generated\Model\PushNotificationActionType $type type
+     * @param \DateTime $timestamp timestamp
      *
      * @return self
      */
-    public function setType($type)
+    public function setTimestamp($timestamp)
     {
-        if (is_null($type)) {
-            throw new \InvalidArgumentException('non-nullable type cannot be null');
+        if (is_null($timestamp)) {
+            throw new \InvalidArgumentException('non-nullable timestamp cannot be null');
         }
-        $this->container['type'] = $type;
+        $this->container['timestamp'] = $timestamp;
 
         return $this;
     }
 
     /**
-     * Gets url
+     * Gets checks
      *
-     * @return string
+     * @return \ActivitySmith\Generated\Model\HealthCheck[]
      */
-    public function getUrl()
+    public function getChecks()
     {
-        return $this->container['url'];
+        return $this->container['checks'];
     }
 
     /**
-     * Sets url
+     * Sets checks
      *
-     * @param string $url Action URL. For open_url, use HTTP, HTTPS, Shortcuts, or an installed app’s custom URL scheme, such as spotify:// or spotify:track:123. Custom app schemes require iOS 1.13.4 build 2 or later; no web fallback is provided. Internal and executable schemes are blocked. For webhook, use an HTTPS URL called by the ActivitySmith backend.
+     * @param \ActivitySmith\Generated\Model\HealthCheck[] $checks checks
      *
      * @return self
      */
-    public function setUrl($url)
+    public function setChecks($checks)
     {
-        if (is_null($url)) {
-            throw new \InvalidArgumentException('non-nullable url cannot be null');
+        if (is_null($checks)) {
+            throw new \InvalidArgumentException('non-nullable checks cannot be null');
         }
-        $this->container['url'] = $url;
-
-        return $this;
-    }
-
-    /**
-     * Gets method
-     *
-     * @return \ActivitySmith\Generated\Model\PushNotificationWebhookMethod|null
-     */
-    public function getMethod()
-    {
-        return $this->container['method'];
-    }
-
-    /**
-     * Sets method
-     *
-     * @param \ActivitySmith\Generated\Model\PushNotificationWebhookMethod|null $method Webhook HTTP method. Used only when type=webhook.
-     *
-     * @return self
-     */
-    public function setMethod($method)
-    {
-        if (is_null($method)) {
-            throw new \InvalidArgumentException('non-nullable method cannot be null');
-        }
-        $this->container['method'] = $method;
-
-        return $this;
-    }
-
-    /**
-     * Gets body
-     *
-     * @return object|null
-     */
-    public function getBody()
-    {
-        return $this->container['body'];
-    }
-
-    /**
-     * Sets body
-     *
-     * @param object|null $body Optional webhook payload body. Used only when type=webhook.
-     *
-     * @return self
-     */
-    public function setBody($body)
-    {
-        if (is_null($body)) {
-            throw new \InvalidArgumentException('non-nullable body cannot be null');
-        }
-        $this->container['body'] = $body;
+        $this->container['checks'] = $checks;
 
         return $this;
     }

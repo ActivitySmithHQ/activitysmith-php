@@ -1,6 +1,6 @@
 <?php
 /**
- * PushNotificationAction
+ * ChangelogEntry
  *
  * PHP version 7.4
  *
@@ -32,7 +32,7 @@ use \ArrayAccess;
 use \ActivitySmith\Generated\ObjectSerializer;
 
 /**
- * PushNotificationAction Class Doc Comment
+ * ChangelogEntry Class Doc Comment
  *
  * @category Class
  * @package  ActivitySmith\Generated
@@ -40,7 +40,7 @@ use \ActivitySmith\Generated\ObjectSerializer;
  * @link     https://openapi-generator.tech
  * @implements \ArrayAccess<string, mixed>
  */
-class PushNotificationAction implements ModelInterface, ArrayAccess, \JsonSerializable
+class ChangelogEntry implements ModelInterface, ArrayAccess, \JsonSerializable
 {
     public const DISCRIMINATOR = null;
 
@@ -49,7 +49,7 @@ class PushNotificationAction implements ModelInterface, ArrayAccess, \JsonSerial
       *
       * @var string
       */
-    protected static $openAPIModelName = 'PushNotificationAction';
+    protected static $openAPIModelName = 'ChangelogEntry';
 
     /**
       * Array of property to type mappings. Used for (de)serialization
@@ -57,11 +57,15 @@ class PushNotificationAction implements ModelInterface, ArrayAccess, \JsonSerial
       * @var string[]
       */
     protected static $openAPITypes = [
+        'id' => 'string',
+        'platform' => 'string',
+        'version' => 'string',
         'title' => 'string',
-        'type' => '\ActivitySmith\Generated\Model\PushNotificationActionType',
-        'url' => 'string',
-        'method' => '\ActivitySmith\Generated\Model\PushNotificationWebhookMethod',
-        'body' => 'object'
+        'subtitle' => 'string',
+        'heroImageUrl' => 'string',
+        'ctaTitle' => 'string',
+        'publishedAt' => '\DateTime',
+        'items' => '\ActivitySmith\Generated\Model\ChangelogItem[]'
     ];
 
     /**
@@ -72,11 +76,15 @@ class PushNotificationAction implements ModelInterface, ArrayAccess, \JsonSerial
       * @psalm-var array<string, string|null>
       */
     protected static $openAPIFormats = [
+        'id' => null,
+        'platform' => null,
+        'version' => null,
         'title' => null,
-        'type' => null,
-        'url' => 'uri',
-        'method' => null,
-        'body' => null
+        'subtitle' => null,
+        'heroImageUrl' => 'uri',
+        'ctaTitle' => null,
+        'publishedAt' => 'date-time',
+        'items' => null
     ];
 
     /**
@@ -85,11 +93,15 @@ class PushNotificationAction implements ModelInterface, ArrayAccess, \JsonSerial
       * @var boolean[]
       */
     protected static array $openAPINullables = [
+        'id' => false,
+        'platform' => false,
+        'version' => false,
         'title' => false,
-        'type' => false,
-        'url' => false,
-        'method' => false,
-        'body' => false
+        'subtitle' => true,
+        'heroImageUrl' => true,
+        'ctaTitle' => false,
+        'publishedAt' => true,
+        'items' => false
     ];
 
     /**
@@ -178,11 +190,15 @@ class PushNotificationAction implements ModelInterface, ArrayAccess, \JsonSerial
      * @var string[]
      */
     protected static $attributeMap = [
+        'id' => 'id',
+        'platform' => 'platform',
+        'version' => 'version',
         'title' => 'title',
-        'type' => 'type',
-        'url' => 'url',
-        'method' => 'method',
-        'body' => 'body'
+        'subtitle' => 'subtitle',
+        'heroImageUrl' => 'hero_image_url',
+        'ctaTitle' => 'cta_title',
+        'publishedAt' => 'published_at',
+        'items' => 'items'
     ];
 
     /**
@@ -191,11 +207,15 @@ class PushNotificationAction implements ModelInterface, ArrayAccess, \JsonSerial
      * @var string[]
      */
     protected static $setters = [
+        'id' => 'setId',
+        'platform' => 'setPlatform',
+        'version' => 'setVersion',
         'title' => 'setTitle',
-        'type' => 'setType',
-        'url' => 'setUrl',
-        'method' => 'setMethod',
-        'body' => 'setBody'
+        'subtitle' => 'setSubtitle',
+        'heroImageUrl' => 'setHeroImageUrl',
+        'ctaTitle' => 'setCtaTitle',
+        'publishedAt' => 'setPublishedAt',
+        'items' => 'setItems'
     ];
 
     /**
@@ -204,11 +224,15 @@ class PushNotificationAction implements ModelInterface, ArrayAccess, \JsonSerial
      * @var string[]
      */
     protected static $getters = [
+        'id' => 'getId',
+        'platform' => 'getPlatform',
+        'version' => 'getVersion',
         'title' => 'getTitle',
-        'type' => 'getType',
-        'url' => 'getUrl',
-        'method' => 'getMethod',
-        'body' => 'getBody'
+        'subtitle' => 'getSubtitle',
+        'heroImageUrl' => 'getHeroImageUrl',
+        'ctaTitle' => 'getCtaTitle',
+        'publishedAt' => 'getPublishedAt',
+        'items' => 'getItems'
     ];
 
     /**
@@ -268,11 +292,15 @@ class PushNotificationAction implements ModelInterface, ArrayAccess, \JsonSerial
      */
     public function __construct(array $data = null)
     {
+        $this->setIfExists('id', $data ?? [], null);
+        $this->setIfExists('platform', $data ?? [], null);
+        $this->setIfExists('version', $data ?? [], null);
         $this->setIfExists('title', $data ?? [], null);
-        $this->setIfExists('type', $data ?? [], null);
-        $this->setIfExists('url', $data ?? [], null);
-        $this->setIfExists('method', $data ?? [], null);
-        $this->setIfExists('body', $data ?? [], null);
+        $this->setIfExists('subtitle', $data ?? [], null);
+        $this->setIfExists('heroImageUrl', $data ?? [], null);
+        $this->setIfExists('ctaTitle', $data ?? [], null);
+        $this->setIfExists('publishedAt', $data ?? [], null);
+        $this->setIfExists('items', $data ?? [], null);
     }
 
     /**
@@ -302,14 +330,32 @@ class PushNotificationAction implements ModelInterface, ArrayAccess, \JsonSerial
     {
         $invalidProperties = [];
 
+        if ($this->container['id'] === null) {
+            $invalidProperties[] = "'id' can't be null";
+        }
+        if ($this->container['platform'] === null) {
+            $invalidProperties[] = "'platform' can't be null";
+        }
+        if ($this->container['version'] === null) {
+            $invalidProperties[] = "'version' can't be null";
+        }
         if ($this->container['title'] === null) {
             $invalidProperties[] = "'title' can't be null";
         }
-        if ($this->container['type'] === null) {
-            $invalidProperties[] = "'type' can't be null";
+        if ($this->container['subtitle'] === null) {
+            $invalidProperties[] = "'subtitle' can't be null";
         }
-        if ($this->container['url'] === null) {
-            $invalidProperties[] = "'url' can't be null";
+        if ($this->container['heroImageUrl'] === null) {
+            $invalidProperties[] = "'heroImageUrl' can't be null";
+        }
+        if ($this->container['ctaTitle'] === null) {
+            $invalidProperties[] = "'ctaTitle' can't be null";
+        }
+        if ($this->container['publishedAt'] === null) {
+            $invalidProperties[] = "'publishedAt' can't be null";
+        }
+        if ($this->container['items'] === null) {
+            $invalidProperties[] = "'items' can't be null";
         }
         return $invalidProperties;
     }
@@ -327,6 +373,87 @@ class PushNotificationAction implements ModelInterface, ArrayAccess, \JsonSerial
 
 
     /**
+     * Gets id
+     *
+     * @return string
+     */
+    public function getId()
+    {
+        return $this->container['id'];
+    }
+
+    /**
+     * Sets id
+     *
+     * @param string $id id
+     *
+     * @return self
+     */
+    public function setId($id)
+    {
+        if (is_null($id)) {
+            throw new \InvalidArgumentException('non-nullable id cannot be null');
+        }
+        $this->container['id'] = $id;
+
+        return $this;
+    }
+
+    /**
+     * Gets platform
+     *
+     * @return string
+     */
+    public function getPlatform()
+    {
+        return $this->container['platform'];
+    }
+
+    /**
+     * Sets platform
+     *
+     * @param string $platform platform
+     *
+     * @return self
+     */
+    public function setPlatform($platform)
+    {
+        if (is_null($platform)) {
+            throw new \InvalidArgumentException('non-nullable platform cannot be null');
+        }
+        $this->container['platform'] = $platform;
+
+        return $this;
+    }
+
+    /**
+     * Gets version
+     *
+     * @return string
+     */
+    public function getVersion()
+    {
+        return $this->container['version'];
+    }
+
+    /**
+     * Sets version
+     *
+     * @param string $version version
+     *
+     * @return self
+     */
+    public function setVersion($version)
+    {
+        if (is_null($version)) {
+            throw new \InvalidArgumentException('non-nullable version cannot be null');
+        }
+        $this->container['version'] = $version;
+
+        return $this;
+    }
+
+    /**
      * Gets title
      *
      * @return string
@@ -339,7 +466,7 @@ class PushNotificationAction implements ModelInterface, ArrayAccess, \JsonSerial
     /**
      * Sets title
      *
-     * @param string $title Button title displayed in iOS expanded notification UI.
+     * @param string $title title
      *
      * @return self
      */
@@ -354,109 +481,157 @@ class PushNotificationAction implements ModelInterface, ArrayAccess, \JsonSerial
     }
 
     /**
-     * Gets type
-     *
-     * @return \ActivitySmith\Generated\Model\PushNotificationActionType
-     */
-    public function getType()
-    {
-        return $this->container['type'];
-    }
-
-    /**
-     * Sets type
-     *
-     * @param \ActivitySmith\Generated\Model\PushNotificationActionType $type type
-     *
-     * @return self
-     */
-    public function setType($type)
-    {
-        if (is_null($type)) {
-            throw new \InvalidArgumentException('non-nullable type cannot be null');
-        }
-        $this->container['type'] = $type;
-
-        return $this;
-    }
-
-    /**
-     * Gets url
+     * Gets subtitle
      *
      * @return string
      */
-    public function getUrl()
+    public function getSubtitle()
     {
-        return $this->container['url'];
+        return $this->container['subtitle'];
     }
 
     /**
-     * Sets url
+     * Sets subtitle
      *
-     * @param string $url Action URL. For open_url, use HTTP, HTTPS, Shortcuts, or an installed app’s custom URL scheme, such as spotify:// or spotify:track:123. Custom app schemes require iOS 1.13.4 build 2 or later; no web fallback is provided. Internal and executable schemes are blocked. For webhook, use an HTTPS URL called by the ActivitySmith backend.
+     * @param string $subtitle subtitle
      *
      * @return self
      */
-    public function setUrl($url)
+    public function setSubtitle($subtitle)
     {
-        if (is_null($url)) {
-            throw new \InvalidArgumentException('non-nullable url cannot be null');
+        if (is_null($subtitle)) {
+            array_push($this->openAPINullablesSetToNull, 'subtitle');
+        } else {
+            $nullablesSetToNull = $this->getOpenAPINullablesSetToNull();
+            $index = array_search('subtitle', $nullablesSetToNull);
+            if ($index !== FALSE) {
+                unset($nullablesSetToNull[$index]);
+                $this->setOpenAPINullablesSetToNull($nullablesSetToNull);
+            }
         }
-        $this->container['url'] = $url;
+        $this->container['subtitle'] = $subtitle;
 
         return $this;
     }
 
     /**
-     * Gets method
+     * Gets heroImageUrl
      *
-     * @return \ActivitySmith\Generated\Model\PushNotificationWebhookMethod|null
+     * @return string
      */
-    public function getMethod()
+    public function getHeroImageUrl()
     {
-        return $this->container['method'];
+        return $this->container['heroImageUrl'];
     }
 
     /**
-     * Sets method
+     * Sets heroImageUrl
      *
-     * @param \ActivitySmith\Generated\Model\PushNotificationWebhookMethod|null $method Webhook HTTP method. Used only when type=webhook.
+     * @param string $heroImageUrl heroImageUrl
      *
      * @return self
      */
-    public function setMethod($method)
+    public function setHeroImageUrl($heroImageUrl)
     {
-        if (is_null($method)) {
-            throw new \InvalidArgumentException('non-nullable method cannot be null');
+        if (is_null($heroImageUrl)) {
+            array_push($this->openAPINullablesSetToNull, 'heroImageUrl');
+        } else {
+            $nullablesSetToNull = $this->getOpenAPINullablesSetToNull();
+            $index = array_search('heroImageUrl', $nullablesSetToNull);
+            if ($index !== FALSE) {
+                unset($nullablesSetToNull[$index]);
+                $this->setOpenAPINullablesSetToNull($nullablesSetToNull);
+            }
         }
-        $this->container['method'] = $method;
+        $this->container['heroImageUrl'] = $heroImageUrl;
 
         return $this;
     }
 
     /**
-     * Gets body
+     * Gets ctaTitle
      *
-     * @return object|null
+     * @return string
      */
-    public function getBody()
+    public function getCtaTitle()
     {
-        return $this->container['body'];
+        return $this->container['ctaTitle'];
     }
 
     /**
-     * Sets body
+     * Sets ctaTitle
      *
-     * @param object|null $body Optional webhook payload body. Used only when type=webhook.
+     * @param string $ctaTitle ctaTitle
      *
      * @return self
      */
-    public function setBody($body)
+    public function setCtaTitle($ctaTitle)
     {
-        if (is_null($body)) {
-            throw new \InvalidArgumentException('non-nullable body cannot be null');
+        if (is_null($ctaTitle)) {
+            throw new \InvalidArgumentException('non-nullable ctaTitle cannot be null');
         }
-        $this->container['body'] = $body;
+        $this->container['ctaTitle'] = $ctaTitle;
+
+        return $this;
+    }
+
+    /**
+     * Gets publishedAt
+     *
+     * @return \DateTime
+     */
+    public function getPublishedAt()
+    {
+        return $this->container['publishedAt'];
+    }
+
+    /**
+     * Sets publishedAt
+     *
+     * @param \DateTime $publishedAt publishedAt
+     *
+     * @return self
+     */
+    public function setPublishedAt($publishedAt)
+    {
+        if (is_null($publishedAt)) {
+            array_push($this->openAPINullablesSetToNull, 'publishedAt');
+        } else {
+            $nullablesSetToNull = $this->getOpenAPINullablesSetToNull();
+            $index = array_search('publishedAt', $nullablesSetToNull);
+            if ($index !== FALSE) {
+                unset($nullablesSetToNull[$index]);
+                $this->setOpenAPINullablesSetToNull($nullablesSetToNull);
+            }
+        }
+        $this->container['publishedAt'] = $publishedAt;
+
+        return $this;
+    }
+
+    /**
+     * Gets items
+     *
+     * @return \ActivitySmith\Generated\Model\ChangelogItem[]
+     */
+    public function getItems()
+    {
+        return $this->container['items'];
+    }
+
+    /**
+     * Sets items
+     *
+     * @param \ActivitySmith\Generated\Model\ChangelogItem[] $items items
+     *
+     * @return self
+     */
+    public function setItems($items)
+    {
+        if (is_null($items)) {
+            throw new \InvalidArgumentException('non-nullable items cannot be null');
+        }
+        $this->container['items'] = $items;
 
         return $this;
     }
