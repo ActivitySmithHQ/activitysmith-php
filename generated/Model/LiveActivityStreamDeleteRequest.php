@@ -454,7 +454,7 @@ class LiveActivityStreamDeleteRequest implements ModelInterface, ArrayAccess, \J
     /**
      * Sets secondaryAction
      *
-     * @param \ActivitySmith\Generated\Model\LiveActivityAction|null $secondaryAction Optional secondary action button. Supported for alert, progress, and segmented_progress Live Activities. Uses the same open_url, shortcuts://, and webhook shapes as action.
+     * @param \ActivitySmith\Generated\Model\LiveActivityAction|null $secondaryAction Optional secondary action button. Supported for alert, progress, segmented_progress, and value Live Activities. Uses the same open_url, shortcuts://, and webhook shapes as action.
      *
      * @return self
      */

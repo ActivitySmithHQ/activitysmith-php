@@ -35,7 +35,7 @@ use \ActivitySmith\Generated\ObjectSerializer;
  * ContentStateUpdate Class Doc Comment
  *
  * @category Class
- * @description Update payload requires title. For segmented_progress include current_step and optionally number_of_steps. For progress include percentage or value with upper_limit. For metrics and stats include a non-empty metrics array. For alert include message. For timer, omit duration_seconds to preserve the current timer window or send duration_seconds to reset the timer from the update request time. Optional icon is supported by all Live Activity types. Optional badge is supported by alert, progress, and segmented_progress. Type is optional when updating an existing activity. You can increase or decrease number_of_steps during updates.
+ * @description Update payload requires title. For segmented_progress include current_step and optionally number_of_steps. For progress include percentage or value with upper_limit. For metrics and stats include a non-empty metrics array. For value include a string or number in value; strings preserve currency, units, and other formatting. For alert include message. For timer, omit duration_seconds to preserve the current timer window or send duration_seconds to reset the timer from the update request time. Optional icon is supported by all Live Activity types. Optional badge is supported by alert, progress, segmented_progress, and value. Type is optional when updating an existing activity. You can increase or decrease number_of_steps during updates.
  * @package  ActivitySmith\Generated
  * @author   OpenAPI Generator team
  * @link     https://openapi-generator.tech
@@ -63,7 +63,7 @@ class ContentStateUpdate implements ModelInterface, ArrayAccess, \JsonSerializab
         'numberOfSteps' => 'int',
         'currentStep' => 'int',
         'percentage' => 'float',
-        'value' => 'float',
+        'value' => 'string',
         'upperLimit' => 'float',
         'durationSeconds' => 'float',
         'countsDown' => 'bool',
@@ -337,6 +337,7 @@ class ContentStateUpdate implements ModelInterface, ArrayAccess, \JsonSerializab
     public const TYPE_STATS = 'stats';
     public const TYPE_ALERT = 'alert';
     public const TYPE_TIMER = 'timer';
+    public const TYPE_VALUE = 'value';
     public const COLOR_LIME = 'lime';
     public const COLOR_GREEN = 'green';
     public const COLOR_CYAN = 'cyan';
@@ -382,6 +383,7 @@ class ContentStateUpdate implements ModelInterface, ArrayAccess, \JsonSerializab
             self::TYPE_STATS,
             self::TYPE_ALERT,
             self::TYPE_TIMER,
+            self::TYPE_VALUE,
         ];
     }
 
@@ -739,7 +741,7 @@ class ContentStateUpdate implements ModelInterface, ArrayAccess, \JsonSerializab
     /**
      * Gets value
      *
-     * @return float|null
+     * @return string|null
      */
     public function getValue()
     {
@@ -749,7 +751,7 @@ class ContentStateUpdate implements ModelInterface, ArrayAccess, \JsonSerializab
     /**
      * Sets value
      *
-     * @param float|null $value Current progress value. Use with upper_limit for type=progress.
+     * @param string|null $value For type=value, the required prominent readout (string or finite number); strings preserve exact formatting. For type=progress, a numeric progress value used with upper_limit.
      *
      * @return self
      */
@@ -950,7 +952,7 @@ class ContentStateUpdate implements ModelInterface, ArrayAccess, \JsonSerializab
     /**
      * Sets icon
      *
-     * @param \ActivitySmith\Generated\Model\LiveActivityAlertIcon|null $icon Optional SF Symbol icon. Supported by alert, progress, segmented_progress, metrics, stats, and timer.
+     * @param \ActivitySmith\Generated\Model\LiveActivityAlertIcon|null $icon Optional SF Symbol icon. Supported by alert, progress, segmented_progress, metrics, stats, timer, and value.
      *
      * @return self
      */
@@ -977,7 +979,7 @@ class ContentStateUpdate implements ModelInterface, ArrayAccess, \JsonSerializab
     /**
      * Sets badge
      *
-     * @param \ActivitySmith\Generated\Model\LiveActivityAlertBadge|null $badge Optional badge. Supported by alert, progress, and segmented_progress.
+     * @param \ActivitySmith\Generated\Model\LiveActivityAlertBadge|null $badge Optional badge. Supported by alert, progress, segmented_progress, and value.
      *
      * @return self
      */
@@ -1041,7 +1043,7 @@ class ContentStateUpdate implements ModelInterface, ArrayAccess, \JsonSerializab
     /**
      * Sets color
      *
-     * @param string|null $color Optional. Accent color for progress, segmented_progress, metrics, and timer Live Activities. For Alert Live Activities, this tints action and secondary_action buttons when included.
+     * @param string|null $color Optional. Accent color for progress, segmented_progress, metrics, timer, and value Live Activities. For Alert Live Activities, this tints action and secondary_action buttons when included.
      *
      * @return self
      */

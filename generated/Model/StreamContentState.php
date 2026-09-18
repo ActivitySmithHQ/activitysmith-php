@@ -35,7 +35,7 @@ use \ActivitySmith\Generated\ObjectSerializer;
  * StreamContentState Class Doc Comment
  *
  * @category Class
- * @description Current state for a managed Live Activity stream. Include type on the first PUT, and whenever the stream may need to start a fresh activity. Supports segmented_progress, progress, metrics, stats, alert, and timer types. For timer, send duration_seconds to start or reset a bounded timer; omit duration_seconds on later updates to preserve the existing timer window.
+ * @description Current state for a managed Live Activity stream. Include type on the first PUT, and whenever the stream may need to start a fresh activity. Supports segmented_progress, progress, metrics, stats, alert, timer, and value types. For timer, send duration_seconds to start or reset a bounded timer; omit duration_seconds on later updates to preserve the existing timer window.
  * @package  ActivitySmith\Generated
  * @author   OpenAPI Generator team
  * @link     https://openapi-generator.tech
@@ -63,7 +63,7 @@ class StreamContentState implements ModelInterface, ArrayAccess, \JsonSerializab
         'numberOfSteps' => 'int',
         'currentStep' => 'int',
         'percentage' => 'float',
-        'value' => 'float',
+        'value' => 'string',
         'upperLimit' => 'float',
         'durationSeconds' => 'float',
         'countsDown' => 'bool',
@@ -349,6 +349,7 @@ class StreamContentState implements ModelInterface, ArrayAccess, \JsonSerializab
     public const TYPE_STATS = 'stats';
     public const TYPE_ALERT = 'alert';
     public const TYPE_TIMER = 'timer';
+    public const TYPE_VALUE = 'value';
     public const COLOR_LIME = 'lime';
     public const COLOR_GREEN = 'green';
     public const COLOR_CYAN = 'cyan';
@@ -394,6 +395,7 @@ class StreamContentState implements ModelInterface, ArrayAccess, \JsonSerializab
             self::TYPE_STATS,
             self::TYPE_ALERT,
             self::TYPE_TIMER,
+            self::TYPE_VALUE,
         ];
     }
 
@@ -761,7 +763,7 @@ class StreamContentState implements ModelInterface, ArrayAccess, \JsonSerializab
     /**
      * Gets value
      *
-     * @return float|null
+     * @return string|null
      */
     public function getValue()
     {
@@ -771,7 +773,7 @@ class StreamContentState implements ModelInterface, ArrayAccess, \JsonSerializab
     /**
      * Sets value
      *
-     * @param float|null $value Current progress value. Use with upper_limit for progress.
+     * @param string|null $value For type=value, the required prominent readout (string or finite number); strings preserve exact formatting. For progress, a numeric progress value used with upper_limit.
      *
      * @return self
      */
@@ -943,7 +945,7 @@ class StreamContentState implements ModelInterface, ArrayAccess, \JsonSerializab
     /**
      * Sets color
      *
-     * @param string|null $color Optional. Accent color for progress, segmented_progress, metrics, and timer Live Activities. For Alert Live Activities, this tints action and secondary_action buttons when included.
+     * @param string|null $color Optional. Accent color for progress, segmented_progress, metrics, timer, and value Live Activities. For Alert Live Activities, this tints action and secondary_action buttons when included.
      *
      * @return self
      */
@@ -1119,7 +1121,7 @@ class StreamContentState implements ModelInterface, ArrayAccess, \JsonSerializab
     /**
      * Sets icon
      *
-     * @param \ActivitySmith\Generated\Model\LiveActivityAlertIcon|null $icon Optional SF Symbol icon. Supported by alert, progress, segmented_progress, metrics, stats, and timer.
+     * @param \ActivitySmith\Generated\Model\LiveActivityAlertIcon|null $icon Optional SF Symbol icon. Supported by alert, progress, segmented_progress, metrics, stats, timer, and value.
      *
      * @return self
      */
@@ -1146,7 +1148,7 @@ class StreamContentState implements ModelInterface, ArrayAccess, \JsonSerializab
     /**
      * Sets badge
      *
-     * @param \ActivitySmith\Generated\Model\LiveActivityAlertBadge|null $badge Optional badge. Supported by alert, progress, and segmented_progress.
+     * @param \ActivitySmith\Generated\Model\LiveActivityAlertBadge|null $badge Optional badge. Supported by alert, progress, segmented_progress, and value.
      *
      * @return self
      */

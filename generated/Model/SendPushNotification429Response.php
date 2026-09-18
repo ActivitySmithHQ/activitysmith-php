@@ -57,6 +57,7 @@ class SendPushNotification429Response implements ModelInterface, ArrayAccess, \J
       * @var string[]
       */
     protected static $openAPITypes = [
+        'code' => 'string',
         'error' => 'string',
         'message' => 'string',
         'limit' => 'int',
@@ -73,6 +74,7 @@ class SendPushNotification429Response implements ModelInterface, ArrayAccess, \J
       * @psalm-var array<string, string|null>
       */
     protected static $openAPIFormats = [
+        'code' => null,
         'error' => null,
         'message' => null,
         'limit' => null,
@@ -87,6 +89,7 @@ class SendPushNotification429Response implements ModelInterface, ArrayAccess, \J
       * @var boolean[]
       */
     protected static array $openAPINullables = [
+        'code' => false,
         'error' => false,
         'message' => false,
         'limit' => false,
@@ -181,6 +184,7 @@ class SendPushNotification429Response implements ModelInterface, ArrayAccess, \J
      * @var string[]
      */
     protected static $attributeMap = [
+        'code' => 'code',
         'error' => 'error',
         'message' => 'message',
         'limit' => 'limit',
@@ -195,6 +199,7 @@ class SendPushNotification429Response implements ModelInterface, ArrayAccess, \J
      * @var string[]
      */
     protected static $setters = [
+        'code' => 'setCode',
         'error' => 'setError',
         'message' => 'setMessage',
         'limit' => 'setLimit',
@@ -209,6 +214,7 @@ class SendPushNotification429Response implements ModelInterface, ArrayAccess, \J
      * @var string[]
      */
     protected static $getters = [
+        'code' => 'getCode',
         'error' => 'getError',
         'message' => 'getMessage',
         'limit' => 'getLimit',
@@ -258,6 +264,19 @@ class SendPushNotification429Response implements ModelInterface, ArrayAccess, \J
         return self::$openAPIModelName;
     }
 
+    public const CODE_RATE_LIMITED = 'rate_limited';
+
+    /**
+     * Gets allowable values of the enum
+     *
+     * @return string[]
+     */
+    public function getCodeAllowableValues()
+    {
+        return [
+            self::CODE_RATE_LIMITED,
+        ];
+    }
 
     /**
      * Associative array for storing property values
@@ -274,6 +293,7 @@ class SendPushNotification429Response implements ModelInterface, ArrayAccess, \J
      */
     public function __construct(array $data = null)
     {
+        $this->setIfExists('code', $data ?? [], null);
         $this->setIfExists('error', $data ?? [], null);
         $this->setIfExists('message', $data ?? [], null);
         $this->setIfExists('limit', $data ?? [], null);
@@ -309,6 +329,15 @@ class SendPushNotification429Response implements ModelInterface, ArrayAccess, \J
     {
         $invalidProperties = [];
 
+        $allowedValues = $this->getCodeAllowableValues();
+        if (!is_null($this->container['code']) && !in_array($this->container['code'], $allowedValues, true)) {
+            $invalidProperties[] = sprintf(
+                "invalid value '%s' for 'code', must be one of '%s'",
+                $this->container['code'],
+                implode("', '", $allowedValues)
+            );
+        }
+
         if ($this->container['error'] === null) {
             $invalidProperties[] = "'error' can't be null";
         }
@@ -335,6 +364,43 @@ class SendPushNotification429Response implements ModelInterface, ArrayAccess, \J
         return count($this->listInvalidProperties()) === 0;
     }
 
+
+    /**
+     * Gets code
+     *
+     * @return string|null
+     */
+    public function getCode()
+    {
+        return $this->container['code'];
+    }
+
+    /**
+     * Sets code
+     *
+     * @param string|null $code code
+     *
+     * @return self
+     */
+    public function setCode($code)
+    {
+        if (is_null($code)) {
+            throw new \InvalidArgumentException('non-nullable code cannot be null');
+        }
+        $allowedValues = $this->getCodeAllowableValues();
+        if (!in_array($code, $allowedValues, true)) {
+            throw new \InvalidArgumentException(
+                sprintf(
+                    "Invalid value '%s' for 'code', must be one of '%s'",
+                    $code,
+                    implode("', '", $allowedValues)
+                )
+            );
+        }
+        $this->container['code'] = $code;
+
+        return $this;
+    }
 
     /**
      * Gets error

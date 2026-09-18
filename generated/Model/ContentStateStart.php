@@ -35,7 +35,7 @@ use \ActivitySmith\Generated\ObjectSerializer;
  * ContentStateStart Class Doc Comment
  *
  * @category Class
- * @description Start payload requires title and type. For segmented_progress include number_of_steps and current_step. For progress include percentage or value with upper_limit. For metrics and stats include a non-empty metrics array. For alert include message. For timer include duration_seconds for countdowns, or set counts_down false without duration_seconds for an open-ended elapsed timer. Optional icon is supported by all Live Activity types. Optional badge is supported by alert, progress, and segmented_progress. For segmented_progress, number_of_steps is not locked and can be changed in later update or end calls.
+ * @description Start payload requires title and type. For segmented_progress include number_of_steps and current_step. For progress include percentage or value with upper_limit. For metrics and stats include a non-empty metrics array. For value include a string or number in value; strings preserve currency, units, and other formatting. For alert include message. For timer include duration_seconds for countdowns, or set counts_down false without duration_seconds for an open-ended elapsed timer. Optional icon is supported by all Live Activity types. Optional badge is supported by alert, progress, segmented_progress, and value. For segmented_progress, number_of_steps is not locked and can be changed in later update or end calls.
  * @package  ActivitySmith\Generated
  * @author   OpenAPI Generator team
  * @link     https://openapi-generator.tech
@@ -63,7 +63,7 @@ class ContentStateStart implements ModelInterface, ArrayAccess, \JsonSerializabl
         'numberOfSteps' => 'int',
         'currentStep' => 'int',
         'percentage' => 'float',
-        'value' => 'float',
+        'value' => 'string',
         'upperLimit' => 'float',
         'durationSeconds' => 'float',
         'countsDown' => 'bool',
@@ -337,6 +337,7 @@ class ContentStateStart implements ModelInterface, ArrayAccess, \JsonSerializabl
     public const TYPE_STATS = 'stats';
     public const TYPE_ALERT = 'alert';
     public const TYPE_TIMER = 'timer';
+    public const TYPE_VALUE = 'value';
     public const COLOR_LIME = 'lime';
     public const COLOR_GREEN = 'green';
     public const COLOR_CYAN = 'cyan';
@@ -382,6 +383,7 @@ class ContentStateStart implements ModelInterface, ArrayAccess, \JsonSerializabl
             self::TYPE_STATS,
             self::TYPE_ALERT,
             self::TYPE_TIMER,
+            self::TYPE_VALUE,
         ];
     }
 
@@ -742,7 +744,7 @@ class ContentStateStart implements ModelInterface, ArrayAccess, \JsonSerializabl
     /**
      * Gets value
      *
-     * @return float|null
+     * @return string|null
      */
     public function getValue()
     {
@@ -752,7 +754,7 @@ class ContentStateStart implements ModelInterface, ArrayAccess, \JsonSerializabl
     /**
      * Sets value
      *
-     * @param float|null $value Current progress value. Use with upper_limit for type=progress.
+     * @param string|null $value For type=value, the required prominent readout (string or finite number); strings preserve exact formatting. For type=progress, a numeric progress value used with upper_limit.
      *
      * @return self
      */
@@ -953,7 +955,7 @@ class ContentStateStart implements ModelInterface, ArrayAccess, \JsonSerializabl
     /**
      * Sets icon
      *
-     * @param \ActivitySmith\Generated\Model\LiveActivityAlertIcon|null $icon Optional SF Symbol icon. Supported by alert, progress, segmented_progress, metrics, stats, and timer.
+     * @param \ActivitySmith\Generated\Model\LiveActivityAlertIcon|null $icon Optional SF Symbol icon. Supported by alert, progress, segmented_progress, metrics, stats, timer, and value.
      *
      * @return self
      */
@@ -980,7 +982,7 @@ class ContentStateStart implements ModelInterface, ArrayAccess, \JsonSerializabl
     /**
      * Sets badge
      *
-     * @param \ActivitySmith\Generated\Model\LiveActivityAlertBadge|null $badge Optional badge. Supported by alert, progress, and segmented_progress.
+     * @param \ActivitySmith\Generated\Model\LiveActivityAlertBadge|null $badge Optional badge. Supported by alert, progress, segmented_progress, and value.
      *
      * @return self
      */
@@ -1044,7 +1046,7 @@ class ContentStateStart implements ModelInterface, ArrayAccess, \JsonSerializabl
     /**
      * Sets color
      *
-     * @param string|null $color Optional. Accent color for progress, segmented_progress, metrics, and timer Live Activities. For Alert Live Activities, this tints action and secondary_action buttons when included.
+     * @param string|null $color Optional. Accent color for progress, segmented_progress, metrics, timer, and value Live Activities. For Alert Live Activities, this tints action and secondary_action buttons when included.
      *
      * @return self
      */
