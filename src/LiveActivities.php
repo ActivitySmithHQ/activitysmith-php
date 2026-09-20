@@ -14,6 +14,7 @@ final class LiveActivities
     public const TYPE_STATS = 'stats';
     public const TYPE_ALERT = 'alert';
     public const TYPE_TIMER = 'timer';
+    public const TYPE_VALUE = 'value';
 
     public function __construct(private LiveActivitiesApi $api)
     {

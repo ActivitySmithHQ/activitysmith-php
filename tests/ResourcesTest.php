@@ -27,6 +27,25 @@ use PHPUnit\Framework\TestCase;
 
 final class ResourcesTest extends TestCase
 {
+    public function testValuePreservesStringsAndZero(): void
+    {
+        foreach (['$1,240', '0007', '', 0, -12.75] as $value) {
+            $state = LiveActivityContentState::make(title: 'Revenue', type: LiveActivities::TYPE_VALUE, value: $value);
+            foreach (['start' => 'startLiveActivity', 'update' => 'updateLiveActivity', 'end' => 'endLiveActivity', 'stream' => 'reconcileLiveActivityStream', 'endStream' => 'endLiveActivityStream'] as $method => $apiMethod) {
+                $api = $this->getMockBuilder(LiveActivitiesApi::class)->disableOriginalConstructor()->onlyMethods([$apiMethod])->getMock();
+                $api->expects($this->once())->method($apiMethod)->willReturnCallback(function (...$args) use ($value, $method) {
+                    $request = $args[in_array($method, ['stream', 'endStream']) ? 1 : 0];
+                    $body = json_decode(json_encode(\ActivitySmith\Generated\ObjectSerializer::sanitizeForSerialization($request)), true);
+                    $this->assertSame($value, $body['content_state']['value']);
+                    return (object) ['success' => true];
+                });
+                $resource = new LiveActivities($api);
+                if (in_array($method, ['stream', 'endStream'])) $resource->$method('revenue', contentState: $state);
+                else $resource->$method(contentState: $state);
+            }
+        }
+    }
+
     public function testExternalPushURLsAndStreamEndFields(): void
     {
         foreach (['http://example.com', 'https://example.com', 'shortcuts://run-shortcut?name=Test', 'spotify://', 'spotify:track:123'] as $url) {
