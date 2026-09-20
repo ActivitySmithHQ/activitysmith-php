@@ -57,6 +57,7 @@ class RateLimitError implements ModelInterface, ArrayAccess, \JsonSerializable
       * @var string[]
       */
     protected static $openAPITypes = [
+        'code' => 'string',
         'error' => 'string',
         'message' => 'string'
     ];
@@ -69,6 +70,7 @@ class RateLimitError implements ModelInterface, ArrayAccess, \JsonSerializable
       * @psalm-var array<string, string|null>
       */
     protected static $openAPIFormats = [
+        'code' => null,
         'error' => null,
         'message' => null
     ];
@@ -79,6 +81,7 @@ class RateLimitError implements ModelInterface, ArrayAccess, \JsonSerializable
       * @var boolean[]
       */
     protected static array $openAPINullables = [
+        'code' => false,
         'error' => false,
         'message' => false
     ];
@@ -169,6 +172,7 @@ class RateLimitError implements ModelInterface, ArrayAccess, \JsonSerializable
      * @var string[]
      */
     protected static $attributeMap = [
+        'code' => 'code',
         'error' => 'error',
         'message' => 'message'
     ];
@@ -179,6 +183,7 @@ class RateLimitError implements ModelInterface, ArrayAccess, \JsonSerializable
      * @var string[]
      */
     protected static $setters = [
+        'code' => 'setCode',
         'error' => 'setError',
         'message' => 'setMessage'
     ];
@@ -189,6 +194,7 @@ class RateLimitError implements ModelInterface, ArrayAccess, \JsonSerializable
      * @var string[]
      */
     protected static $getters = [
+        'code' => 'getCode',
         'error' => 'getError',
         'message' => 'getMessage'
     ];
@@ -234,6 +240,19 @@ class RateLimitError implements ModelInterface, ArrayAccess, \JsonSerializable
         return self::$openAPIModelName;
     }
 
+    public const CODE_RATE_LIMITED = 'rate_limited';
+
+    /**
+     * Gets allowable values of the enum
+     *
+     * @return string[]
+     */
+    public function getCodeAllowableValues()
+    {
+        return [
+            self::CODE_RATE_LIMITED,
+        ];
+    }
 
     /**
      * Associative array for storing property values
@@ -250,6 +269,7 @@ class RateLimitError implements ModelInterface, ArrayAccess, \JsonSerializable
      */
     public function __construct(array $data = null)
     {
+        $this->setIfExists('code', $data ?? [], null);
         $this->setIfExists('error', $data ?? [], null);
         $this->setIfExists('message', $data ?? [], null);
     }
@@ -281,6 +301,15 @@ class RateLimitError implements ModelInterface, ArrayAccess, \JsonSerializable
     {
         $invalidProperties = [];
 
+        $allowedValues = $this->getCodeAllowableValues();
+        if (!is_null($this->container['code']) && !in_array($this->container['code'], $allowedValues, true)) {
+            $invalidProperties[] = sprintf(
+                "invalid value '%s' for 'code', must be one of '%s'",
+                $this->container['code'],
+                implode("', '", $allowedValues)
+            );
+        }
+
         if ($this->container['error'] === null) {
             $invalidProperties[] = "'error' can't be null";
         }
@@ -301,6 +330,43 @@ class RateLimitError implements ModelInterface, ArrayAccess, \JsonSerializable
         return count($this->listInvalidProperties()) === 0;
     }
 
+
+    /**
+     * Gets code
+     *
+     * @return string|null
+     */
+    public function getCode()
+    {
+        return $this->container['code'];
+    }
+
+    /**
+     * Sets code
+     *
+     * @param string|null $code code
+     *
+     * @return self
+     */
+    public function setCode($code)
+    {
+        if (is_null($code)) {
+            throw new \InvalidArgumentException('non-nullable code cannot be null');
+        }
+        $allowedValues = $this->getCodeAllowableValues();
+        if (!in_array($code, $allowedValues, true)) {
+            throw new \InvalidArgumentException(
+                sprintf(
+                    "Invalid value '%s' for 'code', must be one of '%s'",
+                    $code,
+                    implode("', '", $allowedValues)
+                )
+            );
+        }
+        $this->container['code'] = $code;
+
+        return $this;
+    }
 
     /**
      * Gets error

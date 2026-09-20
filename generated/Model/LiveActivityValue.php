@@ -1,6 +1,6 @@
 <?php
 /**
- * SendPushNotification429Response
+ * LiveActivityValue
  *
  * PHP version 7.4
  *
@@ -32,15 +32,16 @@ use \ArrayAccess;
 use \ActivitySmith\Generated\ObjectSerializer;
 
 /**
- * SendPushNotification429Response Class Doc Comment
+ * LiveActivityValue Class Doc Comment
  *
  * @category Class
+ * @description A formatted string or finite numeric Live Activity value. String formatting is preserved.
  * @package  ActivitySmith\Generated
  * @author   OpenAPI Generator team
  * @link     https://openapi-generator.tech
  * @implements \ArrayAccess<string, mixed>
  */
-class SendPushNotification429Response implements ModelInterface, ArrayAccess, \JsonSerializable
+class LiveActivityValue implements ModelInterface, ArrayAccess, \JsonSerializable
 {
     public const DISCRIMINATOR = null;
 
@@ -49,7 +50,7 @@ class SendPushNotification429Response implements ModelInterface, ArrayAccess, \J
       *
       * @var string
       */
-    protected static $openAPIModelName = 'sendPushNotification_429_response';
+    protected static $openAPIModelName = 'LiveActivityValue';
 
     /**
       * Array of property to type mappings. Used for (de)serialization
@@ -57,13 +58,7 @@ class SendPushNotification429Response implements ModelInterface, ArrayAccess, \J
       * @var string[]
       */
     protected static $openAPITypes = [
-        'code' => 'string',
-        'error' => 'string',
-        'message' => 'string',
-        'limit' => 'int',
-        'active' => 'int',
-        'blockedDevices' => 'int',
-        'targetedDevices' => 'int'
+        
     ];
 
     /**
@@ -74,13 +69,7 @@ class SendPushNotification429Response implements ModelInterface, ArrayAccess, \J
       * @psalm-var array<string, string|null>
       */
     protected static $openAPIFormats = [
-        'code' => null,
-        'error' => null,
-        'message' => null,
-        'limit' => null,
-        'active' => null,
-        'blockedDevices' => null,
-        'targetedDevices' => null
+        
     ];
 
     /**
@@ -89,13 +78,7 @@ class SendPushNotification429Response implements ModelInterface, ArrayAccess, \J
       * @var boolean[]
       */
     protected static array $openAPINullables = [
-        'code' => false,
-        'error' => false,
-        'message' => false,
-        'limit' => false,
-        'active' => false,
-        'blockedDevices' => false,
-        'targetedDevices' => false
+        
     ];
 
     /**
@@ -184,13 +167,7 @@ class SendPushNotification429Response implements ModelInterface, ArrayAccess, \J
      * @var string[]
      */
     protected static $attributeMap = [
-        'code' => 'code',
-        'error' => 'error',
-        'message' => 'message',
-        'limit' => 'limit',
-        'active' => 'active',
-        'blockedDevices' => 'blocked_devices',
-        'targetedDevices' => 'targeted_devices'
+        
     ];
 
     /**
@@ -199,13 +176,7 @@ class SendPushNotification429Response implements ModelInterface, ArrayAccess, \J
      * @var string[]
      */
     protected static $setters = [
-        'code' => 'setCode',
-        'error' => 'setError',
-        'message' => 'setMessage',
-        'limit' => 'setLimit',
-        'active' => 'setActive',
-        'blockedDevices' => 'setBlockedDevices',
-        'targetedDevices' => 'setTargetedDevices'
+        
     ];
 
     /**
@@ -214,13 +185,7 @@ class SendPushNotification429Response implements ModelInterface, ArrayAccess, \J
      * @var string[]
      */
     protected static $getters = [
-        'code' => 'getCode',
-        'error' => 'getError',
-        'message' => 'getMessage',
-        'limit' => 'getLimit',
-        'active' => 'getActive',
-        'blockedDevices' => 'getBlockedDevices',
-        'targetedDevices' => 'getTargetedDevices'
+        
     ];
 
     /**
@@ -264,19 +229,6 @@ class SendPushNotification429Response implements ModelInterface, ArrayAccess, \J
         return self::$openAPIModelName;
     }
 
-    public const CODE_RATE_LIMITED = 'rate_limited';
-
-    /**
-     * Gets allowable values of the enum
-     *
-     * @return string[]
-     */
-    public function getCodeAllowableValues()
-    {
-        return [
-            self::CODE_RATE_LIMITED,
-        ];
-    }
 
     /**
      * Associative array for storing property values
@@ -293,13 +245,6 @@ class SendPushNotification429Response implements ModelInterface, ArrayAccess, \J
      */
     public function __construct(array $data = null)
     {
-        $this->setIfExists('code', $data ?? [], null);
-        $this->setIfExists('error', $data ?? [], null);
-        $this->setIfExists('message', $data ?? [], null);
-        $this->setIfExists('limit', $data ?? [], null);
-        $this->setIfExists('active', $data ?? [], null);
-        $this->setIfExists('blockedDevices', $data ?? [], null);
-        $this->setIfExists('targetedDevices', $data ?? [], null);
     }
 
     /**
@@ -329,27 +274,6 @@ class SendPushNotification429Response implements ModelInterface, ArrayAccess, \J
     {
         $invalidProperties = [];
 
-        $allowedValues = $this->getCodeAllowableValues();
-        if (!is_null($this->container['code']) && !in_array($this->container['code'], $allowedValues, true)) {
-            $invalidProperties[] = sprintf(
-                "invalid value '%s' for 'code', must be one of '%s'",
-                $this->container['code'],
-                implode("', '", $allowedValues)
-            );
-        }
-
-        if ($this->container['error'] === null) {
-            $invalidProperties[] = "'error' can't be null";
-        }
-        if ($this->container['message'] === null) {
-            $invalidProperties[] = "'message' can't be null";
-        }
-        if ($this->container['limit'] === null) {
-            $invalidProperties[] = "'limit' can't be null";
-        }
-        if ($this->container['active'] === null) {
-            $invalidProperties[] = "'active' can't be null";
-        }
         return $invalidProperties;
     }
 
@@ -364,205 +288,6 @@ class SendPushNotification429Response implements ModelInterface, ArrayAccess, \J
         return count($this->listInvalidProperties()) === 0;
     }
 
-
-    /**
-     * Gets code
-     *
-     * @return string|null
-     */
-    public function getCode()
-    {
-        return $this->container['code'];
-    }
-
-    /**
-     * Sets code
-     *
-     * @param string|null $code code
-     *
-     * @return self
-     */
-    public function setCode($code)
-    {
-        if (is_null($code)) {
-            throw new \InvalidArgumentException('non-nullable code cannot be null');
-        }
-        $allowedValues = $this->getCodeAllowableValues();
-        if (!in_array($code, $allowedValues, true)) {
-            throw new \InvalidArgumentException(
-                sprintf(
-                    "Invalid value '%s' for 'code', must be one of '%s'",
-                    $code,
-                    implode("', '", $allowedValues)
-                )
-            );
-        }
-        $this->container['code'] = $code;
-
-        return $this;
-    }
-
-    /**
-     * Gets error
-     *
-     * @return string
-     */
-    public function getError()
-    {
-        return $this->container['error'];
-    }
-
-    /**
-     * Sets error
-     *
-     * @param string $error error
-     *
-     * @return self
-     */
-    public function setError($error)
-    {
-        if (is_null($error)) {
-            throw new \InvalidArgumentException('non-nullable error cannot be null');
-        }
-        $this->container['error'] = $error;
-
-        return $this;
-    }
-
-    /**
-     * Gets message
-     *
-     * @return string
-     */
-    public function getMessage()
-    {
-        return $this->container['message'];
-    }
-
-    /**
-     * Sets message
-     *
-     * @param string $message message
-     *
-     * @return self
-     */
-    public function setMessage($message)
-    {
-        if (is_null($message)) {
-            throw new \InvalidArgumentException('non-nullable message cannot be null');
-        }
-        $this->container['message'] = $message;
-
-        return $this;
-    }
-
-    /**
-     * Gets limit
-     *
-     * @return int
-     */
-    public function getLimit()
-    {
-        return $this->container['limit'];
-    }
-
-    /**
-     * Sets limit
-     *
-     * @param int $limit limit
-     *
-     * @return self
-     */
-    public function setLimit($limit)
-    {
-        if (is_null($limit)) {
-            throw new \InvalidArgumentException('non-nullable limit cannot be null');
-        }
-        $this->container['limit'] = $limit;
-
-        return $this;
-    }
-
-    /**
-     * Gets active
-     *
-     * @return int
-     */
-    public function getActive()
-    {
-        return $this->container['active'];
-    }
-
-    /**
-     * Sets active
-     *
-     * @param int $active Highest number of active Live Activities among the targeted devices.
-     *
-     * @return self
-     */
-    public function setActive($active)
-    {
-        if (is_null($active)) {
-            throw new \InvalidArgumentException('non-nullable active cannot be null');
-        }
-        $this->container['active'] = $active;
-
-        return $this;
-    }
-
-    /**
-     * Gets blockedDevices
-     *
-     * @return int|null
-     */
-    public function getBlockedDevices()
-    {
-        return $this->container['blockedDevices'];
-    }
-
-    /**
-     * Sets blockedDevices
-     *
-     * @param int|null $blockedDevices Number of targeted devices that have reached the enforced iOS Live Activity concurrency threshold. Included only when targeted devices have mixed capacity.
-     *
-     * @return self
-     */
-    public function setBlockedDevices($blockedDevices)
-    {
-        if (is_null($blockedDevices)) {
-            throw new \InvalidArgumentException('non-nullable blockedDevices cannot be null');
-        }
-        $this->container['blockedDevices'] = $blockedDevices;
-
-        return $this;
-    }
-
-    /**
-     * Gets targetedDevices
-     *
-     * @return int|null
-     */
-    public function getTargetedDevices()
-    {
-        return $this->container['targetedDevices'];
-    }
-
-    /**
-     * Sets targetedDevices
-     *
-     * @param int|null $targetedDevices Total number of targeted devices. Included only when targeted devices have mixed capacity.
-     *
-     * @return self
-     */
-    public function setTargetedDevices($targetedDevices)
-    {
-        if (is_null($targetedDevices)) {
-            throw new \InvalidArgumentException('non-nullable targetedDevices cannot be null');
-        }
-        $this->container['targetedDevices'] = $targetedDevices;
-
-        return $this;
-    }
     /**
      * Returns true if offset exists. False otherwise.
      *
