@@ -21,7 +21,7 @@ final class LiveActivityContentState
         ?int $numberOfSteps = null,
         ?int $currentStep = null,
         int|float|null $percentage = null,
-        int|float|null $value = null,
+        string|int|float|null $value = null,
         int|float|null $upperLimit = null,
         ?string $color = null,
         ?string $stepColor = null,
