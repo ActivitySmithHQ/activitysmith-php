@@ -132,7 +132,7 @@ class AppIconBadgesApi
      *
      * @throws \ActivitySmith\Generated\ApiException on non-2xx response or if the response body is not in the expected format
      * @throws \InvalidArgumentException
-     * @return \ActivitySmith\Generated\Model\AppIconBadgeCountUpdateResponse|\ActivitySmith\Generated\Model\BadRequestError|\ActivitySmith\Generated\Model\ForbiddenError|\ActivitySmith\Generated\Model\UpdateAppIconBadgeCount422Response|\ActivitySmith\Generated\Model\RateLimitError|\ActivitySmith\Generated\Model\AppIconBadgeCountUpdateError
+     * @return \ActivitySmith\Generated\Model\AppIconBadgeCountUpdateResponse|\ActivitySmith\Generated\Model\BadRequestError|\ActivitySmith\Generated\Model\BillingBlockedError|\ActivitySmith\Generated\Model\ForbiddenError|\ActivitySmith\Generated\Model\UpdateAppIconBadgeCount422Response|\ActivitySmith\Generated\Model\RateLimitError|\ActivitySmith\Generated\Model\AppIconBadgeCountUpdateError
      */
     public function updateAppIconBadgeCount($appIconBadgeCountUpdateRequest, string $contentType = self::contentTypes['updateAppIconBadgeCount'][0])
     {
@@ -150,7 +150,7 @@ class AppIconBadgesApi
      *
      * @throws \ActivitySmith\Generated\ApiException on non-2xx response or if the response body is not in the expected format
      * @throws \InvalidArgumentException
-     * @return array of \ActivitySmith\Generated\Model\AppIconBadgeCountUpdateResponse|\ActivitySmith\Generated\Model\BadRequestError|\ActivitySmith\Generated\Model\ForbiddenError|\ActivitySmith\Generated\Model\UpdateAppIconBadgeCount422Response|\ActivitySmith\Generated\Model\RateLimitError|\ActivitySmith\Generated\Model\AppIconBadgeCountUpdateError, HTTP status code, HTTP response headers (array of strings)
+     * @return array of \ActivitySmith\Generated\Model\AppIconBadgeCountUpdateResponse|\ActivitySmith\Generated\Model\BadRequestError|\ActivitySmith\Generated\Model\BillingBlockedError|\ActivitySmith\Generated\Model\ForbiddenError|\ActivitySmith\Generated\Model\UpdateAppIconBadgeCount422Response|\ActivitySmith\Generated\Model\RateLimitError|\ActivitySmith\Generated\Model\AppIconBadgeCountUpdateError, HTTP status code, HTTP response headers (array of strings)
      */
     public function updateAppIconBadgeCountWithHttpInfo($appIconBadgeCountUpdateRequest, string $contentType = self::contentTypes['updateAppIconBadgeCount'][0])
     {
@@ -243,6 +243,33 @@ class AppIconBadgesApi
 
                     return [
                         ObjectSerializer::deserialize($content, '\ActivitySmith\Generated\Model\BadRequestError', []),
+                        $response->getStatusCode(),
+                        $response->getHeaders()
+                    ];
+                case 402:
+                    if ('\ActivitySmith\Generated\Model\BillingBlockedError' === '\SplFileObject') {
+                        $content = $response->getBody(); //stream goes to serializer
+                    } else {
+                        $content = (string) $response->getBody();
+                        if ('\ActivitySmith\Generated\Model\BillingBlockedError' !== 'string') {
+                            try {
+                                $content = json_decode($content, false, 512, JSON_THROW_ON_ERROR);
+                            } catch (\JsonException $exception) {
+                                throw new ApiException(
+                                    sprintf(
+                                        'Error JSON decoding server response (%s)',
+                                        $request->getUri()
+                                    ),
+                                    $statusCode,
+                                    $response->getHeaders(),
+                                    $content
+                                );
+                            }
+                        }
+                    }
+
+                    return [
+                        ObjectSerializer::deserialize($content, '\ActivitySmith\Generated\Model\BillingBlockedError', []),
                         $response->getStatusCode(),
                         $response->getHeaders()
                     ];
@@ -398,6 +425,14 @@ class AppIconBadgesApi
                     $data = ObjectSerializer::deserialize(
                         $e->getResponseBody(),
                         '\ActivitySmith\Generated\Model\BadRequestError',
+                        $e->getResponseHeaders()
+                    );
+                    $e->setResponseObject($data);
+                    break;
+                case 402:
+                    $data = ObjectSerializer::deserialize(
+                        $e->getResponseBody(),
+                        '\ActivitySmith\Generated\Model\BillingBlockedError',
                         $e->getResponseHeaders()
                     );
                     $e->setResponseObject($data);

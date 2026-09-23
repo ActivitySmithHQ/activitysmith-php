@@ -960,7 +960,7 @@ class LiveActivitiesApi
      *
      * @throws \ActivitySmith\Generated\ApiException on non-2xx response or if the response body is not in the expected format
      * @throws \InvalidArgumentException
-     * @return \ActivitySmith\Generated\Model\LiveActivityStreamPutResponse|\ActivitySmith\Generated\Model\BadRequestError|\ActivitySmith\Generated\Model\ForbiddenError|\ActivitySmith\Generated\Model\NoRecipientsError|\ActivitySmith\Generated\Model\SendPushNotification429Response
+     * @return \ActivitySmith\Generated\Model\LiveActivityStreamPutResponse|\ActivitySmith\Generated\Model\BadRequestError|\ActivitySmith\Generated\Model\BillingBlockedError|\ActivitySmith\Generated\Model\ForbiddenError|\ActivitySmith\Generated\Model\NoRecipientsError|\ActivitySmith\Generated\Model\SendPushNotification429Response
      */
     public function reconcileLiveActivityStream($streamKey, $liveActivityStreamRequest, string $contentType = self::contentTypes['reconcileLiveActivityStream'][0])
     {
@@ -979,7 +979,7 @@ class LiveActivitiesApi
      *
      * @throws \ActivitySmith\Generated\ApiException on non-2xx response or if the response body is not in the expected format
      * @throws \InvalidArgumentException
-     * @return array of \ActivitySmith\Generated\Model\LiveActivityStreamPutResponse|\ActivitySmith\Generated\Model\BadRequestError|\ActivitySmith\Generated\Model\ForbiddenError|\ActivitySmith\Generated\Model\NoRecipientsError|\ActivitySmith\Generated\Model\SendPushNotification429Response, HTTP status code, HTTP response headers (array of strings)
+     * @return array of \ActivitySmith\Generated\Model\LiveActivityStreamPutResponse|\ActivitySmith\Generated\Model\BadRequestError|\ActivitySmith\Generated\Model\BillingBlockedError|\ActivitySmith\Generated\Model\ForbiddenError|\ActivitySmith\Generated\Model\NoRecipientsError|\ActivitySmith\Generated\Model\SendPushNotification429Response, HTTP status code, HTTP response headers (array of strings)
      */
     public function reconcileLiveActivityStreamWithHttpInfo($streamKey, $liveActivityStreamRequest, string $contentType = self::contentTypes['reconcileLiveActivityStream'][0])
     {
@@ -1075,6 +1075,33 @@ class LiveActivitiesApi
                         $response->getStatusCode(),
                         $response->getHeaders()
                     ];
+                case 402:
+                    if ('\ActivitySmith\Generated\Model\BillingBlockedError' === '\SplFileObject') {
+                        $content = $response->getBody(); //stream goes to serializer
+                    } else {
+                        $content = (string) $response->getBody();
+                        if ('\ActivitySmith\Generated\Model\BillingBlockedError' !== 'string') {
+                            try {
+                                $content = json_decode($content, false, 512, JSON_THROW_ON_ERROR);
+                            } catch (\JsonException $exception) {
+                                throw new ApiException(
+                                    sprintf(
+                                        'Error JSON decoding server response (%s)',
+                                        $request->getUri()
+                                    ),
+                                    $statusCode,
+                                    $response->getHeaders(),
+                                    $content
+                                );
+                            }
+                        }
+                    }
+
+                    return [
+                        ObjectSerializer::deserialize($content, '\ActivitySmith\Generated\Model\BillingBlockedError', []),
+                        $response->getStatusCode(),
+                        $response->getHeaders()
+                    ];
                 case 403:
                     if ('\ActivitySmith\Generated\Model\ForbiddenError' === '\SplFileObject') {
                         $content = $response->getBody(); //stream goes to serializer
@@ -1102,7 +1129,7 @@ class LiveActivitiesApi
                         $response->getStatusCode(),
                         $response->getHeaders()
                     ];
-                case 404:
+                case 422:
                     if ('\ActivitySmith\Generated\Model\NoRecipientsError' === '\SplFileObject') {
                         $content = $response->getBody(); //stream goes to serializer
                     } else {
@@ -1204,6 +1231,14 @@ class LiveActivitiesApi
                     );
                     $e->setResponseObject($data);
                     break;
+                case 402:
+                    $data = ObjectSerializer::deserialize(
+                        $e->getResponseBody(),
+                        '\ActivitySmith\Generated\Model\BillingBlockedError',
+                        $e->getResponseHeaders()
+                    );
+                    $e->setResponseObject($data);
+                    break;
                 case 403:
                     $data = ObjectSerializer::deserialize(
                         $e->getResponseBody(),
@@ -1212,7 +1247,7 @@ class LiveActivitiesApi
                     );
                     $e->setResponseObject($data);
                     break;
-                case 404:
+                case 422:
                     $data = ObjectSerializer::deserialize(
                         $e->getResponseBody(),
                         '\ActivitySmith\Generated\Model\NoRecipientsError',
@@ -1435,7 +1470,7 @@ class LiveActivitiesApi
      *
      * @throws \ActivitySmith\Generated\ApiException on non-2xx response or if the response body is not in the expected format
      * @throws \InvalidArgumentException
-     * @return \ActivitySmith\Generated\Model\LiveActivityStartResponse|\ActivitySmith\Generated\Model\BadRequestError|\ActivitySmith\Generated\Model\ForbiddenError|\ActivitySmith\Generated\Model\NoRecipientsError|\ActivitySmith\Generated\Model\SendPushNotification429Response
+     * @return \ActivitySmith\Generated\Model\LiveActivityStartResponse|\ActivitySmith\Generated\Model\BadRequestError|\ActivitySmith\Generated\Model\BillingBlockedError|\ActivitySmith\Generated\Model\ForbiddenError|\ActivitySmith\Generated\Model\NoRecipientsError|\ActivitySmith\Generated\Model\SendPushNotification429Response
      */
     public function startLiveActivity($liveActivityStartRequest, string $contentType = self::contentTypes['startLiveActivity'][0])
     {
@@ -1453,7 +1488,7 @@ class LiveActivitiesApi
      *
      * @throws \ActivitySmith\Generated\ApiException on non-2xx response or if the response body is not in the expected format
      * @throws \InvalidArgumentException
-     * @return array of \ActivitySmith\Generated\Model\LiveActivityStartResponse|\ActivitySmith\Generated\Model\BadRequestError|\ActivitySmith\Generated\Model\ForbiddenError|\ActivitySmith\Generated\Model\NoRecipientsError|\ActivitySmith\Generated\Model\SendPushNotification429Response, HTTP status code, HTTP response headers (array of strings)
+     * @return array of \ActivitySmith\Generated\Model\LiveActivityStartResponse|\ActivitySmith\Generated\Model\BadRequestError|\ActivitySmith\Generated\Model\BillingBlockedError|\ActivitySmith\Generated\Model\ForbiddenError|\ActivitySmith\Generated\Model\NoRecipientsError|\ActivitySmith\Generated\Model\SendPushNotification429Response, HTTP status code, HTTP response headers (array of strings)
      */
     public function startLiveActivityWithHttpInfo($liveActivityStartRequest, string $contentType = self::contentTypes['startLiveActivity'][0])
     {
@@ -1549,6 +1584,33 @@ class LiveActivitiesApi
                         $response->getStatusCode(),
                         $response->getHeaders()
                     ];
+                case 402:
+                    if ('\ActivitySmith\Generated\Model\BillingBlockedError' === '\SplFileObject') {
+                        $content = $response->getBody(); //stream goes to serializer
+                    } else {
+                        $content = (string) $response->getBody();
+                        if ('\ActivitySmith\Generated\Model\BillingBlockedError' !== 'string') {
+                            try {
+                                $content = json_decode($content, false, 512, JSON_THROW_ON_ERROR);
+                            } catch (\JsonException $exception) {
+                                throw new ApiException(
+                                    sprintf(
+                                        'Error JSON decoding server response (%s)',
+                                        $request->getUri()
+                                    ),
+                                    $statusCode,
+                                    $response->getHeaders(),
+                                    $content
+                                );
+                            }
+                        }
+                    }
+
+                    return [
+                        ObjectSerializer::deserialize($content, '\ActivitySmith\Generated\Model\BillingBlockedError', []),
+                        $response->getStatusCode(),
+                        $response->getHeaders()
+                    ];
                 case 403:
                     if ('\ActivitySmith\Generated\Model\ForbiddenError' === '\SplFileObject') {
                         $content = $response->getBody(); //stream goes to serializer
@@ -1576,7 +1638,7 @@ class LiveActivitiesApi
                         $response->getStatusCode(),
                         $response->getHeaders()
                     ];
-                case 404:
+                case 422:
                     if ('\ActivitySmith\Generated\Model\NoRecipientsError' === '\SplFileObject') {
                         $content = $response->getBody(); //stream goes to serializer
                     } else {
@@ -1678,6 +1740,14 @@ class LiveActivitiesApi
                     );
                     $e->setResponseObject($data);
                     break;
+                case 402:
+                    $data = ObjectSerializer::deserialize(
+                        $e->getResponseBody(),
+                        '\ActivitySmith\Generated\Model\BillingBlockedError',
+                        $e->getResponseHeaders()
+                    );
+                    $e->setResponseObject($data);
+                    break;
                 case 403:
                     $data = ObjectSerializer::deserialize(
                         $e->getResponseBody(),
@@ -1686,7 +1756,7 @@ class LiveActivitiesApi
                     );
                     $e->setResponseObject($data);
                     break;
-                case 404:
+                case 422:
                     $data = ObjectSerializer::deserialize(
                         $e->getResponseBody(),
                         '\ActivitySmith\Generated\Model\NoRecipientsError',

@@ -61,6 +61,8 @@ class PushNotificationRequest implements ModelInterface, ArrayAccess, \JsonSeria
         'title' => 'string',
         'message' => 'string',
         'subtitle' => 'string',
+        'icon' => 'string',
+        'interruptionLevel' => '\ActivitySmith\Generated\Model\PushInterruptionLevel',
         'media' => 'string',
         'redirection' => 'string',
         'actions' => '\ActivitySmith\Generated\Model\PushNotificationAction[]',
@@ -83,6 +85,8 @@ class PushNotificationRequest implements ModelInterface, ArrayAccess, \JsonSeria
         'title' => null,
         'message' => null,
         'subtitle' => null,
+        'icon' => 'uri',
+        'interruptionLevel' => null,
         'media' => 'uri',
         'redirection' => 'uri',
         'actions' => null,
@@ -103,6 +107,8 @@ class PushNotificationRequest implements ModelInterface, ArrayAccess, \JsonSeria
         'title' => false,
         'message' => false,
         'subtitle' => false,
+        'icon' => false,
+        'interruptionLevel' => false,
         'media' => false,
         'redirection' => false,
         'actions' => false,
@@ -203,6 +209,8 @@ class PushNotificationRequest implements ModelInterface, ArrayAccess, \JsonSeria
         'title' => 'title',
         'message' => 'message',
         'subtitle' => 'subtitle',
+        'icon' => 'icon',
+        'interruptionLevel' => 'interruption_level',
         'media' => 'media',
         'redirection' => 'redirection',
         'actions' => 'actions',
@@ -223,6 +231,8 @@ class PushNotificationRequest implements ModelInterface, ArrayAccess, \JsonSeria
         'title' => 'setTitle',
         'message' => 'setMessage',
         'subtitle' => 'setSubtitle',
+        'icon' => 'setIcon',
+        'interruptionLevel' => 'setInterruptionLevel',
         'media' => 'setMedia',
         'redirection' => 'setRedirection',
         'actions' => 'setActions',
@@ -243,6 +253,8 @@ class PushNotificationRequest implements ModelInterface, ArrayAccess, \JsonSeria
         'title' => 'getTitle',
         'message' => 'getMessage',
         'subtitle' => 'getSubtitle',
+        'icon' => 'getIcon',
+        'interruptionLevel' => 'getInterruptionLevel',
         'media' => 'getMedia',
         'redirection' => 'getRedirection',
         'actions' => 'getActions',
@@ -314,6 +326,8 @@ class PushNotificationRequest implements ModelInterface, ArrayAccess, \JsonSeria
         $this->setIfExists('title', $data ?? [], null);
         $this->setIfExists('message', $data ?? [], null);
         $this->setIfExists('subtitle', $data ?? [], null);
+        $this->setIfExists('icon', $data ?? [], null);
+        $this->setIfExists('interruptionLevel', $data ?? [], null);
         $this->setIfExists('media', $data ?? [], null);
         $this->setIfExists('redirection', $data ?? [], null);
         $this->setIfExists('actions', $data ?? [], null);
@@ -358,6 +372,10 @@ class PushNotificationRequest implements ModelInterface, ArrayAccess, \JsonSeria
         if ($this->container['title'] === null) {
             $invalidProperties[] = "'title' can't be null";
         }
+        if (!is_null($this->container['icon']) && !preg_match("/^https:\/\//", $this->container['icon'])) {
+            $invalidProperties[] = "invalid value for 'icon', must be conform to the pattern /^https:\/\//.";
+        }
+
         if (!is_null($this->container['media']) && !preg_match("/^https:\/\//", $this->container['media'])) {
             $invalidProperties[] = "invalid value for 'media', must be conform to the pattern /^https:\/\//.";
         }
@@ -497,6 +515,65 @@ class PushNotificationRequest implements ModelInterface, ArrayAccess, \JsonSeria
             throw new \InvalidArgumentException('non-nullable subtitle cannot be null');
         }
         $this->container['subtitle'] = $subtitle;
+
+        return $this;
+    }
+
+    /**
+     * Gets icon
+     *
+     * @return string|null
+     */
+    public function getIcon()
+    {
+        return $this->container['icon'];
+    }
+
+    /**
+     * Sets icon
+     *
+     * @param string|null $icon Optional HTTPS image URL without credentials for a custom notification icon. If the image cannot be loaded, the app icon is used. iOS may omit subtitle when displaying a custom icon.
+     *
+     * @return self
+     */
+    public function setIcon($icon)
+    {
+        if (is_null($icon)) {
+            throw new \InvalidArgumentException('non-nullable icon cannot be null');
+        }
+
+        if ((!preg_match("/^https:\/\//", ObjectSerializer::toString($icon)))) {
+            throw new \InvalidArgumentException("invalid value for \$icon when calling PushNotificationRequest., must conform to the pattern /^https:\/\//.");
+        }
+
+        $this->container['icon'] = $icon;
+
+        return $this;
+    }
+
+    /**
+     * Gets interruptionLevel
+     *
+     * @return \ActivitySmith\Generated\Model\PushInterruptionLevel|null
+     */
+    public function getInterruptionLevel()
+    {
+        return $this->container['interruptionLevel'];
+    }
+
+    /**
+     * Sets interruptionLevel
+     *
+     * @param \ActivitySmith\Generated\Model\PushInterruptionLevel|null $interruptionLevel interruptionLevel
+     *
+     * @return self
+     */
+    public function setInterruptionLevel($interruptionLevel)
+    {
+        if (is_null($interruptionLevel)) {
+            throw new \InvalidArgumentException('non-nullable interruptionLevel cannot be null');
+        }
+        $this->container['interruptionLevel'] = $interruptionLevel;
 
         return $this;
     }
