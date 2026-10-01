@@ -1,6 +1,6 @@
 <?php
 /**
- * PushNotificationResponse
+ * BillingBlockedError
  *
  * PHP version 7.4
  *
@@ -32,16 +32,15 @@ use \ArrayAccess;
 use \ActivitySmith\Generated\ObjectSerializer;
 
 /**
- * PushNotificationResponse Class Doc Comment
+ * BillingBlockedError Class Doc Comment
  *
  * @category Class
- * @description Apple APNs acceptance result. Acceptance does not confirm device delivery or presentation. Alerts remain eligible for APNs delivery retries for 24 hours; device settings and APNs storage policies still apply.
  * @package  ActivitySmith\Generated
  * @author   OpenAPI Generator team
  * @link     https://openapi-generator.tech
  * @implements \ArrayAccess<string, mixed>
  */
-class PushNotificationResponse implements ModelInterface, ArrayAccess, \JsonSerializable
+class BillingBlockedError implements ModelInterface, ArrayAccess, \JsonSerializable
 {
     public const DISCRIMINATOR = null;
 
@@ -50,7 +49,7 @@ class PushNotificationResponse implements ModelInterface, ArrayAccess, \JsonSeri
       *
       * @var string
       */
-    protected static $openAPIModelName = 'PushNotificationResponse';
+    protected static $openAPIModelName = 'BillingBlockedError';
 
     /**
       * Array of property to type mappings. Used for (de)serialization
@@ -58,12 +57,10 @@ class PushNotificationResponse implements ModelInterface, ArrayAccess, \JsonSeri
       * @var string[]
       */
     protected static $openAPITypes = [
-        'success' => 'bool',
-        'devicesNotified' => 'int',
-        'usersNotified' => 'int',
-        'effectiveChannelSlugs' => 'string[]',
-        'tags' => 'string[]',
-        'timestamp' => '\DateTime'
+        'error' => 'string',
+        'message' => 'string',
+        'trialPeriod' => '\ActivitySmith\Generated\Model\BillingBlockedErrorTrialPeriod',
+        'upgradeUrl' => 'string'
     ];
 
     /**
@@ -74,12 +71,10 @@ class PushNotificationResponse implements ModelInterface, ArrayAccess, \JsonSeri
       * @psalm-var array<string, string|null>
       */
     protected static $openAPIFormats = [
-        'success' => null,
-        'devicesNotified' => null,
-        'usersNotified' => null,
-        'effectiveChannelSlugs' => null,
-        'tags' => null,
-        'timestamp' => 'date-time'
+        'error' => null,
+        'message' => null,
+        'trialPeriod' => null,
+        'upgradeUrl' => 'uri'
     ];
 
     /**
@@ -88,12 +83,10 @@ class PushNotificationResponse implements ModelInterface, ArrayAccess, \JsonSeri
       * @var boolean[]
       */
     protected static array $openAPINullables = [
-        'success' => false,
-        'devicesNotified' => false,
-        'usersNotified' => false,
-        'effectiveChannelSlugs' => false,
-        'tags' => false,
-        'timestamp' => false
+        'error' => false,
+        'message' => false,
+        'trialPeriod' => false,
+        'upgradeUrl' => false
     ];
 
     /**
@@ -182,12 +175,10 @@ class PushNotificationResponse implements ModelInterface, ArrayAccess, \JsonSeri
      * @var string[]
      */
     protected static $attributeMap = [
-        'success' => 'success',
-        'devicesNotified' => 'devices_notified',
-        'usersNotified' => 'users_notified',
-        'effectiveChannelSlugs' => 'effective_channel_slugs',
-        'tags' => 'tags',
-        'timestamp' => 'timestamp'
+        'error' => 'error',
+        'message' => 'message',
+        'trialPeriod' => 'trial_period',
+        'upgradeUrl' => 'upgrade_url'
     ];
 
     /**
@@ -196,12 +187,10 @@ class PushNotificationResponse implements ModelInterface, ArrayAccess, \JsonSeri
      * @var string[]
      */
     protected static $setters = [
-        'success' => 'setSuccess',
-        'devicesNotified' => 'setDevicesNotified',
-        'usersNotified' => 'setUsersNotified',
-        'effectiveChannelSlugs' => 'setEffectiveChannelSlugs',
-        'tags' => 'setTags',
-        'timestamp' => 'setTimestamp'
+        'error' => 'setError',
+        'message' => 'setMessage',
+        'trialPeriod' => 'setTrialPeriod',
+        'upgradeUrl' => 'setUpgradeUrl'
     ];
 
     /**
@@ -210,12 +199,10 @@ class PushNotificationResponse implements ModelInterface, ArrayAccess, \JsonSeri
      * @var string[]
      */
     protected static $getters = [
-        'success' => 'getSuccess',
-        'devicesNotified' => 'getDevicesNotified',
-        'usersNotified' => 'getUsersNotified',
-        'effectiveChannelSlugs' => 'getEffectiveChannelSlugs',
-        'tags' => 'getTags',
-        'timestamp' => 'getTimestamp'
+        'error' => 'getError',
+        'message' => 'getMessage',
+        'trialPeriod' => 'getTrialPeriod',
+        'upgradeUrl' => 'getUpgradeUrl'
     ];
 
     /**
@@ -259,6 +246,23 @@ class PushNotificationResponse implements ModelInterface, ArrayAccess, \JsonSeri
         return self::$openAPIModelName;
     }
 
+    public const ERROR_TRIAL_EXPIRED = 'trial_expired';
+    public const ERROR_TRIAL_EXHAUSTED = 'trial_exhausted';
+    public const ERROR_BILLING_OVERAGE_CAP_REACHED = 'billing_overage_cap_reached';
+
+    /**
+     * Gets allowable values of the enum
+     *
+     * @return string[]
+     */
+    public function getErrorAllowableValues()
+    {
+        return [
+            self::ERROR_TRIAL_EXPIRED,
+            self::ERROR_TRIAL_EXHAUSTED,
+            self::ERROR_BILLING_OVERAGE_CAP_REACHED,
+        ];
+    }
 
     /**
      * Associative array for storing property values
@@ -275,12 +279,10 @@ class PushNotificationResponse implements ModelInterface, ArrayAccess, \JsonSeri
      */
     public function __construct(array $data = null)
     {
-        $this->setIfExists('success', $data ?? [], null);
-        $this->setIfExists('devicesNotified', $data ?? [], null);
-        $this->setIfExists('usersNotified', $data ?? [], null);
-        $this->setIfExists('effectiveChannelSlugs', $data ?? [], null);
-        $this->setIfExists('tags', $data ?? [], null);
-        $this->setIfExists('timestamp', $data ?? [], null);
+        $this->setIfExists('error', $data ?? [], null);
+        $this->setIfExists('message', $data ?? [], null);
+        $this->setIfExists('trialPeriod', $data ?? [], null);
+        $this->setIfExists('upgradeUrl', $data ?? [], null);
     }
 
     /**
@@ -310,11 +312,23 @@ class PushNotificationResponse implements ModelInterface, ArrayAccess, \JsonSeri
     {
         $invalidProperties = [];
 
-        if ($this->container['success'] === null) {
-            $invalidProperties[] = "'success' can't be null";
+        if ($this->container['error'] === null) {
+            $invalidProperties[] = "'error' can't be null";
         }
-        if ($this->container['timestamp'] === null) {
-            $invalidProperties[] = "'timestamp' can't be null";
+        $allowedValues = $this->getErrorAllowableValues();
+        if (!is_null($this->container['error']) && !in_array($this->container['error'], $allowedValues, true)) {
+            $invalidProperties[] = sprintf(
+                "invalid value '%s' for 'error', must be one of '%s'",
+                $this->container['error'],
+                implode("', '", $allowedValues)
+            );
+        }
+
+        if ($this->container['message'] === null) {
+            $invalidProperties[] = "'message' can't be null";
+        }
+        if ($this->container['upgradeUrl'] === null) {
+            $invalidProperties[] = "'upgradeUrl' can't be null";
         }
         return $invalidProperties;
     }
@@ -332,163 +346,119 @@ class PushNotificationResponse implements ModelInterface, ArrayAccess, \JsonSeri
 
 
     /**
-     * Gets success
+     * Gets error
      *
-     * @return bool
+     * @return string
      */
-    public function getSuccess()
+    public function getError()
     {
-        return $this->container['success'];
+        return $this->container['error'];
     }
 
     /**
-     * Sets success
+     * Sets error
      *
-     * @param bool $success True when APNs accepts the notification for at least one targeted device.
+     * @param string $error error
      *
      * @return self
      */
-    public function setSuccess($success)
+    public function setError($error)
     {
-        if (is_null($success)) {
-            throw new \InvalidArgumentException('non-nullable success cannot be null');
+        if (is_null($error)) {
+            throw new \InvalidArgumentException('non-nullable error cannot be null');
         }
-        $this->container['success'] = $success;
+        $allowedValues = $this->getErrorAllowableValues();
+        if (!in_array($error, $allowedValues, true)) {
+            throw new \InvalidArgumentException(
+                sprintf(
+                    "Invalid value '%s' for 'error', must be one of '%s'",
+                    $error,
+                    implode("', '", $allowedValues)
+                )
+            );
+        }
+        $this->container['error'] = $error;
 
         return $this;
     }
 
     /**
-     * Gets devicesNotified
+     * Gets message
      *
-     * @return int|null
+     * @return string
      */
-    public function getDevicesNotified()
+    public function getMessage()
     {
-        return $this->container['devicesNotified'];
+        return $this->container['message'];
     }
 
     /**
-     * Sets devicesNotified
+     * Sets message
      *
-     * @param int|null $devicesNotified Number of device tokens for which APNs accepted the notification, without confirming on-device delivery.
+     * @param string $message message
      *
      * @return self
      */
-    public function setDevicesNotified($devicesNotified)
+    public function setMessage($message)
     {
-        if (is_null($devicesNotified)) {
-            throw new \InvalidArgumentException('non-nullable devicesNotified cannot be null');
+        if (is_null($message)) {
+            throw new \InvalidArgumentException('non-nullable message cannot be null');
         }
-        $this->container['devicesNotified'] = $devicesNotified;
+        $this->container['message'] = $message;
 
         return $this;
     }
 
     /**
-     * Gets usersNotified
+     * Gets trialPeriod
      *
-     * @return int|null
+     * @return \ActivitySmith\Generated\Model\BillingBlockedErrorTrialPeriod|null
      */
-    public function getUsersNotified()
+    public function getTrialPeriod()
     {
-        return $this->container['usersNotified'];
+        return $this->container['trialPeriod'];
     }
 
     /**
-     * Sets usersNotified
+     * Sets trialPeriod
      *
-     * @param int|null $usersNotified usersNotified
+     * @param \ActivitySmith\Generated\Model\BillingBlockedErrorTrialPeriod|null $trialPeriod trialPeriod
      *
      * @return self
      */
-    public function setUsersNotified($usersNotified)
+    public function setTrialPeriod($trialPeriod)
     {
-        if (is_null($usersNotified)) {
-            throw new \InvalidArgumentException('non-nullable usersNotified cannot be null');
+        if (is_null($trialPeriod)) {
+            throw new \InvalidArgumentException('non-nullable trialPeriod cannot be null');
         }
-        $this->container['usersNotified'] = $usersNotified;
+        $this->container['trialPeriod'] = $trialPeriod;
 
         return $this;
     }
 
     /**
-     * Gets effectiveChannelSlugs
+     * Gets upgradeUrl
      *
-     * @return string[]|null
+     * @return string
      */
-    public function getEffectiveChannelSlugs()
+    public function getUpgradeUrl()
     {
-        return $this->container['effectiveChannelSlugs'];
+        return $this->container['upgradeUrl'];
     }
 
     /**
-     * Sets effectiveChannelSlugs
+     * Sets upgradeUrl
      *
-     * @param string[]|null $effectiveChannelSlugs effectiveChannelSlugs
+     * @param string $upgradeUrl upgradeUrl
      *
      * @return self
      */
-    public function setEffectiveChannelSlugs($effectiveChannelSlugs)
+    public function setUpgradeUrl($upgradeUrl)
     {
-        if (is_null($effectiveChannelSlugs)) {
-            throw new \InvalidArgumentException('non-nullable effectiveChannelSlugs cannot be null');
+        if (is_null($upgradeUrl)) {
+            throw new \InvalidArgumentException('non-nullable upgradeUrl cannot be null');
         }
-        $this->container['effectiveChannelSlugs'] = $effectiveChannelSlugs;
-
-        return $this;
-    }
-
-    /**
-     * Gets tags
-     *
-     * @return string[]|null
-     */
-    public function getTags()
-    {
-        return $this->container['tags'];
-    }
-
-    /**
-     * Sets tags
-     *
-     * @param string[]|null $tags Optional tags to organize and filter notification history.
-     *
-     * @return self
-     */
-    public function setTags($tags)
-    {
-        if (is_null($tags)) {
-            throw new \InvalidArgumentException('non-nullable tags cannot be null');
-        }
-        $this->container['tags'] = $tags;
-
-        return $this;
-    }
-
-    /**
-     * Gets timestamp
-     *
-     * @return \DateTime
-     */
-    public function getTimestamp()
-    {
-        return $this->container['timestamp'];
-    }
-
-    /**
-     * Sets timestamp
-     *
-     * @param \DateTime $timestamp timestamp
-     *
-     * @return self
-     */
-    public function setTimestamp($timestamp)
-    {
-        if (is_null($timestamp)) {
-            throw new \InvalidArgumentException('non-nullable timestamp cannot be null');
-        }
-        $this->container['timestamp'] = $timestamp;
+        $this->container['upgradeUrl'] = $upgradeUrl;
 
         return $this;
     }
