@@ -1,6 +1,6 @@
 <?php
 /**
- * PushNotificationResponse
+ * BillingBlockedErrorTrialPeriod
  *
  * PHP version 7.4
  *
@@ -32,16 +32,15 @@ use \ArrayAccess;
 use \ActivitySmith\Generated\ObjectSerializer;
 
 /**
- * PushNotificationResponse Class Doc Comment
+ * BillingBlockedErrorTrialPeriod Class Doc Comment
  *
  * @category Class
- * @description Apple APNs acceptance result. Acceptance does not confirm device delivery or presentation. Alerts remain eligible for APNs delivery retries for 24 hours; device settings and APNs storage policies still apply.
  * @package  ActivitySmith\Generated
  * @author   OpenAPI Generator team
  * @link     https://openapi-generator.tech
  * @implements \ArrayAccess<string, mixed>
  */
-class PushNotificationResponse implements ModelInterface, ArrayAccess, \JsonSerializable
+class BillingBlockedErrorTrialPeriod implements ModelInterface, ArrayAccess, \JsonSerializable
 {
     public const DISCRIMINATOR = null;
 
@@ -50,7 +49,7 @@ class PushNotificationResponse implements ModelInterface, ArrayAccess, \JsonSeri
       *
       * @var string
       */
-    protected static $openAPIModelName = 'PushNotificationResponse';
+    protected static $openAPIModelName = 'BillingBlockedError_trial_period';
 
     /**
       * Array of property to type mappings. Used for (de)serialization
@@ -58,12 +57,8 @@ class PushNotificationResponse implements ModelInterface, ArrayAccess, \JsonSeri
       * @var string[]
       */
     protected static $openAPITypes = [
-        'success' => 'bool',
-        'devicesNotified' => 'int',
-        'usersNotified' => 'int',
-        'effectiveChannelSlugs' => 'string[]',
-        'tags' => 'string[]',
-        'timestamp' => '\DateTime'
+        'startedAt' => '\DateTime',
+        'endsAt' => '\DateTime'
     ];
 
     /**
@@ -74,12 +69,8 @@ class PushNotificationResponse implements ModelInterface, ArrayAccess, \JsonSeri
       * @psalm-var array<string, string|null>
       */
     protected static $openAPIFormats = [
-        'success' => null,
-        'devicesNotified' => null,
-        'usersNotified' => null,
-        'effectiveChannelSlugs' => null,
-        'tags' => null,
-        'timestamp' => 'date-time'
+        'startedAt' => 'date-time',
+        'endsAt' => 'date-time'
     ];
 
     /**
@@ -88,12 +79,8 @@ class PushNotificationResponse implements ModelInterface, ArrayAccess, \JsonSeri
       * @var boolean[]
       */
     protected static array $openAPINullables = [
-        'success' => false,
-        'devicesNotified' => false,
-        'usersNotified' => false,
-        'effectiveChannelSlugs' => false,
-        'tags' => false,
-        'timestamp' => false
+        'startedAt' => false,
+        'endsAt' => false
     ];
 
     /**
@@ -182,12 +169,8 @@ class PushNotificationResponse implements ModelInterface, ArrayAccess, \JsonSeri
      * @var string[]
      */
     protected static $attributeMap = [
-        'success' => 'success',
-        'devicesNotified' => 'devices_notified',
-        'usersNotified' => 'users_notified',
-        'effectiveChannelSlugs' => 'effective_channel_slugs',
-        'tags' => 'tags',
-        'timestamp' => 'timestamp'
+        'startedAt' => 'started_at',
+        'endsAt' => 'ends_at'
     ];
 
     /**
@@ -196,12 +179,8 @@ class PushNotificationResponse implements ModelInterface, ArrayAccess, \JsonSeri
      * @var string[]
      */
     protected static $setters = [
-        'success' => 'setSuccess',
-        'devicesNotified' => 'setDevicesNotified',
-        'usersNotified' => 'setUsersNotified',
-        'effectiveChannelSlugs' => 'setEffectiveChannelSlugs',
-        'tags' => 'setTags',
-        'timestamp' => 'setTimestamp'
+        'startedAt' => 'setStartedAt',
+        'endsAt' => 'setEndsAt'
     ];
 
     /**
@@ -210,12 +189,8 @@ class PushNotificationResponse implements ModelInterface, ArrayAccess, \JsonSeri
      * @var string[]
      */
     protected static $getters = [
-        'success' => 'getSuccess',
-        'devicesNotified' => 'getDevicesNotified',
-        'usersNotified' => 'getUsersNotified',
-        'effectiveChannelSlugs' => 'getEffectiveChannelSlugs',
-        'tags' => 'getTags',
-        'timestamp' => 'getTimestamp'
+        'startedAt' => 'getStartedAt',
+        'endsAt' => 'getEndsAt'
     ];
 
     /**
@@ -275,12 +250,8 @@ class PushNotificationResponse implements ModelInterface, ArrayAccess, \JsonSeri
      */
     public function __construct(array $data = null)
     {
-        $this->setIfExists('success', $data ?? [], null);
-        $this->setIfExists('devicesNotified', $data ?? [], null);
-        $this->setIfExists('usersNotified', $data ?? [], null);
-        $this->setIfExists('effectiveChannelSlugs', $data ?? [], null);
-        $this->setIfExists('tags', $data ?? [], null);
-        $this->setIfExists('timestamp', $data ?? [], null);
+        $this->setIfExists('startedAt', $data ?? [], null);
+        $this->setIfExists('endsAt', $data ?? [], null);
     }
 
     /**
@@ -310,11 +281,11 @@ class PushNotificationResponse implements ModelInterface, ArrayAccess, \JsonSeri
     {
         $invalidProperties = [];
 
-        if ($this->container['success'] === null) {
-            $invalidProperties[] = "'success' can't be null";
+        if ($this->container['startedAt'] === null) {
+            $invalidProperties[] = "'startedAt' can't be null";
         }
-        if ($this->container['timestamp'] === null) {
-            $invalidProperties[] = "'timestamp' can't be null";
+        if ($this->container['endsAt'] === null) {
+            $invalidProperties[] = "'endsAt' can't be null";
         }
         return $invalidProperties;
     }
@@ -332,163 +303,55 @@ class PushNotificationResponse implements ModelInterface, ArrayAccess, \JsonSeri
 
 
     /**
-     * Gets success
-     *
-     * @return bool
-     */
-    public function getSuccess()
-    {
-        return $this->container['success'];
-    }
-
-    /**
-     * Sets success
-     *
-     * @param bool $success True when APNs accepts the notification for at least one targeted device.
-     *
-     * @return self
-     */
-    public function setSuccess($success)
-    {
-        if (is_null($success)) {
-            throw new \InvalidArgumentException('non-nullable success cannot be null');
-        }
-        $this->container['success'] = $success;
-
-        return $this;
-    }
-
-    /**
-     * Gets devicesNotified
-     *
-     * @return int|null
-     */
-    public function getDevicesNotified()
-    {
-        return $this->container['devicesNotified'];
-    }
-
-    /**
-     * Sets devicesNotified
-     *
-     * @param int|null $devicesNotified Number of device tokens for which APNs accepted the notification, without confirming on-device delivery.
-     *
-     * @return self
-     */
-    public function setDevicesNotified($devicesNotified)
-    {
-        if (is_null($devicesNotified)) {
-            throw new \InvalidArgumentException('non-nullable devicesNotified cannot be null');
-        }
-        $this->container['devicesNotified'] = $devicesNotified;
-
-        return $this;
-    }
-
-    /**
-     * Gets usersNotified
-     *
-     * @return int|null
-     */
-    public function getUsersNotified()
-    {
-        return $this->container['usersNotified'];
-    }
-
-    /**
-     * Sets usersNotified
-     *
-     * @param int|null $usersNotified usersNotified
-     *
-     * @return self
-     */
-    public function setUsersNotified($usersNotified)
-    {
-        if (is_null($usersNotified)) {
-            throw new \InvalidArgumentException('non-nullable usersNotified cannot be null');
-        }
-        $this->container['usersNotified'] = $usersNotified;
-
-        return $this;
-    }
-
-    /**
-     * Gets effectiveChannelSlugs
-     *
-     * @return string[]|null
-     */
-    public function getEffectiveChannelSlugs()
-    {
-        return $this->container['effectiveChannelSlugs'];
-    }
-
-    /**
-     * Sets effectiveChannelSlugs
-     *
-     * @param string[]|null $effectiveChannelSlugs effectiveChannelSlugs
-     *
-     * @return self
-     */
-    public function setEffectiveChannelSlugs($effectiveChannelSlugs)
-    {
-        if (is_null($effectiveChannelSlugs)) {
-            throw new \InvalidArgumentException('non-nullable effectiveChannelSlugs cannot be null');
-        }
-        $this->container['effectiveChannelSlugs'] = $effectiveChannelSlugs;
-
-        return $this;
-    }
-
-    /**
-     * Gets tags
-     *
-     * @return string[]|null
-     */
-    public function getTags()
-    {
-        return $this->container['tags'];
-    }
-
-    /**
-     * Sets tags
-     *
-     * @param string[]|null $tags Optional tags to organize and filter notification history.
-     *
-     * @return self
-     */
-    public function setTags($tags)
-    {
-        if (is_null($tags)) {
-            throw new \InvalidArgumentException('non-nullable tags cannot be null');
-        }
-        $this->container['tags'] = $tags;
-
-        return $this;
-    }
-
-    /**
-     * Gets timestamp
+     * Gets startedAt
      *
      * @return \DateTime
      */
-    public function getTimestamp()
+    public function getStartedAt()
     {
-        return $this->container['timestamp'];
+        return $this->container['startedAt'];
     }
 
     /**
-     * Sets timestamp
+     * Sets startedAt
      *
-     * @param \DateTime $timestamp timestamp
+     * @param \DateTime $startedAt startedAt
      *
      * @return self
      */
-    public function setTimestamp($timestamp)
+    public function setStartedAt($startedAt)
     {
-        if (is_null($timestamp)) {
-            throw new \InvalidArgumentException('non-nullable timestamp cannot be null');
+        if (is_null($startedAt)) {
+            throw new \InvalidArgumentException('non-nullable startedAt cannot be null');
         }
-        $this->container['timestamp'] = $timestamp;
+        $this->container['startedAt'] = $startedAt;
+
+        return $this;
+    }
+
+    /**
+     * Gets endsAt
+     *
+     * @return \DateTime
+     */
+    public function getEndsAt()
+    {
+        return $this->container['endsAt'];
+    }
+
+    /**
+     * Sets endsAt
+     *
+     * @param \DateTime $endsAt endsAt
+     *
+     * @return self
+     */
+    public function setEndsAt($endsAt)
+    {
+        if (is_null($endsAt)) {
+            throw new \InvalidArgumentException('non-nullable endsAt cannot be null');
+        }
+        $this->container['endsAt'] = $endsAt;
 
         return $this;
     }
