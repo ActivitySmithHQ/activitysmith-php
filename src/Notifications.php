@@ -30,7 +30,9 @@ final class Notifications
         ?array $target = null,
         array|string|null $channels = null,
         ?array $tags = null,
-        array|\stdClass|null $metadata = null
+        array|\stdClass|null $metadata = null,
+        ?string $icon = null,
+        ?string $interruptionLevel = null
     ): mixed
     {
         $request = $this->buildRequest(
@@ -46,10 +48,13 @@ final class Notifications
                 'channels' => $channels,
                 'tags' => $tags,
                 'metadata' => $metadata,
+                'icon' => $icon,
+                'interruption_level' => $interruptionLevel,
             ]
         );
         $normalized = Metadata::normalizeRequest($this->normalizeTargetChannels($request));
         $this->assertValidMediaActionsCombination($normalized);
+        $this->assertValidInterruptionLevel($normalized);
 
         return $this->api->sendPushNotification($normalized);
     }
@@ -67,7 +72,9 @@ final class Notifications
         ?array $target = null,
         array|string|null $channels = null,
         ?array $tags = null,
-        array|\stdClass|null $metadata = null
+        array|\stdClass|null $metadata = null,
+        ?string $icon = null,
+        ?string $interruptionLevel = null
     ): mixed {
         $pushNotificationRequest = $this->buildRequest(
             $pushNotificationRequest,
@@ -82,10 +89,13 @@ final class Notifications
                 'channels' => $channels,
                 'tags' => $tags,
                 'metadata' => $metadata,
+                'icon' => $icon,
+                'interruption_level' => $interruptionLevel,
             ]
         );
         $normalized = Metadata::normalizeRequest($this->normalizeTargetChannels($pushNotificationRequest));
         $this->assertValidMediaActionsCombination($normalized);
+        $this->assertValidInterruptionLevel($normalized);
 
         return $this->api->sendPushNotification(
             $normalized,
@@ -161,6 +171,17 @@ final class Notifications
         }
     }
 
+    private function assertValidInterruptionLevel(mixed $request): void
+    {
+        $level = $this->getRequestField($request, 'interruption_level');
+        if ($level instanceof \BackedEnum) {
+            $level = $level->value;
+        }
+        if ($level !== null && !in_array($level, PushInterruptionLevel::VALUES, true)) {
+            throw new InvalidArgumentException('ActivitySmith: interruption_level must be passive, active, or time-sensitive');
+        }
+    }
+
     private function getRequestField(mixed $request, string $field): mixed
     {
         if (is_array($request)) {
@@ -171,7 +192,7 @@ final class Notifications
             return null;
         }
 
-        $getter = 'get' . ucfirst($field);
+        $getter = 'get' . str_replace(' ', '', ucwords(str_replace('_', ' ', $field)));
         if (method_exists($request, $getter)) {
             return $request->{$getter}();
         }
