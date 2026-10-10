@@ -68,6 +68,7 @@ class LiveActivityStreamPutResponse implements ModelInterface, ArrayAccess, \Jso
         'usersNotified' => 'int',
         'effectiveChannelSlugs' => 'string[]',
         'tags' => 'string[]',
+        'warning' => 'string',
         'timestamp' => '\DateTime'
     ];
 
@@ -89,6 +90,7 @@ class LiveActivityStreamPutResponse implements ModelInterface, ArrayAccess, \Jso
         'usersNotified' => null,
         'effectiveChannelSlugs' => null,
         'tags' => null,
+        'warning' => null,
         'timestamp' => 'date-time'
     ];
 
@@ -108,6 +110,7 @@ class LiveActivityStreamPutResponse implements ModelInterface, ArrayAccess, \Jso
         'usersNotified' => false,
         'effectiveChannelSlugs' => false,
         'tags' => false,
+        'warning' => false,
         'timestamp' => false
     ];
 
@@ -207,6 +210,7 @@ class LiveActivityStreamPutResponse implements ModelInterface, ArrayAccess, \Jso
         'usersNotified' => 'users_notified',
         'effectiveChannelSlugs' => 'effective_channel_slugs',
         'tags' => 'tags',
+        'warning' => 'warning',
         'timestamp' => 'timestamp'
     ];
 
@@ -226,6 +230,7 @@ class LiveActivityStreamPutResponse implements ModelInterface, ArrayAccess, \Jso
         'usersNotified' => 'setUsersNotified',
         'effectiveChannelSlugs' => 'setEffectiveChannelSlugs',
         'tags' => 'setTags',
+        'warning' => 'setWarning',
         'timestamp' => 'setTimestamp'
     ];
 
@@ -245,6 +250,7 @@ class LiveActivityStreamPutResponse implements ModelInterface, ArrayAccess, \Jso
         'usersNotified' => 'getUsersNotified',
         'effectiveChannelSlugs' => 'getEffectiveChannelSlugs',
         'tags' => 'getTags',
+        'warning' => 'getWarning',
         'timestamp' => 'getTimestamp'
     ];
 
@@ -336,6 +342,7 @@ class LiveActivityStreamPutResponse implements ModelInterface, ArrayAccess, \Jso
         $this->setIfExists('usersNotified', $data ?? [], null);
         $this->setIfExists('effectiveChannelSlugs', $data ?? [], null);
         $this->setIfExists('tags', $data ?? [], null);
+        $this->setIfExists('warning', $data ?? [], null);
         $this->setIfExists('timestamp', $data ?? [], null);
     }
 
@@ -685,6 +692,33 @@ class LiveActivityStreamPutResponse implements ModelInterface, ArrayAccess, \Jso
             throw new \InvalidArgumentException('non-nullable tags cannot be null');
         }
         $this->container['tags'] = $tags;
+
+        return $this;
+    }
+
+    /**
+     * Gets warning
+     *
+     * @return string|null
+     */
+    public function getWarning()
+    {
+        return $this->container['warning'];
+    }
+
+    /**
+     * Sets warning
+     *
+     * @param string|null $warning Present on `updated` responses when the current Live Activity has received more than 12 updates and has averaged more than one update every 2 minutes since it started. The update is still sent, but iOS may throttle Live Activities that update this often.
+     *
+     * @return self
+     */
+    public function setWarning($warning)
+    {
+        if (is_null($warning)) {
+            throw new \InvalidArgumentException('non-nullable warning cannot be null');
+        }
+        $this->container['warning'] = $warning;
 
         return $this;
     }
