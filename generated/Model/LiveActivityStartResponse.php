@@ -64,7 +64,10 @@ class LiveActivityStartResponse implements ModelInterface, ArrayAccess, \JsonSer
         'activityId' => 'string',
         'effectiveChannelSlugs' => 'string[]',
         'tags' => 'string[]',
-        'timestamp' => '\DateTime'
+        'timestamp' => '\DateTime',
+        'endedActivityId' => 'string',
+        'message' => 'string',
+        'errors' => 'string[]'
     ];
 
     /**
@@ -81,7 +84,10 @@ class LiveActivityStartResponse implements ModelInterface, ArrayAccess, \JsonSer
         'activityId' => null,
         'effectiveChannelSlugs' => null,
         'tags' => null,
-        'timestamp' => 'date-time'
+        'timestamp' => 'date-time',
+        'endedActivityId' => null,
+        'message' => null,
+        'errors' => null
     ];
 
     /**
@@ -96,7 +102,10 @@ class LiveActivityStartResponse implements ModelInterface, ArrayAccess, \JsonSer
         'activityId' => false,
         'effectiveChannelSlugs' => false,
         'tags' => false,
-        'timestamp' => false
+        'timestamp' => false,
+        'endedActivityId' => false,
+        'message' => false,
+        'errors' => false
     ];
 
     /**
@@ -191,7 +200,10 @@ class LiveActivityStartResponse implements ModelInterface, ArrayAccess, \JsonSer
         'activityId' => 'activity_id',
         'effectiveChannelSlugs' => 'effective_channel_slugs',
         'tags' => 'tags',
-        'timestamp' => 'timestamp'
+        'timestamp' => 'timestamp',
+        'endedActivityId' => 'ended_activity_id',
+        'message' => 'message',
+        'errors' => 'errors'
     ];
 
     /**
@@ -206,7 +218,10 @@ class LiveActivityStartResponse implements ModelInterface, ArrayAccess, \JsonSer
         'activityId' => 'setActivityId',
         'effectiveChannelSlugs' => 'setEffectiveChannelSlugs',
         'tags' => 'setTags',
-        'timestamp' => 'setTimestamp'
+        'timestamp' => 'setTimestamp',
+        'endedActivityId' => 'setEndedActivityId',
+        'message' => 'setMessage',
+        'errors' => 'setErrors'
     ];
 
     /**
@@ -221,7 +236,10 @@ class LiveActivityStartResponse implements ModelInterface, ArrayAccess, \JsonSer
         'activityId' => 'getActivityId',
         'effectiveChannelSlugs' => 'getEffectiveChannelSlugs',
         'tags' => 'getTags',
-        'timestamp' => 'getTimestamp'
+        'timestamp' => 'getTimestamp',
+        'endedActivityId' => 'getEndedActivityId',
+        'message' => 'getMessage',
+        'errors' => 'getErrors'
     ];
 
     /**
@@ -288,6 +306,9 @@ class LiveActivityStartResponse implements ModelInterface, ArrayAccess, \JsonSer
         $this->setIfExists('effectiveChannelSlugs', $data ?? [], null);
         $this->setIfExists('tags', $data ?? [], null);
         $this->setIfExists('timestamp', $data ?? [], null);
+        $this->setIfExists('endedActivityId', $data ?? [], null);
+        $this->setIfExists('message', $data ?? [], null);
+        $this->setIfExists('errors', $data ?? [], null);
     }
 
     /**
@@ -526,6 +547,87 @@ class LiveActivityStartResponse implements ModelInterface, ArrayAccess, \JsonSer
             throw new \InvalidArgumentException('non-nullable timestamp cannot be null');
         }
         $this->container['timestamp'] = $timestamp;
+
+        return $this;
+    }
+
+    /**
+     * Gets endedActivityId
+     *
+     * @return string|null
+     */
+    public function getEndedActivityId()
+    {
+        return $this->container['endedActivityId'];
+    }
+
+    /**
+     * Sets endedActivityId
+     *
+     * @param string|null $endedActivityId Present when starting this Live Activity ended an older one to stay within the device limit.
+     *
+     * @return self
+     */
+    public function setEndedActivityId($endedActivityId)
+    {
+        if (is_null($endedActivityId)) {
+            throw new \InvalidArgumentException('non-nullable endedActivityId cannot be null');
+        }
+        $this->container['endedActivityId'] = $endedActivityId;
+
+        return $this;
+    }
+
+    /**
+     * Gets message
+     *
+     * @return string|null
+     */
+    public function getMessage()
+    {
+        return $this->container['message'];
+    }
+
+    /**
+     * Sets message
+     *
+     * @param string|null $message message
+     *
+     * @return self
+     */
+    public function setMessage($message)
+    {
+        if (is_null($message)) {
+            throw new \InvalidArgumentException('non-nullable message cannot be null');
+        }
+        $this->container['message'] = $message;
+
+        return $this;
+    }
+
+    /**
+     * Gets errors
+     *
+     * @return string[]|null
+     */
+    public function getErrors()
+    {
+        return $this->container['errors'];
+    }
+
+    /**
+     * Sets errors
+     *
+     * @param string[]|null $errors Per-device delivery errors when some devices could not be reached.
+     *
+     * @return self
+     */
+    public function setErrors($errors)
+    {
+        if (is_null($errors)) {
+            throw new \InvalidArgumentException('non-nullable errors cannot be null');
+        }
+        $this->container['errors'] = $errors;
 
         return $this;
     }

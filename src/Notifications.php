@@ -103,6 +103,57 @@ final class Notifications
         );
     }
 
+    /**
+     * Silently replaces a sent Push Notification, using the notification_id returned by send().
+     *
+     * @param array<int,array<string,mixed>>|null $actions
+     * @param array<int,string>|null $tags
+     */
+    public function replace(
+        string $notificationId,
+        mixed $request = null,
+        ?string $title = null,
+        ?string $message = null,
+        ?string $subtitle = null,
+        ?string $media = null,
+        ?string $redirection = null,
+        ?array $actions = null,
+        ?array $tags = null,
+        array|\stdClass|null $metadata = null,
+        ?string $icon = null
+    ): mixed {
+        $request = $this->buildRequest(
+            $request,
+            [
+                'title' => $title,
+                'message' => $message,
+                'subtitle' => $subtitle,
+                'media' => $media,
+                'redirection' => $redirection,
+                'actions' => $actions,
+                'tags' => $tags,
+                'metadata' => $metadata,
+                'icon' => $icon,
+            ]
+        );
+        $normalized = Metadata::normalizeRequest($request);
+        $this->assertValidMediaActionsCombination($normalized);
+
+        return $this->api->replacePushNotification($notificationId, $normalized);
+    }
+
+    // Generated-style alias.
+    public function replacePushNotification(
+        string $notificationId,
+        mixed $pushNotificationReplaceRequest = null,
+        string $contentType = PushNotificationsApi::contentTypes['replacePushNotification'][0]
+    ): mixed {
+        $normalized = Metadata::normalizeRequest($pushNotificationReplaceRequest);
+        $this->assertValidMediaActionsCombination($normalized);
+
+        return $this->api->replacePushNotification($notificationId, $normalized, $contentType);
+    }
+
     public function __call(string $name, array $arguments): mixed
     {
         return $this->api->{$name}(...$arguments);

@@ -62,7 +62,14 @@ class LiveActivityUpdateResponse implements ModelInterface, ArrayAccess, \JsonSe
         'activityId' => 'string',
         'devicesQueued' => 'int',
         'devicesNotified' => 'int',
-        'timestamp' => '\DateTime'
+        'timestamp' => '\DateTime',
+        'usersNotified' => 'int',
+        'effectiveChannelSlugs' => 'string[]',
+        'tags' => 'string[]',
+        'operation' => 'string',
+        'streamKey' => 'string',
+        'previousActivityId' => 'string',
+        'errors' => 'string[]'
     ];
 
     /**
@@ -77,7 +84,14 @@ class LiveActivityUpdateResponse implements ModelInterface, ArrayAccess, \JsonSe
         'activityId' => null,
         'devicesQueued' => null,
         'devicesNotified' => null,
-        'timestamp' => 'date-time'
+        'timestamp' => 'date-time',
+        'usersNotified' => null,
+        'effectiveChannelSlugs' => null,
+        'tags' => null,
+        'operation' => null,
+        'streamKey' => null,
+        'previousActivityId' => null,
+        'errors' => null
     ];
 
     /**
@@ -90,7 +104,14 @@ class LiveActivityUpdateResponse implements ModelInterface, ArrayAccess, \JsonSe
         'activityId' => false,
         'devicesQueued' => false,
         'devicesNotified' => false,
-        'timestamp' => false
+        'timestamp' => false,
+        'usersNotified' => false,
+        'effectiveChannelSlugs' => false,
+        'tags' => false,
+        'operation' => false,
+        'streamKey' => false,
+        'previousActivityId' => false,
+        'errors' => false
     ];
 
     /**
@@ -183,7 +204,14 @@ class LiveActivityUpdateResponse implements ModelInterface, ArrayAccess, \JsonSe
         'activityId' => 'activity_id',
         'devicesQueued' => 'devices_queued',
         'devicesNotified' => 'devices_notified',
-        'timestamp' => 'timestamp'
+        'timestamp' => 'timestamp',
+        'usersNotified' => 'users_notified',
+        'effectiveChannelSlugs' => 'effective_channel_slugs',
+        'tags' => 'tags',
+        'operation' => 'operation',
+        'streamKey' => 'stream_key',
+        'previousActivityId' => 'previous_activity_id',
+        'errors' => 'errors'
     ];
 
     /**
@@ -196,7 +224,14 @@ class LiveActivityUpdateResponse implements ModelInterface, ArrayAccess, \JsonSe
         'activityId' => 'setActivityId',
         'devicesQueued' => 'setDevicesQueued',
         'devicesNotified' => 'setDevicesNotified',
-        'timestamp' => 'setTimestamp'
+        'timestamp' => 'setTimestamp',
+        'usersNotified' => 'setUsersNotified',
+        'effectiveChannelSlugs' => 'setEffectiveChannelSlugs',
+        'tags' => 'setTags',
+        'operation' => 'setOperation',
+        'streamKey' => 'setStreamKey',
+        'previousActivityId' => 'setPreviousActivityId',
+        'errors' => 'setErrors'
     ];
 
     /**
@@ -209,7 +244,14 @@ class LiveActivityUpdateResponse implements ModelInterface, ArrayAccess, \JsonSe
         'activityId' => 'getActivityId',
         'devicesQueued' => 'getDevicesQueued',
         'devicesNotified' => 'getDevicesNotified',
-        'timestamp' => 'getTimestamp'
+        'timestamp' => 'getTimestamp',
+        'usersNotified' => 'getUsersNotified',
+        'effectiveChannelSlugs' => 'getEffectiveChannelSlugs',
+        'tags' => 'getTags',
+        'operation' => 'getOperation',
+        'streamKey' => 'getStreamKey',
+        'previousActivityId' => 'getPreviousActivityId',
+        'errors' => 'getErrors'
     ];
 
     /**
@@ -274,6 +316,13 @@ class LiveActivityUpdateResponse implements ModelInterface, ArrayAccess, \JsonSe
         $this->setIfExists('devicesQueued', $data ?? [], null);
         $this->setIfExists('devicesNotified', $data ?? [], null);
         $this->setIfExists('timestamp', $data ?? [], null);
+        $this->setIfExists('usersNotified', $data ?? [], null);
+        $this->setIfExists('effectiveChannelSlugs', $data ?? [], null);
+        $this->setIfExists('tags', $data ?? [], null);
+        $this->setIfExists('operation', $data ?? [], null);
+        $this->setIfExists('streamKey', $data ?? [], null);
+        $this->setIfExists('previousActivityId', $data ?? [], null);
+        $this->setIfExists('errors', $data ?? [], null);
     }
 
     /**
@@ -458,6 +507,195 @@ class LiveActivityUpdateResponse implements ModelInterface, ArrayAccess, \JsonSe
             throw new \InvalidArgumentException('non-nullable timestamp cannot be null');
         }
         $this->container['timestamp'] = $timestamp;
+
+        return $this;
+    }
+
+    /**
+     * Gets usersNotified
+     *
+     * @return int|null
+     */
+    public function getUsersNotified()
+    {
+        return $this->container['usersNotified'];
+    }
+
+    /**
+     * Sets usersNotified
+     *
+     * @param int|null $usersNotified usersNotified
+     *
+     * @return self
+     */
+    public function setUsersNotified($usersNotified)
+    {
+        if (is_null($usersNotified)) {
+            throw new \InvalidArgumentException('non-nullable usersNotified cannot be null');
+        }
+        $this->container['usersNotified'] = $usersNotified;
+
+        return $this;
+    }
+
+    /**
+     * Gets effectiveChannelSlugs
+     *
+     * @return string[]|null
+     */
+    public function getEffectiveChannelSlugs()
+    {
+        return $this->container['effectiveChannelSlugs'];
+    }
+
+    /**
+     * Sets effectiveChannelSlugs
+     *
+     * @param string[]|null $effectiveChannelSlugs effectiveChannelSlugs
+     *
+     * @return self
+     */
+    public function setEffectiveChannelSlugs($effectiveChannelSlugs)
+    {
+        if (is_null($effectiveChannelSlugs)) {
+            throw new \InvalidArgumentException('non-nullable effectiveChannelSlugs cannot be null');
+        }
+        $this->container['effectiveChannelSlugs'] = $effectiveChannelSlugs;
+
+        return $this;
+    }
+
+    /**
+     * Gets tags
+     *
+     * @return string[]|null
+     */
+    public function getTags()
+    {
+        return $this->container['tags'];
+    }
+
+    /**
+     * Sets tags
+     *
+     * @param string[]|null $tags Optional tags to organize and filter notification history.
+     *
+     * @return self
+     */
+    public function setTags($tags)
+    {
+        if (is_null($tags)) {
+            throw new \InvalidArgumentException('non-nullable tags cannot be null');
+        }
+        $this->container['tags'] = $tags;
+
+        return $this;
+    }
+
+    /**
+     * Gets operation
+     *
+     * @return string|null
+     */
+    public function getOperation()
+    {
+        return $this->container['operation'];
+    }
+
+    /**
+     * Sets operation
+     *
+     * @param string|null $operation Present when the update started a new Live Activity for a managed stream.
+     *
+     * @return self
+     */
+    public function setOperation($operation)
+    {
+        if (is_null($operation)) {
+            throw new \InvalidArgumentException('non-nullable operation cannot be null');
+        }
+        $this->container['operation'] = $operation;
+
+        return $this;
+    }
+
+    /**
+     * Gets streamKey
+     *
+     * @return string|null
+     */
+    public function getStreamKey()
+    {
+        return $this->container['streamKey'];
+    }
+
+    /**
+     * Sets streamKey
+     *
+     * @param string|null $streamKey streamKey
+     *
+     * @return self
+     */
+    public function setStreamKey($streamKey)
+    {
+        if (is_null($streamKey)) {
+            throw new \InvalidArgumentException('non-nullable streamKey cannot be null');
+        }
+        $this->container['streamKey'] = $streamKey;
+
+        return $this;
+    }
+
+    /**
+     * Gets previousActivityId
+     *
+     * @return string|null
+     */
+    public function getPreviousActivityId()
+    {
+        return $this->container['previousActivityId'];
+    }
+
+    /**
+     * Sets previousActivityId
+     *
+     * @param string|null $previousActivityId previousActivityId
+     *
+     * @return self
+     */
+    public function setPreviousActivityId($previousActivityId)
+    {
+        if (is_null($previousActivityId)) {
+            throw new \InvalidArgumentException('non-nullable previousActivityId cannot be null');
+        }
+        $this->container['previousActivityId'] = $previousActivityId;
+
+        return $this;
+    }
+
+    /**
+     * Gets errors
+     *
+     * @return string[]|null
+     */
+    public function getErrors()
+    {
+        return $this->container['errors'];
+    }
+
+    /**
+     * Sets errors
+     *
+     * @param string[]|null $errors Per-device delivery errors when some devices could not be reached.
+     *
+     * @return self
+     */
+    public function setErrors($errors)
+    {
+        if (is_null($errors)) {
+            throw new \InvalidArgumentException('non-nullable errors cannot be null');
+        }
+        $this->container['errors'] = $errors;
 
         return $this;
     }

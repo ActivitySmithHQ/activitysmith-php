@@ -62,7 +62,13 @@ class LiveActivityEndResponse implements ModelInterface, ArrayAccess, \JsonSeria
         'activityId' => 'string',
         'devicesQueued' => 'int',
         'devicesNotified' => 'int',
-        'timestamp' => '\DateTime'
+        'timestamp' => '\DateTime',
+        'ignored' => 'bool',
+        'message' => 'string',
+        'endReason' => 'string',
+        'forcedCompletion' => 'bool',
+        'warning' => 'string',
+        'errors' => 'string[]'
     ];
 
     /**
@@ -77,7 +83,13 @@ class LiveActivityEndResponse implements ModelInterface, ArrayAccess, \JsonSeria
         'activityId' => null,
         'devicesQueued' => null,
         'devicesNotified' => null,
-        'timestamp' => 'date-time'
+        'timestamp' => 'date-time',
+        'ignored' => null,
+        'message' => null,
+        'endReason' => null,
+        'forcedCompletion' => null,
+        'warning' => null,
+        'errors' => null
     ];
 
     /**
@@ -90,7 +102,13 @@ class LiveActivityEndResponse implements ModelInterface, ArrayAccess, \JsonSeria
         'activityId' => false,
         'devicesQueued' => false,
         'devicesNotified' => false,
-        'timestamp' => false
+        'timestamp' => false,
+        'ignored' => false,
+        'message' => false,
+        'endReason' => true,
+        'forcedCompletion' => false,
+        'warning' => false,
+        'errors' => false
     ];
 
     /**
@@ -183,7 +201,13 @@ class LiveActivityEndResponse implements ModelInterface, ArrayAccess, \JsonSeria
         'activityId' => 'activity_id',
         'devicesQueued' => 'devices_queued',
         'devicesNotified' => 'devices_notified',
-        'timestamp' => 'timestamp'
+        'timestamp' => 'timestamp',
+        'ignored' => 'ignored',
+        'message' => 'message',
+        'endReason' => 'end_reason',
+        'forcedCompletion' => 'forced_completion',
+        'warning' => 'warning',
+        'errors' => 'errors'
     ];
 
     /**
@@ -196,7 +220,13 @@ class LiveActivityEndResponse implements ModelInterface, ArrayAccess, \JsonSeria
         'activityId' => 'setActivityId',
         'devicesQueued' => 'setDevicesQueued',
         'devicesNotified' => 'setDevicesNotified',
-        'timestamp' => 'setTimestamp'
+        'timestamp' => 'setTimestamp',
+        'ignored' => 'setIgnored',
+        'message' => 'setMessage',
+        'endReason' => 'setEndReason',
+        'forcedCompletion' => 'setForcedCompletion',
+        'warning' => 'setWarning',
+        'errors' => 'setErrors'
     ];
 
     /**
@@ -209,7 +239,13 @@ class LiveActivityEndResponse implements ModelInterface, ArrayAccess, \JsonSeria
         'activityId' => 'getActivityId',
         'devicesQueued' => 'getDevicesQueued',
         'devicesNotified' => 'getDevicesNotified',
-        'timestamp' => 'getTimestamp'
+        'timestamp' => 'getTimestamp',
+        'ignored' => 'getIgnored',
+        'message' => 'getMessage',
+        'endReason' => 'getEndReason',
+        'forcedCompletion' => 'getForcedCompletion',
+        'warning' => 'getWarning',
+        'errors' => 'getErrors'
     ];
 
     /**
@@ -274,6 +310,12 @@ class LiveActivityEndResponse implements ModelInterface, ArrayAccess, \JsonSeria
         $this->setIfExists('devicesQueued', $data ?? [], null);
         $this->setIfExists('devicesNotified', $data ?? [], null);
         $this->setIfExists('timestamp', $data ?? [], null);
+        $this->setIfExists('ignored', $data ?? [], null);
+        $this->setIfExists('message', $data ?? [], null);
+        $this->setIfExists('endReason', $data ?? [], null);
+        $this->setIfExists('forcedCompletion', $data ?? [], null);
+        $this->setIfExists('warning', $data ?? [], null);
+        $this->setIfExists('errors', $data ?? [], null);
     }
 
     /**
@@ -458,6 +500,175 @@ class LiveActivityEndResponse implements ModelInterface, ArrayAccess, \JsonSeria
             throw new \InvalidArgumentException('non-nullable timestamp cannot be null');
         }
         $this->container['timestamp'] = $timestamp;
+
+        return $this;
+    }
+
+    /**
+     * Gets ignored
+     *
+     * @return bool|null
+     */
+    public function getIgnored()
+    {
+        return $this->container['ignored'];
+    }
+
+    /**
+     * Sets ignored
+     *
+     * @param bool|null $ignored True when the Live Activity had already ended and the request had no effect.
+     *
+     * @return self
+     */
+    public function setIgnored($ignored)
+    {
+        if (is_null($ignored)) {
+            throw new \InvalidArgumentException('non-nullable ignored cannot be null');
+        }
+        $this->container['ignored'] = $ignored;
+
+        return $this;
+    }
+
+    /**
+     * Gets message
+     *
+     * @return string|null
+     */
+    public function getMessage()
+    {
+        return $this->container['message'];
+    }
+
+    /**
+     * Sets message
+     *
+     * @param string|null $message message
+     *
+     * @return self
+     */
+    public function setMessage($message)
+    {
+        if (is_null($message)) {
+            throw new \InvalidArgumentException('non-nullable message cannot be null');
+        }
+        $this->container['message'] = $message;
+
+        return $this;
+    }
+
+    /**
+     * Gets endReason
+     *
+     * @return string|null
+     */
+    public function getEndReason()
+    {
+        return $this->container['endReason'];
+    }
+
+    /**
+     * Sets endReason
+     *
+     * @param string|null $endReason endReason
+     *
+     * @return self
+     */
+    public function setEndReason($endReason)
+    {
+        if (is_null($endReason)) {
+            array_push($this->openAPINullablesSetToNull, 'endReason');
+        } else {
+            $nullablesSetToNull = $this->getOpenAPINullablesSetToNull();
+            $index = array_search('endReason', $nullablesSetToNull);
+            if ($index !== FALSE) {
+                unset($nullablesSetToNull[$index]);
+                $this->setOpenAPINullablesSetToNull($nullablesSetToNull);
+            }
+        }
+        $this->container['endReason'] = $endReason;
+
+        return $this;
+    }
+
+    /**
+     * Gets forcedCompletion
+     *
+     * @return bool|null
+     */
+    public function getForcedCompletion()
+    {
+        return $this->container['forcedCompletion'];
+    }
+
+    /**
+     * Sets forcedCompletion
+     *
+     * @param bool|null $forcedCompletion True when the Live Activity was marked complete without a confirmed APNs end delivery.
+     *
+     * @return self
+     */
+    public function setForcedCompletion($forcedCompletion)
+    {
+        if (is_null($forcedCompletion)) {
+            throw new \InvalidArgumentException('non-nullable forcedCompletion cannot be null');
+        }
+        $this->container['forcedCompletion'] = $forcedCompletion;
+
+        return $this;
+    }
+
+    /**
+     * Gets warning
+     *
+     * @return string|null
+     */
+    public function getWarning()
+    {
+        return $this->container['warning'];
+    }
+
+    /**
+     * Sets warning
+     *
+     * @param string|null $warning warning
+     *
+     * @return self
+     */
+    public function setWarning($warning)
+    {
+        if (is_null($warning)) {
+            throw new \InvalidArgumentException('non-nullable warning cannot be null');
+        }
+        $this->container['warning'] = $warning;
+
+        return $this;
+    }
+
+    /**
+     * Gets errors
+     *
+     * @return string[]|null
+     */
+    public function getErrors()
+    {
+        return $this->container['errors'];
+    }
+
+    /**
+     * Sets errors
+     *
+     * @param string[]|null $errors Per-device delivery errors when some devices could not be reached.
+     *
+     * @return self
+     */
+    public function setErrors($errors)
+    {
+        if (is_null($errors)) {
+            throw new \InvalidArgumentException('non-nullable errors cannot be null');
+        }
+        $this->container['errors'] = $errors;
 
         return $this;
     }
