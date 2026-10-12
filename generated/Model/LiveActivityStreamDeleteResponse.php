@@ -64,7 +64,12 @@ class LiveActivityStreamDeleteResponse implements ModelInterface, ArrayAccess, \
         'activityId' => 'string',
         'devicesQueued' => 'int',
         'devicesNotified' => 'int',
-        'timestamp' => '\DateTime'
+        'timestamp' => '\DateTime',
+        'ignored' => 'bool',
+        'message' => 'string',
+        'forcedCompletion' => 'bool',
+        'warning' => 'string',
+        'errors' => 'string[]'
     ];
 
     /**
@@ -81,7 +86,12 @@ class LiveActivityStreamDeleteResponse implements ModelInterface, ArrayAccess, \
         'activityId' => null,
         'devicesQueued' => null,
         'devicesNotified' => null,
-        'timestamp' => 'date-time'
+        'timestamp' => 'date-time',
+        'ignored' => null,
+        'message' => null,
+        'forcedCompletion' => null,
+        'warning' => null,
+        'errors' => null
     ];
 
     /**
@@ -96,7 +106,12 @@ class LiveActivityStreamDeleteResponse implements ModelInterface, ArrayAccess, \
         'activityId' => true,
         'devicesQueued' => false,
         'devicesNotified' => false,
-        'timestamp' => false
+        'timestamp' => false,
+        'ignored' => false,
+        'message' => false,
+        'forcedCompletion' => false,
+        'warning' => false,
+        'errors' => false
     ];
 
     /**
@@ -191,7 +206,12 @@ class LiveActivityStreamDeleteResponse implements ModelInterface, ArrayAccess, \
         'activityId' => 'activity_id',
         'devicesQueued' => 'devices_queued',
         'devicesNotified' => 'devices_notified',
-        'timestamp' => 'timestamp'
+        'timestamp' => 'timestamp',
+        'ignored' => 'ignored',
+        'message' => 'message',
+        'forcedCompletion' => 'forced_completion',
+        'warning' => 'warning',
+        'errors' => 'errors'
     ];
 
     /**
@@ -206,7 +226,12 @@ class LiveActivityStreamDeleteResponse implements ModelInterface, ArrayAccess, \
         'activityId' => 'setActivityId',
         'devicesQueued' => 'setDevicesQueued',
         'devicesNotified' => 'setDevicesNotified',
-        'timestamp' => 'setTimestamp'
+        'timestamp' => 'setTimestamp',
+        'ignored' => 'setIgnored',
+        'message' => 'setMessage',
+        'forcedCompletion' => 'setForcedCompletion',
+        'warning' => 'setWarning',
+        'errors' => 'setErrors'
     ];
 
     /**
@@ -221,7 +246,12 @@ class LiveActivityStreamDeleteResponse implements ModelInterface, ArrayAccess, \
         'activityId' => 'getActivityId',
         'devicesQueued' => 'getDevicesQueued',
         'devicesNotified' => 'getDevicesNotified',
-        'timestamp' => 'getTimestamp'
+        'timestamp' => 'getTimestamp',
+        'ignored' => 'getIgnored',
+        'message' => 'getMessage',
+        'forcedCompletion' => 'getForcedCompletion',
+        'warning' => 'getWarning',
+        'errors' => 'getErrors'
     ];
 
     /**
@@ -301,6 +331,11 @@ class LiveActivityStreamDeleteResponse implements ModelInterface, ArrayAccess, \
         $this->setIfExists('devicesQueued', $data ?? [], null);
         $this->setIfExists('devicesNotified', $data ?? [], null);
         $this->setIfExists('timestamp', $data ?? [], null);
+        $this->setIfExists('ignored', $data ?? [], null);
+        $this->setIfExists('message', $data ?? [], null);
+        $this->setIfExists('forcedCompletion', $data ?? [], null);
+        $this->setIfExists('warning', $data ?? [], null);
+        $this->setIfExists('errors', $data ?? [], null);
     }
 
     /**
@@ -568,6 +603,141 @@ class LiveActivityStreamDeleteResponse implements ModelInterface, ArrayAccess, \
             throw new \InvalidArgumentException('non-nullable timestamp cannot be null');
         }
         $this->container['timestamp'] = $timestamp;
+
+        return $this;
+    }
+
+    /**
+     * Gets ignored
+     *
+     * @return bool|null
+     */
+    public function getIgnored()
+    {
+        return $this->container['ignored'];
+    }
+
+    /**
+     * Sets ignored
+     *
+     * @param bool|null $ignored True when the stream was already ended and the request had no effect.
+     *
+     * @return self
+     */
+    public function setIgnored($ignored)
+    {
+        if (is_null($ignored)) {
+            throw new \InvalidArgumentException('non-nullable ignored cannot be null');
+        }
+        $this->container['ignored'] = $ignored;
+
+        return $this;
+    }
+
+    /**
+     * Gets message
+     *
+     * @return string|null
+     */
+    public function getMessage()
+    {
+        return $this->container['message'];
+    }
+
+    /**
+     * Sets message
+     *
+     * @param string|null $message message
+     *
+     * @return self
+     */
+    public function setMessage($message)
+    {
+        if (is_null($message)) {
+            throw new \InvalidArgumentException('non-nullable message cannot be null');
+        }
+        $this->container['message'] = $message;
+
+        return $this;
+    }
+
+    /**
+     * Gets forcedCompletion
+     *
+     * @return bool|null
+     */
+    public function getForcedCompletion()
+    {
+        return $this->container['forcedCompletion'];
+    }
+
+    /**
+     * Sets forcedCompletion
+     *
+     * @param bool|null $forcedCompletion forcedCompletion
+     *
+     * @return self
+     */
+    public function setForcedCompletion($forcedCompletion)
+    {
+        if (is_null($forcedCompletion)) {
+            throw new \InvalidArgumentException('non-nullable forcedCompletion cannot be null');
+        }
+        $this->container['forcedCompletion'] = $forcedCompletion;
+
+        return $this;
+    }
+
+    /**
+     * Gets warning
+     *
+     * @return string|null
+     */
+    public function getWarning()
+    {
+        return $this->container['warning'];
+    }
+
+    /**
+     * Sets warning
+     *
+     * @param string|null $warning warning
+     *
+     * @return self
+     */
+    public function setWarning($warning)
+    {
+        if (is_null($warning)) {
+            throw new \InvalidArgumentException('non-nullable warning cannot be null');
+        }
+        $this->container['warning'] = $warning;
+
+        return $this;
+    }
+
+    /**
+     * Gets errors
+     *
+     * @return string[]|null
+     */
+    public function getErrors()
+    {
+        return $this->container['errors'];
+    }
+
+    /**
+     * Sets errors
+     *
+     * @param string[]|null $errors Per-device delivery errors when some devices could not be reached.
+     *
+     * @return self
+     */
+    public function setErrors($errors)
+    {
+        if (is_null($errors)) {
+            throw new \InvalidArgumentException('non-nullable errors cannot be null');
+        }
+        $this->container['errors'] = $errors;
 
         return $this;
     }

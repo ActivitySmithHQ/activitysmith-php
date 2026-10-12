@@ -68,7 +68,12 @@ class LiveActivityStreamPutResponse implements ModelInterface, ArrayAccess, \Jso
         'usersNotified' => 'int',
         'effectiveChannelSlugs' => 'string[]',
         'tags' => 'string[]',
-        'timestamp' => '\DateTime'
+        'warning' => 'string',
+        'timestamp' => '\DateTime',
+        'ignored' => 'bool',
+        'remotePushSent' => 'bool',
+        'message' => 'string',
+        'errors' => 'string[]'
     ];
 
     /**
@@ -89,7 +94,12 @@ class LiveActivityStreamPutResponse implements ModelInterface, ArrayAccess, \Jso
         'usersNotified' => null,
         'effectiveChannelSlugs' => null,
         'tags' => null,
-        'timestamp' => 'date-time'
+        'warning' => null,
+        'timestamp' => 'date-time',
+        'ignored' => null,
+        'remotePushSent' => null,
+        'message' => null,
+        'errors' => null
     ];
 
     /**
@@ -108,7 +118,12 @@ class LiveActivityStreamPutResponse implements ModelInterface, ArrayAccess, \Jso
         'usersNotified' => false,
         'effectiveChannelSlugs' => false,
         'tags' => false,
-        'timestamp' => false
+        'warning' => false,
+        'timestamp' => false,
+        'ignored' => false,
+        'remotePushSent' => false,
+        'message' => false,
+        'errors' => false
     ];
 
     /**
@@ -207,7 +222,12 @@ class LiveActivityStreamPutResponse implements ModelInterface, ArrayAccess, \Jso
         'usersNotified' => 'users_notified',
         'effectiveChannelSlugs' => 'effective_channel_slugs',
         'tags' => 'tags',
-        'timestamp' => 'timestamp'
+        'warning' => 'warning',
+        'timestamp' => 'timestamp',
+        'ignored' => 'ignored',
+        'remotePushSent' => 'remote_push_sent',
+        'message' => 'message',
+        'errors' => 'errors'
     ];
 
     /**
@@ -226,7 +246,12 @@ class LiveActivityStreamPutResponse implements ModelInterface, ArrayAccess, \Jso
         'usersNotified' => 'setUsersNotified',
         'effectiveChannelSlugs' => 'setEffectiveChannelSlugs',
         'tags' => 'setTags',
-        'timestamp' => 'setTimestamp'
+        'warning' => 'setWarning',
+        'timestamp' => 'setTimestamp',
+        'ignored' => 'setIgnored',
+        'remotePushSent' => 'setRemotePushSent',
+        'message' => 'setMessage',
+        'errors' => 'setErrors'
     ];
 
     /**
@@ -245,7 +270,12 @@ class LiveActivityStreamPutResponse implements ModelInterface, ArrayAccess, \Jso
         'usersNotified' => 'getUsersNotified',
         'effectiveChannelSlugs' => 'getEffectiveChannelSlugs',
         'tags' => 'getTags',
-        'timestamp' => 'getTimestamp'
+        'warning' => 'getWarning',
+        'timestamp' => 'getTimestamp',
+        'ignored' => 'getIgnored',
+        'remotePushSent' => 'getRemotePushSent',
+        'message' => 'getMessage',
+        'errors' => 'getErrors'
     ];
 
     /**
@@ -336,7 +366,12 @@ class LiveActivityStreamPutResponse implements ModelInterface, ArrayAccess, \Jso
         $this->setIfExists('usersNotified', $data ?? [], null);
         $this->setIfExists('effectiveChannelSlugs', $data ?? [], null);
         $this->setIfExists('tags', $data ?? [], null);
+        $this->setIfExists('warning', $data ?? [], null);
         $this->setIfExists('timestamp', $data ?? [], null);
+        $this->setIfExists('ignored', $data ?? [], null);
+        $this->setIfExists('remotePushSent', $data ?? [], null);
+        $this->setIfExists('message', $data ?? [], null);
+        $this->setIfExists('errors', $data ?? [], null);
     }
 
     /**
@@ -690,6 +725,33 @@ class LiveActivityStreamPutResponse implements ModelInterface, ArrayAccess, \Jso
     }
 
     /**
+     * Gets warning
+     *
+     * @return string|null
+     */
+    public function getWarning()
+    {
+        return $this->container['warning'];
+    }
+
+    /**
+     * Sets warning
+     *
+     * @param string|null $warning Present on `updated` responses when the current Live Activity has received more than 12 updates and has averaged more than one update every 2 minutes since it started. The update is still sent, but iOS may throttle Live Activities that update this often.
+     *
+     * @return self
+     */
+    public function setWarning($warning)
+    {
+        if (is_null($warning)) {
+            throw new \InvalidArgumentException('non-nullable warning cannot be null');
+        }
+        $this->container['warning'] = $warning;
+
+        return $this;
+    }
+
+    /**
      * Gets timestamp
      *
      * @return \DateTime
@@ -712,6 +774,114 @@ class LiveActivityStreamPutResponse implements ModelInterface, ArrayAccess, \Jso
             throw new \InvalidArgumentException('non-nullable timestamp cannot be null');
         }
         $this->container['timestamp'] = $timestamp;
+
+        return $this;
+    }
+
+    /**
+     * Gets ignored
+     *
+     * @return bool|null
+     */
+    public function getIgnored()
+    {
+        return $this->container['ignored'];
+    }
+
+    /**
+     * Sets ignored
+     *
+     * @param bool|null $ignored True when the request had no effect.
+     *
+     * @return self
+     */
+    public function setIgnored($ignored)
+    {
+        if (is_null($ignored)) {
+            throw new \InvalidArgumentException('non-nullable ignored cannot be null');
+        }
+        $this->container['ignored'] = $ignored;
+
+        return $this;
+    }
+
+    /**
+     * Gets remotePushSent
+     *
+     * @return bool|null
+     */
+    public function getRemotePushSent()
+    {
+        return $this->container['remotePushSent'];
+    }
+
+    /**
+     * Sets remotePushSent
+     *
+     * @param bool|null $remotePushSent remotePushSent
+     *
+     * @return self
+     */
+    public function setRemotePushSent($remotePushSent)
+    {
+        if (is_null($remotePushSent)) {
+            throw new \InvalidArgumentException('non-nullable remotePushSent cannot be null');
+        }
+        $this->container['remotePushSent'] = $remotePushSent;
+
+        return $this;
+    }
+
+    /**
+     * Gets message
+     *
+     * @return string|null
+     */
+    public function getMessage()
+    {
+        return $this->container['message'];
+    }
+
+    /**
+     * Sets message
+     *
+     * @param string|null $message message
+     *
+     * @return self
+     */
+    public function setMessage($message)
+    {
+        if (is_null($message)) {
+            throw new \InvalidArgumentException('non-nullable message cannot be null');
+        }
+        $this->container['message'] = $message;
+
+        return $this;
+    }
+
+    /**
+     * Gets errors
+     *
+     * @return string[]|null
+     */
+    public function getErrors()
+    {
+        return $this->container['errors'];
+    }
+
+    /**
+     * Sets errors
+     *
+     * @param string[]|null $errors Per-device delivery errors when some devices could not be reached.
+     *
+     * @return self
+     */
+    public function setErrors($errors)
+    {
+        if (is_null($errors)) {
+            throw new \InvalidArgumentException('non-nullable errors cannot be null');
+        }
+        $this->container['errors'] = $errors;
 
         return $this;
     }
