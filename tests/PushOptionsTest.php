@@ -53,6 +53,36 @@ final class PushOptionsTest extends TestCase
         }
     }
 
+    public function testReplaceSendsPutWithReplacementBody(): void
+    {
+        foreach (['named', 'array', 'alias'] as $form) {
+            $history = [];
+            $stack = HandlerStack::create(new MockHandler([new Response(200, ['Content-Type' => 'application/json'], '{"success":true,"notification_id":"pn1","devices_notified":1,"future_field":true,"timestamp":"2026-10-12T00:00:00Z"}')]));
+            $stack->push(Middleware::history($history));
+            $notifications = new Notifications(new PushNotificationsApi(new Client(['handler' => $stack])));
+            $fields = ['title' => 'Answered from desk', 'tags' => [], 'metadata' => ['attempts' => 0, 'resolved' => false]];
+            if ($form === 'named') {
+                $response = $notifications->replace('pn1', title: 'Answered from desk', tags: [], metadata: ['attempts' => 0, 'resolved' => false]);
+            } elseif ($form === 'array') {
+                $response = $notifications->replace('pn1', $fields);
+            } else {
+                $response = $notifications->replacePushNotification('pn1', $fields);
+            }
+            $request = $history[0]['request'];
+            $this->assertSame('PUT', $request->getMethod());
+            $this->assertStringEndsWith('/push-notification/pn1', $request->getUri()->getPath());
+            $this->assertEquals($fields, json_decode((string) $request->getBody(), true));
+            $this->assertSame('pn1', $response->getNotificationId());
+        }
+    }
+
+    public function testReplaceRejectsMediaWithActions(): void
+    {
+        $notifications = new Notifications(new PushNotificationsApi(new Client(['handler' => HandlerStack::create(new MockHandler([]))])));
+        $this->expectExceptionMessage('ActivitySmith: media cannot be combined with actions');
+        $notifications->replace('pn1', title: 'Done', media: 'https://cdn.activitysmith.com/voice.mp3', actions: [['title' => 'Open', 'type' => 'open_url', 'url' => 'https://example.com']]);
+    }
+
     public function testInvalidLevelNeverReachesTransport(): void
     {
         $api = $this->getMockBuilder(PushNotificationsApi::class)->disableOriginalConstructor()->onlyMethods(['sendPushNotification'])->getMock();
