@@ -59,11 +59,17 @@ class PushNotificationResponse implements ModelInterface, ArrayAccess, \JsonSeri
       */
     protected static $openAPITypes = [
         'success' => 'bool',
+        'notificationId' => 'string',
         'devicesNotified' => 'int',
         'usersNotified' => 'int',
         'effectiveChannelSlugs' => 'string[]',
         'tags' => 'string[]',
-        'timestamp' => '\DateTime'
+        'timestamp' => '\DateTime',
+        'devicesTargeted' => 'int',
+        'devicesDeactivated' => 'int',
+        'devicesUnregistered' => 'int',
+        'credentialTest' => 'bool',
+        'message' => 'string'
     ];
 
     /**
@@ -75,11 +81,17 @@ class PushNotificationResponse implements ModelInterface, ArrayAccess, \JsonSeri
       */
     protected static $openAPIFormats = [
         'success' => null,
+        'notificationId' => null,
         'devicesNotified' => null,
         'usersNotified' => null,
         'effectiveChannelSlugs' => null,
         'tags' => null,
-        'timestamp' => 'date-time'
+        'timestamp' => 'date-time',
+        'devicesTargeted' => null,
+        'devicesDeactivated' => null,
+        'devicesUnregistered' => null,
+        'credentialTest' => null,
+        'message' => null
     ];
 
     /**
@@ -89,11 +101,17 @@ class PushNotificationResponse implements ModelInterface, ArrayAccess, \JsonSeri
       */
     protected static array $openAPINullables = [
         'success' => false,
+        'notificationId' => false,
         'devicesNotified' => false,
         'usersNotified' => false,
         'effectiveChannelSlugs' => false,
         'tags' => false,
-        'timestamp' => false
+        'timestamp' => false,
+        'devicesTargeted' => false,
+        'devicesDeactivated' => false,
+        'devicesUnregistered' => false,
+        'credentialTest' => false,
+        'message' => false
     ];
 
     /**
@@ -183,11 +201,17 @@ class PushNotificationResponse implements ModelInterface, ArrayAccess, \JsonSeri
      */
     protected static $attributeMap = [
         'success' => 'success',
+        'notificationId' => 'notification_id',
         'devicesNotified' => 'devices_notified',
         'usersNotified' => 'users_notified',
         'effectiveChannelSlugs' => 'effective_channel_slugs',
         'tags' => 'tags',
-        'timestamp' => 'timestamp'
+        'timestamp' => 'timestamp',
+        'devicesTargeted' => 'devices_targeted',
+        'devicesDeactivated' => 'devices_deactivated',
+        'devicesUnregistered' => 'devices_unregistered',
+        'credentialTest' => 'credential_test',
+        'message' => 'message'
     ];
 
     /**
@@ -197,11 +221,17 @@ class PushNotificationResponse implements ModelInterface, ArrayAccess, \JsonSeri
      */
     protected static $setters = [
         'success' => 'setSuccess',
+        'notificationId' => 'setNotificationId',
         'devicesNotified' => 'setDevicesNotified',
         'usersNotified' => 'setUsersNotified',
         'effectiveChannelSlugs' => 'setEffectiveChannelSlugs',
         'tags' => 'setTags',
-        'timestamp' => 'setTimestamp'
+        'timestamp' => 'setTimestamp',
+        'devicesTargeted' => 'setDevicesTargeted',
+        'devicesDeactivated' => 'setDevicesDeactivated',
+        'devicesUnregistered' => 'setDevicesUnregistered',
+        'credentialTest' => 'setCredentialTest',
+        'message' => 'setMessage'
     ];
 
     /**
@@ -211,11 +241,17 @@ class PushNotificationResponse implements ModelInterface, ArrayAccess, \JsonSeri
      */
     protected static $getters = [
         'success' => 'getSuccess',
+        'notificationId' => 'getNotificationId',
         'devicesNotified' => 'getDevicesNotified',
         'usersNotified' => 'getUsersNotified',
         'effectiveChannelSlugs' => 'getEffectiveChannelSlugs',
         'tags' => 'getTags',
-        'timestamp' => 'getTimestamp'
+        'timestamp' => 'getTimestamp',
+        'devicesTargeted' => 'getDevicesTargeted',
+        'devicesDeactivated' => 'getDevicesDeactivated',
+        'devicesUnregistered' => 'getDevicesUnregistered',
+        'credentialTest' => 'getCredentialTest',
+        'message' => 'getMessage'
     ];
 
     /**
@@ -276,11 +312,17 @@ class PushNotificationResponse implements ModelInterface, ArrayAccess, \JsonSeri
     public function __construct(array $data = null)
     {
         $this->setIfExists('success', $data ?? [], null);
+        $this->setIfExists('notificationId', $data ?? [], null);
         $this->setIfExists('devicesNotified', $data ?? [], null);
         $this->setIfExists('usersNotified', $data ?? [], null);
         $this->setIfExists('effectiveChannelSlugs', $data ?? [], null);
         $this->setIfExists('tags', $data ?? [], null);
         $this->setIfExists('timestamp', $data ?? [], null);
+        $this->setIfExists('devicesTargeted', $data ?? [], null);
+        $this->setIfExists('devicesDeactivated', $data ?? [], null);
+        $this->setIfExists('devicesUnregistered', $data ?? [], null);
+        $this->setIfExists('credentialTest', $data ?? [], null);
+        $this->setIfExists('message', $data ?? [], null);
     }
 
     /**
@@ -354,6 +396,33 @@ class PushNotificationResponse implements ModelInterface, ArrayAccess, \JsonSeri
             throw new \InvalidArgumentException('non-nullable success cannot be null');
         }
         $this->container['success'] = $success;
+
+        return $this;
+    }
+
+    /**
+     * Gets notificationId
+     *
+     * @return string|null
+     */
+    public function getNotificationId()
+    {
+        return $this->container['notificationId'];
+    }
+
+    /**
+     * Sets notificationId
+     *
+     * @param string|null $notificationId ID of this Push Notification. Pass it to `PUT /push-notification/{notification_id}` to replace the notification later.
+     *
+     * @return self
+     */
+    public function setNotificationId($notificationId)
+    {
+        if (is_null($notificationId)) {
+            throw new \InvalidArgumentException('non-nullable notificationId cannot be null');
+        }
+        $this->container['notificationId'] = $notificationId;
 
         return $this;
     }
@@ -489,6 +558,141 @@ class PushNotificationResponse implements ModelInterface, ArrayAccess, \JsonSeri
             throw new \InvalidArgumentException('non-nullable timestamp cannot be null');
         }
         $this->container['timestamp'] = $timestamp;
+
+        return $this;
+    }
+
+    /**
+     * Gets devicesTargeted
+     *
+     * @return int|null
+     */
+    public function getDevicesTargeted()
+    {
+        return $this->container['devicesTargeted'];
+    }
+
+    /**
+     * Sets devicesTargeted
+     *
+     * @param int|null $devicesTargeted Number of device tokens targeted.
+     *
+     * @return self
+     */
+    public function setDevicesTargeted($devicesTargeted)
+    {
+        if (is_null($devicesTargeted)) {
+            throw new \InvalidArgumentException('non-nullable devicesTargeted cannot be null');
+        }
+        $this->container['devicesTargeted'] = $devicesTargeted;
+
+        return $this;
+    }
+
+    /**
+     * Gets devicesDeactivated
+     *
+     * @return int|null
+     */
+    public function getDevicesDeactivated()
+    {
+        return $this->container['devicesDeactivated'];
+    }
+
+    /**
+     * Sets devicesDeactivated
+     *
+     * @param int|null $devicesDeactivated Number of device tokens deactivated because APNs reported them unregistered.
+     *
+     * @return self
+     */
+    public function setDevicesDeactivated($devicesDeactivated)
+    {
+        if (is_null($devicesDeactivated)) {
+            throw new \InvalidArgumentException('non-nullable devicesDeactivated cannot be null');
+        }
+        $this->container['devicesDeactivated'] = $devicesDeactivated;
+
+        return $this;
+    }
+
+    /**
+     * Gets devicesUnregistered
+     *
+     * @return int|null
+     */
+    public function getDevicesUnregistered()
+    {
+        return $this->container['devicesUnregistered'];
+    }
+
+    /**
+     * Sets devicesUnregistered
+     *
+     * @param int|null $devicesUnregistered Number of targeted device tokens APNs reported as unregistered.
+     *
+     * @return self
+     */
+    public function setDevicesUnregistered($devicesUnregistered)
+    {
+        if (is_null($devicesUnregistered)) {
+            throw new \InvalidArgumentException('non-nullable devicesUnregistered cannot be null');
+        }
+        $this->container['devicesUnregistered'] = $devicesUnregistered;
+
+        return $this;
+    }
+
+    /**
+     * Gets credentialTest
+     *
+     * @return bool|null
+     */
+    public function getCredentialTest()
+    {
+        return $this->container['credentialTest'];
+    }
+
+    /**
+     * Sets credentialTest
+     *
+     * @param bool|null $credentialTest True when the request was an integration connection test and no paired devices were available.
+     *
+     * @return self
+     */
+    public function setCredentialTest($credentialTest)
+    {
+        if (is_null($credentialTest)) {
+            throw new \InvalidArgumentException('non-nullable credentialTest cannot be null');
+        }
+        $this->container['credentialTest'] = $credentialTest;
+
+        return $this;
+    }
+
+    /**
+     * Gets message
+     *
+     * @return string|null
+     */
+    public function getMessage()
+    {
+        return $this->container['message'];
+    }
+
+    /**
+     * Sets message
+     *
+     * @param string|null $message message
+     *
+     * @return self
+     */
+    public function setMessage($message)
+    {
+        if (is_null($message)) {
+            throw new \InvalidArgumentException('non-nullable message cannot be null');
+        }
+        $this->container['message'] = $message;
 
         return $this;
     }

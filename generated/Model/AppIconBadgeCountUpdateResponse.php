@@ -64,7 +64,10 @@ class AppIconBadgeCountUpdateResponse implements ModelInterface, ArrayAccess, \J
         'devicesNotified' => 'int',
         'usersNotified' => 'int',
         'effectiveChannelSlugs' => 'string[]',
-        'timestamp' => '\DateTime'
+        'timestamp' => '\DateTime',
+        'devicesTargeted' => 'int',
+        'devicesDeactivated' => 'int',
+        'devicesUnregistered' => 'int'
     ];
 
     /**
@@ -82,7 +85,10 @@ class AppIconBadgeCountUpdateResponse implements ModelInterface, ArrayAccess, \J
         'devicesNotified' => null,
         'usersNotified' => null,
         'effectiveChannelSlugs' => null,
-        'timestamp' => 'date-time'
+        'timestamp' => 'date-time',
+        'devicesTargeted' => null,
+        'devicesDeactivated' => null,
+        'devicesUnregistered' => null
     ];
 
     /**
@@ -98,7 +104,10 @@ class AppIconBadgeCountUpdateResponse implements ModelInterface, ArrayAccess, \J
         'devicesNotified' => false,
         'usersNotified' => false,
         'effectiveChannelSlugs' => false,
-        'timestamp' => false
+        'timestamp' => false,
+        'devicesTargeted' => false,
+        'devicesDeactivated' => false,
+        'devicesUnregistered' => false
     ];
 
     /**
@@ -194,7 +203,10 @@ class AppIconBadgeCountUpdateResponse implements ModelInterface, ArrayAccess, \J
         'devicesNotified' => 'devices_notified',
         'usersNotified' => 'users_notified',
         'effectiveChannelSlugs' => 'effective_channel_slugs',
-        'timestamp' => 'timestamp'
+        'timestamp' => 'timestamp',
+        'devicesTargeted' => 'devices_targeted',
+        'devicesDeactivated' => 'devices_deactivated',
+        'devicesUnregistered' => 'devices_unregistered'
     ];
 
     /**
@@ -210,7 +222,10 @@ class AppIconBadgeCountUpdateResponse implements ModelInterface, ArrayAccess, \J
         'devicesNotified' => 'setDevicesNotified',
         'usersNotified' => 'setUsersNotified',
         'effectiveChannelSlugs' => 'setEffectiveChannelSlugs',
-        'timestamp' => 'setTimestamp'
+        'timestamp' => 'setTimestamp',
+        'devicesTargeted' => 'setDevicesTargeted',
+        'devicesDeactivated' => 'setDevicesDeactivated',
+        'devicesUnregistered' => 'setDevicesUnregistered'
     ];
 
     /**
@@ -226,7 +241,10 @@ class AppIconBadgeCountUpdateResponse implements ModelInterface, ArrayAccess, \J
         'devicesNotified' => 'getDevicesNotified',
         'usersNotified' => 'getUsersNotified',
         'effectiveChannelSlugs' => 'getEffectiveChannelSlugs',
-        'timestamp' => 'getTimestamp'
+        'timestamp' => 'getTimestamp',
+        'devicesTargeted' => 'getDevicesTargeted',
+        'devicesDeactivated' => 'getDevicesDeactivated',
+        'devicesUnregistered' => 'getDevicesUnregistered'
     ];
 
     /**
@@ -294,6 +312,9 @@ class AppIconBadgeCountUpdateResponse implements ModelInterface, ArrayAccess, \J
         $this->setIfExists('usersNotified', $data ?? [], null);
         $this->setIfExists('effectiveChannelSlugs', $data ?? [], null);
         $this->setIfExists('timestamp', $data ?? [], null);
+        $this->setIfExists('devicesTargeted', $data ?? [], null);
+        $this->setIfExists('devicesDeactivated', $data ?? [], null);
+        $this->setIfExists('devicesUnregistered', $data ?? [], null);
     }
 
     /**
@@ -588,6 +609,87 @@ class AppIconBadgeCountUpdateResponse implements ModelInterface, ArrayAccess, \J
             throw new \InvalidArgumentException('non-nullable timestamp cannot be null');
         }
         $this->container['timestamp'] = $timestamp;
+
+        return $this;
+    }
+
+    /**
+     * Gets devicesTargeted
+     *
+     * @return int|null
+     */
+    public function getDevicesTargeted()
+    {
+        return $this->container['devicesTargeted'];
+    }
+
+    /**
+     * Sets devicesTargeted
+     *
+     * @param int|null $devicesTargeted Number of device tokens targeted.
+     *
+     * @return self
+     */
+    public function setDevicesTargeted($devicesTargeted)
+    {
+        if (is_null($devicesTargeted)) {
+            throw new \InvalidArgumentException('non-nullable devicesTargeted cannot be null');
+        }
+        $this->container['devicesTargeted'] = $devicesTargeted;
+
+        return $this;
+    }
+
+    /**
+     * Gets devicesDeactivated
+     *
+     * @return int|null
+     */
+    public function getDevicesDeactivated()
+    {
+        return $this->container['devicesDeactivated'];
+    }
+
+    /**
+     * Sets devicesDeactivated
+     *
+     * @param int|null $devicesDeactivated Number of device tokens deactivated because APNs reported them unregistered.
+     *
+     * @return self
+     */
+    public function setDevicesDeactivated($devicesDeactivated)
+    {
+        if (is_null($devicesDeactivated)) {
+            throw new \InvalidArgumentException('non-nullable devicesDeactivated cannot be null');
+        }
+        $this->container['devicesDeactivated'] = $devicesDeactivated;
+
+        return $this;
+    }
+
+    /**
+     * Gets devicesUnregistered
+     *
+     * @return int|null
+     */
+    public function getDevicesUnregistered()
+    {
+        return $this->container['devicesUnregistered'];
+    }
+
+    /**
+     * Sets devicesUnregistered
+     *
+     * @param int|null $devicesUnregistered Number of targeted device tokens APNs reported as unregistered.
+     *
+     * @return self
+     */
+    public function setDevicesUnregistered($devicesUnregistered)
+    {
+        if (is_null($devicesUnregistered)) {
+            throw new \InvalidArgumentException('non-nullable devicesUnregistered cannot be null');
+        }
+        $this->container['devicesUnregistered'] = $devicesUnregistered;
 
         return $this;
     }
