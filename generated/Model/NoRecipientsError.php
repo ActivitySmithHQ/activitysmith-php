@@ -58,7 +58,9 @@ class NoRecipientsError implements ModelInterface, ArrayAccess, \JsonSerializabl
       */
     protected static $openAPITypes = [
         'error' => 'string',
+        'code' => 'string',
         'message' => 'string',
+        'appStoreUrl' => 'string',
         'effectiveChannelSlugs' => 'string[]'
     ];
 
@@ -71,7 +73,9 @@ class NoRecipientsError implements ModelInterface, ArrayAccess, \JsonSerializabl
       */
     protected static $openAPIFormats = [
         'error' => null,
+        'code' => null,
         'message' => null,
+        'appStoreUrl' => 'uri',
         'effectiveChannelSlugs' => null
     ];
 
@@ -82,7 +86,9 @@ class NoRecipientsError implements ModelInterface, ArrayAccess, \JsonSerializabl
       */
     protected static array $openAPINullables = [
         'error' => false,
+        'code' => false,
         'message' => false,
+        'appStoreUrl' => false,
         'effectiveChannelSlugs' => false
     ];
 
@@ -173,7 +179,9 @@ class NoRecipientsError implements ModelInterface, ArrayAccess, \JsonSerializabl
      */
     protected static $attributeMap = [
         'error' => 'error',
+        'code' => 'code',
         'message' => 'message',
+        'appStoreUrl' => 'app_store_url',
         'effectiveChannelSlugs' => 'effective_channel_slugs'
     ];
 
@@ -184,7 +192,9 @@ class NoRecipientsError implements ModelInterface, ArrayAccess, \JsonSerializabl
      */
     protected static $setters = [
         'error' => 'setError',
+        'code' => 'setCode',
         'message' => 'setMessage',
+        'appStoreUrl' => 'setAppStoreUrl',
         'effectiveChannelSlugs' => 'setEffectiveChannelSlugs'
     ];
 
@@ -195,7 +205,9 @@ class NoRecipientsError implements ModelInterface, ArrayAccess, \JsonSerializabl
      */
     protected static $getters = [
         'error' => 'getError',
+        'code' => 'getCode',
         'message' => 'getMessage',
+        'appStoreUrl' => 'getAppStoreUrl',
         'effectiveChannelSlugs' => 'getEffectiveChannelSlugs'
     ];
 
@@ -257,7 +269,9 @@ class NoRecipientsError implements ModelInterface, ArrayAccess, \JsonSerializabl
     public function __construct(array $data = null)
     {
         $this->setIfExists('error', $data ?? [], null);
+        $this->setIfExists('code', $data ?? [], null);
         $this->setIfExists('message', $data ?? [], null);
+        $this->setIfExists('appStoreUrl', $data ?? [], null);
         $this->setIfExists('effectiveChannelSlugs', $data ?? [], null);
     }
 
@@ -337,6 +351,33 @@ class NoRecipientsError implements ModelInterface, ArrayAccess, \JsonSerializabl
     }
 
     /**
+     * Gets code
+     *
+     * @return string|null
+     */
+    public function getCode()
+    {
+        return $this->container['code'];
+    }
+
+    /**
+     * Sets code
+     *
+     * @param string|null $code Machine-readable reason. no_paired_devices: the account has no active paired iOS devices; pair an iPhone with the ActivitySmith app. no_recipients_found: devices are paired, but none matched the targeted channels. Treat unknown values as a generic no-delivery error.
+     *
+     * @return self
+     */
+    public function setCode($code)
+    {
+        if (is_null($code)) {
+            throw new \InvalidArgumentException('non-nullable code cannot be null');
+        }
+        $this->container['code'] = $code;
+
+        return $this;
+    }
+
+    /**
      * Gets message
      *
      * @return string
@@ -359,6 +400,33 @@ class NoRecipientsError implements ModelInterface, ArrayAccess, \JsonSerializabl
             throw new \InvalidArgumentException('non-nullable message cannot be null');
         }
         $this->container['message'] = $message;
+
+        return $this;
+    }
+
+    /**
+     * Gets appStoreUrl
+     *
+     * @return string|null
+     */
+    public function getAppStoreUrl()
+    {
+        return $this->container['appStoreUrl'];
+    }
+
+    /**
+     * Sets appStoreUrl
+     *
+     * @param string|null $appStoreUrl ActivitySmith App Store link. Present when code is no_paired_devices.
+     *
+     * @return self
+     */
+    public function setAppStoreUrl($appStoreUrl)
+    {
+        if (is_null($appStoreUrl)) {
+            throw new \InvalidArgumentException('non-nullable appStoreUrl cannot be null');
+        }
+        $this->container['appStoreUrl'] = $appStoreUrl;
 
         return $this;
     }
