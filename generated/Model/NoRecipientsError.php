@@ -58,7 +58,9 @@ class NoRecipientsError implements ModelInterface, ArrayAccess, \JsonSerializabl
       */
     protected static $openAPITypes = [
         'error' => 'string',
+        'code' => 'string',
         'message' => 'string',
+        'appStoreUrl' => 'string',
         'effectiveChannelSlugs' => 'string[]'
     ];
 
@@ -71,7 +73,9 @@ class NoRecipientsError implements ModelInterface, ArrayAccess, \JsonSerializabl
       */
     protected static $openAPIFormats = [
         'error' => null,
+        'code' => null,
         'message' => null,
+        'appStoreUrl' => 'uri',
         'effectiveChannelSlugs' => null
     ];
 
@@ -82,7 +86,9 @@ class NoRecipientsError implements ModelInterface, ArrayAccess, \JsonSerializabl
       */
     protected static array $openAPINullables = [
         'error' => false,
+        'code' => false,
         'message' => false,
+        'appStoreUrl' => false,
         'effectiveChannelSlugs' => false
     ];
 
@@ -173,7 +179,9 @@ class NoRecipientsError implements ModelInterface, ArrayAccess, \JsonSerializabl
      */
     protected static $attributeMap = [
         'error' => 'error',
+        'code' => 'code',
         'message' => 'message',
+        'appStoreUrl' => 'app_store_url',
         'effectiveChannelSlugs' => 'effective_channel_slugs'
     ];
 
@@ -184,7 +192,9 @@ class NoRecipientsError implements ModelInterface, ArrayAccess, \JsonSerializabl
      */
     protected static $setters = [
         'error' => 'setError',
+        'code' => 'setCode',
         'message' => 'setMessage',
+        'appStoreUrl' => 'setAppStoreUrl',
         'effectiveChannelSlugs' => 'setEffectiveChannelSlugs'
     ];
 
@@ -195,7 +205,9 @@ class NoRecipientsError implements ModelInterface, ArrayAccess, \JsonSerializabl
      */
     protected static $getters = [
         'error' => 'getError',
+        'code' => 'getCode',
         'message' => 'getMessage',
+        'appStoreUrl' => 'getAppStoreUrl',
         'effectiveChannelSlugs' => 'getEffectiveChannelSlugs'
     ];
 
@@ -240,6 +252,21 @@ class NoRecipientsError implements ModelInterface, ArrayAccess, \JsonSerializabl
         return self::$openAPIModelName;
     }
 
+    public const CODE_PAIRED_DEVICES = 'no_paired_devices';
+    public const CODE_RECIPIENTS_FOUND = 'no_recipients_found';
+
+    /**
+     * Gets allowable values of the enum
+     *
+     * @return string[]
+     */
+    public function getCodeAllowableValues()
+    {
+        return [
+            self::CODE_PAIRED_DEVICES,
+            self::CODE_RECIPIENTS_FOUND,
+        ];
+    }
 
     /**
      * Associative array for storing property values
@@ -257,7 +284,9 @@ class NoRecipientsError implements ModelInterface, ArrayAccess, \JsonSerializabl
     public function __construct(array $data = null)
     {
         $this->setIfExists('error', $data ?? [], null);
+        $this->setIfExists('code', $data ?? [], null);
         $this->setIfExists('message', $data ?? [], null);
+        $this->setIfExists('appStoreUrl', $data ?? [], null);
         $this->setIfExists('effectiveChannelSlugs', $data ?? [], null);
     }
 
@@ -291,6 +320,15 @@ class NoRecipientsError implements ModelInterface, ArrayAccess, \JsonSerializabl
         if ($this->container['error'] === null) {
             $invalidProperties[] = "'error' can't be null";
         }
+        $allowedValues = $this->getCodeAllowableValues();
+        if (!is_null($this->container['code']) && !in_array($this->container['code'], $allowedValues, true)) {
+            $invalidProperties[] = sprintf(
+                "invalid value '%s' for 'code', must be one of '%s'",
+                $this->container['code'],
+                implode("', '", $allowedValues)
+            );
+        }
+
         if ($this->container['message'] === null) {
             $invalidProperties[] = "'message' can't be null";
         }
@@ -337,6 +375,43 @@ class NoRecipientsError implements ModelInterface, ArrayAccess, \JsonSerializabl
     }
 
     /**
+     * Gets code
+     *
+     * @return string|null
+     */
+    public function getCode()
+    {
+        return $this->container['code'];
+    }
+
+    /**
+     * Sets code
+     *
+     * @param string|null $code no_paired_devices: the account has no active paired iOS devices; pair an iPhone with the ActivitySmith app. no_recipients_found: devices are paired, but none matched the targeted channels.
+     *
+     * @return self
+     */
+    public function setCode($code)
+    {
+        if (is_null($code)) {
+            throw new \InvalidArgumentException('non-nullable code cannot be null');
+        }
+        $allowedValues = $this->getCodeAllowableValues();
+        if (!in_array($code, $allowedValues, true)) {
+            throw new \InvalidArgumentException(
+                sprintf(
+                    "Invalid value '%s' for 'code', must be one of '%s'",
+                    $code,
+                    implode("', '", $allowedValues)
+                )
+            );
+        }
+        $this->container['code'] = $code;
+
+        return $this;
+    }
+
+    /**
      * Gets message
      *
      * @return string
@@ -359,6 +434,33 @@ class NoRecipientsError implements ModelInterface, ArrayAccess, \JsonSerializabl
             throw new \InvalidArgumentException('non-nullable message cannot be null');
         }
         $this->container['message'] = $message;
+
+        return $this;
+    }
+
+    /**
+     * Gets appStoreUrl
+     *
+     * @return string|null
+     */
+    public function getAppStoreUrl()
+    {
+        return $this->container['appStoreUrl'];
+    }
+
+    /**
+     * Sets appStoreUrl
+     *
+     * @param string|null $appStoreUrl ActivitySmith App Store link. Present when code is no_paired_devices.
+     *
+     * @return self
+     */
+    public function setAppStoreUrl($appStoreUrl)
+    {
+        if (is_null($appStoreUrl)) {
+            throw new \InvalidArgumentException('non-nullable appStoreUrl cannot be null');
+        }
+        $this->container['appStoreUrl'] = $appStoreUrl;
 
         return $this;
     }
