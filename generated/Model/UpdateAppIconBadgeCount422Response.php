@@ -58,9 +58,10 @@ class UpdateAppIconBadgeCount422Response implements ModelInterface, ArrayAccess,
       */
     protected static $openAPITypes = [
         'error' => 'string',
-        'message' => 'string',
-        'effectiveChannelSlugs' => 'string[]',
         'code' => 'string',
+        'message' => 'string',
+        'appStoreUrl' => 'string',
+        'effectiveChannelSlugs' => 'string[]',
         'badge' => 'int',
         'devicesTargeted' => 'int',
         'devicesUpdated' => 'int',
@@ -77,9 +78,10 @@ class UpdateAppIconBadgeCount422Response implements ModelInterface, ArrayAccess,
       */
     protected static $openAPIFormats = [
         'error' => null,
-        'message' => null,
-        'effectiveChannelSlugs' => null,
         'code' => null,
+        'message' => null,
+        'appStoreUrl' => 'uri',
+        'effectiveChannelSlugs' => null,
         'badge' => null,
         'devicesTargeted' => null,
         'devicesUpdated' => null,
@@ -94,9 +96,10 @@ class UpdateAppIconBadgeCount422Response implements ModelInterface, ArrayAccess,
       */
     protected static array $openAPINullables = [
         'error' => false,
-        'message' => false,
-        'effectiveChannelSlugs' => false,
         'code' => false,
+        'message' => false,
+        'appStoreUrl' => false,
+        'effectiveChannelSlugs' => false,
         'badge' => false,
         'devicesTargeted' => false,
         'devicesUpdated' => false,
@@ -191,9 +194,10 @@ class UpdateAppIconBadgeCount422Response implements ModelInterface, ArrayAccess,
      */
     protected static $attributeMap = [
         'error' => 'error',
-        'message' => 'message',
-        'effectiveChannelSlugs' => 'effective_channel_slugs',
         'code' => 'code',
+        'message' => 'message',
+        'appStoreUrl' => 'app_store_url',
+        'effectiveChannelSlugs' => 'effective_channel_slugs',
         'badge' => 'badge',
         'devicesTargeted' => 'devices_targeted',
         'devicesUpdated' => 'devices_updated',
@@ -208,9 +212,10 @@ class UpdateAppIconBadgeCount422Response implements ModelInterface, ArrayAccess,
      */
     protected static $setters = [
         'error' => 'setError',
-        'message' => 'setMessage',
-        'effectiveChannelSlugs' => 'setEffectiveChannelSlugs',
         'code' => 'setCode',
+        'message' => 'setMessage',
+        'appStoreUrl' => 'setAppStoreUrl',
+        'effectiveChannelSlugs' => 'setEffectiveChannelSlugs',
         'badge' => 'setBadge',
         'devicesTargeted' => 'setDevicesTargeted',
         'devicesUpdated' => 'setDevicesUpdated',
@@ -225,9 +230,10 @@ class UpdateAppIconBadgeCount422Response implements ModelInterface, ArrayAccess,
      */
     protected static $getters = [
         'error' => 'getError',
-        'message' => 'getMessage',
-        'effectiveChannelSlugs' => 'getEffectiveChannelSlugs',
         'code' => 'getCode',
+        'message' => 'getMessage',
+        'appStoreUrl' => 'getAppStoreUrl',
+        'effectiveChannelSlugs' => 'getEffectiveChannelSlugs',
         'badge' => 'getBadge',
         'devicesTargeted' => 'getDevicesTargeted',
         'devicesUpdated' => 'getDevicesUpdated',
@@ -308,9 +314,10 @@ class UpdateAppIconBadgeCount422Response implements ModelInterface, ArrayAccess,
     public function __construct(array $data = null)
     {
         $this->setIfExists('error', $data ?? [], null);
-        $this->setIfExists('message', $data ?? [], null);
-        $this->setIfExists('effectiveChannelSlugs', $data ?? [], null);
         $this->setIfExists('code', $data ?? [], null);
+        $this->setIfExists('message', $data ?? [], null);
+        $this->setIfExists('appStoreUrl', $data ?? [], null);
+        $this->setIfExists('effectiveChannelSlugs', $data ?? [], null);
         $this->setIfExists('badge', $data ?? [], null);
         $this->setIfExists('devicesTargeted', $data ?? [], null);
         $this->setIfExists('devicesUpdated', $data ?? [], null);
@@ -348,9 +355,6 @@ class UpdateAppIconBadgeCount422Response implements ModelInterface, ArrayAccess,
         if ($this->container['error'] === null) {
             $invalidProperties[] = "'error' can't be null";
         }
-        if ($this->container['message'] === null) {
-            $invalidProperties[] = "'message' can't be null";
-        }
         if ($this->container['code'] === null) {
             $invalidProperties[] = "'code' can't be null";
         }
@@ -363,6 +367,9 @@ class UpdateAppIconBadgeCount422Response implements ModelInterface, ArrayAccess,
             );
         }
 
+        if ($this->container['message'] === null) {
+            $invalidProperties[] = "'message' can't be null";
+        }
         if ($this->container['badge'] === null) {
             $invalidProperties[] = "'badge' can't be null";
         }
@@ -420,60 +427,6 @@ class UpdateAppIconBadgeCount422Response implements ModelInterface, ArrayAccess,
     }
 
     /**
-     * Gets message
-     *
-     * @return string
-     */
-    public function getMessage()
-    {
-        return $this->container['message'];
-    }
-
-    /**
-     * Sets message
-     *
-     * @param string $message message
-     *
-     * @return self
-     */
-    public function setMessage($message)
-    {
-        if (is_null($message)) {
-            throw new \InvalidArgumentException('non-nullable message cannot be null');
-        }
-        $this->container['message'] = $message;
-
-        return $this;
-    }
-
-    /**
-     * Gets effectiveChannelSlugs
-     *
-     * @return string[]|null
-     */
-    public function getEffectiveChannelSlugs()
-    {
-        return $this->container['effectiveChannelSlugs'];
-    }
-
-    /**
-     * Sets effectiveChannelSlugs
-     *
-     * @param string[]|null $effectiveChannelSlugs effectiveChannelSlugs
-     *
-     * @return self
-     */
-    public function setEffectiveChannelSlugs($effectiveChannelSlugs)
-    {
-        if (is_null($effectiveChannelSlugs)) {
-            throw new \InvalidArgumentException('non-nullable effectiveChannelSlugs cannot be null');
-        }
-        $this->container['effectiveChannelSlugs'] = $effectiveChannelSlugs;
-
-        return $this;
-    }
-
-    /**
      * Gets code
      *
      * @return string
@@ -506,6 +459,87 @@ class UpdateAppIconBadgeCount422Response implements ModelInterface, ArrayAccess,
             );
         }
         $this->container['code'] = $code;
+
+        return $this;
+    }
+
+    /**
+     * Gets message
+     *
+     * @return string
+     */
+    public function getMessage()
+    {
+        return $this->container['message'];
+    }
+
+    /**
+     * Sets message
+     *
+     * @param string $message message
+     *
+     * @return self
+     */
+    public function setMessage($message)
+    {
+        if (is_null($message)) {
+            throw new \InvalidArgumentException('non-nullable message cannot be null');
+        }
+        $this->container['message'] = $message;
+
+        return $this;
+    }
+
+    /**
+     * Gets appStoreUrl
+     *
+     * @return string|null
+     */
+    public function getAppStoreUrl()
+    {
+        return $this->container['appStoreUrl'];
+    }
+
+    /**
+     * Sets appStoreUrl
+     *
+     * @param string|null $appStoreUrl ActivitySmith App Store link. Present when code is no_paired_devices.
+     *
+     * @return self
+     */
+    public function setAppStoreUrl($appStoreUrl)
+    {
+        if (is_null($appStoreUrl)) {
+            throw new \InvalidArgumentException('non-nullable appStoreUrl cannot be null');
+        }
+        $this->container['appStoreUrl'] = $appStoreUrl;
+
+        return $this;
+    }
+
+    /**
+     * Gets effectiveChannelSlugs
+     *
+     * @return string[]|null
+     */
+    public function getEffectiveChannelSlugs()
+    {
+        return $this->container['effectiveChannelSlugs'];
+    }
+
+    /**
+     * Sets effectiveChannelSlugs
+     *
+     * @param string[]|null $effectiveChannelSlugs effectiveChannelSlugs
+     *
+     * @return self
+     */
+    public function setEffectiveChannelSlugs($effectiveChannelSlugs)
+    {
+        if (is_null($effectiveChannelSlugs)) {
+            throw new \InvalidArgumentException('non-nullable effectiveChannelSlugs cannot be null');
+        }
+        $this->container['effectiveChannelSlugs'] = $effectiveChannelSlugs;
 
         return $this;
     }

@@ -68,6 +68,7 @@ class LiveActivityStreamDeleteResponse implements ModelInterface, ArrayAccess, \
         'ignored' => 'bool',
         'message' => 'string',
         'forcedCompletion' => 'bool',
+        'delivered' => 'bool',
         'warning' => 'string',
         'errors' => 'string[]'
     ];
@@ -90,6 +91,7 @@ class LiveActivityStreamDeleteResponse implements ModelInterface, ArrayAccess, \
         'ignored' => null,
         'message' => null,
         'forcedCompletion' => null,
+        'delivered' => null,
         'warning' => null,
         'errors' => null
     ];
@@ -110,6 +112,7 @@ class LiveActivityStreamDeleteResponse implements ModelInterface, ArrayAccess, \
         'ignored' => false,
         'message' => false,
         'forcedCompletion' => false,
+        'delivered' => false,
         'warning' => false,
         'errors' => false
     ];
@@ -210,6 +213,7 @@ class LiveActivityStreamDeleteResponse implements ModelInterface, ArrayAccess, \
         'ignored' => 'ignored',
         'message' => 'message',
         'forcedCompletion' => 'forced_completion',
+        'delivered' => 'delivered',
         'warning' => 'warning',
         'errors' => 'errors'
     ];
@@ -230,6 +234,7 @@ class LiveActivityStreamDeleteResponse implements ModelInterface, ArrayAccess, \
         'ignored' => 'setIgnored',
         'message' => 'setMessage',
         'forcedCompletion' => 'setForcedCompletion',
+        'delivered' => 'setDelivered',
         'warning' => 'setWarning',
         'errors' => 'setErrors'
     ];
@@ -250,6 +255,7 @@ class LiveActivityStreamDeleteResponse implements ModelInterface, ArrayAccess, \
         'ignored' => 'getIgnored',
         'message' => 'getMessage',
         'forcedCompletion' => 'getForcedCompletion',
+        'delivered' => 'getDelivered',
         'warning' => 'getWarning',
         'errors' => 'getErrors'
     ];
@@ -334,6 +340,7 @@ class LiveActivityStreamDeleteResponse implements ModelInterface, ArrayAccess, \
         $this->setIfExists('ignored', $data ?? [], null);
         $this->setIfExists('message', $data ?? [], null);
         $this->setIfExists('forcedCompletion', $data ?? [], null);
+        $this->setIfExists('delivered', $data ?? [], null);
         $this->setIfExists('warning', $data ?? [], null);
         $this->setIfExists('errors', $data ?? [], null);
     }
@@ -689,6 +696,33 @@ class LiveActivityStreamDeleteResponse implements ModelInterface, ArrayAccess, \
     }
 
     /**
+     * Gets delivered
+     *
+     * @return bool|null
+     */
+    public function getDelivered()
+    {
+        return $this->container['delivered'];
+    }
+
+    /**
+     * Sets delivered
+     *
+     * @param bool|null $delivered Present when the stream had a current Live Activity. True when the end was sent to at least one device, or queued for a device that has not registered yet. False when no device received it, so the Live Activity may stay on the Lock Screen until iOS removes it or someone dismisses it.
+     *
+     * @return self
+     */
+    public function setDelivered($delivered)
+    {
+        if (is_null($delivered)) {
+            throw new \InvalidArgumentException('non-nullable delivered cannot be null');
+        }
+        $this->container['delivered'] = $delivered;
+
+        return $this;
+    }
+
+    /**
      * Gets warning
      *
      * @return string|null
@@ -701,7 +735,7 @@ class LiveActivityStreamDeleteResponse implements ModelInterface, ArrayAccess, \
     /**
      * Sets warning
      *
-     * @param string|null $warning warning
+     * @param string|null $warning Explains why the end may not have removed the Live Activity, for example because iOS had already ended a Live Activity that started more than 8 hours ago.
      *
      * @return self
      */
