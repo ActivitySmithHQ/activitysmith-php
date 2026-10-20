@@ -460,7 +460,7 @@ class AppIconBadgeCountUpdateResponse implements ModelInterface, ArrayAccess, \J
     /**
      * Sets devicesUpdated
      *
-     * @param int $devicesUpdated Number of devices whose App Icon Badge Count was updated.
+     * @param int $devicesUpdated Number of devices whose App Icon Badge was updated.
      *
      * @return self
      */
