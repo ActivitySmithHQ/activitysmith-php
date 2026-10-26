@@ -21,7 +21,48 @@ final class Metrics
         );
     }
 
-    // Backward-compatible generated-style alias.
+    /**
+     * Creates the metric, or updates the fields sent for an existing one.
+     * Omitted fields keep their current values, so it is safe to call on every start.
+     */
+    public function create(
+        string $key,
+        mixed $definition = null,
+        ?string $label = null,
+        ?string $format = null,
+        ?string $currencyCode = null,
+        ?string $unit = null,
+        ?string $unitSpacing = null
+    ): mixed {
+        $request = $definition;
+        $fields = array_filter([
+            'label' => $label,
+            'format' => $format,
+            'currency_code' => $currencyCode,
+            'unit' => $unit,
+            'unit_spacing' => $unitSpacing,
+        ], static fn (mixed $value): bool => $value !== null);
+
+        if ($fields !== []) {
+            $request = [...(is_array($definition) ? $definition : []), ...$fields];
+        }
+
+        return $this->api->upsertMetric(
+            $key,
+            $request === [] ? null : $request,
+            MetricsApi::contentTypes['upsertMetric'][0]
+        );
+    }
+
+    // Backward-compatible generated-style aliases.
+    public function upsertMetric(
+        mixed $key,
+        mixed $metricUpsertRequest = null,
+        string $contentType = MetricsApi::contentTypes['upsertMetric'][0]
+    ): mixed {
+        return $this->api->upsertMetric($key, $metricUpsertRequest, $contentType);
+    }
+
     public function updateMetricValue(
         mixed $key,
         mixed $metricValueUpdateRequest,

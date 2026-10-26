@@ -57,7 +57,8 @@ class MetricValueUpdateResponse implements ModelInterface, ArrayAccess, \JsonSer
       * @var string[]
       */
     protected static $openAPITypes = [
-        'success' => 'bool'
+        'success' => 'bool',
+        'created' => 'bool'
     ];
 
     /**
@@ -68,7 +69,8 @@ class MetricValueUpdateResponse implements ModelInterface, ArrayAccess, \JsonSer
       * @psalm-var array<string, string|null>
       */
     protected static $openAPIFormats = [
-        'success' => null
+        'success' => null,
+        'created' => null
     ];
 
     /**
@@ -77,7 +79,8 @@ class MetricValueUpdateResponse implements ModelInterface, ArrayAccess, \JsonSer
       * @var boolean[]
       */
     protected static array $openAPINullables = [
-        'success' => false
+        'success' => false,
+        'created' => false
     ];
 
     /**
@@ -166,7 +169,8 @@ class MetricValueUpdateResponse implements ModelInterface, ArrayAccess, \JsonSer
      * @var string[]
      */
     protected static $attributeMap = [
-        'success' => 'success'
+        'success' => 'success',
+        'created' => 'created'
     ];
 
     /**
@@ -175,7 +179,8 @@ class MetricValueUpdateResponse implements ModelInterface, ArrayAccess, \JsonSer
      * @var string[]
      */
     protected static $setters = [
-        'success' => 'setSuccess'
+        'success' => 'setSuccess',
+        'created' => 'setCreated'
     ];
 
     /**
@@ -184,7 +189,8 @@ class MetricValueUpdateResponse implements ModelInterface, ArrayAccess, \JsonSer
      * @var string[]
      */
     protected static $getters = [
-        'success' => 'getSuccess'
+        'success' => 'getSuccess',
+        'created' => 'getCreated'
     ];
 
     /**
@@ -245,6 +251,7 @@ class MetricValueUpdateResponse implements ModelInterface, ArrayAccess, \JsonSer
     public function __construct(array $data = null)
     {
         $this->setIfExists('success', $data ?? [], null);
+        $this->setIfExists('created', $data ?? [], null);
     }
 
     /**
@@ -315,6 +322,33 @@ class MetricValueUpdateResponse implements ModelInterface, ArrayAccess, \JsonSer
             throw new \InvalidArgumentException('non-nullable success cannot be null');
         }
         $this->container['success'] = $success;
+
+        return $this;
+    }
+
+    /**
+     * Gets created
+     *
+     * @return bool|null
+     */
+    public function getCreated()
+    {
+        return $this->container['created'];
+    }
+
+    /**
+     * Sets created
+     *
+     * @param bool|null $created true when this request created the metric because no metric used the key yet.
+     *
+     * @return self
+     */
+    public function setCreated($created)
+    {
+        if (is_null($created)) {
+            throw new \InvalidArgumentException('non-nullable created cannot be null');
+        }
+        $this->container['created'] = $created;
 
         return $this;
     }
