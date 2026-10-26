@@ -125,7 +125,7 @@ class AppIconBadgesApi
     /**
      * Operation updateAppIconBadgeCount
      *
-     * Set App Icon Badge Count
+     * Set App Icon Badge
      *
      * @param  \ActivitySmith\Generated\Model\AppIconBadgeCountUpdateRequest $appIconBadgeCountUpdateRequest appIconBadgeCountUpdateRequest (required)
      * @param  string $contentType The value for the Content-Type header. Check self::contentTypes['updateAppIconBadgeCount'] to see the possible values for this operation
@@ -143,7 +143,7 @@ class AppIconBadgesApi
     /**
      * Operation updateAppIconBadgeCountWithHttpInfo
      *
-     * Set App Icon Badge Count
+     * Set App Icon Badge
      *
      * @param  \ActivitySmith\Generated\Model\AppIconBadgeCountUpdateRequest $appIconBadgeCountUpdateRequest (required)
      * @param  string $contentType The value for the Content-Type header. Check self::contentTypes['updateAppIconBadgeCount'] to see the possible values for this operation
@@ -477,7 +477,7 @@ class AppIconBadgesApi
     /**
      * Operation updateAppIconBadgeCountAsync
      *
-     * Set App Icon Badge Count
+     * Set App Icon Badge
      *
      * @param  \ActivitySmith\Generated\Model\AppIconBadgeCountUpdateRequest $appIconBadgeCountUpdateRequest (required)
      * @param  string $contentType The value for the Content-Type header. Check self::contentTypes['updateAppIconBadgeCount'] to see the possible values for this operation
@@ -498,7 +498,7 @@ class AppIconBadgesApi
     /**
      * Operation updateAppIconBadgeCountAsyncWithHttpInfo
      *
-     * Set App Icon Badge Count
+     * Set App Icon Badge
      *
      * @param  \ActivitySmith\Generated\Model\AppIconBadgeCountUpdateRequest $appIconBadgeCountUpdateRequest (required)
      * @param  string $contentType The value for the Content-Type header. Check self::contentTypes['updateAppIconBadgeCount'] to see the possible values for this operation
