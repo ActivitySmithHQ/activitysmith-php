@@ -17,6 +17,7 @@ final class ActivitySmith
     private const LIVE_API_CLASS = 'ActivitySmith\\Generated\\Api\\LiveActivitiesApi';
     private const METRICS_API_CLASS = 'ActivitySmith\\Generated\\Api\\MetricsApi';
     private const APP_ICON_BADGES_API_CLASS = 'ActivitySmith\\Generated\\Api\\AppIconBadgesApi';
+    private const DEVICES_API_CLASS = 'ActivitySmith\\Generated\\Api\\DevicesApi';
     private const SDK_HEADER_NAME = 'X-ActivitySmith-SDK';
 
     /** @var Notifications */
@@ -27,6 +28,9 @@ final class ActivitySmith
 
     /** @var Metrics */
     public $metrics;
+
+    /** @var Devices */
+    public $devices;
 
     private $appIconBadges;
 
@@ -43,10 +47,13 @@ final class ActivitySmith
         $liveApiClass = self::LIVE_API_CLASS;
         $metricsApiClass = self::METRICS_API_CLASS;
         $appIconBadgesApiClass = self::APP_ICON_BADGES_API_CLASS;
+        $devicesApiClass = self::DEVICES_API_CLASS;
 
         $configuration = $configurationClass::getDefaultConfiguration();
         $configuration->setAccessToken($apiKey);
         $configuration->setUserAgent('activitysmith-php/' . Version::VERSION);
+        // The API reads boolean query parameters as "true" / "false", not 1 / 0.
+        $configuration->setBooleanFormatForQueryString($configurationClass::BOOLEAN_FORMAT_STRING);
 
         $stack = HandlerStack::create();
         $stack->push(Middleware::mapRequest(
@@ -60,6 +67,7 @@ final class ActivitySmith
         $this->notifications = new Notifications(new $pushApiClass($httpClient, $configuration));
         $this->liveActivities = new LiveActivities(new $liveApiClass($httpClient, $configuration));
         $this->metrics = new Metrics(new $metricsApiClass($httpClient, $configuration));
+        $this->devices = new Devices(new $devicesApiClass($httpClient, $configuration));
         $this->appIconBadges = new $appIconBadgesApiClass($httpClient, $configuration);
     }
 
@@ -85,6 +93,7 @@ final class ActivitySmith
             || !class_exists(self::LIVE_API_CLASS)
             || !class_exists(self::METRICS_API_CLASS)
             || !class_exists(self::APP_ICON_BADGES_API_CLASS)
+            || !class_exists(self::DEVICES_API_CLASS)
         ) {
             throw new RuntimeException(
                 'Generated PHP client not found. Run SDK regeneration so /generated contains OpenAPI output.'

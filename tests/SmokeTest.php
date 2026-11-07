@@ -22,6 +22,7 @@ final class SmokeTest extends TestCase
         $this->assertNotNull($client->liveActivities);
         $this->assertTrue(method_exists($client->notifications, 'send'));
         $this->assertTrue(method_exists($client->notifications, 'replace'));
+        $this->assertTrue(method_exists($client->notifications, 'dismiss'));
         $this->assertTrue(method_exists($client->liveActivities, 'start'));
         $this->assertTrue(method_exists($client->liveActivities, 'update'));
         $this->assertTrue(method_exists($client->liveActivities, 'end'));
@@ -29,6 +30,9 @@ final class SmokeTest extends TestCase
         $this->assertTrue(method_exists($client->liveActivities, 'endStream'));
         $this->assertNotNull($client->metrics);
         $this->assertTrue(method_exists($client->metrics, 'update'));
-        $this->assertSame('1.14.0', Version::VERSION);
+        $this->assertTrue(method_exists($client->metrics, 'create'));
+        $this->assertNotNull($client->devices);
+        $this->assertTrue(method_exists($client->devices, 'list'));
+        $this->assertSame('1.15.0', Version::VERSION);
     }
 }

@@ -154,6 +154,23 @@ final class Notifications
         return $this->api->replacePushNotification($notificationId, $normalized, $contentType);
     }
 
+    /**
+     * Clears a sent Push Notification from the Lock Screen and Notification Center,
+     * using the notification_id returned by send(). History keeps it.
+     */
+    public function dismiss(string $notificationId): mixed
+    {
+        return $this->api->dismissPushNotification($notificationId);
+    }
+
+    // Generated-style alias.
+    public function dismissPushNotification(
+        string $notificationId,
+        string $contentType = PushNotificationsApi::contentTypes['dismissPushNotification'][0]
+    ): mixed {
+        return $this->api->dismissPushNotification($notificationId, $contentType);
+    }
+
     public function __call(string $name, array $arguments): mixed
     {
         return $this->api->{$name}(...$arguments);
