@@ -32,26 +32,6 @@ use ActivitySmith\PushAction;
 $activitysmith = new ActivitySmith($_ENV['ACTIVITYSMITH_API_KEY']);
 ```
 
-## Paired Devices
-
-List the iPhones and iPads paired to your account, for example to check that a device is paired before you send. Active devices come first:
-
-```php
-$result = $activitysmith->devices->list();
-
-foreach ($result->getDevices() as $device) {
-    echo $device->getDeviceName() . ' ' . $device->getSystemName() . PHP_EOL;
-}
-```
-
-An empty list means no device is paired. Install ActivitySmith on your iPhone, sign in with the same account, and allow notifications. Channel-scoped API keys cannot list devices.
-
-Pass `includeInactive` to also list devices that can no longer receive deliveries:
-
-```php
-$activitysmith->devices->list(includeInactive: true);
-```
-
 ## Push Notifications
 
 ### Send a Push Notification
@@ -240,7 +220,9 @@ $activitysmith->notifications->replace(
 
 ### Dismiss a Push Notification
 
-Pass the `notification_id` to `dismiss` when a Push Notification no longer needs attention, for example after you answered an agent's question somewhere else. Dismissing clears it from the Lock Screen and Notification Center on every device it was sent to. History keeps it.
+Pass the `notification_id` to `dismiss` when a Push Notification no longer needs attention, for example after you answered an agent's question somewhere else.
+
+Dismissing clears it from the Lock Screen and Notification Center on every device it was sent to. History keeps it.
 
 Devices clear the notification in the background, so it can take a moment.
 
@@ -762,6 +744,26 @@ $activitysmith->liveActivities->stream(
 );
 
 $activitysmith->badgeCount(3, channels: ['sales', 'customer-success']);
+```
+
+## Paired Devices
+
+List the iPhones and iPads paired to your account, for example to check that a device is paired before you send. Active devices come first:
+
+```php
+$result = $activitysmith->devices->list();
+
+foreach ($result->getDevices() as $device) {
+    echo $device->getDeviceName() . ' ' . $device->getSystemName() . PHP_EOL;
+}
+```
+
+An empty list means no device is paired. Install ActivitySmith on your iPhone, sign in with the same account, and allow notifications. Channel-scoped API keys cannot list devices.
+
+Pass `includeInactive` to also list devices that can no longer receive deliveries:
+
+```php
+$activitysmith->devices->list(includeInactive: true);
 ```
 
 ## Error Handling
