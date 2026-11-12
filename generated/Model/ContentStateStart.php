@@ -601,7 +601,7 @@ class ContentStateStart implements ModelInterface, ArrayAccess, \JsonSerializabl
     /**
      * Sets title
      *
-     * @param string $title title
+     * @param string $title Title shown on the Live Activity. Send an empty string to show no title.
      *
      * @return self
      */
