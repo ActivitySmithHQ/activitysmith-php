@@ -66,6 +66,8 @@ class ContentStateUpdate implements ModelInterface, ArrayAccess, \JsonSerializab
         'value' => '\ActivitySmith\Generated\Model\LiveActivityValue',
         'upperLimit' => 'float',
         'durationSeconds' => 'float',
+        'timerStartAt' => '\DateTime',
+        'timerEndAt' => '\DateTime',
         'countsDown' => 'bool',
         'isRunning' => 'bool',
         'metrics' => '\ActivitySmith\Generated\Model\ActivityMetric[]',
@@ -94,6 +96,8 @@ class ContentStateUpdate implements ModelInterface, ArrayAccess, \JsonSerializab
         'value' => null,
         'upperLimit' => null,
         'durationSeconds' => null,
+        'timerStartAt' => 'date-time',
+        'timerEndAt' => 'date-time',
         'countsDown' => null,
         'isRunning' => null,
         'metrics' => null,
@@ -120,6 +124,8 @@ class ContentStateUpdate implements ModelInterface, ArrayAccess, \JsonSerializab
         'value' => false,
         'upperLimit' => false,
         'durationSeconds' => false,
+        'timerStartAt' => false,
+        'timerEndAt' => false,
         'countsDown' => false,
         'isRunning' => false,
         'metrics' => false,
@@ -226,6 +232,8 @@ class ContentStateUpdate implements ModelInterface, ArrayAccess, \JsonSerializab
         'value' => 'value',
         'upperLimit' => 'upper_limit',
         'durationSeconds' => 'duration_seconds',
+        'timerStartAt' => 'timer_start_at',
+        'timerEndAt' => 'timer_end_at',
         'countsDown' => 'counts_down',
         'isRunning' => 'is_running',
         'metrics' => 'metrics',
@@ -252,6 +260,8 @@ class ContentStateUpdate implements ModelInterface, ArrayAccess, \JsonSerializab
         'value' => 'setValue',
         'upperLimit' => 'setUpperLimit',
         'durationSeconds' => 'setDurationSeconds',
+        'timerStartAt' => 'setTimerStartAt',
+        'timerEndAt' => 'setTimerEndAt',
         'countsDown' => 'setCountsDown',
         'isRunning' => 'setIsRunning',
         'metrics' => 'setMetrics',
@@ -278,6 +288,8 @@ class ContentStateUpdate implements ModelInterface, ArrayAccess, \JsonSerializab
         'value' => 'getValue',
         'upperLimit' => 'getUpperLimit',
         'durationSeconds' => 'getDurationSeconds',
+        'timerStartAt' => 'getTimerStartAt',
+        'timerEndAt' => 'getTimerEndAt',
         'countsDown' => 'getCountsDown',
         'isRunning' => 'getIsRunning',
         'metrics' => 'getMetrics',
@@ -473,6 +485,8 @@ class ContentStateUpdate implements ModelInterface, ArrayAccess, \JsonSerializab
         $this->setIfExists('value', $data ?? [], null);
         $this->setIfExists('upperLimit', $data ?? [], null);
         $this->setIfExists('durationSeconds', $data ?? [], null);
+        $this->setIfExists('timerStartAt', $data ?? [], null);
+        $this->setIfExists('timerEndAt', $data ?? [], null);
         $this->setIfExists('countsDown', $data ?? [], true);
         $this->setIfExists('isRunning', $data ?? [], true);
         $this->setIfExists('metrics', $data ?? [], null);
@@ -598,7 +612,7 @@ class ContentStateUpdate implements ModelInterface, ArrayAccess, \JsonSerializab
     /**
      * Sets title
      *
-     * @param string $title title
+     * @param string $title Title shown on the Live Activity. Send an empty string to show no title.
      *
      * @return self
      */
@@ -805,7 +819,7 @@ class ContentStateUpdate implements ModelInterface, ArrayAccess, \JsonSerializab
     /**
      * Sets durationSeconds
      *
-     * @param float|null $durationSeconds Timer duration in seconds. For type=timer, sending duration_seconds resets the timer window from the update request time; omit it to preserve the existing timer window.
+     * @param float|null $durationSeconds Timer duration in seconds. For type=timer, sending duration_seconds resets the timer window from the update request time, or from timer_start_at when you send it. Omit it to preserve the existing timer window.
      *
      * @return self
      */
@@ -815,6 +829,60 @@ class ContentStateUpdate implements ModelInterface, ArrayAccess, \JsonSerializab
             throw new \InvalidArgumentException('non-nullable durationSeconds cannot be null');
         }
         $this->container['durationSeconds'] = $durationSeconds;
+
+        return $this;
+    }
+
+    /**
+     * Gets timerStartAt
+     *
+     * @return \DateTime|null
+     */
+    public function getTimerStartAt()
+    {
+        return $this->container['timerStartAt'];
+    }
+
+    /**
+     * Sets timerStartAt
+     *
+     * @param \DateTime|null $timerStartAt Use with type=timer. ISO 8601 date and time when the timer started. It can be in the past, so a countdown that started earlier shows the time already gone in its progress bar. Defaults to the request time. Must not be in the future.
+     *
+     * @return self
+     */
+    public function setTimerStartAt($timerStartAt)
+    {
+        if (is_null($timerStartAt)) {
+            throw new \InvalidArgumentException('non-nullable timerStartAt cannot be null');
+        }
+        $this->container['timerStartAt'] = $timerStartAt;
+
+        return $this;
+    }
+
+    /**
+     * Gets timerEndAt
+     *
+     * @return \DateTime|null
+     */
+    public function getTimerEndAt()
+    {
+        return $this->container['timerEndAt'];
+    }
+
+    /**
+     * Sets timerEndAt
+     *
+     * @param \DateTime|null $timerEndAt Use with type=timer. ISO 8601 date and time when the countdown ends. Must be after timer_start_at, or in the future when timer_start_at is omitted. Send duration_seconds or timer_end_at, not both. Send timer_end_at alone to move the end and keep the current start.
+     *
+     * @return self
+     */
+    public function setTimerEndAt($timerEndAt)
+    {
+        if (is_null($timerEndAt)) {
+            throw new \InvalidArgumentException('non-nullable timerEndAt cannot be null');
+        }
+        $this->container['timerEndAt'] = $timerEndAt;
 
         return $this;
     }
