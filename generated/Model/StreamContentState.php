@@ -35,7 +35,7 @@ use \ActivitySmith\Generated\ObjectSerializer;
  * StreamContentState Class Doc Comment
  *
  * @category Class
- * @description Current state for a managed Live Activity stream. Include type on the first PUT, and whenever the stream may need to start a fresh activity. Supports segmented_progress, progress, metrics, stats, alert, timer, and value types. For timer, send duration_seconds to start or reset a bounded timer; omit duration_seconds on later updates to preserve the existing timer window.
+ * @description Current state for a managed Live Activity stream. Include type on the first PUT, and whenever the stream may need to start a fresh activity. Supports segmented_progress, progress, metrics, stats, alert, timer, and value types. For timer, send duration_seconds or timer_end_at to start or reset a bounded timer, and timer_start_at for a timer that started earlier. Omit them on later updates to preserve the existing timer window.
  * @package  ActivitySmith\Generated
  * @author   OpenAPI Generator team
  * @link     https://openapi-generator.tech
@@ -66,6 +66,8 @@ class StreamContentState implements ModelInterface, ArrayAccess, \JsonSerializab
         'value' => '\ActivitySmith\Generated\Model\LiveActivityValue',
         'upperLimit' => 'float',
         'durationSeconds' => 'float',
+        'timerStartAt' => '\DateTime',
+        'timerEndAt' => '\DateTime',
         'countsDown' => 'bool',
         'isRunning' => 'bool',
         'type' => 'string',
@@ -96,6 +98,8 @@ class StreamContentState implements ModelInterface, ArrayAccess, \JsonSerializab
         'value' => null,
         'upperLimit' => null,
         'durationSeconds' => null,
+        'timerStartAt' => 'date-time',
+        'timerEndAt' => 'date-time',
         'countsDown' => null,
         'isRunning' => null,
         'type' => null,
@@ -124,6 +128,8 @@ class StreamContentState implements ModelInterface, ArrayAccess, \JsonSerializab
         'value' => false,
         'upperLimit' => false,
         'durationSeconds' => false,
+        'timerStartAt' => false,
+        'timerEndAt' => false,
         'countsDown' => false,
         'isRunning' => false,
         'type' => false,
@@ -232,6 +238,8 @@ class StreamContentState implements ModelInterface, ArrayAccess, \JsonSerializab
         'value' => 'value',
         'upperLimit' => 'upper_limit',
         'durationSeconds' => 'duration_seconds',
+        'timerStartAt' => 'timer_start_at',
+        'timerEndAt' => 'timer_end_at',
         'countsDown' => 'counts_down',
         'isRunning' => 'is_running',
         'type' => 'type',
@@ -260,6 +268,8 @@ class StreamContentState implements ModelInterface, ArrayAccess, \JsonSerializab
         'value' => 'setValue',
         'upperLimit' => 'setUpperLimit',
         'durationSeconds' => 'setDurationSeconds',
+        'timerStartAt' => 'setTimerStartAt',
+        'timerEndAt' => 'setTimerEndAt',
         'countsDown' => 'setCountsDown',
         'isRunning' => 'setIsRunning',
         'type' => 'setType',
@@ -288,6 +298,8 @@ class StreamContentState implements ModelInterface, ArrayAccess, \JsonSerializab
         'value' => 'getValue',
         'upperLimit' => 'getUpperLimit',
         'durationSeconds' => 'getDurationSeconds',
+        'timerStartAt' => 'getTimerStartAt',
+        'timerEndAt' => 'getTimerEndAt',
         'countsDown' => 'getCountsDown',
         'isRunning' => 'getIsRunning',
         'type' => 'getType',
@@ -485,6 +497,8 @@ class StreamContentState implements ModelInterface, ArrayAccess, \JsonSerializab
         $this->setIfExists('value', $data ?? [], null);
         $this->setIfExists('upperLimit', $data ?? [], null);
         $this->setIfExists('durationSeconds', $data ?? [], null);
+        $this->setIfExists('timerStartAt', $data ?? [], null);
+        $this->setIfExists('timerEndAt', $data ?? [], null);
         $this->setIfExists('countsDown', $data ?? [], true);
         $this->setIfExists('isRunning', $data ?? [], true);
         $this->setIfExists('type', $data ?? [], null);
@@ -620,7 +634,7 @@ class StreamContentState implements ModelInterface, ArrayAccess, \JsonSerializab
     /**
      * Sets title
      *
-     * @param string $title title
+     * @param string $title Title shown on the Live Activity. Send an empty string to show no title.
      *
      * @return self
      */
@@ -827,7 +841,7 @@ class StreamContentState implements ModelInterface, ArrayAccess, \JsonSerializab
     /**
      * Sets durationSeconds
      *
-     * @param float|null $durationSeconds Timer duration in seconds. For type=timer, send duration_seconds to start or reset the timer window; omit it on later stream updates to preserve the existing timer window.
+     * @param float|null $durationSeconds Timer duration in seconds. For type=timer, send duration_seconds to start or reset the timer window, counted from timer_start_at when you send it. Omit it on later stream updates to preserve the existing timer window.
      *
      * @return self
      */
@@ -837,6 +851,60 @@ class StreamContentState implements ModelInterface, ArrayAccess, \JsonSerializab
             throw new \InvalidArgumentException('non-nullable durationSeconds cannot be null');
         }
         $this->container['durationSeconds'] = $durationSeconds;
+
+        return $this;
+    }
+
+    /**
+     * Gets timerStartAt
+     *
+     * @return \DateTime|null
+     */
+    public function getTimerStartAt()
+    {
+        return $this->container['timerStartAt'];
+    }
+
+    /**
+     * Sets timerStartAt
+     *
+     * @param \DateTime|null $timerStartAt Use with type=timer. ISO 8601 date and time when the timer started. It can be in the past, so a countdown that started earlier shows the time already gone in its progress bar. Defaults to the request time. Must not be in the future.
+     *
+     * @return self
+     */
+    public function setTimerStartAt($timerStartAt)
+    {
+        if (is_null($timerStartAt)) {
+            throw new \InvalidArgumentException('non-nullable timerStartAt cannot be null');
+        }
+        $this->container['timerStartAt'] = $timerStartAt;
+
+        return $this;
+    }
+
+    /**
+     * Gets timerEndAt
+     *
+     * @return \DateTime|null
+     */
+    public function getTimerEndAt()
+    {
+        return $this->container['timerEndAt'];
+    }
+
+    /**
+     * Sets timerEndAt
+     *
+     * @param \DateTime|null $timerEndAt Use with type=timer. ISO 8601 date and time when the countdown ends. Must be after timer_start_at, or in the future when timer_start_at is omitted. Send duration_seconds or timer_end_at, not both. On later stream updates, send timer_end_at alone to move the end and keep the current start.
+     *
+     * @return self
+     */
+    public function setTimerEndAt($timerEndAt)
+    {
+        if (is_null($timerEndAt)) {
+            throw new \InvalidArgumentException('non-nullable timerEndAt cannot be null');
+        }
+        $this->container['timerEndAt'] = $timerEndAt;
 
         return $this;
     }
