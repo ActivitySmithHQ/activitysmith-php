@@ -45,7 +45,8 @@ final class LiveActivities
         mixed $countsDown = null,
         mixed $secondaryAction = null,
         mixed $tags = null,
-        array|\stdClass|null $metadata = null
+        array|\stdClass|null $metadata = null,
+        ?string $sound = null
     ): mixed
     {
         $request = $this->buildRequest($request, $contentState, [
@@ -73,6 +74,7 @@ final class LiveActivities
             'channels' => $channels,
             'tags' => $tags,
             'metadata' => $metadata,
+            'sound' => $sound,
         ]);
 
         $request = Metadata::normalizeRequest($request);
@@ -102,7 +104,8 @@ final class LiveActivities
         mixed $countsDown = null,
         mixed $secondaryAction = null,
         ?array $tags = null,
-        array|\stdClass|null $metadata = null
+        array|\stdClass|null $metadata = null,
+        ?string $sound = null
     ): mixed
     {
         $request = $this->buildRequest($request, $contentState, [
@@ -126,6 +129,7 @@ final class LiveActivities
             'activity_id' => $activityId,
             'tags' => $tags,
             'metadata' => $metadata,
+            'sound' => $sound,
             'action' => $action,
             'secondary_action' => $secondaryAction,
         ]);
@@ -158,7 +162,8 @@ final class LiveActivities
         mixed $countsDown = null,
         mixed $secondaryAction = null,
         ?array $tags = null,
-        array|\stdClass|null $metadata = null
+        array|\stdClass|null $metadata = null,
+        ?string $sound = null
     ): mixed
     {
         $request = $this->buildRequest($request, $contentState, [
@@ -183,6 +188,7 @@ final class LiveActivities
             'activity_id' => $activityId,
             'tags' => $tags,
             'metadata' => $metadata,
+            'sound' => $sound,
             'action' => $action,
             'secondary_action' => $secondaryAction,
         ]);
@@ -217,7 +223,8 @@ final class LiveActivities
         mixed $countsDown = null,
         mixed $secondaryAction = null,
         mixed $tags = null,
-        array|\stdClass|null $metadata = null
+        array|\stdClass|null $metadata = null,
+        ?string $sound = null
     ): mixed
     {
         $request = $this->buildRequest($request, $contentState, [
@@ -245,6 +252,7 @@ final class LiveActivities
             'channels' => $channels,
             'tags' => $tags,
             'metadata' => $metadata,
+            'sound' => $sound,
         ]);
 
         $request = Metadata::normalizeRequest($request);
@@ -279,7 +287,8 @@ final class LiveActivities
         mixed $countsDown = null,
         mixed $secondaryAction = null,
         ?array $tags = null,
-        array|\stdClass|null $metadata = null
+        array|\stdClass|null $metadata = null,
+        ?string $sound = null
     ): mixed
     {
         $request = $this->buildRequest($request, $contentState, [
@@ -306,6 +315,7 @@ final class LiveActivities
             'alert' => $alert,
             'tags' => $tags,
             'metadata' => $metadata,
+            'sound' => $sound,
         ]);
 
         return $this->api->endLiveActivityStream($streamKey, Metadata::normalizeRequest($request));
