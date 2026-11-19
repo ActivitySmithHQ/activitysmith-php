@@ -603,7 +603,7 @@ class LiveActivityStreamRequest implements ModelInterface, ArrayAccess, \JsonSer
     /**
      * Sets sound
      *
-     * @param string|null $sound Optional sound for this call. A call that starts a Live Activity plays the Live Activities sound picked on the device unless you set one. Updates are silent unless you set one. A sound on an update also expands the Live Activity on the Lock Screen. Sounds bundled with the ActivitySmith app: `arrive`, `bell`, `bells`, `bitflip`, `bloom`, `callout`, `chime`, `coin`, `corrupt`, `crest`, `cue`, `ding`, `drop`, `ember`, `emblem`, `flourish`, `glimmer`, `glint`, `glitch`, `lantern`, `nightfall`, `nudge`, `pixel`, `pop`, `signal`, `streak`, `tally`, `wand`, `whoosh`, `zip`. Use `default` for the sound picked on the device, or `none` for no sound.
+     * @param string|null $sound Optional sound for this call. A call that starts a Live Activity plays the Live Activities sound picked on the device unless you set one. Updates are silent unless you set one. iOS plays an update sound only while the screen is on. Sounds bundled with the ActivitySmith app: `arrive`, `bell`, `bells`, `bitflip`, `bloom`, `callout`, `chime`, `coin`, `corrupt`, `crest`, `cue`, `ding`, `drop`, `ember`, `emblem`, `flourish`, `glimmer`, `glint`, `glitch`, `lantern`, `nightfall`, `nudge`, `pixel`, `pop`, `signal`, `streak`, `tally`, `wand`, `whoosh`, `zip`. Use `default` for the sound picked on the device, or `none` for no sound.
      *
      * @return self
      */
