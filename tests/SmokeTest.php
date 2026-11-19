@@ -33,6 +33,6 @@ final class SmokeTest extends TestCase
         $this->assertTrue(method_exists($client->metrics, 'create'));
         $this->assertNotNull($client->devices);
         $this->assertTrue(method_exists($client->devices, 'list'));
-        $this->assertSame('1.15.0', Version::VERSION);
+        $this->assertSame('1.16.0', Version::VERSION);
     }
 }
