@@ -63,7 +63,8 @@ class LiveActivityUpdateRequest implements ModelInterface, ArrayAccess, \JsonSer
         'tags' => 'string[]',
         'contentState' => '\ActivitySmith\Generated\Model\ContentStateUpdate',
         'action' => '\ActivitySmith\Generated\Model\LiveActivityAction',
-        'secondaryAction' => '\ActivitySmith\Generated\Model\LiveActivityAction'
+        'secondaryAction' => '\ActivitySmith\Generated\Model\LiveActivityAction',
+        'sound' => 'string'
     ];
 
     /**
@@ -79,7 +80,8 @@ class LiveActivityUpdateRequest implements ModelInterface, ArrayAccess, \JsonSer
         'tags' => null,
         'contentState' => null,
         'action' => null,
-        'secondaryAction' => null
+        'secondaryAction' => null,
+        'sound' => null
     ];
 
     /**
@@ -93,7 +95,8 @@ class LiveActivityUpdateRequest implements ModelInterface, ArrayAccess, \JsonSer
         'tags' => false,
         'contentState' => false,
         'action' => false,
-        'secondaryAction' => false
+        'secondaryAction' => false,
+        'sound' => false
     ];
 
     /**
@@ -187,7 +190,8 @@ class LiveActivityUpdateRequest implements ModelInterface, ArrayAccess, \JsonSer
         'tags' => 'tags',
         'contentState' => 'content_state',
         'action' => 'action',
-        'secondaryAction' => 'secondary_action'
+        'secondaryAction' => 'secondary_action',
+        'sound' => 'sound'
     ];
 
     /**
@@ -201,7 +205,8 @@ class LiveActivityUpdateRequest implements ModelInterface, ArrayAccess, \JsonSer
         'tags' => 'setTags',
         'contentState' => 'setContentState',
         'action' => 'setAction',
-        'secondaryAction' => 'setSecondaryAction'
+        'secondaryAction' => 'setSecondaryAction',
+        'sound' => 'setSound'
     ];
 
     /**
@@ -215,7 +220,8 @@ class LiveActivityUpdateRequest implements ModelInterface, ArrayAccess, \JsonSer
         'tags' => 'getTags',
         'contentState' => 'getContentState',
         'action' => 'getAction',
-        'secondaryAction' => 'getSecondaryAction'
+        'secondaryAction' => 'getSecondaryAction',
+        'sound' => 'getSound'
     ];
 
     /**
@@ -281,6 +287,7 @@ class LiveActivityUpdateRequest implements ModelInterface, ArrayAccess, \JsonSer
         $this->setIfExists('contentState', $data ?? [], null);
         $this->setIfExists('action', $data ?? [], null);
         $this->setIfExists('secondaryAction', $data ?? [], null);
+        $this->setIfExists('sound', $data ?? [], null);
     }
 
     /**
@@ -324,6 +331,14 @@ class LiveActivityUpdateRequest implements ModelInterface, ArrayAccess, \JsonSer
         if ($this->container['contentState'] === null) {
             $invalidProperties[] = "'contentState' can't be null";
         }
+        if (!is_null($this->container['sound']) && (mb_strlen($this->container['sound']) > 50)) {
+            $invalidProperties[] = "invalid value for 'sound', the character length must be smaller than or equal to 50.";
+        }
+
+        if (!is_null($this->container['sound']) && (mb_strlen($this->container['sound']) < 1)) {
+            $invalidProperties[] = "invalid value for 'sound', the character length must be bigger than or equal to 1.";
+        }
+
         return $invalidProperties;
     }
 
@@ -505,6 +520,40 @@ class LiveActivityUpdateRequest implements ModelInterface, ArrayAccess, \JsonSer
             throw new \InvalidArgumentException('non-nullable secondaryAction cannot be null');
         }
         $this->container['secondaryAction'] = $secondaryAction;
+
+        return $this;
+    }
+
+    /**
+     * Gets sound
+     *
+     * @return string|null
+     */
+    public function getSound()
+    {
+        return $this->container['sound'];
+    }
+
+    /**
+     * Sets sound
+     *
+     * @param string|null $sound Optional sound for this update. Updates are silent unless you set one. A sound also expands the Live Activity on the Lock Screen. Sounds bundled with the ActivitySmith app: `arrive`, `bell`, `bells`, `bitflip`, `bloom`, `callout`, `chime`, `coin`, `corrupt`, `crest`, `cue`, `ding`, `drop`, `ember`, `emblem`, `flourish`, `glimmer`, `glint`, `glitch`, `lantern`, `nightfall`, `nudge`, `pixel`, `pop`, `signal`, `streak`, `tally`, `wand`, `whoosh`, `zip`. Use `default` for the sound picked on the device, or `none` for no sound. Bundled sounds and `none` need iOS app 1.19.0 or later. Older apps play the iOS default sound instead.
+     *
+     * @return self
+     */
+    public function setSound($sound)
+    {
+        if (is_null($sound)) {
+            throw new \InvalidArgumentException('non-nullable sound cannot be null');
+        }
+        if ((mb_strlen($sound) > 50)) {
+            throw new \InvalidArgumentException('invalid length for $sound when calling LiveActivityUpdateRequest., must be smaller than or equal to 50.');
+        }
+        if ((mb_strlen($sound) < 1)) {
+            throw new \InvalidArgumentException('invalid length for $sound when calling LiveActivityUpdateRequest., must be bigger than or equal to 1.');
+        }
+
+        $this->container['sound'] = $sound;
 
         return $this;
     }

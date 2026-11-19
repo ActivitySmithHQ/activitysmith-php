@@ -65,7 +65,8 @@ class LiveActivityStreamRequest implements ModelInterface, ArrayAccess, \JsonSer
         'alert' => '\ActivitySmith\Generated\Model\AlertPayload',
         'channels' => 'string[]',
         'target' => '\ActivitySmith\Generated\Model\ChannelTarget',
-        'tags' => 'string[]'
+        'tags' => 'string[]',
+        'sound' => 'string'
     ];
 
     /**
@@ -83,7 +84,8 @@ class LiveActivityStreamRequest implements ModelInterface, ArrayAccess, \JsonSer
         'alert' => null,
         'channels' => null,
         'target' => null,
-        'tags' => null
+        'tags' => null,
+        'sound' => null
     ];
 
     /**
@@ -99,7 +101,8 @@ class LiveActivityStreamRequest implements ModelInterface, ArrayAccess, \JsonSer
         'alert' => false,
         'channels' => false,
         'target' => false,
-        'tags' => false
+        'tags' => false,
+        'sound' => false
     ];
 
     /**
@@ -195,7 +198,8 @@ class LiveActivityStreamRequest implements ModelInterface, ArrayAccess, \JsonSer
         'alert' => 'alert',
         'channels' => 'channels',
         'target' => 'target',
-        'tags' => 'tags'
+        'tags' => 'tags',
+        'sound' => 'sound'
     ];
 
     /**
@@ -211,7 +215,8 @@ class LiveActivityStreamRequest implements ModelInterface, ArrayAccess, \JsonSer
         'alert' => 'setAlert',
         'channels' => 'setChannels',
         'target' => 'setTarget',
-        'tags' => 'setTags'
+        'tags' => 'setTags',
+        'sound' => 'setSound'
     ];
 
     /**
@@ -227,7 +232,8 @@ class LiveActivityStreamRequest implements ModelInterface, ArrayAccess, \JsonSer
         'alert' => 'getAlert',
         'channels' => 'getChannels',
         'target' => 'getTarget',
-        'tags' => 'getTags'
+        'tags' => 'getTags',
+        'sound' => 'getSound'
     ];
 
     /**
@@ -295,6 +301,7 @@ class LiveActivityStreamRequest implements ModelInterface, ArrayAccess, \JsonSer
         $this->setIfExists('channels', $data ?? [], null);
         $this->setIfExists('target', $data ?? [], null);
         $this->setIfExists('tags', $data ?? [], null);
+        $this->setIfExists('sound', $data ?? [], null);
     }
 
     /**
@@ -333,6 +340,14 @@ class LiveActivityStreamRequest implements ModelInterface, ArrayAccess, \JsonSer
         }
         if (!is_null($this->container['channels']) && (count($this->container['channels']) < 1)) {
             $invalidProperties[] = "invalid value for 'channels', number of items must be greater than or equal to 1.";
+        }
+
+        if (!is_null($this->container['sound']) && (mb_strlen($this->container['sound']) > 50)) {
+            $invalidProperties[] = "invalid value for 'sound', the character length must be smaller than or equal to 50.";
+        }
+
+        if (!is_null($this->container['sound']) && (mb_strlen($this->container['sound']) < 1)) {
+            $invalidProperties[] = "invalid value for 'sound', the character length must be bigger than or equal to 1.";
         }
 
         return $invalidProperties;
@@ -571,6 +586,40 @@ class LiveActivityStreamRequest implements ModelInterface, ArrayAccess, \JsonSer
             throw new \InvalidArgumentException('non-nullable tags cannot be null');
         }
         $this->container['tags'] = $tags;
+
+        return $this;
+    }
+
+    /**
+     * Gets sound
+     *
+     * @return string|null
+     */
+    public function getSound()
+    {
+        return $this->container['sound'];
+    }
+
+    /**
+     * Sets sound
+     *
+     * @param string|null $sound Optional sound for this call. A call that starts a Live Activity plays the Live Activities sound picked on the device unless you set one. Updates are silent unless you set one. A sound on an update also expands the Live Activity on the Lock Screen. Sounds bundled with the ActivitySmith app: `arrive`, `bell`, `bells`, `bitflip`, `bloom`, `callout`, `chime`, `coin`, `corrupt`, `crest`, `cue`, `ding`, `drop`, `ember`, `emblem`, `flourish`, `glimmer`, `glint`, `glitch`, `lantern`, `nightfall`, `nudge`, `pixel`, `pop`, `signal`, `streak`, `tally`, `wand`, `whoosh`, `zip`. Use `default` for the sound picked on the device, or `none` for no sound. Bundled sounds and `none` need iOS app 1.19.0 or later. Older apps play the iOS default sound instead.
+     *
+     * @return self
+     */
+    public function setSound($sound)
+    {
+        if (is_null($sound)) {
+            throw new \InvalidArgumentException('non-nullable sound cannot be null');
+        }
+        if ((mb_strlen($sound) > 50)) {
+            throw new \InvalidArgumentException('invalid length for $sound when calling LiveActivityStreamRequest., must be smaller than or equal to 50.');
+        }
+        if ((mb_strlen($sound) < 1)) {
+            throw new \InvalidArgumentException('invalid length for $sound when calling LiveActivityStreamRequest., must be bigger than or equal to 1.');
+        }
+
+        $this->container['sound'] = $sound;
 
         return $this;
     }

@@ -63,7 +63,8 @@ class LiveActivityStreamDeleteRequest implements ModelInterface, ArrayAccess, \J
         'contentState' => '\ActivitySmith\Generated\Model\StreamContentState',
         'action' => '\ActivitySmith\Generated\Model\LiveActivityAction',
         'secondaryAction' => '\ActivitySmith\Generated\Model\LiveActivityAction',
-        'alert' => '\ActivitySmith\Generated\Model\AlertPayload'
+        'alert' => '\ActivitySmith\Generated\Model\AlertPayload',
+        'sound' => 'string'
     ];
 
     /**
@@ -79,7 +80,8 @@ class LiveActivityStreamDeleteRequest implements ModelInterface, ArrayAccess, \J
         'contentState' => null,
         'action' => null,
         'secondaryAction' => null,
-        'alert' => null
+        'alert' => null,
+        'sound' => null
     ];
 
     /**
@@ -93,7 +95,8 @@ class LiveActivityStreamDeleteRequest implements ModelInterface, ArrayAccess, \J
         'contentState' => false,
         'action' => false,
         'secondaryAction' => false,
-        'alert' => false
+        'alert' => false,
+        'sound' => false
     ];
 
     /**
@@ -187,7 +190,8 @@ class LiveActivityStreamDeleteRequest implements ModelInterface, ArrayAccess, \J
         'contentState' => 'content_state',
         'action' => 'action',
         'secondaryAction' => 'secondary_action',
-        'alert' => 'alert'
+        'alert' => 'alert',
+        'sound' => 'sound'
     ];
 
     /**
@@ -201,7 +205,8 @@ class LiveActivityStreamDeleteRequest implements ModelInterface, ArrayAccess, \J
         'contentState' => 'setContentState',
         'action' => 'setAction',
         'secondaryAction' => 'setSecondaryAction',
-        'alert' => 'setAlert'
+        'alert' => 'setAlert',
+        'sound' => 'setSound'
     ];
 
     /**
@@ -215,7 +220,8 @@ class LiveActivityStreamDeleteRequest implements ModelInterface, ArrayAccess, \J
         'contentState' => 'getContentState',
         'action' => 'getAction',
         'secondaryAction' => 'getSecondaryAction',
-        'alert' => 'getAlert'
+        'alert' => 'getAlert',
+        'sound' => 'getSound'
     ];
 
     /**
@@ -281,6 +287,7 @@ class LiveActivityStreamDeleteRequest implements ModelInterface, ArrayAccess, \J
         $this->setIfExists('action', $data ?? [], null);
         $this->setIfExists('secondaryAction', $data ?? [], null);
         $this->setIfExists('alert', $data ?? [], null);
+        $this->setIfExists('sound', $data ?? [], null);
     }
 
     /**
@@ -312,6 +319,14 @@ class LiveActivityStreamDeleteRequest implements ModelInterface, ArrayAccess, \J
 
         if (!is_null($this->container['metadata']) && (count($this->container['metadata']) > 50)) {
             $invalidProperties[] = "invalid value for 'metadata', number of items must be less than or equal to 50.";
+        }
+
+        if (!is_null($this->container['sound']) && (mb_strlen($this->container['sound']) > 50)) {
+            $invalidProperties[] = "invalid value for 'sound', the character length must be smaller than or equal to 50.";
+        }
+
+        if (!is_null($this->container['sound']) && (mb_strlen($this->container['sound']) < 1)) {
+            $invalidProperties[] = "invalid value for 'sound', the character length must be bigger than or equal to 1.";
         }
 
         return $invalidProperties;
@@ -491,6 +506,40 @@ class LiveActivityStreamDeleteRequest implements ModelInterface, ArrayAccess, \J
             throw new \InvalidArgumentException('non-nullable alert cannot be null');
         }
         $this->container['alert'] = $alert;
+
+        return $this;
+    }
+
+    /**
+     * Gets sound
+     *
+     * @return string|null
+     */
+    public function getSound()
+    {
+        return $this->container['sound'];
+    }
+
+    /**
+     * Sets sound
+     *
+     * @param string|null $sound Optional sound for the end. Ends are silent unless you set one. A sound also expands the Live Activity on the Lock Screen. Sounds bundled with the ActivitySmith app: `arrive`, `bell`, `bells`, `bitflip`, `bloom`, `callout`, `chime`, `coin`, `corrupt`, `crest`, `cue`, `ding`, `drop`, `ember`, `emblem`, `flourish`, `glimmer`, `glint`, `glitch`, `lantern`, `nightfall`, `nudge`, `pixel`, `pop`, `signal`, `streak`, `tally`, `wand`, `whoosh`, `zip`. Use `default` for the sound picked on the device, or `none` for no sound. Bundled sounds and `none` need iOS app 1.19.0 or later. Older apps play the iOS default sound instead.
+     *
+     * @return self
+     */
+    public function setSound($sound)
+    {
+        if (is_null($sound)) {
+            throw new \InvalidArgumentException('non-nullable sound cannot be null');
+        }
+        if ((mb_strlen($sound) > 50)) {
+            throw new \InvalidArgumentException('invalid length for $sound when calling LiveActivityStreamDeleteRequest., must be smaller than or equal to 50.');
+        }
+        if ((mb_strlen($sound) < 1)) {
+            throw new \InvalidArgumentException('invalid length for $sound when calling LiveActivityStreamDeleteRequest., must be bigger than or equal to 1.');
+        }
+
+        $this->container['sound'] = $sound;
 
         return $this;
     }
