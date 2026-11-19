@@ -64,7 +64,8 @@ class LiveActivityStartRequest implements ModelInterface, ArrayAccess, \JsonSeri
         'secondaryAction' => '\ActivitySmith\Generated\Model\LiveActivityAction',
         'alert' => '\ActivitySmith\Generated\Model\AlertPayload',
         'target' => '\ActivitySmith\Generated\Model\ChannelTarget',
-        'tags' => 'string[]'
+        'tags' => 'string[]',
+        'sound' => 'string'
     ];
 
     /**
@@ -81,7 +82,8 @@ class LiveActivityStartRequest implements ModelInterface, ArrayAccess, \JsonSeri
         'secondaryAction' => null,
         'alert' => null,
         'target' => null,
-        'tags' => null
+        'tags' => null,
+        'sound' => null
     ];
 
     /**
@@ -96,7 +98,8 @@ class LiveActivityStartRequest implements ModelInterface, ArrayAccess, \JsonSeri
         'secondaryAction' => false,
         'alert' => false,
         'target' => false,
-        'tags' => false
+        'tags' => false,
+        'sound' => false
     ];
 
     /**
@@ -191,7 +194,8 @@ class LiveActivityStartRequest implements ModelInterface, ArrayAccess, \JsonSeri
         'secondaryAction' => 'secondary_action',
         'alert' => 'alert',
         'target' => 'target',
-        'tags' => 'tags'
+        'tags' => 'tags',
+        'sound' => 'sound'
     ];
 
     /**
@@ -206,7 +210,8 @@ class LiveActivityStartRequest implements ModelInterface, ArrayAccess, \JsonSeri
         'secondaryAction' => 'setSecondaryAction',
         'alert' => 'setAlert',
         'target' => 'setTarget',
-        'tags' => 'setTags'
+        'tags' => 'setTags',
+        'sound' => 'setSound'
     ];
 
     /**
@@ -221,7 +226,8 @@ class LiveActivityStartRequest implements ModelInterface, ArrayAccess, \JsonSeri
         'secondaryAction' => 'getSecondaryAction',
         'alert' => 'getAlert',
         'target' => 'getTarget',
-        'tags' => 'getTags'
+        'tags' => 'getTags',
+        'sound' => 'getSound'
     ];
 
     /**
@@ -288,6 +294,7 @@ class LiveActivityStartRequest implements ModelInterface, ArrayAccess, \JsonSeri
         $this->setIfExists('alert', $data ?? [], null);
         $this->setIfExists('target', $data ?? [], null);
         $this->setIfExists('tags', $data ?? [], null);
+        $this->setIfExists('sound', $data ?? [], null);
     }
 
     /**
@@ -324,6 +331,14 @@ class LiveActivityStartRequest implements ModelInterface, ArrayAccess, \JsonSeri
         if ($this->container['contentState'] === null) {
             $invalidProperties[] = "'contentState' can't be null";
         }
+        if (!is_null($this->container['sound']) && (mb_strlen($this->container['sound']) > 50)) {
+            $invalidProperties[] = "invalid value for 'sound', the character length must be smaller than or equal to 50.";
+        }
+
+        if (!is_null($this->container['sound']) && (mb_strlen($this->container['sound']) < 1)) {
+            $invalidProperties[] = "invalid value for 'sound', the character length must be bigger than or equal to 1.";
+        }
+
         return $invalidProperties;
     }
 
@@ -528,6 +543,40 @@ class LiveActivityStartRequest implements ModelInterface, ArrayAccess, \JsonSeri
             throw new \InvalidArgumentException('non-nullable tags cannot be null');
         }
         $this->container['tags'] = $tags;
+
+        return $this;
+    }
+
+    /**
+     * Gets sound
+     *
+     * @return string|null
+     */
+    public function getSound()
+    {
+        return $this->container['sound'];
+    }
+
+    /**
+     * Sets sound
+     *
+     * @param string|null $sound Optional sound for the start. Omit it to play the Live Activities sound picked on the device. Sounds bundled with the ActivitySmith app: `arrive`, `bell`, `bells`, `bitflip`, `bloom`, `callout`, `chime`, `coin`, `corrupt`, `crest`, `cue`, `ding`, `drop`, `ember`, `emblem`, `flourish`, `glimmer`, `glint`, `glitch`, `lantern`, `nightfall`, `nudge`, `pixel`, `pop`, `signal`, `streak`, `tally`, `wand`, `whoosh`, `zip`. Use `default` for the sound picked on the device, or `none` for no sound.
+     *
+     * @return self
+     */
+    public function setSound($sound)
+    {
+        if (is_null($sound)) {
+            throw new \InvalidArgumentException('non-nullable sound cannot be null');
+        }
+        if ((mb_strlen($sound) > 50)) {
+            throw new \InvalidArgumentException('invalid length for $sound when calling LiveActivityStartRequest., must be smaller than or equal to 50.');
+        }
+        if ((mb_strlen($sound) < 1)) {
+            throw new \InvalidArgumentException('invalid length for $sound when calling LiveActivityStartRequest., must be bigger than or equal to 1.');
+        }
+
+        $this->container['sound'] = $sound;
 
         return $this;
     }
