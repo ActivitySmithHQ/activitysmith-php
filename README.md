@@ -427,6 +427,21 @@ For a countdown, send `durationSeconds`. You can update `title`, `subtitle`, `co
 
 To start at 00:00 and count up, set `countsDown` to `false` and leave out `durationSeconds`.
 
+To count down to a set time, send `timerEndAt` instead of `durationSeconds`. If the timer started earlier, also send `timerStartAt`. The progress bar then shows the time already gone.
+
+```php
+$activitysmith->liveActivities->stream(
+    'nightly-backup',
+    contentState: LiveActivityContentState::make(
+        title: 'Nightly Backup',
+        subtitle: 'uploading archive',
+        type: 'timer',
+        timerStartAt: '2026-11-19T01:00:00Z',
+        timerEndAt: '2026-11-19T02:00:00Z',
+    ),
+);
+```
+
 ### End Live Activity
 
 Call `endStream(...)` with the same `streamKey` to dismiss the Live Activity. You can include final values before it is removed. Set `autoDismissSeconds` to dismiss it after a delay in seconds, or `autoDismissMinutes` for minutes. Use `0` for immediate dismissal. Seconds take precedence if both are set.
