@@ -28,7 +28,9 @@ final class LiveActivityContentState
         ?int $autoDismissSeconds = null,
         ?int $autoDismissMinutes = null,
         int|float|null $durationSeconds = null,
-        ?bool $countsDown = null
+        ?bool $countsDown = null,
+        string|\DateTimeInterface|null $timerStartAt = null,
+        string|\DateTimeInterface|null $timerEndAt = null
     ): array {
         $state = [
             'title' => $title,
@@ -45,6 +47,8 @@ final class LiveActivityContentState
             'upper_limit' => $upperLimit,
             'duration_seconds' => $durationSeconds,
             'counts_down' => $countsDown,
+            'timer_start_at' => $timerStartAt instanceof \DateTimeInterface ? $timerStartAt->format(\DATE_ATOM) : $timerStartAt,
+            'timer_end_at' => $timerEndAt instanceof \DateTimeInterface ? $timerEndAt->format(\DATE_ATOM) : $timerEndAt,
             'color' => $color,
             'step_color' => $stepColor,
             'auto_dismiss_seconds' => $autoDismissSeconds,

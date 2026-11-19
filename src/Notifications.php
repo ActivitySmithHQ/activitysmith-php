@@ -18,6 +18,7 @@ final class Notifications
      * @param array<string,mixed>|null $target
      * @param array<int,string>|string|null $channels
      * @param array<int,string>|null $tags
+     * @param string|null $sound A bundled sound id, `default` for the device's pick, or `none` for silence.
      */
     public function send(
         mixed $request = null,
@@ -32,7 +33,8 @@ final class Notifications
         ?array $tags = null,
         array|\stdClass|null $metadata = null,
         ?string $icon = null,
-        ?string $interruptionLevel = null
+        ?string $interruptionLevel = null,
+        ?string $sound = null
     ): mixed
     {
         $request = $this->buildRequest(
@@ -50,6 +52,7 @@ final class Notifications
                 'metadata' => $metadata,
                 'icon' => $icon,
                 'interruption_level' => $interruptionLevel,
+                'sound' => $sound,
             ]
         );
         $normalized = Metadata::normalizeRequest($this->normalizeTargetChannels($request));
@@ -74,7 +77,8 @@ final class Notifications
         ?array $tags = null,
         array|\stdClass|null $metadata = null,
         ?string $icon = null,
-        ?string $interruptionLevel = null
+        ?string $interruptionLevel = null,
+        ?string $sound = null
     ): mixed {
         $pushNotificationRequest = $this->buildRequest(
             $pushNotificationRequest,
@@ -91,6 +95,7 @@ final class Notifications
                 'metadata' => $metadata,
                 'icon' => $icon,
                 'interruption_level' => $interruptionLevel,
+                'sound' => $sound,
             ]
         );
         $normalized = Metadata::normalizeRequest($this->normalizeTargetChannels($pushNotificationRequest));

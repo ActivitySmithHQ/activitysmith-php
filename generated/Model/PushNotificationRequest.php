@@ -392,6 +392,14 @@ class PushNotificationRequest implements ModelInterface, ArrayAccess, \JsonSeria
             $invalidProperties[] = "invalid value for 'actions', number of items must be less than or equal to 4.";
         }
 
+        if (!is_null($this->container['sound']) && (mb_strlen($this->container['sound']) > 50)) {
+            $invalidProperties[] = "invalid value for 'sound', the character length must be smaller than or equal to 50.";
+        }
+
+        if (!is_null($this->container['sound']) && (mb_strlen($this->container['sound']) < 1)) {
+            $invalidProperties[] = "invalid value for 'sound', the character length must be bigger than or equal to 1.";
+        }
+
         return $invalidProperties;
     }
 
@@ -623,7 +631,7 @@ class PushNotificationRequest implements ModelInterface, ArrayAccess, \JsonSeria
     /**
      * Sets redirection
      *
-     * @param string|null $redirection Optional HTTP, HTTPS, Shortcuts, or installed app URL opened when the user taps the notification body. Custom schemes such as spotify:// and spotify:track:123 require iOS 1.13.4 build 2 or later and an installed handler; no web fallback is provided. Internal and executable schemes are blocked. Overrides the default tap target from media.
+     * @param string|null $redirection Optional HTTP, HTTPS, Shortcuts, or installed app URL opened when the user taps the notification body. Custom schemes such as spotify:// and spotify:track:123 require an installed handler; no web fallback is provided. Internal and executable schemes are blocked. Overrides the default tap target from media.
      *
      * @return self
      */
@@ -742,7 +750,7 @@ class PushNotificationRequest implements ModelInterface, ArrayAccess, \JsonSeria
     /**
      * Sets sound
      *
-     * @param string|null $sound sound
+     * @param string|null $sound Optional sound for this Push Notification. Omit it to play the Push Notifications sound picked on the device. Passive Push Notifications play no sound. Sounds bundled with the ActivitySmith app: `arrive`, `bell`, `bells`, `bitflip`, `bloom`, `callout`, `chime`, `coin`, `corrupt`, `crest`, `cue`, `ding`, `drop`, `ember`, `emblem`, `flourish`, `glimmer`, `glint`, `glitch`, `lantern`, `nightfall`, `nudge`, `pixel`, `pop`, `signal`, `streak`, `tally`, `wand`, `whoosh`, `zip`. Use `default` for the sound picked on the device, or `none` for no sound.
      *
      * @return self
      */
@@ -751,6 +759,13 @@ class PushNotificationRequest implements ModelInterface, ArrayAccess, \JsonSeria
         if (is_null($sound)) {
             throw new \InvalidArgumentException('non-nullable sound cannot be null');
         }
+        if ((mb_strlen($sound) > 50)) {
+            throw new \InvalidArgumentException('invalid length for $sound when calling PushNotificationRequest., must be smaller than or equal to 50.');
+        }
+        if ((mb_strlen($sound) < 1)) {
+            throw new \InvalidArgumentException('invalid length for $sound when calling PushNotificationRequest., must be bigger than or equal to 1.');
+        }
+
         $this->container['sound'] = $sound;
 
         return $this;

@@ -6,7 +6,7 @@ namespace ActivitySmith;
 
 final class Version
 {
-    public const VERSION = '1.15.0';
+    public const VERSION = '1.16.0';
 
     private function __construct()
     {
