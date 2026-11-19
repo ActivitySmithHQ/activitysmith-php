@@ -46,7 +46,9 @@ final class LiveActivities
         mixed $secondaryAction = null,
         mixed $tags = null,
         array|\stdClass|null $metadata = null,
-        ?string $sound = null
+        ?string $sound = null,
+        string|\DateTimeInterface|null $timerStartAt = null,
+        string|\DateTimeInterface|null $timerEndAt = null
     ): mixed
     {
         $request = $this->buildRequest($request, $contentState, [
@@ -64,6 +66,8 @@ final class LiveActivities
             'upper_limit' => $upperLimit,
             'duration_seconds' => $durationSeconds,
             'counts_down' => $countsDown,
+            'timer_start_at' => self::formatTimestamp($timerStartAt),
+            'timer_end_at' => self::formatTimestamp($timerEndAt),
             'color' => $color,
             'step_color' => $stepColor,
         ], [
@@ -105,7 +109,9 @@ final class LiveActivities
         mixed $secondaryAction = null,
         ?array $tags = null,
         array|\stdClass|null $metadata = null,
-        ?string $sound = null
+        ?string $sound = null,
+        string|\DateTimeInterface|null $timerStartAt = null,
+        string|\DateTimeInterface|null $timerEndAt = null
     ): mixed
     {
         $request = $this->buildRequest($request, $contentState, [
@@ -123,6 +129,8 @@ final class LiveActivities
             'upper_limit' => $upperLimit,
             'duration_seconds' => $durationSeconds,
             'counts_down' => $countsDown,
+            'timer_start_at' => self::formatTimestamp($timerStartAt),
+            'timer_end_at' => self::formatTimestamp($timerEndAt),
             'color' => $color,
             'step_color' => $stepColor,
         ], [
@@ -224,7 +232,9 @@ final class LiveActivities
         mixed $secondaryAction = null,
         mixed $tags = null,
         array|\stdClass|null $metadata = null,
-        ?string $sound = null
+        ?string $sound = null,
+        string|\DateTimeInterface|null $timerStartAt = null,
+        string|\DateTimeInterface|null $timerEndAt = null
     ): mixed
     {
         $request = $this->buildRequest($request, $contentState, [
@@ -242,6 +252,8 @@ final class LiveActivities
             'upper_limit' => $upperLimit,
             'duration_seconds' => $durationSeconds,
             'counts_down' => $countsDown,
+            'timer_start_at' => self::formatTimestamp($timerStartAt),
+            'timer_end_at' => self::formatTimestamp($timerEndAt),
             'color' => $color,
             'step_color' => $stepColor,
         ], [
@@ -288,7 +300,9 @@ final class LiveActivities
         mixed $secondaryAction = null,
         ?array $tags = null,
         array|\stdClass|null $metadata = null,
-        ?string $sound = null
+        ?string $sound = null,
+        string|\DateTimeInterface|null $timerStartAt = null,
+        string|\DateTimeInterface|null $timerEndAt = null
     ): mixed
     {
         $request = $this->buildRequest($request, $contentState, [
@@ -306,6 +320,8 @@ final class LiveActivities
             'upper_limit' => $upperLimit,
             'duration_seconds' => $durationSeconds,
             'counts_down' => $countsDown,
+            'timer_start_at' => self::formatTimestamp($timerStartAt),
+            'timer_end_at' => self::formatTimestamp($timerEndAt),
             'color' => $color,
             'step_color' => $stepColor,
             'auto_dismiss_minutes' => $autoDismissMinutes,
@@ -398,6 +414,11 @@ final class LiveActivities
         }
 
         return $request;
+    }
+
+    private static function formatTimestamp(string|\DateTimeInterface|null $timestamp): ?string
+    {
+        return $timestamp instanceof \DateTimeInterface ? $timestamp->format(\DATE_ATOM) : $timestamp;
     }
 
     /**
