@@ -576,7 +576,7 @@ class PushNotificationReplaceRequest implements ModelInterface, ArrayAccess, \Js
     /**
      * Sets redirection
      *
-     * @param string|null $redirection Optional HTTP, HTTPS, Shortcuts, or installed app URL opened when the user taps the notification body. Custom schemes such as spotify:// and spotify:track:123 require iOS 1.13.4 build 2 or later and an installed handler; no web fallback is provided. Internal and executable schemes are blocked. Overrides the default tap target from media.
+     * @param string|null $redirection Optional HTTP, HTTPS, Shortcuts, or installed app URL opened when the user taps the notification body. Custom schemes such as spotify:// and spotify:track:123 require an installed handler; no web fallback is provided. Internal and executable schemes are blocked. Overrides the default tap target from media.
      *
      * @return self
      */
